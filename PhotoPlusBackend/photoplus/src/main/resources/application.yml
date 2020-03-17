@@ -1,0 +1,22 @@
+#spring:
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/vishare?useSSL=false
+#    username: root
+#    password: pass
+
+server:
+  port: 9020
+
+logging:
+  level:
+    pl:
+      polsl:
+        photoplus: debug
+
+photoplus:
+
+
