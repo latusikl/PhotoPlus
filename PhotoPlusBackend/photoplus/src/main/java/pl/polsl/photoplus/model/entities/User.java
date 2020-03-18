@@ -32,7 +32,6 @@ public class User
 
     @Column(unique = true, name = "email")
     @Email(message = "Email is invalid.")
-    @NotBlank(message = "Email cannot be empty.")
     private String email;
 
     @Column(name = "user_name")
