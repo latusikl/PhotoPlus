@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 @JsonPropertyOrder({"login", "password", "name", "surname", "email"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-public class UserDto
+public class UserDto extends AbstractDto
 {
 
     @JsonProperty("login")
