@@ -18,5 +18,5 @@ logging:
         photoplus: debug
 
 photoplus:
-
+  pageSize: 20
 

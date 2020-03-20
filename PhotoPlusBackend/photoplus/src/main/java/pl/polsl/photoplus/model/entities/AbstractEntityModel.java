@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.security.SecureRandom;
@@ -23,14 +21,13 @@ import java.security.SecureRandom;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractModel
+public abstract class AbstractEntityModel
 {
     @Transient
     protected final int CODE_NAME_LENGTH = 4;
 
     @Transient
     protected final int CODE_NUMBER_LENGTH = 8;
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,9 +43,9 @@ public abstract class AbstractModel
      * @see #createCodeNumber()
      * and from alphabetical part based on e.g name of given length.
      * @see #CODE_NAME_LENGTH
+     * Minimal length of taken attribute should be validated!
+     * Should be invoked after changing attribute value on which code is based!
      */
-    @PrePersist
-    @PreUpdate
     @PostConstruct
     protected abstract void generateModelCode();
 
