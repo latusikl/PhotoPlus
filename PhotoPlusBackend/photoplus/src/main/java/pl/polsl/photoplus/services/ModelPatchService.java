@@ -43,6 +43,7 @@ public class ModelPatchService
     @PostConstruct
     protected void addBlackListedMethodsNames()
     {
+        //TODO: Introduce move this list as configurable to bean or in some other way. Annotation on fileds in DTO?
         BLACKLISTED_METHOD_LIST.add("getClass");
         BLACKLISTED_METHOD_LIST.add("getCode");
         BLACKLISTED_METHOD_LIST.add("getUserCode");
