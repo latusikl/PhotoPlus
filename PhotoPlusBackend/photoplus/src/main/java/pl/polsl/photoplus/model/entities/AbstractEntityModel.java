@@ -3,7 +3,6 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +28,11 @@ public abstract class AbstractEntityModel
     @Transient
     protected final int CODE_NUMBER_LENGTH = 8;
 
+    public AbstractEntityModel()
+    {
+        this.code=createCodeNumber();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -39,17 +43,12 @@ public abstract class AbstractEntityModel
 
     /**
      * Function is responsible for generating code for given model type.
+     * Function is automatically invoked when creating object.
+     * See constructor of AbstractEntityModel.
      * Code should consist of generated numbers
      *
-     * @see #createCodeNumber()
-     * and from alphabetical part based on e.g name of given length.
-     * @see #CODE_NAME_LENGTH
-     * Minimal length of taken attribute should be validated!
-     * Should be invoked after changing attribute value on which code is based!
+     * Using secure random should be enough to guarantee that codes won't be the same.
      */
-    @PostConstruct
-    protected abstract void generateModelCode();
-
     protected String createCodeNumber()
     {
         final SecureRandom secureRandom = new SecureRandom();

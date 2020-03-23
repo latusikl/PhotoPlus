@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @param <T> Type of DTO
  */
-public interface ModelRequestService<T extends AbstractModelDto>
+public interface ModelService<T extends AbstractModelDto>
 {
     List<T> getPageFromAll(Integer page);
 

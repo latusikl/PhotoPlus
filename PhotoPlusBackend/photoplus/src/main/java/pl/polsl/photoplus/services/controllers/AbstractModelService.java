@@ -30,14 +30,14 @@ import java.util.stream.Collectors;
  * @see pl.polsl.photoplus.controllers.api.BaseModelController
  * To use you need to provide implementation of 2 methods which provides convertion between model objects and DTOs.
  * Implements methods defined in
- * @see ModelRequestService
+ * @see ModelService
  * @see AbstractEntityModel
  * @see AbstractModelDto
  * @see CrudRepository
  */
 @Slf4j
-public abstract class AbstractModelRequestService<M extends AbstractEntityModel, T extends AbstractModelDto, R extends EntityRepository>
-        implements ModelRequestService<T>
+public abstract class AbstractModelService<M extends AbstractEntityModel, T extends AbstractModelDto, R extends EntityRepository>
+        implements ModelService<T>
 {
 
     /**
@@ -47,15 +47,16 @@ public abstract class AbstractModelRequestService<M extends AbstractEntityModel,
 
     @Autowired
     ModelPatchService modelPatchService;
+
     @Autowired
     ModelPropertiesService modelPropertiesService;
 
-    protected abstract String getModelNameForError();
-
-    public AbstractModelRequestService(final R entityRepository)
+    public AbstractModelService(final R entityRepository)
     {
         this.entityRepository = entityRepository;
     }
+
+    protected abstract String getModelNameForError();
 
     protected abstract T getDtoFromModel(final M modelObject);
 
@@ -78,8 +79,7 @@ public abstract class AbstractModelRequestService<M extends AbstractEntityModel,
         final Page<M> foundModels = entityRepository.findAll(modelPage);
 
         if (foundModels.getTotalElements() == 0) {
-            log.info("FIND ALL | No objects of class {} found. Throwing NotFoundException.", getModelNameForError());
-            throw new NotFoundException("Cannot find any objects.", getModelNameForError());
+            throwNotFoundError("FIND ALL");
         }
         return getDtoListFromModels(foundModels);
     }
@@ -87,12 +87,7 @@ public abstract class AbstractModelRequestService<M extends AbstractEntityModel,
     @Override
     public T getSingleObject(final String code)
     {
-        final Optional<M> foundModelObject = entityRepository.findByCode(code);
-        if (foundModelObject.isEmpty()) {
-            log.info("FIND SINGLE | No objects of class {} found. Throwing NotFoundException.", getModelNameForError());
-            throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
-        }
-        return getDtoFromModel(foundModelObject.get());
+        return getDtoFromModel(findByCodeOrThrowError(code, "FIND SINGLE"));
     }
 
     @Override
@@ -105,27 +100,33 @@ public abstract class AbstractModelRequestService<M extends AbstractEntityModel,
     @Override
     public HttpStatus delete(final String code)
     {
-        final Optional<M> foundModelObject = entityRepository.findByCode(code);
-        if (foundModelObject.isEmpty()) {
-            log.info("DELETE | No objects of class {} found. Throwing NotFoundException.", getModelNameForError());
-            throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
-        }
-        entityRepository.delete(foundModelObject.get());
+
+        entityRepository.delete(findByCodeOrThrowError(code, "DELETE"));
         return HttpStatus.OK;
     }
 
     @Override
     public HttpStatus patch(final T dtoPatch, final String code)
     {
-        final Optional<M> foundModelObject = entityRepository.findByCode(code);
-        if (foundModelObject.isEmpty()) {
-            log.info("PATCH | No objects of class {} found. Throwing NotFoundException.", getModelNameForError());
-            throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
-        }
-        modelPatchService.applyPatch(foundModelObject.get(),dtoPatch);
-        entityRepository.save(foundModelObject.get());
+        final M foundModelObject = findByCodeOrThrowError(code, "PATCH");
+        modelPatchService.applyPatch(foundModelObject, dtoPatch);
+        entityRepository.save(foundModelObject);
         return HttpStatus.OK;
     }
 
+    protected M findByCodeOrThrowError(final String code, final String sourceMethod)
+    {
+        final Optional<M> foundModelObject = entityRepository.findByCode(code);
+        if (foundModelObject.isEmpty()) {
+            throwNotFoundError(sourceMethod);
+        }
+        return foundModelObject.get();
+    }
+
+    protected void throwNotFoundError(final String sourceMethod)
+    {
+        log.info("{} | No objects of class {} found. Throwing NotFoundException.", sourceMethod, getModelNameForError());
+        throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
+    }
 
 }

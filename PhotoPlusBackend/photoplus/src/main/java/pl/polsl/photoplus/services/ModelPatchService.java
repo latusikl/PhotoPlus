@@ -45,6 +45,10 @@ public class ModelPatchService
     {
         BLACKLISTED_METHOD_LIST.add("getClass");
         BLACKLISTED_METHOD_LIST.add("getCode");
+        BLACKLISTED_METHOD_LIST.add("getUserCode");
+        BLACKLISTED_METHOD_LIST.add("getLinks");
+        BLACKLISTED_METHOD_LIST.add("getLink");
+        BLACKLISTED_METHOD_LIST.add("getRequiredLink");
     }
 
     public void applyPatch(final Object modelToPatch, final Object modelDtoPatch)
@@ -91,7 +95,7 @@ public class ModelPatchService
 
         final Predicate<Method> validationPredicate = getter -> {
             try {
-                return getter != null && validator.validateValue(modelDtoPatch.getClass(), getPropertyNameFromGetter(getter.getName()), getter
+                return getter != null && getter.invoke(modelDtoPatch) != null && validator.validateValue(modelDtoPatch.getClass(), getPropertyNameFromGetter(getter.getName()), getter
                         .invoke(modelDtoPatch)).isEmpty();
             } catch (final InvocationTargetException | IllegalAccessException e) {
                 log.warn("Error in ModelPatchService: \n {}", e.getMessage());

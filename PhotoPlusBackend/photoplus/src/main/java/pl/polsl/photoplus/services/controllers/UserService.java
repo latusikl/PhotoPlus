@@ -6,7 +6,8 @@ import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.UserRepository;
 
 @Service
-public class UserRequestService extends AbstractModelRequestService<User,UserModelDto,UserRepository>
+public class UserService
+        extends AbstractModelService<User,UserModelDto,UserRepository>
 {
     final UserRepository userRepository;
 
@@ -16,7 +17,7 @@ public class UserRequestService extends AbstractModelRequestService<User,UserMod
         return "User";
     }
 
-    public UserRequestService(final UserRepository userRepository)
+    public UserService(final UserRepository userRepository)
     {
         super(userRepository);
         this.userRepository = userRepository;

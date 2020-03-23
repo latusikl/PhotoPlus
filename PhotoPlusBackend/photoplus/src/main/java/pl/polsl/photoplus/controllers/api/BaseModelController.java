@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
-import pl.polsl.photoplus.services.controllers.ModelRequestService;
+import pl.polsl.photoplus.services.controllers.ModelService;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import java.util.Set;
  * @param <T> Typ of DTO for given controller.
  * There needs to be created dtoService for given object to make it work.
  *
- * @see pl.polsl.photoplus.services.controllers.ModelRequestService
+ * @see ModelService
  */
 public abstract class BaseModelController<T extends AbstractModelDto>
 {
@@ -32,9 +32,9 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     /**
      * Service needs to be injected manually by calling super class constructor
      */
-    private ModelRequestService<T> dtoService;
+    private ModelService<T> dtoService;
 
-    BaseModelController(final ModelRequestService dtoService)
+    BaseModelController(final ModelService dtoService)
     {
         this.dtoService = dtoService;
     }

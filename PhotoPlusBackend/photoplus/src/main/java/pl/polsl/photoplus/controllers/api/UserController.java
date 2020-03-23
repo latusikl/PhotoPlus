@@ -3,7 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.UserModelDto;
-import pl.polsl.photoplus.services.controllers.ModelRequestService;
+import pl.polsl.photoplus.services.controllers.UserService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -13,12 +13,12 @@ public class UserController
         extends BaseModelController<UserModelDto>
 {
 
-    final ModelRequestService<UserModelDto> modelRequestService;
+    final UserService userService;
 
-    public UserController(final ModelRequestService modelRequestService)
+    public UserController(final UserService userService)
     {
-        super(modelRequestService);
-        this.modelRequestService = modelRequestService;
+        super(userService);
+        this.userService = userService;
     }
 
     @Override
