@@ -35,11 +35,12 @@ public abstract class AbstractEntityModel
     protected long id;
 
     @Column(name = "model_code")
-    protected  @NotBlank String code;
+    protected @NotBlank String code;
 
     /**
      * Function is responsible for generating code for given model type.
      * Code should consist of generated numbers
+     *
      * @see #createCodeNumber()
      * and from alphabetical part based on e.g name of given length.
      * @see #CODE_NAME_LENGTH
@@ -56,6 +57,5 @@ public abstract class AbstractEntityModel
         final String codeNumber = Long.toString(secureNumber);
         return codeNumber.substring(0, CODE_NUMBER_LENGTH);
     }
-
 
 }

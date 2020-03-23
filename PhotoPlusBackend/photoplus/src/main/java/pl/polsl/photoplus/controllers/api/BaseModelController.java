@@ -12,6 +12,7 @@ import pl.polsl.photoplus.model.dto.AbstractModelDto;
 import pl.polsl.photoplus.services.controllers.ModelRequestService;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -20,30 +21,49 @@ import java.util.Set;
  * Handled operations should be provided in equivalent service which implements given interface.
  *
  * @param <T> Typ of DTO for given controller.
- *  There needs to be created dtoService for given object to make it work.
+ * There needs to be created dtoService for given object to make it work.
+ *
  * @see pl.polsl.photoplus.services.controllers.ModelRequestService
  */
 public abstract class BaseModelController<T extends AbstractModelDto>
 {
+    protected String DELETE_RELATION_NAME = "delete";
+
     /**
      * Service needs to be injected manually by calling super class constructor
      */
     private ModelRequestService<T> dtoService;
 
-    BaseModelController(final ModelRequestService dtoService){
-        this.dtoService=dtoService;
+    BaseModelController(final ModelRequestService dtoService)
+    {
+        this.dtoService = dtoService;
     }
 
-    @GetMapping("all/{page}")
+    /**
+     * In this method you should add all relevant links by using HATEOAS
+     * Should be invoked at the end of object construction!!
+     */
+    public abstract void addLinks(final T dto);
+
+    public void addLinks(final Collection<T> dtos)
+    {
+        dtos.forEach(this::addLinks);
+    }
+
+    @GetMapping(path = "all/{page}", produces = {"application/hal+json"})
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
-        return new ResponseEntity<>(dtoService.getPageFromAll(page), HttpStatus.OK);
+        final List<T> dtos = dtoService.getPageFromAll(page);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping("/{code}")
-    public ResponseEntity<T> getSingle(@PathVariable("code") final String page)
+    @GetMapping(path = "/{code}", produces = {"application/hal+json"})
+    public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
-        return new ResponseEntity<>(dtoService.getSingleObject(page), HttpStatus.OK);
+        final T dto = dtoService.getSingleObject(code);
+        addLinks(dto);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping
@@ -52,7 +72,7 @@ public abstract class BaseModelController<T extends AbstractModelDto>
         return new ResponseEntity(dtoService.save(dtoSet));
     }
 
-    @DeleteMapping("/{code}")
+    @DeleteMapping("/delete/{code}")
     public ResponseEntity delete(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));

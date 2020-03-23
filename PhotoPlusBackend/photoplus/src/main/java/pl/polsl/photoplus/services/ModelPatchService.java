@@ -2,7 +2,7 @@ package pl.polsl.photoplus.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.polsl.photoplus.services.annotations.Patchable;
+import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * Initial requirements:
  * All field of Model class which can modified by API needs to be marked with annotation.
  *
- * @see pl.polsl.photoplus.services.annotations.Patchable
+ * @see pl.polsl.photoplus.annotations.Patchable
  * Name of field in model and DTO needs to be the same.
  * Getters and setters for fields are reqiured.
  */

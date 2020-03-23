@@ -1,4 +1,4 @@
-package pl.polsl.photoplus.services.annotations;
+package pl.polsl.photoplus.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

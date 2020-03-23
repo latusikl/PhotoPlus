@@ -16,12 +16,12 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 public class UserModelDto
-        extends AbstractModelDto
+        extends AbstractModelDto<UserModelDto>
 {
 
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
-    @Length(min = 5,message = "Login should be longer than 5 signs.")
+    @Length(min = 5, message = "Login should be longer than 5 signs.")
     private String login;
 
     @JsonProperty("email")
@@ -45,7 +45,7 @@ public class UserModelDto
     @Pattern(regexp = "[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}", message = "Please add valid phone number.")
     private String number;
 
-    public UserModelDto(final String login, final String email,final String name,final String surname,final String password, final String number, final String code)
+    public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code)
     {
         super(code);
         this.login = login;
