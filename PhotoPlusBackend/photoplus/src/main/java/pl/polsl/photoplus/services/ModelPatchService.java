@@ -96,6 +96,7 @@ public class ModelPatchService
 
         final Predicate<Method> validationPredicate = getter -> {
             try {
+                //TODO:: Exception when field is not empty and 
                 return getter != null && getter.invoke(modelDtoPatch) != null && validator.validateValue(modelDtoPatch.getClass(), getPropertyNameFromGetter(getter.getName()), getter
                         .invoke(modelDtoPatch)).isEmpty();
             } catch (final InvocationTargetException | IllegalAccessException e) {

@@ -21,10 +21,10 @@ public class User
 
     @Column(name = "phone_number")
     @Patchable
-    String number;
+    private String number;
 
     @OneToMany(mappedBy = "addressOwner", cascade = CascadeType.ALL)
-    Set<Address> userAddresses;
+    private Set<Address> userAddresses;
 
     @Column(unique = true, name = "login")
     @Patchable
