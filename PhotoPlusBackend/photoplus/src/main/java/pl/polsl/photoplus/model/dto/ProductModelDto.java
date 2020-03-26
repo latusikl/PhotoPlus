@@ -15,11 +15,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class ProductModelDto extends AbstractModelDto<CategoryModelDto> {
 
-    public ProductModelDto(final String code, final String name, final Integer price, final String description) {
+    public ProductModelDto(final String code, final String name, final Integer price, final String description,
+                           final String categoryCode) {
         super(code);
         this.name = name;
         this.price = price;
         this.description = description;
+        this.categoryCode = categoryCode;
     }
 
     @NotBlank(message = "Name is mandatory.")
@@ -28,6 +30,7 @@ public class ProductModelDto extends AbstractModelDto<CategoryModelDto> {
 
     @Patchable
     @NotBlank(message = "Category code cannot be empty.")
+    @NotNull(message = "Category code cannot be null.")
     @JsonProperty("categoryCode")
     private String categoryCode;
 

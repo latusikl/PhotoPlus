@@ -12,6 +12,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/product")
 public class ProductController extends BaseModelController<ProductModelDto> {
 
+    private final String CATEGORY_RELATION_NAME = "category";
+
     public ProductController(final ProductService dtoService) {
         super(dtoService);
     }
@@ -20,5 +22,6 @@ public class ProductController extends BaseModelController<ProductModelDto> {
     public void addLinks(final ProductModelDto dto) {
         dto.add(linkTo(methodOn(ProductController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(ProductController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
+        dto.add(linkTo(methodOn(CategoryController.class).getSingle(dto.getCategoryCode())).withRel(CATEGORY_RELATION_NAME));
     }
 }

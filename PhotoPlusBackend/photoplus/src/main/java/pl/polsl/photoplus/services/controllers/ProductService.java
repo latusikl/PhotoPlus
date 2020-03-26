@@ -29,7 +29,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     @Override
     protected ProductModelDto getDtoFromModel(final Product modelObject) {
         return new ProductModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getPrice(),
-                modelObject.getDescription());
+                modelObject.getDescription(), modelObject.getCategory().getCode());
     }
 
     @Override
