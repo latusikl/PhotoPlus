@@ -24,17 +24,14 @@ public class Product extends AbstractEntityModel {
         this.description = description;
     }
 
-    @NotBlank(message = "Name is mandatory.")
     @Patchable
     private String name;
 
-    @NotNull(message = "Category is mandatory.")
     @ManyToOne
     @Patchable
     private Category category;
 
     @Patchable
-    @NotNull(message = "Price is mandatory.")
     private Integer price;
 
     @Patchable

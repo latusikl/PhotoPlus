@@ -25,20 +25,14 @@ public class ProductModelDto extends AbstractModelDto<CategoryModelDto> {
     }
 
     @NotBlank(message = "Name is mandatory.")
-    @Patchable
     private String name;
 
-    @Patchable
     @NotBlank(message = "Category code cannot be empty.")
-    @NotNull(message = "Category code cannot be null.")
-    @JsonProperty("categoryCode")
     private String categoryCode;
 
-    @Patchable
     @NotNull(message = "Price is mandatory.")
     private Integer price;
 
-    @Patchable
     private String description;
 
 }
