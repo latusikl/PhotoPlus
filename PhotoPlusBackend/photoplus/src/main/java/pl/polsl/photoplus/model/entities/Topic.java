@@ -3,7 +3,6 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.Entity;
