@@ -6,14 +6,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 @Setter
 @Getter
 public class BatchModelDto extends AbstractModelDto<BatchModelDto> {
 
     public BatchModelDto(final String code, final String productCode, final Integer purchasePrice,
-                         final SimpleDateFormat date, final Integer supplyQuantity, final Integer storeQuantity) {
+                         final LocalDate date, final Integer supplyQuantity, final Integer storeQuantity) {
         super(code);
         this.productCode = productCode;
         this.purchasePrice = purchasePrice;
@@ -30,7 +30,7 @@ public class BatchModelDto extends AbstractModelDto<BatchModelDto> {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Date is mandatory.")
-    private SimpleDateFormat date;
+    private LocalDate date;
 
     @NotNull(message = "Supply quantity is mandatory.")
     private Integer supplyQuantity;

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 @Entity(name = "batches")
 @Table(name = "batches")
@@ -18,7 +19,7 @@ import java.text.SimpleDateFormat;
 @NoArgsConstructor
 public class Batch extends AbstractEntityModel {
 
-    public Batch(final Integer purchasePrice, final SimpleDateFormat date, final Integer supplyQuantity,
+    public Batch(final Integer purchasePrice, final LocalDate date, final Integer supplyQuantity,
                  final Integer storeQuantity) {
         this.purchasePrice = purchasePrice;
         this.date = date;
@@ -33,7 +34,7 @@ public class Batch extends AbstractEntityModel {
     private Integer purchasePrice;
 
     @Patchable
-    private SimpleDateFormat date;
+    private LocalDate date;
 
     @Patchable
     private Integer supplyQuantity;
