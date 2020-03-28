@@ -12,6 +12,7 @@ import java.util.function.Function;
 
 @Service
 public class BatchService extends AbstractModelService<Batch, BatchModelDto, BatchRepository> {
+
     private final ProductService productService;
 
     public BatchService(final BatchRepository entityRepository, final ProductService productService) {
@@ -38,8 +39,7 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
     }
 
     @Override
-    public HttpStatus save(final Set<BatchModelDto> dto)
-    {
+    public HttpStatus save(final Set<BatchModelDto> dto) {
         final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
             final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
                     "SAVE PRODUCT");
@@ -49,7 +49,7 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
         };
 
         dto.stream().map(insertProductDependencyAndParseToModel).forEach(entityRepository::save);
-        return HttpStatus.OK;
+        return HttpStatus.CREATED;
     }
 
 }

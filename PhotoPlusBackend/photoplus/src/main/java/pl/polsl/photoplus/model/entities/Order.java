@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
+import pl.polsl.photoplus.model.enums.OrderStatus;
+import pl.polsl.photoplus.model.enums.PaymentMethod;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "orders")
 @Table(name = "orders")
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Order extends AbstractEntityModel {
 
-    public Order(final String orderStatus, final String paymentMethod, final Integer price) {
+    public Order(final OrderStatus orderStatus, final PaymentMethod paymentMethod, final Integer price) {
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.price = price;
@@ -26,10 +26,12 @@ public class Order extends AbstractEntityModel {
     private User user;
 
     @Patchable
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @Patchable
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @Patchable
     private Integer price;
