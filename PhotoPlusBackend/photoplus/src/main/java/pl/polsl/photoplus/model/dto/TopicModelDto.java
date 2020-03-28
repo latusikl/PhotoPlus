@@ -6,17 +6,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class TopicModelDto extends AbstractModelDto  {
-    public TopicModelDto(final String code, final String sectionCode, final SimpleDateFormat date,
+    public TopicModelDto(final String code, final String name, final String sectionCode, final LocalDate date,
                          final String userCode) {
         super(code);
         this.sectionCode = sectionCode;
         this.date = date;
         this.userCode = userCode;
+        this.name = name;
     }
 
     @NotBlank(message = "Name is mandatory.")
@@ -27,7 +28,7 @@ public class TopicModelDto extends AbstractModelDto  {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Date is mandatory.")
-    private SimpleDateFormat date;
+    private LocalDate date;
 
     @NotBlank(message = "User code is mandatory.")
     private String userCode;

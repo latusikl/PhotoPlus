@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 @Entity(name = "topics")
 @Table(name = "topics")
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat;
 @NoArgsConstructor
 public class Topic extends AbstractEntityModel {
 
-    public Topic(final String name, final SimpleDateFormat date) {
+    public Topic(final String name, final LocalDate date) {
         this.name = name;
         this.date = date;
     }
@@ -30,7 +31,7 @@ public class Topic extends AbstractEntityModel {
     private Section section;
 
     @Patchable
-    private SimpleDateFormat date;
+    private LocalDate date;
 
     @ManyToOne
     private User creator;
