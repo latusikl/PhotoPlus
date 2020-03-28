@@ -71,3 +71,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/PhotoPlusBackend/photoplus/src/main/resources/application.yml
