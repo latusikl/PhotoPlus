@@ -2,7 +2,10 @@ package pl.polsl.photoplus.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -26,6 +29,8 @@ public class RatingModelDto extends AbstractModelDto<RatingModelDto> {
     private String productCode;
 
     @NotNull(message = "Rate is mandatory.")
+    @Min(0)
+    @Max(5)
     private Integer rate;
 
     private String content;
