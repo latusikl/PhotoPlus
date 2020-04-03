@@ -3,11 +3,7 @@ package pl.polsl.photoplus.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import pl.polsl.photoplus.annotations.Patchable;
-import pl.polsl.photoplus.model.entities.Category;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,14 +21,18 @@ public class ProductModelDto extends AbstractModelDto<CategoryModelDto> {
     }
 
     @NotBlank(message = "Name is mandatory.")
+    @JsonProperty("name")
     private String name;
 
     @NotBlank(message = "Category code cannot be empty.")
+    @JsonProperty("categoryCode")
     private String categoryCode;
 
     @NotNull(message = "Price is mandatory.")
+    @JsonProperty("price")
     private Integer price;
 
+    @JsonProperty("description")
     private String description;
 
 }

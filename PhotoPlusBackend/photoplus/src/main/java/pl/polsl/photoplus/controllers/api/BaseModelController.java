@@ -2,6 +2,7 @@ package pl.polsl.photoplus.controllers.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,6 +26,7 @@ import java.util.Set;
  *
  * @see ModelService
  */
+@Validated
 public abstract class BaseModelController<T extends AbstractModelDto>
 {
     protected String DELETE_RELATION_NAME = "delete";
@@ -34,7 +36,7 @@ public abstract class BaseModelController<T extends AbstractModelDto>
      */
     private ModelService<T> dtoService;
 
-    BaseModelController(final ModelService dtoService)
+    public BaseModelController(final ModelService dtoService)
     {
         this.dtoService = dtoService;
     }

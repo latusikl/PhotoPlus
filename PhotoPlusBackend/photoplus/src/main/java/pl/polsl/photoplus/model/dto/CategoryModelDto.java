@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
@@ -16,7 +17,7 @@ public class CategoryModelDto extends AbstractModelDto<CategoryModelDto> {
     }
 
     @NotBlank(message = "Name is mandatory.")
-    @OnlyLetters
+    @JsonProperty("name")
     private String name;
 
 }

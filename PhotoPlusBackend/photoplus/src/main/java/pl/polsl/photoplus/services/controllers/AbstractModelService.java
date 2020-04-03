@@ -94,7 +94,7 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     public HttpStatus save(final Set<T> dto)
     {
         entityRepository.saveAll(getModelListFromDtos(dto));
-        return HttpStatus.OK;
+        return HttpStatus.CREATED;
     }
 
     @Override
@@ -102,7 +102,7 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     {
 
         entityRepository.delete(findByCodeOrThrowError(code, "DELETE"));
-        return HttpStatus.OK;
+        return HttpStatus.NO_CONTENT;
     }
 
     @Override
