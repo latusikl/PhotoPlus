@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import pl.polsl.photoplus.annotations.validators.OnlyLetters;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -31,10 +32,12 @@ public class UserModelDto
 
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
+    @OnlyLetters
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
+    @OnlyLetters
     private String surname;
 
     @JsonProperty("password")

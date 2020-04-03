@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,15 +22,19 @@ public class TopicModelDto extends AbstractModelDto  {
     }
 
     @NotBlank(message = "Name is mandatory.")
+    @JsonProperty("name")
     private String name;
 
     @NotBlank(message = "Section code is mandatory.")
+    @JsonProperty("sectionCode")
     private String sectionCode;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Date is mandatory.")
+    @JsonProperty("date")
     private LocalDate date;
 
     @NotBlank(message = "User code is mandatory.")
+    @JsonProperty("userCode")
     private String userCode;
 }

@@ -1,7 +1,11 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
+import pl.polsl.photoplus.model.enums.OrderStatus;
+import pl.polsl.photoplus.model.enums.PaymentMethod;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,14 +23,20 @@ public class OrderModelDto extends AbstractModelDto<BatchModelDto> {
     }
 
     @NotBlank(message = "User code is mandatory.")
+    @JsonProperty("userCode")
     private String userCode;
 
-    @NotBlank(message = "User code is mandatory.")
+    @NotBlank(message = "Order status is mandatory.")
+    @JsonProperty("orderStatus")
+    @ValueOfEnum(enumClass = OrderStatus.class)
     private String orderStatus;
 
     @NotBlank(message = "Payment method is mandatory.")
+    @JsonProperty("paymentMethod")
+    @ValueOfEnum(enumClass = PaymentMethod.class)
     private String paymentMethod;
 
     @NotNull(message = "Price is mandatory.")
+    @JsonProperty("price")
     private Integer price;
 }

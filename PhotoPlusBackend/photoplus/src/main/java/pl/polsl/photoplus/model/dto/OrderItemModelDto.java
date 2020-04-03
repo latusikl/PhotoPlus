@@ -1,8 +1,11 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
 
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,13 +19,16 @@ public class OrderItemModelDto extends AbstractModelDto<OrderItemModelDto> {
         this.quantity = quantity;
     }
 
-    @NotBlank(message = "User code is mandatory.")
+    @NotBlank(message = "Order code is mandatory.")
+    @JsonProperty("orderCode")
     private String orderCode;
 
-    @NotBlank(message = "User code is mandatory.")
+    @NotBlank(message = "Product code is mandatory.")
+    @JsonProperty("productCode")
     private String productCode;
 
     @NotNull(message = "Quantity is mandatory.")
+    @JsonProperty("quantity")
     private Integer quantity;
 
 }

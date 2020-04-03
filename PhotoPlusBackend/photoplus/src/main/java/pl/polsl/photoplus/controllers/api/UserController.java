@@ -15,7 +15,7 @@ public class UserController
 
     final UserService userService;
 
-    public UserController(final UserService userService)
+    protected UserController(final UserService userService)
     {
         super(userService);
         this.userService = userService;
