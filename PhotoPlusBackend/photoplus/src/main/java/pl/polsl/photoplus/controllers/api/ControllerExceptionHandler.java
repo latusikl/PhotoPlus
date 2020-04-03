@@ -45,7 +45,7 @@ public class ControllerExceptionHandler
 
         e.getBindingResult().getAllErrors().forEach(errorConsumer);
 
-        return new ResponseEntity<>(errorDtos,HttpStatus.EXPECTATION_FAILED);
+        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
     }
 
 
@@ -72,16 +72,16 @@ public class ControllerExceptionHandler
         };
 
         e.getConstraintViolations().forEach(errorConsumer);
-        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDtos,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(PatchException.class)
     protected ResponseEntity<ErrorDto> handlePatchException(final PatchException e)
     {
-        log.info("ConstraintViolationException handled for type: {}.", e.getCauseClassType());
+        log.info("PatchException handled for type: {}.", e.getCauseClassType());
 
         final ErrorDto error = new ErrorDto(PatchException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
-        return new ResponseEntity<>(error,HttpStatus.EXPECTATION_FAILED);
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EnumValueException.class)
@@ -90,7 +90,7 @@ public class ControllerExceptionHandler
         log.info("EnumValueException handled for type: {}.", e.getCauseClassType());
 
         final ErrorDto error = new ErrorDto(PatchException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
-        return new ResponseEntity<>(error,HttpStatus.EXPECTATION_FAILED);
+        return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 }
