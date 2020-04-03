@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.polsl.photoplus.model.dto.ErrorDto;
+import pl.polsl.photoplus.model.exceptions.EnumValueException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,20 +59,38 @@ public class ControllerExceptionHandler
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<ErrorDto> constraintViolationException(final NotFoundException e)
+    protected ResponseEntity<List<ErrorDto>> handleConstraintViolationException(final ConstraintViolationException e)
     {
-        log.info("ConstraintViolationException handled for type: {}.", e.getCauseClassType());
+        log.info("Validation exception handled: {}", e.getMessage());
+        final List<ErrorDto> errorDtos = new ArrayList<>();
 
-        final ErrorDto error = new ErrorDto(NotFoundException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+        final Consumer<ConstraintViolation> errorConsumer = constraintViolation -> {
+            final String message = constraintViolation.getMessage();
+            final String error = "Field: " + constraintViolation.getPropertyPath() + ", Invalid value: " +
+                    constraintViolation.getInvalidValue();
+            errorDtos.add(new ErrorDto(ConstraintViolationException.class.getSimpleName(),error, message));
+        };
+
+        e.getConstraintViolations().forEach(errorConsumer);
+        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PatchException.class)
-    protected ResponseEntity<ErrorDto> constraintViolationException(final PatchException e)
+    protected ResponseEntity<ErrorDto> handlePatchException(final PatchException e)
     {
         log.info("ConstraintViolationException handled for type: {}.", e.getCauseClassType());
 
         final ErrorDto error = new ErrorDto(PatchException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.EXPECTATION_FAILED);
     }
+
+    @ExceptionHandler(EnumValueException.class)
+    protected ResponseEntity<ErrorDto> handleEnumValueException(final EnumValueException e)
+    {
+        log.info("EnumValueException handled for type: {}.", e.getCauseClassType());
+
+        final ErrorDto error = new ErrorDto(PatchException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.EXPECTATION_FAILED);
+    }
+
 }
