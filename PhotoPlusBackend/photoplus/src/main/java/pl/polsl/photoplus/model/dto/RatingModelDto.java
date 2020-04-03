@@ -1,8 +1,8 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -23,16 +23,20 @@ public class RatingModelDto extends AbstractModelDto<RatingModelDto> {
     }
 
     @NotBlank(message = "User code is mandatory.")
+    @JsonProperty("userCode")
     private String userCode;
 
     @NotBlank(message = "Product code is mandatory.")
+    @JsonProperty("productCode")
     private String productCode;
 
     @NotNull(message = "Rate is mandatory.")
     @Min(0)
     @Max(5)
+    @JsonProperty("rate")
     private Integer rate;
 
+    @JsonProperty("content")
     private String content;
 
 }

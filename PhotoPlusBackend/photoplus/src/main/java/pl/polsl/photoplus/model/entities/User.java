@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 
@@ -15,16 +16,17 @@ import java.util.Set;
 @Table(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User
         extends AbstractEntityModel
 {
 
     @Column(name = "phone_number")
     @Patchable
-    String number;
+    private String number;
 
     @OneToMany(mappedBy = "addressOwner", cascade = CascadeType.ALL)
-    Set<Address> userAddresses;
+    private Set<Address> userAddresses;
 
     @Column(unique = true, name = "login")
     @Patchable
@@ -55,9 +57,4 @@ public class User
         this.password = password;
         this.number = number;
     }
-
-    public User()
-    {
-    }
-
 }

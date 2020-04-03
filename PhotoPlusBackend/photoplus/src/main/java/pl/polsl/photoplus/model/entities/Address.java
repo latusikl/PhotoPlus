@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.CountryCode;
@@ -14,13 +15,10 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "addresses")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Address
         extends AbstractEntityModel
 {
-    public Address()
-    {
-
-    }
 
     public Address(final String street, final String number, final String zipCode, final String city, final String countryCode){
         this.street=street;
