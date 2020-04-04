@@ -1,8 +1,8 @@
 <ul *ngIf="products">
   <li *ngFor="let product of products">
-    <p class="name"> {{ product.name }} </p>
-    <p class="description"> {{ product.description }} </p>
-    <p class="category"> {{ product.category }} </p>
-    <p class="price"> {{ product.price }} </p>
+    <p class="name"> <span>{{ product.name }}</span> </p>
+    <p class="description"> Description: <span> {{ product.description }} </span> </p>
+    <p class="category"> Category: <span> {{ product.category }} </span> </p>
+    <p class="price"> Price: <span> {{ product.price }} </span>$</p>
   </li>
 </ul>
