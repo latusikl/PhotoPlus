@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Common interface for all services responsible for interacting with DTO objects.
@@ -15,6 +14,8 @@ import java.util.Set;
 public interface ModelService<T extends AbstractModelDto>
 {
     List<T> getPageFromAll(Integer page);
+
+    List<T> getAll();
 
     T getSingleObject(String code);
 

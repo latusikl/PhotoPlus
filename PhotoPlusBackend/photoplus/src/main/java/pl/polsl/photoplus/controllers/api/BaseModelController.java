@@ -3,14 +3,19 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
 import pl.polsl.photoplus.services.controllers.ModelService;
 
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Basic controller for model object responsible for handling standard operations on objects.
@@ -52,6 +57,14 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
         final List<T> dtos = dtoService.getPageFromAll(page);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "all", produces = {"application/hal+json"})
+    public ResponseEntity<List<T>> getAll()
+    {
+        final List<T> dtos = dtoService.getAll();
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }

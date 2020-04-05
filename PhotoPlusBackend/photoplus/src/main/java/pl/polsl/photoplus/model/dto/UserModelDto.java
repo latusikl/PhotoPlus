@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
 
 import javax.validation.constraints.Email;
@@ -23,29 +24,35 @@ public class UserModelDto
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
     @Length(min = 5, message = "Login should be longer than 5 signs.")
+    @Patchable
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
+    @Patchable
     private String email;
 
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
     @OnlyLetters
+    @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
     @OnlyLetters
+    @Patchable
     private String surname;
 
     @JsonProperty("password")
     @NotBlank(message = "Password is mandatory.")
+    @Patchable
     private String password;
 
     @JsonProperty("number")
     @Pattern(regexp = "[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}", message = "Please add valid phone number.")
+    @Patchable
     private String number;
 
     public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code)

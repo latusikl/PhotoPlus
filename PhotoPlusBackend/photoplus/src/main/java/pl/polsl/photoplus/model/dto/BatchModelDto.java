@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,19 +30,23 @@ public class BatchModelDto extends AbstractModelDto<BatchModelDto> {
 
     @NotNull(message = "Purchase price is mandatory.")
     @JsonProperty("purchasePrice")
+    @Patchable
     private Integer purchasePrice;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Date is mandatory.")
     @JsonProperty("date")
+    @Patchable
     private LocalDate date;
 
     @NotNull(message = "Supply quantity is mandatory.")
     @JsonProperty("supplyQuantity")
+    @Patchable
     private Integer supplyQuantity;
 
     @NotNull(message = "Store quantity is mandatory.")
     @JsonProperty("storeQuantity")
+    @Patchable
     private Integer storeQuantity;
 
 }
