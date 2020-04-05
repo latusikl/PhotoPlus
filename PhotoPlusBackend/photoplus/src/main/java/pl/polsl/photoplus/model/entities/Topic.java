@@ -8,7 +8,6 @@ import pl.polsl.photoplus.annotations.Patchable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 @Entity(name = "topics")
@@ -16,12 +15,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Topic extends AbstractEntityModel {
-
-    public Topic(final String name, final LocalDate date) {
-        this.name = name;
-        this.date = date;
-    }
+public class Topic
+        extends AbstractEntityModel
+{
 
     @Patchable
     private String name;
@@ -35,4 +31,10 @@ public class Topic extends AbstractEntityModel {
 
     @ManyToOne
     private User creator;
+
+    public Topic(final String name, final LocalDate date)
+    {
+        this.name = name;
+        this.date = date;
+    }
 }

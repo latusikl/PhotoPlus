@@ -60,6 +60,14 @@ public abstract class BaseModelController<T extends AbstractModelDto>
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = "all", produces = {"application/hal+json"})
+    public ResponseEntity<List<T>> getAll()
+    {
+        final List<T> dtos = dtoService.getAll();
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/{code}", produces = {"application/hal+json"})
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {

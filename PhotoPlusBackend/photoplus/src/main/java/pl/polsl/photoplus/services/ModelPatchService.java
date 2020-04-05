@@ -5,16 +5,18 @@ import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
 
-import javax.annotation.PostConstruct;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,146 +24,198 @@ import java.util.stream.Stream;
 /**
  * Service is responsible for patching model objects based on connected DTO object.
  * Initial requirements:
- * All field of Model class which can modified by API needs to be marked with annotation.
+ * All field of model and dto class which can modified by API needs to be marked with annotation.
  *
  * @see pl.polsl.photoplus.annotations.Patchable
  * Name of field in model and DTO needs to be the same.
- * Getters and setters for fields are reqiured.
+ * You can specify custom setter or getter in annotation. To do for example some extra stuff.
  */
 @Service
 @Slf4j
 public class ModelPatchService
 {
-    protected static final List<String> BLACKLISTED_METHOD_LIST = new ArrayList<>();
-
-    private static final String GETTER_PREFIX = "get";
-
-    private static final String SETTER_PREFIX = "set";
-
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    @PostConstruct
-    protected void addBlackListedMethodsNames()
-    {
-        //TODO: Introduce move this list as configurable to bean or in some other way. Annotation on fileds in DTO?
-        BLACKLISTED_METHOD_LIST.add("getClass");
-        BLACKLISTED_METHOD_LIST.add("getCode");
-        BLACKLISTED_METHOD_LIST.add("getUserCode");
-        BLACKLISTED_METHOD_LIST.add("getLinks");
-        BLACKLISTED_METHOD_LIST.add("getLink");
-        BLACKLISTED_METHOD_LIST.add("getRequiredLink");
-    }
-
+    /**
+     * Method for applying patch on given objects.
+     *
+     * @param modelToPatch Model which values will be changed. Fields should be annotated. Method should be defined as setter.
+     * @param modelDtoPatch Model which has changed value. Fields should be annotated. Method should be defined as getter.
+     */
     public void applyPatch(final Object modelToPatch, final Object modelDtoPatch)
     {
-        final List<Method> filteredDtoGetters = filterGettersForPatch(modelDtoPatch);
-        final List<Method> filteredModelSetters = filterSettersForPatch(filteredDtoGetters, modelToPatch);
-        for (final var setter : filteredModelSetters) {
-            final Optional<Method> getter = getGetterForSetter(filteredDtoGetters, setter);
-            if (getter.isEmpty()) {
-                log.warn("Unable to find getter for setter: {}", setter.getName());
-                return;
-            }
-            try {
-                setter.invoke(modelToPatch, getter.get().invoke(modelDtoPatch));
-            } catch (final IllegalAccessException | InvocationTargetException e) {
-                log.warn("Unable to properly apply patch to model object.");
+        final Map<Field,Optional<Method>> modelMap = getFieldsWithMethods(getAnnotatedFieldsAndMakeAccessible(modelToPatch), modelToPatch
+                .getClass());
+        final Map<Field,Optional<Method>> modelDtoMap = getFieldsWithMethods(filterDtoFieldsPatch(modelDtoPatch), modelDtoPatch
+                .getClass());
+        final Set<Map.Entry<Field,Optional<Method>>> modelMapEntrySet = modelMap.entrySet();
+        for (final var fieldPatchEntry : modelDtoMap.entrySet()) {
+            final Field fieldPatch = fieldPatchEntry.getKey();
+            final Optional<Method> methodToGet = fieldPatchEntry.getValue();
 
-            }
+            final Map.Entry<Field,Optional<Method>> fieldToPatchEntry = getFieldRecordByName(fieldPatch.getName(), modelMapEntrySet);
+            final Field fieldToPatch = fieldToPatchEntry.getKey();
+            final Optional<Method> methodToSet = fieldToPatchEntry.getValue();
+
+            final Object value = getFieldValue(fieldPatch, fieldToPatch, methodToGet, modelDtoPatch);
+            setFieldValue(fieldToPatch, fieldPatch, methodToSet, modelToPatch, value);
         }
     }
 
-    private Optional<Method> getGetterForSetter(final List<Method> getters, final Method setter)
+    private List<Field> getAnnotatedFieldsAndMakeAccessible(final Object modelToPatch)
     {
-        return getters.stream()
-                .filter(getter -> getPropertyNameFromGetter(getter.getName()).equals(getPropertyNameFromSetter(setter.getName())))
-                .findFirst();
+        return setAccessible(Arrays.stream(modelToPatch.getClass().getDeclaredFields())
+                                     .filter(field -> field.isAnnotationPresent(Patchable.class))
+                                     .collect(Collectors.toList()));
     }
 
-    private List<Method> filterGettersForPatch(final Object modelDtoPatch)
+    private List<Field> setAccessible(final List<Field> fields)
     {
-        final Stream<Method> methodStream = getObjectMethods(modelDtoPatch).stream();
+        fields.forEach(field -> field.setAccessible(true));
+        return fields;
+    }
 
-        Predicate<Method> nonGettersAndBlacklistedPredicate = method -> {
-            String methodName = method.getName();
-            if (methodName.startsWith(GETTER_PREFIX)) {
-                if (BLACKLISTED_METHOD_LIST.contains(methodName)) {
-                    log.info("Blacklisted method {} removed from list.", methodName);
+    private Map<Field,Optional<Method>> getFieldsWithMethods(final List<Field> fields, final Class clazz)
+    {
+
+        return fields.stream()
+                .collect(Collectors.toMap(Function.identity(), field -> extractMethodNameIfNotEmpty(field, clazz)));
+    }
+
+    private Optional<Method> extractMethodNameIfNotEmpty(final Field field, final Class clazz)
+    {
+        final String methodName = field.getAnnotation(Patchable.class).method();
+        final Stream<Method> methods = Stream.of(clazz.getMethods());
+        if (methodName.isBlank()) {
+            return Optional.empty();
+        }
+        return methods.filter(method -> method.getName().equals(methodName)).findFirst();
+    }
+
+    private List<Field> filterDtoFieldsPatch(final Object modelDtoPatch)
+    {
+        final List<Field> dtoFields = getAnnotatedFieldsAndMakeAccessible(modelDtoPatch);
+        final Predicate<Field> filteringPredicate = createFilteringPredicate(modelDtoPatch);
+
+        return dtoFields.stream().filter(filteringPredicate).collect(Collectors.toList());
+    }
+
+    private Predicate<Field> createFilteringPredicate(final Object modelDtoPatch)
+    {
+        final Predicate<Field> fieldFilter = field -> {
+            try {
+                //remove null fields
+                if (field.get(modelDtoPatch) == null) {
                     return false;
                 }
-                return true;
+                //if some constraints are violated
+                final Set<? extends ConstraintViolation> violations = validator.validateValue(modelDtoPatch.getClass(), field
+                        .getName(), field.get(modelDtoPatch));
+                if (!violations.isEmpty()) {
+                    final StringBuilder message = new StringBuilder();
+
+                    message.append("Field: '");
+                    message.append(field.getName());
+                    message.append("' has validation errors: ");
+                    violations.forEach(violation -> message.append(violation.getMessage() + " "));
+
+                    throw new PatchException(message.toString(), ModelPatchService.class.getSimpleName());
+                }
+            } catch (final IllegalAccessException e) {
+                log.warn(e.getMessage());
+                return false;
             }
-            return false;
+            return true;
         };
-
-        final Predicate<Method> validationPredicate = getter -> {
-            try {
-                //TODO:: Exception when field is not empty and 
-                return getter != null && getter.invoke(modelDtoPatch) != null && validator.validateValue(modelDtoPatch.getClass(), getPropertyNameFromGetter(getter.getName()), getter
-                        .invoke(modelDtoPatch)).isEmpty();
-            } catch (final InvocationTargetException | IllegalAccessException e) {
-                log.warn("Error in ModelPatchService: \n {}", e.getMessage());
-                throw new PatchException("Patching object failure.", "Patcher");
-            }
-        };
-
-        return methodStream.filter(nonGettersAndBlacklistedPredicate).
-                filter(validationPredicate).collect(Collectors.toList());
-
+        return fieldFilter;
     }
 
-    private List<Method> filterSettersForPatch(final List<Method> getters, final Object modelToPatch)
+    /**
+     * Looks for map entry with given field name.
+     */
+    private Map.Entry<Field,Optional<Method>> getFieldRecordByName(final String name, final Set<Map.Entry<Field,Optional<Method>>> mapEntrySet)
     {
-        final List<String> annotatedFieldsNames = getAnnotatedFields(modelToPatch).stream()
-                .map(Field::getName)
-                .collect(Collectors.toList());
-        final List<String> updatedPropertiesNames = getPropertyNameListFromGetters(getters);
-        final List<Method> methods = getObjectMethods(modelToPatch);
-        return methods.stream()
-                //Setters
-                .filter(method -> method.getName().startsWith(SETTER_PREFIX))
-                //Setters of annotated fields
-                .filter(method -> annotatedFieldsNames.contains(getPropertyNameFromSetter(method.getName())))
-                //Setters of changed fields
-                .filter(method -> updatedPropertiesNames.contains(getPropertyNameFromSetter(method.getName())))
-                .collect(Collectors.toList());
-    }
-
-    private List<String> getPropertyNameListFromGetters(List<Method> getters)
-    {
-        return getters.stream().map(method -> getPropertyNameFromGetter(method.getName())).collect(Collectors.toList());
-    }
-
-    private List<Field> getAnnotatedFields(final Object modelToPatch)
-    {
-        return Arrays.stream(modelToPatch.getClass().getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Patchable.class))
-                .collect(Collectors.toList());
-    }
-
-    private List<Method> getObjectMethods(final Object object)
-    {
-        return Arrays.asList(object.getClass().getMethods());
-    }
-
-    protected String getPropertyNameFromSetter(final String methodName)
-    {
-        return lowerFirstLetter(methodName.substring(SETTER_PREFIX.length()));
-    }
-
-    private String getPropertyNameFromGetter(final String methodName)
-    {
-        return lowerFirstLetter(methodName.substring(GETTER_PREFIX.length()));
-    }
-
-    private String lowerFirstLetter(final String propertyName)
-    {
-        final StringBuilder stringBuilder = new StringBuilder();
-        if (propertyName.length() > 0) {
-            stringBuilder.append(propertyName.toLowerCase().charAt(0));
-            stringBuilder.append(propertyName.substring(1));
+        final Optional<Map.Entry<Field,Optional<Method>>> entry = mapEntrySet.stream()
+                .filter(mapEntry -> mapEntry.getKey().getName().equals(name))
+                .findFirst();
+        if (entry.isEmpty()) {
+            log.error("Unable to find field from DTO: '{}' in fields of entity. Aborting patching process.", name);
+            throw new PatchException("Internal error in patching service.", this.getClass().getSimpleName());
         }
-        return stringBuilder.toString();
+        return entry.get();
+    }
+
+    /**
+     * Method is responsible for getting new field value either directly from field or via method given in annotation.
+     */
+    private Object getFieldValue(final Field field, final Field fieldFromModel, final Optional<Method> method, final Object objectToInvoke)
+    {
+        final Object value;
+        try {
+            if (method.isPresent()) {
+                if (!checkIfMethodIsGetter(fieldFromModel, method.get())) {
+                    log.error("Method: '{}' for field: '{}' is not getter", method.get().getName(), field.getName());
+                    throw new PatchException("Internal error in patching service.", this.getClass().getSimpleName());
+                }
+                value = method.get().invoke(objectToInvoke);
+            } else {
+                value = field.get(objectToInvoke);
+            }
+        } catch (final IllegalAccessException | InvocationTargetException e) {
+            log.error(e.getMessage());
+            throw new PatchException("Internal error in patching service.", this.getClass().getSimpleName());
+        }
+        return value;
+    }
+
+    /**
+     * Method is responsible for setting field value either directly from field or via method given in annotation.
+     */
+    private void setFieldValue(final Field field, final Field fieldFromDto, final Optional<Method> method, final Object objectToInvoke, final Object value)
+    {
+        try {
+            if (method.isPresent()) {
+                if (!checkIfMethodIsSetter(fieldFromDto, method.get())) {
+                    log.error("Method: '{}' for field: '{}' is not setter", method.get().getName(), field.getName());
+                    throw new PatchException("Internal error in patching service.", this.getClass().getSimpleName());
+                }
+                method.get().invoke(objectToInvoke, value);
+            } else {
+                field.set(objectToInvoke, value);
+            }
+        } catch (final IllegalAccessException | InvocationTargetException e) {
+            log.error(e.getMessage());
+            throw new PatchException("Internal error in patching service.", this.getClass().getSimpleName());
+        }
+
+    }
+
+    /**
+     * Checks if method given in annotation is setter.
+     * It should has only one parameter of type of field and return void.
+     */
+    private boolean checkIfMethodIsSetter(final Field fieldFromDto, final Method methodToSet)
+    {
+        if (methodToSet.getReturnType().equals(Void.TYPE)) {
+            final List<Class> parameters = List.of(methodToSet.getParameterTypes());
+            if (parameters.size() == 1) {
+                return parameters.get(0).equals(fieldFromDto.getType());
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if method given in annotation is getter.
+     * It should not have parameters and return parameter which is type of field.
+     */
+    private boolean checkIfMethodIsGetter(final Field fieldFromModel, final Method methodToSet)
+    {
+        if (methodToSet.getReturnType().equals(fieldFromModel.getType())) {
+            final List<Class> parameters = List.of(methodToSet.getParameterTypes());
+            return parameters.size() == 0;
+        }
+        return false;
     }
 
 }

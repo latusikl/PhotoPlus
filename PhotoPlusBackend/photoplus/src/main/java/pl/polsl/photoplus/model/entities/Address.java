@@ -20,14 +20,6 @@ public class Address
         extends AbstractEntityModel
 {
 
-    public Address(final String street, final String number, final String zipCode, final String city, final String countryCode){
-        this.street=street;
-        this.number=number;
-        this.zipCode=zipCode;
-        this.city=city;
-        this.countryCode=countryCode;
-    }
-
     @NotBlank(message = "Street is mandatory.")
     @Patchable
     private String street;
@@ -41,14 +33,24 @@ public class Address
     @Patchable
     private String city;
 
-    @Patchable
     @CountryCode
+    @Patchable
     private String countryCode;
 
     @ManyToOne
     private User addressOwner;
 
-    public String getOwnerCode(){
+    public Address(final String street, final String number, final String zipCode, final String city, final String countryCode)
+    {
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.countryCode = countryCode;
+    }
+
+    public String getOwnerCode()
+    {
         return addressOwner.getCode();
     }
 }

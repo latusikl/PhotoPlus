@@ -7,13 +7,14 @@ import pl.polsl.photoplus.repositories.SectionRepository;
 
 @Service
 public class SectionService extends AbstractModelService<Section, SectionModelDto, SectionRepository> {
+
     public SectionService(final SectionRepository entityRepository) {
         super(entityRepository);
     }
 
     @Override
     protected String getModelNameForError() {
-        return "section";
+        return "Section";
     }
 
     @Override

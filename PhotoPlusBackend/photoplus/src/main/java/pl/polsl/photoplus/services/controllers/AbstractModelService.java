@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.services.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,9 +12,10 @@ import pl.polsl.photoplus.model.dto.AbstractModelDto;
 import pl.polsl.photoplus.model.entities.AbstractEntityModel;
 import pl.polsl.photoplus.repositories.EntityRepository;
 import pl.polsl.photoplus.services.ModelPatchService;
-import pl.polsl.photoplus.services.ModelPropertiesService;
+import pl.polsl.photoplus.components.ModelPropertiesService;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -60,9 +62,11 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
 
     protected abstract T getDtoFromModel(final M modelObject);
 
-    protected List<T> getDtoListFromModels(final Page<M> modelCollection)
+    protected List<T> getDtoListFromModels(final Iterable<M> modelIterable)
     {
-        return modelCollection.stream().map(this::getDtoFromModel).collect(Collectors.toList());
+        final List<M> foundModelList = new ArrayList<>();
+        modelIterable.forEach(foundModelList::add);
+        return foundModelList.stream().map(this::getDtoFromModel).collect(Collectors.toList());
     }
 
     protected abstract M getModelFromDto(final T dtoObject);
@@ -78,9 +82,8 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         final Pageable modelPage = PageRequest.of(page, modelPropertiesService.getPageSize());
         final Page<M> foundModels = entityRepository.findAll(modelPage);
 
-        if (foundModels.getTotalElements() == 0) {
-            throwNotFoundError("FIND ALL");
-        }
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+
         return getDtoListFromModels(foundModels);
     }
 
@@ -114,7 +117,22 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         return HttpStatus.OK;
     }
 
-    protected M findByCodeOrThrowError(final String code, final String sourceMethod)
+    @Override
+    public List<T> getAll()
+    {
+        final Iterable<M> foundModels = entityRepository.findAll();
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return getDtoListFromModels(foundModels);
+    }
+
+    private void throwNotFoundErrorIfIterableEmpty(final String methodName, final Iterable<?> iterable)
+    {
+        if (IterableUtils.size(iterable) == 0) {
+            throwNotFoundError(methodName);
+        }
+    }
+
+    public M findByCodeOrThrowError(final String code, final String sourceMethod)
     {
         final Optional<M> foundModelObject = entityRepository.findByCode(code);
         if (foundModelObject.isEmpty()) {

@@ -43,14 +43,13 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
         final Function<TopicModelDto, Topic> insertDependenciesAndParseToModel = topicModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(topicModelDto.getUserCode(),
                     "SAVE USER");
-            final Section orderToInsert = sectionService.findByCodeOrThrowError(topicModelDto.getSectionCode(),
+            final Section orderToInsert = sectionService.findByCodeOrThrowError(topicModelDto.getSection(),
                     "SAVE SECTION");
             final Topic topicToAdd = getModelFromDto(topicModelDto);
             topicToAdd.setCreator(userToInsert);
             topicToAdd.setSection(orderToInsert);
             return topicToAdd;
         };
-
         dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }

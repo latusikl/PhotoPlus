@@ -40,7 +40,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     @Override
     public HttpStatus save(final Set<ProductModelDto> dtoSet) {
         final Function<ProductModelDto, Product> insertCategoryDependencyAndParseToModel = productModelDto -> {
-            final Category categoryToAdd = categoryService.findByCodeOrThrowError(productModelDto.getCategoryCode(),
+            final Category categoryToAdd = categoryService.findByCodeOrThrowError(productModelDto.getCategory(),
                     "SAVE PRODUCT");
             final Product productToAdd = getModelFromDto(productModelDto);
             productToAdd.setCategory(categoryToAdd);

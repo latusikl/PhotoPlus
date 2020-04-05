@@ -23,4 +23,6 @@ public interface ModelService<T extends AbstractModelDto>
     HttpStatus delete(String code);
 
     HttpStatus patch(T dtoPatch, String code);
+
+    List<T> getAll();
 }
