@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,7 +16,6 @@ import pl.polsl.photoplus.services.controllers.ModelService;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Basic controller for model object responsible for handling standard operations on objects.
@@ -27,6 +27,7 @@ import java.util.Set;
  * @see ModelService
  */
 @Validated
+@CrossOrigin("http://localhost:4200")
 public abstract class BaseModelController<T extends AbstractModelDto>
 {
     protected String DELETE_RELATION_NAME = "delete";
@@ -77,7 +78,7 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody @Valid final Set<T> dtoSet)
+    public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }

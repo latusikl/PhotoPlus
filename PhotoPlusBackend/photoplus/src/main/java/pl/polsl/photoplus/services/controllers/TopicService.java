@@ -6,7 +6,7 @@ import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.model.entities.*;
 import pl.polsl.photoplus.repositories.TopicRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -39,7 +39,7 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
     }
 
     @Override
-    public HttpStatus save(final Set<TopicModelDto> dto) {
+    public HttpStatus save(final List<TopicModelDto> dto) {
         final Function<TopicModelDto, Topic> insertDependenciesAndParseToModel = topicModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(topicModelDto.getUserCode(),
                     "SAVE USER");

@@ -7,7 +7,7 @@ import pl.polsl.photoplus.model.entities.Address;
 import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.AddressRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -46,7 +46,7 @@ public class AddressService
     }
 
     @Override
-    public HttpStatus save(final Set<AddressModelDto> dto)
+    public HttpStatus save(final List<AddressModelDto> dto)
     {
         final Function<AddressModelDto,Address> insertUserDepedencyAndParseToModel = addressModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(addressModelDto.getUserCode(), "SAVE ADDRESS");

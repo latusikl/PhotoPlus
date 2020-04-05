@@ -8,6 +8,7 @@ import pl.polsl.photoplus.model.entities.Rating;
 import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.RatingRepository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -41,7 +42,7 @@ public class RatingService extends AbstractModelService<Rating, RatingModelDto, 
     }
 
     @Override
-    public HttpStatus save(final Set<RatingModelDto> dto) {
+    public HttpStatus save(final List<RatingModelDto> dto) {
         final Function<RatingModelDto, Rating> insertDependenciesAndParseToModel = ratingModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(ratingModelDto.getUserCode(),
                     "SAVE USER");
