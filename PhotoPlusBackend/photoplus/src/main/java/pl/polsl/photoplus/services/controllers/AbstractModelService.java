@@ -91,7 +91,7 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     }
 
     @Override
-    public HttpStatus save(final Set<T> dto)
+    public HttpStatus save(final List<T> dto)
     {
         entityRepository.saveAll(getModelListFromDtos(dto));
         return HttpStatus.CREATED;

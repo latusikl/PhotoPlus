@@ -65,7 +65,7 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     }
 
     @PostMapping
-    public ResponseEntity post(@RequestBody @Valid final Set<T> dtoSet)
+    public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }

@@ -9,7 +9,7 @@ import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.PaymentMethod;
 import pl.polsl.photoplus.repositories.OrderRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -40,7 +40,7 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     }
 
     @Override
-    public HttpStatus save(final Set<OrderModelDto> dto) {
+    public HttpStatus save(final List<OrderModelDto> dto) {
         final Function<OrderModelDto, Order> insertUserDependencyAndParseToModel = orderModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(orderModelDto.getUserCode(),
                     "SAVE USER(customer)");

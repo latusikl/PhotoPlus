@@ -7,7 +7,7 @@ import pl.polsl.photoplus.model.entities.Post;
 import pl.polsl.photoplus.model.entities.Topic;
 import pl.polsl.photoplus.repositories.PostRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -37,7 +37,7 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
     }
 
     @Override
-    public HttpStatus save(final Set<PostModelDto> dto) {
+    public HttpStatus save(final List<PostModelDto> dto) {
         final Function<PostModelDto, Post> insertTopicDependencyAndParseToModel = postModelDto -> {
             final Topic topicToInsert = topicService.findByCodeOrThrowError(postModelDto.getTopicCode(),
                     "SAVE TOPIC");

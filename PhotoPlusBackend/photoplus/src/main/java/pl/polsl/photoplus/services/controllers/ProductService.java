@@ -8,7 +8,7 @@ import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.ProductRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -38,7 +38,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     @Override
-    public HttpStatus save(final Set<ProductModelDto> dtoSet) {
+    public HttpStatus save(final List<ProductModelDto> dtoSet) {
         final Function<ProductModelDto, Product> insertCategoryDependencyAndParseToModel = productModelDto -> {
             final Category categoryToAdd = categoryService.findByCodeOrThrowError(productModelDto.getCategoryCode(),
                     "SAVE PRODUCT");

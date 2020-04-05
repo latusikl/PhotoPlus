@@ -8,7 +8,7 @@ import pl.polsl.photoplus.model.entities.OrderItem;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.OrderItemRepository;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -42,7 +42,7 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
     }
 
     @Override
-    public HttpStatus save(final Set<OrderItemModelDto> dto) {
+    public HttpStatus save(final List<OrderItemModelDto> dto) {
         final Function<OrderItemModelDto, OrderItem> insertDependenciesAndParseToModel = orderModelDto -> {
             final Product productToInsert = productService.findByCodeOrThrowError(orderModelDto.getProductCode(),
                     "SAVE PRODUCT");
