@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MustMatch } from '../../helpers/must-match';
+import { User } from '../../models/user/user';
+import { UserService } from "../../services/user/user.service";
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +14,7 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   submitted: boolean;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService) {
 
    }
 
@@ -37,7 +39,25 @@ export class RegistrationComponent implements OnInit {
     if(this.registerForm.invalid){
       return;
     }
-    console.log("correct form");
+
+    const alias = this.registerForm.value;
+    const user: User = {
+      login: alias.login,
+      email: alias.mail,
+      password: alias.password,
+      name: alias.name,
+      surname: alias.password,
+      phoneNumber: alias.phoneNumber      
+    };
+
+    console.log(user);
+    const preparedRequest = this.userService.registerUser(user);
+    console.log(preparedRequest);
+    let responseObject = null
+    preparedRequest.subscribe((x) => responseObject = x);
+    console.log(responseObject);
+
+
   }
 
 }
