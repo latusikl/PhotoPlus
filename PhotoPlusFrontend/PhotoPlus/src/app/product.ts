@@ -7,4 +7,5 @@ export class Product {
   description: string;
   links: Link[]
   category: string;
+  imagesUrl: string[];
 }

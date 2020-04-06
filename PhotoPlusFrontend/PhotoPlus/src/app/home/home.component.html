@@ -1,8 +1,19 @@
 <ul *ngIf="products">
   <li *ngFor="let product of products">
-    <p class="name"> <span>{{ product.name }}</span> </p>
-    <p class="description"> Description: <span> {{ product.description }} </span> </p>
-    <p class="category"> Category: <span> {{ product.category }} </span> </p>
-    <p class="price"> Price: <span> {{ product.price }} </span>$</p>
+    <div class="col-sm-6">
+      <div class="card" style="width: 18rem;">
+        <li *ngFor="let image of product.imagesUrl">
+          <img class="card-img-top" src="{{ image }}" alt="image">
+        </li>
+        <div class="card-body">
+          <p class="card-title"> {{ product.name }} </p>
+          <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
+          <p class="card-text">{{ product.description }} </p>
+          <p class="price"> Price: <span>{{ product.price }}</span>$</p>
+          <a href="#" class="card-link">Add to card</a>
+          <a href="#" class="card-link">Do something else</a>
+        </div>
+      </div>
+    </div>
   </li>
 </ul>
