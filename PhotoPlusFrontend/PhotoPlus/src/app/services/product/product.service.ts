@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Product } from './product';
-import { Category } from './category';
+import { Category } from '../../models/category/category';
 import { element } from 'protractor';
 
 @Injectable({

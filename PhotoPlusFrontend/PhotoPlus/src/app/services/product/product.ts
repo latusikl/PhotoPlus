@@ -1,4 +1,4 @@
-import { Link } from './link';
+import { Link } from '../../models/link/link';
 
 export class Product {
   code: number;
