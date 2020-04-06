@@ -1,8 +1,26 @@
-<ul *ngIf="products">
-  <li *ngFor="let product of products">
-    <p class="name"> <span>{{ product.name }}</span> </p>
-    <p class="description"> Description: <span> {{ product.description }} </span> </p>
-    <p class="category"> Category: <span> {{ product.category }} </span> </p>
-    <p class="price"> Price: <span> {{ product.price }} </span>$</p>
-  </li>
-</ul>
+
+<div class="container">
+  <ul *ngIf="products">
+    <li *ngFor="let product of products">
+      <div class="col-sm-6">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <ngb-carousel wrap="true" *ngIf="product.imagesUrl">
+              <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+                <div class="picsum-img-wrapper">
+                  <img src="{{image}}">
+               </div>
+              </ng-template>
+            </ngb-carousel>
+            <p class="card-title"> {{ product.name }} </p>
+            <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
+            <p class="card-text">{{ product.description }} </p>
+            <p class="price"> Price: <span>{{ product.price }}</span>$</p>
+            <a href="#" class="card-link">Add to card</a>
+            <a href="#" class="card-link">Do something else</a>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

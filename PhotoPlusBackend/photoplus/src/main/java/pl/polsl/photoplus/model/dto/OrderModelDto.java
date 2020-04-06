@@ -23,13 +23,13 @@ public class OrderModelDto
     @NotBlank(message = "Order status is mandatory.")
     @JsonProperty("orderStatus")
     @ValueOfEnum(enumClass = OrderStatus.class)
-    @Patchable
+    @Patchable(method = "orderStatusPatch")
     private String orderStatus;
 
     @NotBlank(message = "Payment method is mandatory.")
     @JsonProperty("paymentMethod")
     @ValueOfEnum(enumClass = PaymentMethod.class)
-    @Patchable
+    @Patchable(method = "paymentMethodPatch")
     private String paymentMethod;
 
     @NotNull(message = "Price is mandatory.")
@@ -44,5 +44,15 @@ public class OrderModelDto
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.price = price;
+    }
+
+    public PaymentMethod paymentMethodPatch()
+    {
+       return PaymentMethod.getPaymentMethodFromString(this.paymentMethod);
+    }
+
+    public OrderStatus orderStatusPatch()
+    {
+        return OrderStatus.getOrderStatusFromString(this.orderStatus);
     }
 }

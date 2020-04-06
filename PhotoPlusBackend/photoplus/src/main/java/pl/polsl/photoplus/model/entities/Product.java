@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity(name = "products")
 @Table(name = "products")
@@ -18,10 +18,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Product extends AbstractEntityModel {
 
-    public Product(final String name, final Integer price, final String description) {
+    public Product(final String name, final Integer price, final String description, final List<String> imageFileNames) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.imageFilenames = imageFileNames;
     }
 
     @Patchable
@@ -36,5 +37,9 @@ public class Product extends AbstractEntityModel {
 
     @Patchable
     private String description;
+
+    @Patchable
+    @ElementCollection
+    private List<String> imageFilenames;
 
 }

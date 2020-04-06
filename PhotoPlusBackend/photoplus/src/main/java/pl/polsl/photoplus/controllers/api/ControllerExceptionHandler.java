@@ -16,6 +16,7 @@ import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -58,6 +59,15 @@ public class ControllerExceptionHandler
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IOException.class)
+    protected ResponseEntity<ErrorDto> handleIOException(final IOException e)
+    {
+        log.info("IOException handled: {}.", e.getMessage());
+
+        final ErrorDto error = new ErrorDto(IOException.class.getSimpleName(), null, e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<List<ErrorDto>> handleConstraintViolationException(final ConstraintViolationException e)
     {
@@ -89,7 +99,7 @@ public class ControllerExceptionHandler
     {
         log.info("EnumValueException handled for type: {}.", e.getCauseClassType());
 
-        final ErrorDto error = new ErrorDto(PatchException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
+        final ErrorDto error = new ErrorDto(EnumValueException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

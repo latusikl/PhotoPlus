@@ -13,7 +13,8 @@ public class ProductController
         extends BaseModelController<ProductModelDto>
 {
 
-    private final String CATEGORY_RELATION_NAME = "category";
+    private static final String CATEGORY_RELATION_NAME = "category";
+    private static final String IMAGE_RELATION_NAME = "image";
 
     public ProductController(final ProductService dtoService)
     {
@@ -26,5 +27,6 @@ public class ProductController
         dto.add(linkTo(methodOn(ProductController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(ProductController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
         dto.add(linkTo(methodOn(CategoryController.class).getSingle(dto.getCategory())).withRel(CATEGORY_RELATION_NAME));
+        dto.getImageFilenames().forEach(image -> dto.add(linkTo(methodOn(PictureController.class).getSingle(image)).withRel(IMAGE_RELATION_NAME)));
     }
 }

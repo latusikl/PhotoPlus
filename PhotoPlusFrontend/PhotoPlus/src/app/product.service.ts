@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Product } from './product';
 import { Category } from './category';
+import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,17 @@ export class ProductService {
     return this.http.get(this.productEndpoint + "/all/0");
   }
 
-  addCategoryToProduct(product: Product) {
+  getDataFromLinks(product: Product) {
     this.http.get(product.links.find(x => x.rel == "category" ).href).subscribe((data: any) => {
       const cat: Category = data;
       product.category = cat.name;
-    })
+    });
+
+    product.imagesUrl = new Array();
+    product.links.filter(x => x.rel == "image" ).forEach(element => {
+      product.imagesUrl.push(element.href);
+      console.log(element.href);
+    });
+
   }
 }

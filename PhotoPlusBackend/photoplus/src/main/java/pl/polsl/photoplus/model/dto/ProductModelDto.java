@@ -8,8 +8,10 @@ import pl.polsl.photoplus.components.ContextProvider;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.services.controllers.CategoryService;
 
+import javax.persistence.ElementCollection;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
 @Getter
@@ -36,18 +38,25 @@ public class ProductModelDto
     @Patchable
     private String description;
 
-    public ProductModelDto(final String code, final String name, final Integer price, final String description, final String category)
+    @JsonProperty("imageFilenames")
+    @Patchable
+    @ElementCollection
+    private List<String> imageFilenames;
+
+    public ProductModelDto(final String code, final String name, final Integer price, final String description,
+                           final String category, final List<String> imageFilenames)
     {
         super(code);
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
+        this.imageFilenames = imageFilenames;
     }
 
     public Category categoryPatch()
     {
         final CategoryService categoryService = ContextProvider.getBean(CategoryService.class);
-        return categoryService.findByCodeOrThrowError(category, "TopicPatchSection");
+        return categoryService.findByCodeOrThrowError(category, "CategoryPatchSection");
     }
 }
