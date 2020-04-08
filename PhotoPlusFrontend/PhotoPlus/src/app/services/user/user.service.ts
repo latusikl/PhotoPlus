@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user/user';
-import { Observable } from 'rxjs';
+import { AbstractService } from '../abstract-service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends AbstractService<User> {
 
-  private userEndpoint = 'http://localhost:8090/user'
-
-  constructor(private http:HttpClient) { }
-
-  registerUser(user: User): Observable<Object> {
-    return this.http.post('http://localhost:8090/user', [user]) // ! Trzeba podawać tablicę xD
+  constructor(http: HttpClient) {
+    super(http, 'http://localhost:8090/user')
   }
 
 }
