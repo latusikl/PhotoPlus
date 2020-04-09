@@ -9,17 +9,18 @@ img {
   max-width: 100%;
   max-height: 100%;
   padding: 1em 0;
-}
-
-.card-title {
-  font-weight: bold;
-  font-size: 1.2rem;
+  object-fit: scale-down;
 }
 
 .card {
   width: 18rem;
   min-height: 30rem;
   margin-bottom: 1em;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .container {
