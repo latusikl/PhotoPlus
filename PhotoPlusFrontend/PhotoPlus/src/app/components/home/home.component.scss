@@ -31,6 +31,7 @@ img {
 ::ng-deep .carousel-control-prev-icon {
    filter: invert(1);
 }
+
 ::ng-deep .carousel-item {
   display: block !important;
   position: absolute;
@@ -43,4 +44,8 @@ img {
   position: relative;
   //transform: translateX(0);
   opacity: 1;
+}
+
+::ng-deep .carousel-indicators{
+   filter: invert(1);
 }

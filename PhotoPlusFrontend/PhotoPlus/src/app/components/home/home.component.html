@@ -5,7 +5,7 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-body">
-            <ngb-carousel wrap="true" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel">
+            <ngb-carousel wrap="true" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
               <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
                <div class="picsum-img-wrapper">
                 <img src="{{image}}">

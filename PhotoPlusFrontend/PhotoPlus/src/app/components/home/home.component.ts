@@ -19,4 +19,5 @@ export class HomeComponent implements OnInit {
     this.products.forEach(element => { this.productService.getDataFromLinks(element) });
     });
   }
+
 }
