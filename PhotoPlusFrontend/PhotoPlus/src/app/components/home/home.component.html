@@ -3,7 +3,7 @@
   <ul *ngIf="products">
     <li *ngFor="let product of products">
       <div class="col-sm-6">
-        <div class="card" style="width: 18rem;">
+        <div class="card">
           <div class="card-body">
             <ngb-carousel wrap="true" *ngIf="product.imagesUrl">
               <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
