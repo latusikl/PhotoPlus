@@ -8,7 +8,7 @@ import { Category } from '../../models/category/category';
 })
 export class ProductService {
 
-  private productEndpoint = 'http://localhost:8090/product';
+  private productEndpoint = 'https://photo-plus.herokuapp.com/product';
 
   constructor(private http: HttpClient) { }
 
