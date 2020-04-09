@@ -68,6 +68,26 @@ margin: 0 auto;
   transition:all  2s;
 }
 
+.button {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#card-link {
+  position: absolute;
+  bottom: 10%;
+  left: 20%;
+}
+
+#buy-link {
+  position: absolute;
+  bottom: 10%;
+  right: 20%;
+}
+
 :focus {
     outline: -webkit-focus-ring-color auto 0px;
 }

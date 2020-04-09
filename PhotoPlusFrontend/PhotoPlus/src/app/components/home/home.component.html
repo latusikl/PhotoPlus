@@ -22,8 +22,10 @@
             <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
             <p class="card-text">{{ product.description }} </p>
             <p class="price"> Price: <span>{{ product.price }}</span>$</p>
-            <a href="#" class="card-link">Add to card</a>
-            <a href="#" class="card-link">Do something else</a>
+            <div class ="card-linkBox">
+              <button class="button" href="#" id="card-link">Add to card</button>
+              <button class="button" href="#" id="buy-link">Buy now</button>
+            </div>
           </div>
         </div>
       </div>
