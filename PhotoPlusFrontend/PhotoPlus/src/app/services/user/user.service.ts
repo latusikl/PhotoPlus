@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private userEndpoint = 'https://photo-plus.herokuapp.com/user'
+  private userEndpoint = 'http://localhost:8090/user'
 
   constructor(private http:HttpClient) { }
 
   registerUser(user: User): Observable<Object> {
-    return this.http.post('https://photo-plus.herokuapp.com/user', [user]) // ! Trzeba podawać tablicę xD
+    return this.http.post('http://localhost:8090/user', [user]) // ! Trzeba podawać tablicę xD
   }
 
 }
