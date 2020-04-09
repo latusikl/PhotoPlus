@@ -31,3 +31,16 @@ img {
 ::ng-deep .carousel-control-prev-icon {
    filter: invert(1);
 }
+::ng-deep .carousel-item {
+  display: block !important;
+  position: absolute;
+ // transform: translateX(100%);
+  opacity: 0;
+  transition:all  2s;
+}
+
+::ng-deep .carousel-item.active {
+  position: relative;
+  //transform: translateX(0);
+  opacity: 1;
+}
