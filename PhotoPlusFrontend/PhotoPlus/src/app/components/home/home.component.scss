@@ -68,6 +68,10 @@ margin: 0 auto;
   transition:all  2s;
 }
 
+:focus {
+    outline: -webkit-focus-ring-color auto 0px;
+}
+
 ::ng-deep .carousel-item.active {
   position: relative;
   //transform: translateX(0);
