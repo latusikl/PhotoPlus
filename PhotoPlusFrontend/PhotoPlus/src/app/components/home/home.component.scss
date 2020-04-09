@@ -19,3 +19,8 @@ img {
 .container {
   margin-top: 1em;
 }
+
+::ng-deep .carousel-control-next-icon,
+::ng-deep .carousel-control-prev-icon {
+   filter: invert(1);
+}
