@@ -68,24 +68,27 @@ margin: 0 auto;
   transition:all  2s;
 }
 
-.button {
-  background-color: #4CAF50;
-  color: white;
+.price {
+  position: absolute;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20%;
+  color: #2070ff;
   text-align: center;
-  font-size: 15px;
-  cursor: pointer;
+  font-size: 22px;
 }
 
 #card-link {
   position: absolute;
-  bottom: 10%;
-  left: 20%;
+  bottom: 8%;
+  left: 15%;
 }
 
 #buy-link {
   position: absolute;
-  bottom: 10%;
-  right: 20%;
+  bottom: 8%;
+  right: 15%;
 }
 
 :focus {
