@@ -10,7 +10,7 @@ import { AbstractService } from '../abstract-service';
 export class ProductService extends AbstractService<Product> {
 
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:8090/product');
+    super(http, 'https://photo-plus.herokuapp.com/product');
   }
 
   public getDataFromLinks(product: Product) {
