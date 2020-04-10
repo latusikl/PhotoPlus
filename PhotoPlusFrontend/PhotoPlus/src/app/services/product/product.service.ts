@@ -7,7 +7,6 @@ import { AbstractService } from '../abstract-service';
 @Injectable({
   providedIn: 'root'
 })
-
 export class ProductService extends AbstractService<Product> {
 
   constructor(http: HttpClient) {

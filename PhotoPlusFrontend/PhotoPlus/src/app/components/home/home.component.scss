@@ -5,17 +5,102 @@ ul {
   list-style-type: none;
 }
 
-.card-title {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
 img {
   max-width: 100%;
   max-height: 100%;
   padding: 1em 0;
 }
 
+.noCarouselImage{
+  height: 12rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.carouselImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-width: 100%;
+  max-height: 100%;
+  padding: 1em 0;
+}
+
+.card {
+  width: 18rem;
+  min-height: 30rem;
+  margin-bottom: 1em;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
 .container {
   margin-top: 1em;
+}
+
+::ng-deep .carousel{
+  height: 12rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+::ng-deep .carousel-inner{
+  height: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+::ng-deep .carousel-control-next-icon,
+::ng-deep .carousel-control-prev-icon {
+   filter: invert(1);
+}
+
+::ng-deep .carousel-item {
+  display: block !important;
+  position: absolute;
+  height: 100%;
+  //transform: translateX(100%);
+  opacity: 0;
+  transition:all  2s;
+}
+
+::ng-deep .carousel-item.active {
+  position: relative;
+  //transform: translateX(0);
+  opacity: 1;
+}
+
+::ng-deep .carousel-indicators{
+   filter: invert(1);
+}
+
+.price {
+  position: absolute;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 20%;
+  color: #2070ff;
+  text-align: center;
+  font-size: 22px;
+}
+
+#card-link {
+  position: absolute;
+  bottom: 8%;
+  left: 15%;
+}
+
+#buy-link {
+  position: absolute;
+  bottom: 8%;
+  right: 15%;
+}
+
+:focus {
+    outline: -webkit-focus-ring-color auto 0px;
 }

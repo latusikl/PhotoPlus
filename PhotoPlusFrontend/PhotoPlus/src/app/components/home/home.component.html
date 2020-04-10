@@ -1,23 +1,30 @@
-
 <div class="container">
   <ul *ngIf="products">
     <li *ngFor="let product of products">
       <div class="col-sm-6">
-        <div class="card" style="width: 18rem;">
+        <div class="card">
           <div class="card-body">
-            <ngb-carousel wrap="true" *ngIf="product.imagesUrl">
+            <ngb-carousel wrap="true" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
               <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
-                <div class="picsum-img-wrapper">
-                  <img src="{{image}}">
+               <div class="picsum-img-wrapper">
+                <img class="carouselImage" src="{{image}}">
                </div>
               </ng-template>
             </ngb-carousel>
+            <ng-template #noCarousel >
+              <div>
+                <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">
+              </div>
+            </ng-template>
+
             <p class="card-title"> {{ product.name }} </p>
             <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
             <p class="card-text">{{ product.description }} </p>
-            <p class="price"> Price: <span>{{ product.price }}</span>$</p>
-            <a href="#" class="card-link">Add to card</a>
-            <a href="#" class="card-link">Do something else</a>
+            <p class="price">$<span>{{ product.price }}</span></p>
+            <div class ="card-linkBox">
+              <button class="btn btn-success" href="#" id="card-link">Add to card</button>
+              <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
+            </div>
           </div>
         </div>
       </div>
