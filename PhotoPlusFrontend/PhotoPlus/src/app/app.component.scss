@@ -62,7 +62,15 @@ nav {
   transition: width 0.4s linear;
 }
 
+
 .searchbar:hover > .search_input{
+  padding: 0 10px;
+  width: 250px;
+  caret-color:red;
+  transition: width 0.4s linear;
+}
+
+.search_input:focus{
   padding: 0 10px;
   width: 250px;
   caret-color:red;
@@ -71,7 +79,7 @@ nav {
 
 .searchbar:hover > .search_icon{
   background: white;
-  color: $primary;
+  color: #e74c3c;
 }
 
 .search_icon{
