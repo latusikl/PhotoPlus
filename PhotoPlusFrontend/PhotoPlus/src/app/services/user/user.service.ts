@@ -9,7 +9,7 @@ import { AbstractService } from '../abstract-service';
 export class UserService extends AbstractService<User> {
 
   constructor(http: HttpClient) {
-    super(http, 'https://photo-plus.herokuapp.com/user')
+    super(http, 'http://localhost:8090/user')
   }
 
 }
