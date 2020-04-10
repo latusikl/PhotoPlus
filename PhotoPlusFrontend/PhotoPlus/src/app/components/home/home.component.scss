@@ -56,7 +56,12 @@ img {
 
 ::ng-deep .carousel-control-next-icon,
 ::ng-deep .carousel-control-prev-icon {
-   filter: invert(1);
+  filter: invert(1);
+}
+
+::ng-deep .carousel-control-next,
+::ng-deep .carousel-control-prev {
+  cursor: pointer;
 }
 
 ::ng-deep .carousel-item {
