@@ -1,3 +1,6 @@
+.container {
+  margin-top: 1em;
+}
 
 ul {
   display: flex;
@@ -38,10 +41,6 @@ img {
   font-size: 1.2rem;
 }
 
-.container {
-  margin-top: 1em;
-}
-
 ::ng-deep .carousel{
   height: 12rem;
   max-width: 100%;
@@ -55,8 +54,14 @@ img {
 }
 
 ::ng-deep .carousel-control-next-icon,
-::ng-deep .carousel-control-prev-icon {
-   filter: invert(1);
+::ng-deep .carousel-control-prev-icon,
+::ng-deep .carousel-indicators {
+  filter: invert(1);
+}
+
+::ng-deep .carousel-control-next,
+::ng-deep .carousel-control-prev {
+  cursor: pointer;
 }
 
 ::ng-deep .carousel-item {
@@ -72,10 +77,6 @@ img {
   position: relative;
   //transform: translateX(0);
   opacity: 1;
-}
-
-::ng-deep .carousel-indicators{
-   filter: invert(1);
 }
 
 .price {
@@ -101,6 +102,7 @@ img {
   right: 15%;
 }
 
+//google stylesheet overwrite
 :focus {
-    outline: -webkit-focus-ring-color auto 0px;
+    outline: 0px;
 }
