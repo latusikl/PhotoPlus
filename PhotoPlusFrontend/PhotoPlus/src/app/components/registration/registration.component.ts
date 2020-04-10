@@ -47,11 +47,11 @@ export class RegistrationComponent implements OnInit {
       password: alias.password,
       name: alias.name,
       surname: alias.surname,
-      number: alias.phoneNumber      
+      number: alias.phoneNumber
     };
 
     console.log(user);
-    const preparedRequest = this.userService.registerUser(user);
+    const preparedRequest = this.userService.post(user);
     console.log(preparedRequest);
     let responseObject = null
     preparedRequest.subscribe((x) => responseObject = x);
