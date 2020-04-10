@@ -23,24 +23,22 @@ header {
     font-size: 25px;
   }
 }
-nav {
-   // float: right;
 
-    ul {
-        list-style-type: none;
-        margin: 0;
-        display: flex;
-        padding: 0 0;
+ul {
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  padding: 0 0;
 
-        li a {
-            padding: 1rem;
+  li a {
+    padding: 1rem;
 
-            &:hover {
-                background: darken($primary, 10%);
-            }
-        }
+    &:hover {
+      background: darken($primary, 10%);
     }
+  }
 }
+
 
 .searchbar{
   margin-left: auto;
@@ -62,15 +60,8 @@ nav {
   transition: width 0.4s linear;
 }
 
-
-.searchbar:hover > .search_input{
-  padding: 0 10px;
-  width: 250px;
-  caret-color:red;
-  transition: width 0.4s linear;
-}
-
-.search_input:focus{
+.searchbar:hover > .search_input,
+.search_input:focus {
   padding: 0 10px;
   width: 250px;
   caret-color:red;
