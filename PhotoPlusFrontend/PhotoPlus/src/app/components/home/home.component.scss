@@ -68,14 +68,14 @@ img {
   display: block !important;
   position: absolute;
   height: 100%;
-  //transform: translateX(100%);
+  transform: translateX(100%);
   opacity: 0;
   transition:all  2s;
 }
 
 ::ng-deep .carousel-item.active {
   position: relative;
-  //transform: translateX(0);
+  transform: translateX(0);
   opacity: 1;
 }
 
