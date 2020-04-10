@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
     username: root
-    password:
+    password: pass
 
 server:
   port: 8090
