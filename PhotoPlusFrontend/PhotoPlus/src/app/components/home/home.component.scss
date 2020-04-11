@@ -1,11 +1,20 @@
-.container {
-  margin-top: 1em;
-}
-
-ul {
+.flex-container {
   display: flex;
   flex-wrap: wrap;
-  list-style-type: none;
+  width: 100%;
+  margin: 0em auto;
+  justify-content: center;
+}
+
+.card {
+  width: 18rem;
+  min-height: 30rem;
+  margin: 1em;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 img {
@@ -28,17 +37,6 @@ img {
   max-width: 100%;
   max-height: 100%;
   padding: 1em 0;
-}
-
-.card {
-  width: 18rem;
-  min-height: 30rem;
-  margin-bottom: 1em;
-}
-
-.card-title {
-  font-weight: bold;
-  font-size: 1.2rem;
 }
 
 ::ng-deep .carousel{
@@ -68,14 +66,14 @@ img {
   display: block !important;
   position: absolute;
   height: 100%;
-  //transform: translateX(100%);
+  transform: translateX(100%);
   opacity: 0;
   transition:all  2s;
 }
 
 ::ng-deep .carousel-item.active {
   position: relative;
-  //transform: translateX(0);
+  transform: translateX(0);
   opacity: 1;
 }
 
@@ -90,7 +88,7 @@ img {
   font-size: 22px;
 }
 
-#card-link {
+#cart-link {
   position: absolute;
   bottom: 8%;
   left: 15%;
