@@ -38,16 +38,20 @@ header {
   list-style-type: none;
   margin: 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 0 0;
 
-  .centered-list-item{
+  li{
     display: block;
     padding: 1.3rem;
-    min-width: 10rem;
+    min-width: 9rem;
     a{
       text-align: center;
-      color: none;
+    }
+    .nav-link {
+      display: block;
+      padding: 0 0;
     }
    }
 }
@@ -86,7 +90,8 @@ ul {
 
 .searchbar{
   margin-left: auto;
-  display:block;
+  //display:block;
+  display: inline-flex;
   height: 60px;
   background-color: #353b48;
   border-radius: 30px;
@@ -108,7 +113,7 @@ ul {
 .searchbar:hover > .search_input,
 .search_input:focus {
   padding: 0 10px;
-  width: 250px;
+  width: 200px;
   caret-color:red;
   transition: width 0.4s linear, padding 0.4s linear;
 }
