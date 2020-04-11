@@ -52,6 +52,9 @@ ul {
   li {
     display: block;
     padding: 1.3rem;
+    &:hover{
+      cursor:pointer;
+    }
   }
 }
 
