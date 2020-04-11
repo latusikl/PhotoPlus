@@ -7,11 +7,12 @@ $primary: rgb(36, 184, 243);
 
 .container.header {
   display: flex;
-  height: 4rem;
+  min-height: 4rem;
   width: 80%;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
+  padding: 0 0;
 }
 
 header {
@@ -29,19 +30,36 @@ header {
   }
 }
 
+.centered-list{
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  padding: 0 0;
+
+  .centered-list-item{
+    display: block;
+    padding: 1.3rem;
+   }
+}
+
 ul {
   list-style-type: none;
   margin: 0;
   display: flex;
   padding: 0 0;
 
-  li a {
-    padding: 1rem;
-
-    &:hover {
-      background: darken($primary, 10%);
-    }
+  li {
+    display: block;
+    padding: 1.3rem;
   }
+}
+
+.darkenDiv:hover {
+  background: darken($primary, 10%);
+}
+
+.lightenDiv:hover {
+  background: lighten($primary, 20%);
 }
 
 .searchbar{
