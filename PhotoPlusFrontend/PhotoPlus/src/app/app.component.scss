@@ -1,5 +1,10 @@
 $primary: rgb(36, 184, 243);
 
+.container
+{
+  max-width:100%;
+}
+
 .container.header {
   display: flex;
   height: 4rem;
