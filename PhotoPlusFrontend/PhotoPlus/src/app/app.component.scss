@@ -5,13 +5,14 @@ $primary: rgb(36, 184, 243);
   max-width:100%;
 }
 
-.container.header {
+.container-header {
   display: flex;
-  height: 4rem;
+  min-height: 4rem;
   width: 80%;
   margin: 0 auto;
   justify-content: space-between;
   align-items: center;
+  padding: 0 0;
 }
 
 header {
@@ -22,11 +23,41 @@ header {
     text-decoration: none;
   }
 
+  a:hover {
+    color: white;
+  }
+
   a.logo {
     padding-right: 1rem;
     font-weight: bold;
     font-size: 25px;
   }
+}
+
+.navbar-light .navbar-nav .nav-link  {
+    color: #FFFFFF;
+}
+
+.centered-list{
+  list-style-type: none;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 0;
+
+  li{
+    display: block;
+    padding: 1.3rem;
+    min-width: 9rem;
+    a{
+      text-align: center;
+    }
+    .nav-link {
+      display: block;
+      padding: 0 0;
+    }
+   }
 }
 
 ul {
@@ -35,18 +66,36 @@ ul {
   display: flex;
   padding: 0 0;
 
-  li a {
-    padding: 1rem;
-
-    &:hover {
-      background: darken($primary, 10%);
+  li {
+    display: block;
+    padding: 1.3rem;
+    &:hover{
+      cursor:pointer;
     }
   }
 }
 
+.darkenDiv:hover {
+  background: darken($primary, 10%);
+}
+
+.lightenDiv:hover {
+  background: lighten($primary, 20%);
+}
+
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
+}
+
 .searchbar{
   margin-left: auto;
-  display:flex;
+  //display:block;
+  display: inline-flex;
   height: 60px;
   background-color: #353b48;
   border-radius: 30px;
@@ -55,26 +104,29 @@ ul {
 
 .search_input{
   color: white;
+  padding: 0 0px;
   border: 0;
   outline: 0;
   background: none;
   width: 0;
   caret-color:transparent;
   line-height: 40px;
-  transition: width 0.4s linear;
+  transition: width 0.4s linear, padding 0.4s linear, background 0.4s linear;
 }
 
 .searchbar:hover > .search_input,
 .search_input:focus {
   padding: 0 10px;
-  width: 250px;
+  width: 200px;
   caret-color:red;
-  transition: width 0.4s linear;
+  transition: width 0.4s linear, padding 0.4s linear;
 }
 
-.searchbar:hover > .search_icon{
+.search_input:focus + .search_icon
+{
   background: white;
   color: #e74c3c;
+  transition: color 0.4s linear, background 0.4s linear;
 }
 
 .search_icon{
