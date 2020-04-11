@@ -1,7 +1,6 @@
 $primary: rgb(36, 184, 243);
 
-.container
-{
+.container {
   max-width:100%;
 }
 
@@ -32,13 +31,13 @@ header {
     font-weight: bold;
     font-size: 25px;
   }
-}
 
-.navbar-light .navbar-nav .nav-link  {
+  .navbar-light .navbar-nav .nav-link {
     color: #FFFFFF;
+  }
 }
 
-.centered-list{
+.centered-list {
   list-style-type: none;
   margin: 0;
   display: flex;
@@ -46,7 +45,7 @@ header {
   justify-content: center;
   padding: 0 0;
 
-  li{
+  li {
     display: block;
     padding: 1.3rem;
     min-width: 9rem;
@@ -57,7 +56,7 @@ header {
       display: block;
       padding: 0 0;
     }
-   }
+  }
 }
 
 ul {
@@ -122,8 +121,7 @@ ul {
   transition: width 0.4s linear, padding 0.4s linear;
 }
 
-.search_input:focus + .search_icon
-{
+.search_input:focus + .search_icon {
   background: white;
   color: #e74c3c;
   transition: color 0.4s linear, background 0.4s linear;
