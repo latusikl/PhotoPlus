@@ -37,6 +37,18 @@ header {
   }
 }
 
+#navbarHeader-list {
+  li {
+    min-width: 8rem;
+  }
+}
+
+#navbarUnderHeader-list {
+  li {
+    min-width: 8rem;
+  }
+}
+
 .centered-list {
   list-style-type: none;
   margin: 0;
@@ -48,7 +60,7 @@ header {
   li {
     display: block;
     padding: 1.3rem;
-    min-width: 9rem;
+
     a{
       text-align: center;
     }
@@ -116,7 +128,7 @@ ul {
 .searchbar:hover > .search_input,
 .search_input:focus {
   padding: 0 10px;
-  width: 200px;
+  width: 190px;
   caret-color:red;
   transition: width 0.4s linear, padding 0.4s linear;
 }
