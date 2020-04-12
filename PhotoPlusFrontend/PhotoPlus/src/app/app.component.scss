@@ -71,6 +71,14 @@ header {
   }
 }
 
+.clickable-list {
+  li {
+    &:hover{
+      cursor:pointer;
+    }
+  }
+}
+
 ul {
   list-style-type: none;
   margin: 0;
