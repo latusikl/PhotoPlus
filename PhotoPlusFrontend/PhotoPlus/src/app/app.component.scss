@@ -79,21 +79,6 @@ header {
   }
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  display: flex;
-  padding: 0 0;
-
-  li {
-    display: block;
-    padding: 1.3rem;
-    &:hover{
-      cursor:pointer;
-    }
-  }
-}
-
 .darkenDiv:hover {
   background: darken($primary, 10%);
 }
