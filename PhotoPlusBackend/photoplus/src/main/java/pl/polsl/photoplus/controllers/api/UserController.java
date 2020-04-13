@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.UserModelDto;
@@ -31,5 +32,17 @@ public class UserController
         //TODO: Add link to user's addresses!!
         dto.add(linkTo(methodOn(UserController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(UserController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
+    }
+
+    @GetMapping("/test")
+    public String getTest()
+    {
+        return "message";
+    }
+
+    @GetMapping("/testSec")
+    public String getTestSecure()
+    {
+        return "Secure message";
     }
 }

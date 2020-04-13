@@ -20,3 +20,9 @@ logging:
 photoplus:
   pageSize: 20
 
+  securitySecret: 8N13^lM7wOI^c@2jaell6M#$zM703SL47#rY0UUo6wp344VYroSdGloYB3ff%yi8$SOqivz$C#hjU*gjRPEUrA&46UO0C5pgM3J
+  #5 hours
+  securityExpiration: 18000000
+  securityHeaderName: Authorization
+  securityTokenPrefix: "Bearer "
+

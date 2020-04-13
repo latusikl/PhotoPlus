@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
+import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
+import pl.polsl.photoplus.model.enums.UserRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -55,7 +57,11 @@ public class UserModelDto
     @Patchable
     private String number;
 
-    public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code)
+    @JsonProperty("role")
+    @ValueOfEnum(enumClass = UserRole.class)
+    private String userRole;
+
+    public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code, final String userRole)
     {
         super(code);
         this.login = login;
@@ -64,6 +70,7 @@ public class UserModelDto
         this.surname = surname;
         this.password = password;
         this.number = number;
+        this.userRole = userRole;
     }
 }
 

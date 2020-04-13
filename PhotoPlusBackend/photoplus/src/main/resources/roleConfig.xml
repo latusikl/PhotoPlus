@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This file contains role authenticated URL's configuration.
+It is required for proper system work.
+Use it wisely!
+Proper file format example:
+<config>
+    <role name="[PUT_ROLE_HERE]">
+        <access>[PUT_ALLOWED_URL_HERE]</access>
+        <access>[PUT_ALLOWED_URL_HERE]</access>
+    </role>
+     <role name="[PUT_ROLE_HERE]">
+        <access>[PUT_ALLOWED_URL_HERE]</access>
+        <access>[PUT_ALLOWED_URL_HERE]</access>
+         <access>[PUT_ALLOWED_URL_HERE]</access>
+    </role>
+</config>
+-->
+
+<config>
+    <role name="client">
+        <access>CLIENT_ROLE</access>
+    </role>
+    <role name="admin">
+        <access>ADMIN_ROLE</access>
+        <access>dupa</access>
+    </role>
+</config>
