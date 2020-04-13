@@ -16,7 +16,7 @@ public class RatingController extends BaseModelController<RatingModelDto> {
     private final String CUSTOMER_RELATION_NAME = "customer";
 
     public RatingController(final RatingService dtoService) {
-        super(dtoService);
+        super(dtoService, "/rating");
     }
 
     @Override

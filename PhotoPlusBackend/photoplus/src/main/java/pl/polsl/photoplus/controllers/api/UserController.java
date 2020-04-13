@@ -21,7 +21,7 @@ public class UserController
 
     protected UserController(final UserService userService, final ModelPatchService modelPatchService)
     {
-        super(userService);
+        super(userService, "/user");
         this.userService = userService;
         this.modelPatchService = modelPatchService;
     }
@@ -45,4 +45,5 @@ public class UserController
     {
         return "Secure message";
     }
+
 }
