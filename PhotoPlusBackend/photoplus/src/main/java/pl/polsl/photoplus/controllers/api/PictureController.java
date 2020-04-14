@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.polsl.photoplus.services.controllers.PictureService;
@@ -21,22 +22,26 @@ public class PictureController {
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @PreAuthorize("hasAuthority('picture/single')")
     public ResponseEntity<Resource> getSingle(@PathVariable("name") final String name) {
         final Resource resource = pictureService.getImage(name);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('picture/post')")
     public ResponseEntity post(@RequestParam("image") final MultipartFile image) throws IOException {
         return new ResponseEntity(pictureService.saveImage(image));
     }
 
     @DeleteMapping(path = "/{name}")
+    @PreAuthorize("hasAuthority('picture/delete')")
     public ResponseEntity delete(@PathVariable("name") final String name) throws IOException {
         return new ResponseEntity<>(pictureService.deleteImage(name));
     }
 
     @PatchMapping
+    @PreAuthorize("hasAuthority('picture/patch')")
     public ResponseEntity patch(@RequestParam("image") final MultipartFile image) throws IOException {
         return new ResponseEntity(pictureService.patchImage(image));
     }

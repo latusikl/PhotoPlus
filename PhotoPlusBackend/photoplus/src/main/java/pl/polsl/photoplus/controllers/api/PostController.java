@@ -15,7 +15,7 @@ public class PostController extends BaseModelController<PostModelDto> {
     private final String TOPIC_RELATION_NAME = "topic";
 
     public PostController(final PostService dtoService) {
-        super(dtoService, "/post");
+        super(dtoService, "post");
     }
 
     @Override

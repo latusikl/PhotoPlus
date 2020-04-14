@@ -13,7 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CategoryController extends BaseModelController<CategoryModelDto> {
 
     public CategoryController(final CategoryService dtoService) {
-        super(dtoService, "/category");
+        super(dtoService, "category");
     }
 
     @Override

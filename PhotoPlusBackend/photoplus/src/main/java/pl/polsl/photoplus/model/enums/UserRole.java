@@ -8,7 +8,7 @@ import java.util.Arrays;
 @Getter
 public enum UserRole
 {
-    CLIENT("client"), ADMIN("admin");
+    CLIENT("client"), ADMIN("admin"),EMPLOYEE("employee");
 
     private String value;
 

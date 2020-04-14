@@ -15,7 +15,7 @@ public class OrderController extends BaseModelController<OrderModelDto> {
     private final String CUSTOMER_RELATION_NAME = "customer";
 
     public OrderController(final OrderService dtoService) {
-        super(dtoService, "/order");
+        super(dtoService, "order");
     }
 
     @Override

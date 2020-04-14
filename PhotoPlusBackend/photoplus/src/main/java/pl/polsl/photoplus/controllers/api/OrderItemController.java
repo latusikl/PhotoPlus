@@ -16,7 +16,7 @@ public class OrderItemController extends BaseModelController<OrderItemModelDto> 
     private final String PRODUCT_RELATION_NAME = "product";
 
     public OrderItemController(final OrderItemService dtoService) {
-        super(dtoService, "/orderItem");
+        super(dtoService, "orderItem");
     }
 
     @Override

@@ -6,26 +6,101 @@ Use it wisely!
 Proper file format example:
 <config>
     <role name="[PUT_ROLE_HERE]">
-        <access>[PUT_ALLOWED_URL_HERE]</access>
-        <access>[PUT_ALLOWED_URL_HERE]</access>
+        <access>[PUT_ALLOWED_METHOD_ACCESS_NAME_HERE]</access>
+        <access>[PUT_ALLOWED_METHOD_ACCESS_NAME_HERE]</access>
     </role>
      <role name="[PUT_ROLE_HERE]">
-        <access>[PUT_ALLOWED_URL_HERE]</access>
-        <access>[PUT_ALLOWED_URL_HERE]</access>
-         <access>[PUT_ALLOWED_URL_HERE]</access>
+        <access>[PUT_ALLOWED_METHOD_ACCESS_NAME_HERE]</access>
+        <access>[PUT_ALLOWED_METHOD_ACCESS_NAME_HERE]</access>
+        <access>[PUT_ALLOWED_METHOD_ACCESS_NAME_HERE]</access>
     </role>
 </config>
 -->
 
 <config>
     <role name="client">
-        <access>CLIENT_ROLE</access>
+        <access>/products/all</access>
+    </role>
+    <role name="employee">
+        <access>/products/all</access>
     </role>
     <role name="admin">
-        <access>ADMIN_ROLE</access>
-        <access>/user/all</access>
-        <access>/user/patch</access>
-        <access>/user/delete</access>
-        <access>/user/post</access>
+<!--        Shoud be able to access all application endpoints-->
+        <access>user/all</access>
+        <access>user/single</access>
+        <access>user/patch</access>
+        <access>user/delete</access>
+        <access>user/post</access>
+
+        <access>batch/all</access>
+        <access>batch/single</access>
+        <access>batch/patch</access>
+        <access>batch/delete</access>
+        <access>batch/post</access>
+
+        <access>address/all</access>
+        <access>address/single</access>
+        <access>address/patch</access>
+        <access>address/delete</access>
+        <access>address/post</access>
+
+        <access>category/all</access>
+        <access>category/single</access>
+        <access>category/patch</access>
+        <access>category/delete</access>
+        <access>category/post</access>
+
+        <access>order/all</access>
+        <access>order/single</access>
+        <access>order/patch</access>
+        <access>order/delete</access>
+        <access>order/post</access>
+
+        <access>orderItem/all</access>
+        <access>orderItem/single</access>
+        <access>orderItem/patch</access>
+        <access>orderItem/delete</access>
+        <access>orderItem/post</access>
+
+        <access>picture/single</access>
+        <access>picture/patch</access>
+        <access>picture/delete</access>
+        <access>picture/post</access>
+
+        <access>post/all</access>
+        <access>post/single</access>
+        <access>post/patch</access>
+        <access>post/delete</access>
+        <access>post/post</access>
+
+        <access>product/all</access>
+        <access>product/single</access>
+        <access>product/patch</access>
+        <access>product/delete</access>
+        <access>product/post</access>
+
+        <access>rating/all</access>
+        <access>rating/single</access>
+        <access>rating/patch</access>
+        <access>rating/delete</access>
+        <access>rating/post</access>
+
+        <access>section/all</access>
+        <access>section/single</access>
+        <access>section/patch</access>
+        <access>section/delete</access>
+        <access>section/post</access>
+
+        <access>topic/all</access>
+        <access>topic/single</access>
+        <access>topic/patch</access>
+        <access>topic/delete</access>
+        <access>topic/post</access>
+
+        <access>user/all</access>
+        <access>user/single</access>
+        <access>user/patch</access>
+        <access>user/delete</access>
+        <access>user/post</access>
     </role>
 </config>

@@ -21,7 +21,7 @@ public class UserController
 
     protected UserController(final UserService userService, final ModelPatchService modelPatchService)
     {
-        super(userService, "/user");
+        super(userService, "user");
         this.userService = userService;
         this.modelPatchService = modelPatchService;
     }
@@ -33,17 +33,4 @@ public class UserController
         dto.add(linkTo(methodOn(UserController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(UserController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
     }
-
-    @GetMapping("/test")
-    public String getTest()
-    {
-        return "message";
-    }
-
-    @GetMapping("/testSec")
-    public String getTestSecure()
-    {
-        return "Secure message";
-    }
-
 }

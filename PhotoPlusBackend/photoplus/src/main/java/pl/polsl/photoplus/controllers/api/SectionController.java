@@ -13,7 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class SectionController extends BaseModelController<SectionModelDto> {
 
     public SectionController(final SectionService dtoService) {
-        super(dtoService, "/rating");
+        super(dtoService, "section");
     }
 
     @Override
