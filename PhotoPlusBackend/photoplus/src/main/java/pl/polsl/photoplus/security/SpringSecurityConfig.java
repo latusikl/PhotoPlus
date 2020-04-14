@@ -12,6 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.polsl.photoplus.components.ModelPropertiesService;
 import pl.polsl.photoplus.repositories.UserRepository;
 import pl.polsl.photoplus.security.custom.CustomBasicAuthenticationFilter;
@@ -19,6 +22,8 @@ import pl.polsl.photoplus.security.custom.CustomLogoutHandler;
 import pl.polsl.photoplus.security.custom.CustomUsernamePasswordAuthenticationFilter;
 import pl.polsl.photoplus.security.services.TokenHoldingService;
 import pl.polsl.photoplus.security.services.UserDetailsServiceImpl;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -54,7 +59,9 @@ public class SpringSecurityConfig
     @Override
     protected void configure(final HttpSecurity http) throws Exception
     {
-        http.csrf()
+        http.cors()
+                .and()
+                .csrf()
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -62,8 +69,6 @@ public class SpringSecurityConfig
                 .addFilter(new CustomUsernamePasswordAuthenticationFilter(objectMapper, modelPropertiesService, tokenHoldingService, authenticationManager()))
                 .addFilter(new CustomBasicAuthenticationFilter(authenticationManager(), userRepository, modelPropertiesService, tokenHoldingService))
                 .authorizeRequests()
-                .antMatchers("/user/test")
-                .permitAll()
                 .antMatchers("/login")
                 .permitAll()
                 .antMatchers("/logout")
@@ -80,6 +85,19 @@ public class SpringSecurityConfig
     PasswordEncoder encoder()
     {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource()
+    {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

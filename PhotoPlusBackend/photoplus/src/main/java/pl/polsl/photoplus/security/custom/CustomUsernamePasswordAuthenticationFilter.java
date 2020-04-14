@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,8 +66,11 @@ public class CustomUsernamePasswordAuthenticationFilter
                                                                                                                                                                             ServletException
     {
         final User user = (User)authResult.getPrincipal();
-        final String token = createTokenAndAddToTokenHolder(user.getLogin());
-        response.addHeader(modelPropertiesService.securityHeaderName, modelPropertiesService.securityTokenPrefix + token);
+        final Pair<String,Date> tokenPair = createTokenAndAddToTokenHolder(user.getLogin());
+        response.addHeader("Access-Control-Expose-Headers", "Authorization");
+        response.addHeader(modelPropertiesService.securityHeaderName, modelPropertiesService.securityTokenPrefix + tokenPair
+                .getFirst());
+        response.addHeader("Expires", tokenPair.getSecond().toString());
     }
 
     private Map<String,String> readCredentials(final InputStream inputStream) throws IOException
@@ -77,7 +81,7 @@ public class CustomUsernamePasswordAuthenticationFilter
         return Map.of("login", login, "password", password);
     }
 
-    private String createTokenAndAddToTokenHolder(final String login)
+    private Pair<String,Date> createTokenAndAddToTokenHolder(final String login)
     {
         final Date expirationDate = new Date(System.currentTimeMillis() + modelPropertiesService.securityExpiration);
         final String token = JWT.create()
@@ -85,7 +89,7 @@ public class CustomUsernamePasswordAuthenticationFilter
                 .withExpiresAt(expirationDate)
                 .sign(Algorithm.HMAC256(modelPropertiesService.securitySecret.getBytes()));
         addTokenToTokenHolder(token, expirationDate);
-        return token;
+        return Pair.of(token, expirationDate);
     }
 
     private void addTokenToTokenHolder(final String token, final Date expirationDate)
