@@ -15,7 +15,7 @@ public class TopicController extends BaseModelController<TopicModelDto> {
     private final String SECTION_RELATION_NAME = "section";
 
     public TopicController(final TopicService dtoService) {
-        super(dtoService);
+        super(dtoService, "topic");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ProductController
 
     public ProductController(final ProductService dtoService)
     {
-        super(dtoService);
+        super(dtoService, "product");
     }
 
     @Override

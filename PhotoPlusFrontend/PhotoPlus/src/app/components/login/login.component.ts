@@ -1,35 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { User } from '../../models/user/user';
-import { UserService } from "../../services/user/user.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LoginService} from "../../services/login.service";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  submitted: boolean;
+    loginForm: FormGroup;
+    submitted: boolean;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+    constructor(private formBuilder: FormBuilder, private loginService: LoginService) {
 
-  }
-
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-    login: ['',[Validators.required]],
-    password: ['', [ Validators.required ]]
-   });
-  }
-
-  get f() { return this.loginForm.controls; }
-
-  onSubmit(){
-    this.submitted = true;
-    if(this.loginForm.invalid){
-      return;
     }
-  }
+
+    ngOnInit(): void {
+        this.loginForm = this.formBuilder.group({
+            login: ['', [Validators.required]],
+            password: ['', [Validators.required]]
+        });
+    }
+
+    get f() {
+        return this.loginForm.controls;
+    }
+
+    onSubmit() {
+        this.submitted = true;
+        if (this.loginForm.invalid) {
+            return;
+        }
+        const login = this.loginForm.get('login').value;
+        const password = this.loginForm.get('password').value;
+        this.loginService.login(login, password);
+
+
+    }
 }

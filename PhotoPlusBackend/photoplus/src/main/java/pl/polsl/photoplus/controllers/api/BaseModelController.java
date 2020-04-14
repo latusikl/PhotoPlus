@@ -1,9 +1,10 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +28,6 @@ import java.util.List;
  * @see ModelService
  */
 @Validated
-@CrossOrigin("http://localhost:4200")
 public abstract class BaseModelController<T extends AbstractModelDto>
 {
     protected String DELETE_RELATION_NAME = "delete";
@@ -36,10 +36,12 @@ public abstract class BaseModelController<T extends AbstractModelDto>
      * Service needs to be injected manually by calling super class constructor
      */
     private ModelService<T> dtoService;
+    protected final String authorizationPrefix;
 
-    public BaseModelController(final ModelService dtoService)
+    public BaseModelController(final ModelService dtoService, final String authorizationPrefix)
     {
         this.dtoService = dtoService;
+        this.authorizationPrefix = authorizationPrefix;
     }
 
     /**
@@ -54,6 +56,7 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     }
 
     @GetMapping(path = "all/{page}", produces = {"application/hal+json"})
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
         final List<T> dtos = dtoService.getPageFromAll(page);
@@ -62,14 +65,17 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     }
 
     @GetMapping(path = "all", produces = {"application/hal+json"})
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
     public ResponseEntity<List<T>> getAll()
     {
         final List<T> dtos = dtoService.getAll();
         addLinks(dtos);
+
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{code}", produces = {"application/hal+json"})
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/single' )")
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
         final T dto = dtoService.getSingleObject(code);
@@ -78,20 +84,28 @@ public abstract class BaseModelController<T extends AbstractModelDto>
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/post' )")
     public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }
 
     @DeleteMapping("/delete/{code}")
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/delete' )")
     public ResponseEntity delete(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
     }
 
     @PatchMapping("/{code}")
+    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/patch' )")
     public ResponseEntity patch(@RequestBody final T dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
+    }
+
+    public String getAuthorizationPrefix()
+    {
+        return authorizationPrefix;
     }
 }

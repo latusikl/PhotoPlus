@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.UserModelDto;
@@ -20,7 +21,7 @@ public class UserController
 
     protected UserController(final UserService userService, final ModelPatchService modelPatchService)
     {
-        super(userService);
+        super(userService, "user");
         this.userService = userService;
         this.modelPatchService = modelPatchService;
     }

@@ -17,7 +17,7 @@ public class AddressController
 
     AddressController(final AddressService addressService)
     {
-        super(addressService);
+        super(addressService, "address");
         this.addressService=addressService;
     }
 

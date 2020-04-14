@@ -17,4 +17,12 @@ public class ModelPropertiesService
 {
     public Integer pageSize;
 
+    public String securitySecret;
+
+    public Integer securityExpiration;
+
+    public String securityHeaderName;
+
+    public String securityTokenPrefix;
+
 }
