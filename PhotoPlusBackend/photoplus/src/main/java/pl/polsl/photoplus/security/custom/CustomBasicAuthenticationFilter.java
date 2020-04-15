@@ -38,9 +38,8 @@ public class CustomBasicAuthenticationFilter
     }
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws
-                                                                                                                                   IOException,
-                                                                                                                                   ServletException
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                    final FilterChain chain) throws IOException, ServletException
     {
         final String header = request.getHeader(modelPropertiesService.securityHeaderName);
 

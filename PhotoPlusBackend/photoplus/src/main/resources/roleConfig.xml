@@ -25,7 +25,7 @@ Proper file format example:
         <access>/products/all</access>
     </role>
     <role name="admin">
-<!--        Shoud be able to access all application endpoints-->
+<!--        Should be able to access all application endpoints-->
         <access>user/all</access>
         <access>user/single</access>
         <access>user/patch</access>
@@ -78,6 +78,10 @@ Proper file format example:
         <access>product/patch</access>
         <access>product/delete</access>
         <access>product/post</access>
+
+        <access>picture/patch</access>
+        <access>picture/delete</access>
+        <access>picture/post</access>
 
         <access>rating/all</access>
         <access>rating/single</access>
