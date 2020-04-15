@@ -15,7 +15,7 @@ public class UserController extends BaseModelController<UserModelDto>
     private final AddressService addressService;
     private final static String ADDRESS_RELATION_NAME = "address";
 
-    protected UserController(final UserService userService, final AddressService addressService)
+    public UserController(final UserService userService, final AddressService addressService)
     {
         super(userService, "user");
         this.addressService = addressService;
