@@ -22,7 +22,6 @@ public class PictureController {
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-    @PreAuthorize("hasAuthority('picture/single')")
     public ResponseEntity<Resource> getSingle(@PathVariable("name") final String name) {
         final Resource resource = pictureService.getImage(name);
         return new ResponseEntity<>(resource, HttpStatus.OK);
