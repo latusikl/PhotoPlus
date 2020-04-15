@@ -102,7 +102,6 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     @Override
     public HttpStatus delete(final String code)
     {
-
         entityRepository.delete(findByCodeOrThrowError(code, "DELETE"));
         return HttpStatus.NO_CONTENT;
     }
