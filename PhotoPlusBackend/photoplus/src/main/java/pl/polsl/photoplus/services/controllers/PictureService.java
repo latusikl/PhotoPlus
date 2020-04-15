@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class PictureService {
 
     private final ResourceLoader resourceLoader;
-    private final String IMG_PATH = "images";
+    private final String IMG_PATH = "src/main/resources/images";
 
     public PictureService(final ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
