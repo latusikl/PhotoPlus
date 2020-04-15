@@ -20,10 +20,11 @@ public enum UserRole
     public static UserRole getUserRoleFromString(final String name) throws EnumValueException
     {
         if (name != null) {
-            Arrays.stream(UserRole.values())
-                    .filter(userRole -> userRole.getValue().equals(name))
+            final UserRole role = Arrays.stream(UserRole.values())
+                    .filter(userRole -> userRole.getValue().equalsIgnoreCase(name))
                     .findFirst()
-                    .orElseThrow(() -> new EnumValueException("Unable to find role for given type", UserRole.class.getSimpleName()));
+                    .orElseThrow(() -> new EnumValueException("Unable to find role: " + name, UserRole.class.getSimpleName()));
+            return role;
         }
         throw new EnumValueException("Unable to find role for given type", UserRole.class.getSimpleName());
     }

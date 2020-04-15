@@ -9,16 +9,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/address")
-public class AddressController
-        extends  BaseModelController<AddressModelDto>
+public class AddressController extends  BaseModelController<AddressModelDto>
 {
-    AddressService addressService;
-    String OWNER_RELATION_NAME = "owner";
+    private final String OWNER_RELATION_NAME = "owner";
 
-    AddressController(final AddressService addressService)
+    public AddressController(final AddressService addressService)
     {
         super(addressService, "address");
-        this.addressService=addressService;
     }
 
     @Override

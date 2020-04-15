@@ -1,6 +1,5 @@
 package pl.polsl.photoplus.model.enums;
 
-import pl.polsl.photoplus.model.entities.Order;
 import pl.polsl.photoplus.model.exceptions.EnumValueException;
 
 import java.util.Arrays;
@@ -15,6 +14,6 @@ public enum OrderStatus {
                     .findFirst()
                     .orElseThrow(() -> new EnumValueException("Unknown OrderStatus value: " + name, OrderStatus.class.getSimpleName()));
         }
-        return null;
+        throw new EnumValueException("Unknown OrderStatus value.", OrderStatus.class.getSimpleName());
     }
 }
