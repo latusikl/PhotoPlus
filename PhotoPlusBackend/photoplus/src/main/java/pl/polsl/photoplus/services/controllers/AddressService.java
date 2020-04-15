@@ -14,14 +14,11 @@ import java.util.function.Function;
 public class AddressService
         extends AbstractModelService<Address,AddressModelDto,AddressRepository>
 {
-    private final AddressRepository addressRepository;
-
     private final UserService userService;
 
     public AddressService(final AddressRepository addressRepository, final UserService userService)
     {
         super(addressRepository);
-        this.addressRepository = addressRepository;
         this.userService = userService;
     }
 
@@ -48,14 +45,19 @@ public class AddressService
     @Override
     public HttpStatus save(final List<AddressModelDto> dto)
     {
-        final Function<AddressModelDto,Address> insertUserDepedencyAndParseToModel = addressModelDto -> {
+        final Function<AddressModelDto,Address> insertUserDependencyAndParseToModel = addressModelDto -> {
             final User userToInsert = userService.findByCodeOrThrowError(addressModelDto.getUserCode(), "SAVE ADDRESS");
             final Address addressToAdd = getModelFromDto(addressModelDto);
             addressToAdd.setAddressOwner(userToInsert);
             return addressToAdd;
         };
 
-        dto.stream().map(insertUserDepedencyAndParseToModel).forEach(addressRepository::save);
+        dto.stream().map(insertUserDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.OK;
+    }
+
+    public List<AddressModelDto> getUserAddresses(final String userCode)
+    {
+        return getDtoListFromModels(this.entityRepository.getAllByAddressOwner_Code(userCode));
     }
 }
