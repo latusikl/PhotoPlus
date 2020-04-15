@@ -14,6 +14,6 @@ public enum PaymentMethod {
                     .findFirst()
                     .orElseThrow(() -> new EnumValueException("Unknown PaymentMethod value: " + name, PaymentMethod.class.getSimpleName()));
         }
-        return null;
+        throw new EnumValueException("Unknown PaymentMethod value.", PaymentMethod.class.getSimpleName());
     }
 }
