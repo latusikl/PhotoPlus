@@ -1,6 +1,5 @@
 package pl.polsl.photoplus.controllers.api;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
+import pl.polsl.photoplus.services.controllers.AbstractModelService;
 import pl.polsl.photoplus.services.controllers.ModelService;
 
 import javax.validation.Valid;
@@ -28,17 +28,18 @@ import java.util.List;
  * @see ModelService
  */
 @Validated
-public abstract class BaseModelController<T extends AbstractModelDto>
+public abstract class BaseModelController<T extends AbstractModelDto, S extends AbstractModelService<?,T,?>>
 {
+    protected final String authorizationPrefix;
+
     protected String DELETE_RELATION_NAME = "delete";
 
     /**
      * Service needs to be injected manually by calling super class constructor
      */
-    private ModelService<T> dtoService;
-    protected final String authorizationPrefix;
+    protected S dtoService;
 
-    public BaseModelController(final ModelService dtoService, final String authorizationPrefix)
+    public BaseModelController(final S dtoService, final String authorizationPrefix)
     {
         this.dtoService = dtoService;
         this.authorizationPrefix = authorizationPrefix;

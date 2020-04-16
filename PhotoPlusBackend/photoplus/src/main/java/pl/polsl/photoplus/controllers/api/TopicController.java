@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/topic")
-public class TopicController extends BaseModelController<TopicModelDto> {
+public class TopicController extends BaseModelController<TopicModelDto,TopicService> {
 
     private final String SECTION_RELATION_NAME = "section";
 

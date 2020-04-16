@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/batch")
-public class BatchController extends BaseModelController<BatchModelDto> {
+public class BatchController extends BaseModelController<BatchModelDto,BatchService> {
 
     private final String PRODUCT_RELATION_NAME = "product";
 

@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/order")
-public class OrderController extends BaseModelController<OrderModelDto> {
+public class OrderController extends BaseModelController<OrderModelDto,OrderService> {
 
     private final String CUSTOMER_RELATION_NAME = "customer";
 

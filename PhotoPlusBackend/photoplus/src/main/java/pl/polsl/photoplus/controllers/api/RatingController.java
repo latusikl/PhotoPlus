@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/rating")
-public class RatingController extends BaseModelController<RatingModelDto> {
+public class RatingController extends BaseModelController<RatingModelDto,RatingService> {
 
     private final String PRODUCT_RELATION_NAME = "product";
     private final String CUSTOMER_RELATION_NAME = "customer";

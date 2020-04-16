@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseModelController<UserModelDto>
+public class UserController extends BaseModelController<UserModelDto,UserService>
 {
     private final AddressService addressService;
     private final static String ADDRESS_RELATION_NAME = "address";

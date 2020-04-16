@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/category")
-public class CategoryController extends BaseModelController<CategoryModelDto> {
+public class CategoryController extends BaseModelController<CategoryModelDto,CategoryService> {
 
     public CategoryController(final CategoryService dtoService) {
         super(dtoService, "category");

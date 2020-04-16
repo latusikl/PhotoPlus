@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @RestController
 @RequestMapping("/product")
 public class ProductController
-        extends BaseModelController<ProductModelDto>
+        extends BaseModelController<ProductModelDto,ProductService>
 {
 
     private static final String CATEGORY_RELATION_NAME = "category";

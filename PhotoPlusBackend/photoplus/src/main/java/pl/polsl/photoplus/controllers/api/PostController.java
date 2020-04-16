@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/post")
 @RestController
-public class PostController extends BaseModelController<PostModelDto> {
+public class PostController extends BaseModelController<PostModelDto,PostService> {
 
     private final String TOPIC_RELATION_NAME = "topic";
 

@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/section")
-public class SectionController extends BaseModelController<SectionModelDto> {
+public class SectionController extends BaseModelController<SectionModelDto,SectionService> {
 
     public SectionController(final SectionService dtoService) {
         super(dtoService, "section");
