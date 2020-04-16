@@ -1,5 +1,11 @@
-.main-div mat-card {
-  padding: 0px;
+
+.main-div {
+  height: 100%;
+  min-height: 500px;
+
+  mat-card {
+    padding: 0px;
+  }
 }
 
 .login-form {
@@ -13,3 +19,6 @@
 .form-button {
   margin-top: 10px;
 }
+
+
+

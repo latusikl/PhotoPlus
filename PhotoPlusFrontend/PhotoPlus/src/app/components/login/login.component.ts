@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
             login: ['', [Validators.required, Validators.minLength(5)]],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            password: ['', [Validators.required, Validators.minLength(5)]]
         });
     }
 
@@ -36,7 +36,5 @@ export class LoginComponent implements OnInit {
         const login = this.loginForm.get('login').value;
         const password = this.loginForm.get('password').value;
         this.loginService.login(login, password);
-
-
     }
 }
