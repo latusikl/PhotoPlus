@@ -18,15 +18,15 @@ import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {FlexLayoutModule} from '@angular/flex-layout';
-
-
+import {NavbarComponent} from './components/navbar/navbar.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         RegistrationComponent,
-        LoginComponent
+        LoginComponent,
+        NavbarComponent
     ],
     imports: [
         BrowserModule,
