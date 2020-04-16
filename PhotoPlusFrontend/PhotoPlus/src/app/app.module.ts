@@ -11,6 +11,15 @@ import {LoginComponent} from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthInterceptor} from "./auth-interceptor";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {FlexLayoutModule} from '@angular/flex-layout';
+
+
 
 @NgModule({
     declarations: [
@@ -25,7 +34,14 @@ import {AuthInterceptor} from "./auth-interceptor";
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgbModule
+        NgbModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatIconModule,
+        FlexLayoutModule
     ],
     providers: [
         {

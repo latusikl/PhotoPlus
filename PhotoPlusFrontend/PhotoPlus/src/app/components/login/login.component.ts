@@ -9,6 +9,7 @@ import {LoginService} from "../../services/login.service";
 })
 export class LoginComponent implements OnInit {
 
+    hide = true;
     loginForm: FormGroup;
     submitted: boolean;
 
@@ -18,8 +19,8 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.loginForm = this.formBuilder.group({
-            login: ['', [Validators.required]],
-            password: ['', [Validators.required]]
+            login: ['', [Validators.required, Validators.minLength(5)]],
+            password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
 

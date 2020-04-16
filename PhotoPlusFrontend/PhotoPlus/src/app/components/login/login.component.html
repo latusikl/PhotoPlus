@@ -1,22 +1,26 @@
-<div class="container col-4">
-    <h1>Login Form</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="login">Login</label>
-            <input formControlName="login" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
-            <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
-              <div *ngIf="f.login.errors.required">Login is required</div>
-              <div *ngIf="f.login.errors.minlength">Login must be at least 5 characters</div>
-            </div>
-        </div>
-        <div class="form-group">
-          <label for="pass">Password</label>
-          <input formControlName="password" type="password" class="form-control" id="pass" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-success btn-block">Login</button>
+<div class="main-div" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card fxFlex="25">
+    <mat-toolbar class="toolbar" color="primary"> Hello! </mat-toolbar>
+    <form class="login-form" fxLayoutAlign="stretch" fxLayout="column" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label >Login</mat-label>
+        <input matInput formControlName="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
+        <mat-icon matSuffix> perm_identity </mat-icon>
+          <mat-error *ngIf="f.login.errors.required">Login is required.</mat-error>
+          <mat-error *ngIf="f.login.errors.minlength">Login must be at least 5 characters</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon class="icon-display"> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
+        </button>
+        <mat-error *ngIf="f.password.errors.required">Password is required.</mat-error>
+        <mat-error *ngIf="f.password.errors.minlength">Password must be at least 6 characters</mat-error>
+      </mat-form-field>
+
+      <button class="form-button" mat-raised-button type="submit">Login</button>
     </form>
+  </mat-card>
 </div>

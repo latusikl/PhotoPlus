@@ -1,8 +1,15 @@
-
-.optional{
-    color:red;
+.main-div mat-card {
+  padding: 0px;
 }
 
-.container {
-  margin-top: 1em;
+.login-form {
+  padding:25px;
+}
+
+.icon-display {
+  transform: scale(1.4);
+}
+
+.form-button {
+  margin-top: 10px;
 }
