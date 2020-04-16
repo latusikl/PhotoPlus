@@ -50,4 +50,9 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         dtoSet.stream().map(insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
         return HttpStatus.CREATED;
     }
+
+    public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
+    {
+        return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+    }
 }
