@@ -23,7 +23,7 @@
             <ngb-highlight [result]="item[0].name"></ngb-highlight>
           </td>
           <td class="align-middle">
-            <ngb-highlight [result]="item[0].price"></ngb-highlight>
+            <b>${{ item[0].price }}</b>
           </td>
           <td class="picker">
               <ng-number-picker (valueChange)="onValueChange($event, item)" buttonsOrientation="h" [(value)]="item[1]"></ng-number-picker>
@@ -34,7 +34,7 @@
         </tr>
         </tbody>
       </table>
-      <h5 class="header">Total: $ {{ price }}</h5>
+      <h5 class="header">Total: ${{ price }}</h5>
       <button class="btn btn-success" href="#" id="cart-link">Buy now</button>
     </div>
 
