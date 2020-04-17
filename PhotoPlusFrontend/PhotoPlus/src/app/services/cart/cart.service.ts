@@ -5,11 +5,26 @@ import { Product } from 'src/app/models/product/product';
   providedIn: 'root'
 })
 export class CartService {
+
   //items with quantity
   items: [Product, number][];
+  price: number;
 
   constructor() {
     this.items = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+    this.calculatePrice();
+  }
+
+  calculatePrice() {
+    this.price = 0;
+    this.items.forEach(element => {
+      this.price += (element[0].price * element[1]);
+    });
+  }
+
+  changeQuantity(value: number, item: [Product, number]) {
+    item[1] = value;
+    this.save();
   }
 
   addToCart(product: Product) {
@@ -34,6 +49,10 @@ export class CartService {
     return this.items;
   }
 
+  getSummaryPrice() {
+    return this.price;
+  }
+
   clearCart() {
     this.items = new Array<[Product, number]>();
     this.save();
@@ -41,6 +60,7 @@ export class CartService {
 
   save() {
     localStorage.setItem('items', JSON.stringify(this.items));
+    this.calculatePrice();
   }
 
 

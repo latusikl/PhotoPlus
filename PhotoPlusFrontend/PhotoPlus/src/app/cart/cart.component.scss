@@ -32,3 +32,9 @@ table tr td:first-child::before {
   font-weight: bold;
   font-size: 1.8rem;
 }
+
+.btn {
+  margin: 0 auto;
+  padding: 10px;
+  display: flex;
+}

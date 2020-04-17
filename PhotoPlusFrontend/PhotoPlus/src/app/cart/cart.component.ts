@@ -10,12 +10,14 @@ import { Product } from '../models/product/product';
 export class CartComponent implements OnInit {
 
   items: [Product, number][];
+  price: number;
 
   constructor(private cartService: CartService ) {
   }
 
   ngOnInit(): void {
     this.items = this.cartService.getItems();
+    this.price = this.cartService.getSummaryPrice();
   }
 
   removeItem(item: [Product, number]) {
@@ -23,8 +25,7 @@ export class CartComponent implements OnInit {
   }
 
   onValueChange(value: number, item: [Product, number]) {
-    item[1] = value;
-    this.cartService.save();
+    this.cartService.changeQuantity(value, item);
   }
 
 }
