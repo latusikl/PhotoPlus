@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product } from 'src/app/models/product/product';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +9,20 @@ export class CartService {
 
   //items with quantity
   items: [Product, number][];
-  price: number;
+  private price: BehaviorSubject<number>;
 
   constructor() {
     this.items = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+    this.price = new BehaviorSubject<number>(0);
     this.calculatePrice();
   }
 
   calculatePrice() {
-    this.price = 0;
+    let sum = 0;
     this.items.forEach(element => {
-      this.price += (element[0].price * element[1]);
+      sum += (element[0].price * element[1]);
     });
+    this.price.next(sum);
   }
 
   changeQuantity(value: number, item: [Product, number]) {
@@ -49,8 +52,8 @@ export class CartService {
     return this.items;
   }
 
-  getSummaryPrice() {
-    return this.price;
+  getSummaryPrice(): Observable<number> {
+    return this.price.asObservable();
   }
 
   clearCart() {
@@ -62,6 +65,5 @@ export class CartService {
     localStorage.setItem('items', JSON.stringify(this.items));
     this.calculatePrice();
   }
-
 
 }

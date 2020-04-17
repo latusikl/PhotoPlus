@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart/cart.service';
 import { Product } from '../models/product/product';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -13,11 +14,11 @@ export class CartComponent implements OnInit {
   price: number;
 
   constructor(private cartService: CartService ) {
+    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
   ngOnInit(): void {
     this.items = this.cartService.getItems();
-    this.price = this.cartService.getSummaryPrice();
   }
 
   removeItem(item: [Product, number]) {
