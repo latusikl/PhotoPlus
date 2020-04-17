@@ -23,10 +23,6 @@ table tr {
   }
 }
 
-td {
-  white-space:nowrap;
-}
-
 table tr td:first-child::before {
     content: counter(row-num) ". ";
 }
