@@ -11,7 +11,8 @@ export class CartComponent implements OnInit {
 
   items: [Product, number][];
 
-  constructor(private cartService: CartService ) {}
+  constructor(private cartService: CartService ) {
+  }
 
   ngOnInit(): void {
     this.items = this.cartService.getItems();
@@ -19,6 +20,11 @@ export class CartComponent implements OnInit {
 
   removeItem(item: [Product, number]) {
     this.cartService.deleteFromCart(item[0]);
+  }
+
+  onValueChange(value: number, item: [Product, number]) {
+    item[1] = value;
+    this.cartService.save();
   }
 
 }

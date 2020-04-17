@@ -27,7 +27,7 @@
             <ngb-highlight [result]="item[0].price"></ngb-highlight>
           </td>
           <td class="picker">
-              <ng-number-picker buttonsOrientation="h" [(value)]="item[1]"></ng-number-picker>
+              <ng-number-picker (valueChange)="onValueChange($event, item)" buttonsOrientation="h" [(value)]="item[1]"></ng-number-picker>
           </td>
           <td class="align-middle">
             <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
@@ -36,5 +36,6 @@
         </tbody>
       </table>
     </div>
+    
   </div>
 </div>
