@@ -27,14 +27,23 @@ table tr td:first-child::before {
     content: counter(row-num) ". ";
 }
 
-.picker {
-  max-width: 96px;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+input[type=number] {
   text-align: center;
+  font-size: 18px;
 }
 
 .row-number {
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+#price {
+  font-size: 18px;
 }
 
 #checkout {
