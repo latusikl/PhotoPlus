@@ -1,1 +1,40 @@
-<p>cart works!</p>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="header">Your shopping card:</h5>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" name="image">Price</th>
+          <th scope="col" name="name" >Name</th>
+          <th scope="col" name="price">Price</th>
+          <th scope="col" name="quantity">Quantity</th>
+          <th scope="col" name="remove"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of items">
+          <td></td>
+          <td>
+            <img class="image" [src]="item[0].imagesUrl[0]">
+          </td>
+          <td>
+            <ngb-highlight [result]="item[0].name"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="item[0].price"></ngb-highlight>
+          </td>
+          <td>
+            <input type="number" value="{{item[1]}}" min="0" max="10" step="1"/>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">Remove</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

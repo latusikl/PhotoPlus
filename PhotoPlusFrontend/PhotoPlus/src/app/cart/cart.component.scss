@@ -1,0 +1,19 @@
+.image{
+  height: 5rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+table {
+  counter-reset: no -1;
+  text-align: center;
+  margin-top: 25px;
+}
+
+table tr {
+  counter-increment: row-num;
+}
+table tr td:first-child::before {
+    content: counter(row-num) ". ";
+}
+
