@@ -5,23 +5,23 @@
         <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col" name="image"></th>
+          <th scope="col" name="image" class="d-none d-lg-table-cell"></th>
           <th scope="col" name="name" >Name</th>
-          <th scope="col" name="price">Price</th>
+          <th scope="col" name="price" class="d-none d-lg-table-cell">Price</th>
           <th scope="col" name="quantity">Quantity</th>
-          <th scope="col" name="remove">Remove from card</th>
+          <th scope="col" name="remove">Remove from cart</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of items">
           <td class="align-middle row-number"></td>
-          <td class="align-middle">
+          <td class="align-middle" class="d-none d-lg-table-cell">
             <img class="image" [src]="item[0].imagesUrl[0]">
           </td>
           <td class="align-middle">
             <a id="product-name">{{ item[0].name }}</a>
           </td>
-          <td class="align-middle">
+          <td class="align-middle d-none d-lg-table-cell">
             <b>${{ item[0].price }}</b>
           </td>
           <td class="picker">
