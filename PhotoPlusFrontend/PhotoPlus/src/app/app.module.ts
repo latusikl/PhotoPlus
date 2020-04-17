@@ -12,6 +12,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthInterceptor} from "./auth-interceptor";
 import {CartComponent} from './cart/cart.component';
+import {NumberPickerModule} from 'ng-number-picker';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import {CartComponent} from './cart/cart.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
-        NgbModule
+        NgbModule,
+        NumberPickerModule
     ],
     providers: [
         {

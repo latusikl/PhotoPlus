@@ -13,7 +13,22 @@ table {
 table tr {
   counter-increment: row-num;
 }
+
 table tr td:first-child::before {
     content: counter(row-num) ". ";
 }
 
+.picker {
+  max-width: 96px;
+  text-align: center;
+}
+
+.row-number {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 1.8rem;
+}

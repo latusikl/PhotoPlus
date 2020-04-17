@@ -11,26 +11,26 @@
           <th scope="col" name="name" >Name</th>
           <th scope="col" name="price">Price</th>
           <th scope="col" name="quantity">Quantity</th>
-          <th scope="col" name="remove"></th>
+          <th scope="col" name="remove">Remove from card</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of items">
-          <td></td>
-          <td>
+          <td class="align-middle row-number"></td>
+          <td class="align-middle">
             <img class="image" [src]="item[0].imagesUrl[0]">
           </td>
-          <td>
+          <td class="align-middle">
             <ngb-highlight [result]="item[0].name"></ngb-highlight>
           </td>
-          <td>
+          <td class="align-middle">
             <ngb-highlight [result]="item[0].price"></ngb-highlight>
           </td>
-          <td>
-            <input type="number" value="{{item[1]}}" min="0" max="10" step="1"/>
+          <td class="picker">
+              <ng-number-picker buttonsOrientation="h" [(value)]="item[1]"></ng-number-picker>
           </td>
-          <td>
-            <button type="button" class="btn btn-danger">Remove</button>
+          <td class="align-middle">
+            <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
           </td>
         </tr>
         </tbody>
