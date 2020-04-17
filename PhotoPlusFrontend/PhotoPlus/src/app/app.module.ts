@@ -11,13 +11,15 @@ import {LoginComponent} from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthInterceptor} from "./auth-interceptor";
+import {CartComponent} from './cart/cart.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         RegistrationComponent,
-        LoginComponent
+        LoginComponent,
+        CartComponent
     ],
     imports: [
         BrowserModule,

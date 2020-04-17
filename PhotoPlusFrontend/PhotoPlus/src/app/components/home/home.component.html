@@ -19,7 +19,7 @@
       <p class="card-text">{{ product.description }} </p>
       <p class="price">$<span>{{ product.price }}</span></p>
       <div class ="card-linkBox">
-        <button class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+        <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
         <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
       </div>
     </div>
