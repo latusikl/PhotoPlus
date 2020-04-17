@@ -27,6 +27,7 @@
           </td>
           <td class="picker">
               <ng-number-picker (valueChange)="onValueChange($event, item)" buttonsOrientation="h" [(value)]="item[1]"></ng-number-picker>
+              <input (valueChange)="onValueChange($event, item)" required type="number" [(value)]="item[1]" min="1" max="100"/>
           </td>
           <td class="align-middle d-none d-md-table-cell">
           <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
