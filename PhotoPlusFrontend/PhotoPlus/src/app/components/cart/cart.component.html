@@ -1,7 +1,6 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <h5 class="header">Your shopping card:</h5>
       <table class="table table-striped">
         <thead>
         <tr>
@@ -20,7 +19,7 @@
             <img class="image" [src]="item[0].imagesUrl[0]">
           </td>
           <td class="align-middle">
-            <ngb-highlight [result]="item[0].name"></ngb-highlight>
+            <a id="product-name">{{ item[0].name }}</a>
           </td>
           <td class="align-middle">
             <b>${{ item[0].price }}</b>
