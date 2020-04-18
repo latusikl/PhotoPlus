@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/product/product';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +12,7 @@ export class CartComponent implements OnInit {
   items: [Product, number][];
   price: number;
 
-  constructor(private cartService: CartService ) {
+  constructor(private cartService: CartService,) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
@@ -26,7 +25,11 @@ export class CartComponent implements OnInit {
   }
 
   onValueChange(value: number, item: [Product, number]) {
-    this.cartService.changeQuantity(value, item);
+    if (value > 0 && value < 100 && Number.isInteger(+value)) {
+      this.cartService.changeQuantity(value, item);
+    } else {
+      (document.querySelector("#quantityInput") as HTMLInputElement).value = item[1].toString();
+    }
   }
 
 }
