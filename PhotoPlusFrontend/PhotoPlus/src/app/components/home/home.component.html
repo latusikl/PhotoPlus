@@ -1,6 +1,6 @@
-<div class="flex-container" *ngIf="products">
-  <div class="card" *ngFor="let product of products">
-    <div class="card-body">
+<div class="flex-container fadeInDown" *ngIf="products">
+  <div class="card shadow-border" *ngFor="let product of products">
+    <div class="card-body fadeIn first">
       <ngb-carousel wrap="true" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
         <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
           <div class="picsum-img-wrapper">
@@ -14,11 +14,11 @@
         </div>
       </ng-template>
 
-      <p class="card-title"> {{ product.name }} </p>
-      <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
-      <p class="card-text">{{ product.description }} </p>
-      <p class="price">$<span>{{ product.price }}</span></p>
-      <div class ="card-linkBox">
+      <p class="card-title fadeIn second"> {{ product.name }} </p>
+      <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ product.category }} </p>
+      <p class="card-text fadeIn third">{{ product.description }} </p>
+      <p class="price fadeIn third">$<span>{{ product.price }}</span></p>
+      <div class ="card-linkBox fadeIn fourth">
         <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
         <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
       </div>
