@@ -1,22 +1,33 @@
-<div class="container col-4">
-    <h1>Login Form</h1>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="login">Login</label>
-            <input formControlName="login" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
-            <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
-              <div *ngIf="f.login.errors.required">Login is required</div>
-              <div *ngIf="f.login.errors.minlength">Login must be at least 5 characters</div>
-            </div>
+<div class="wrapper fadeInDown">
+  <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="favicon.ico" id="icon" alt="User Icon" />
+      </div>
+
+      <!-- Login Form -->
+      <div>
+        <input type="text" class="form-control fadeIn second" id="login" name="login" placeholder="login" formControlName="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
+        <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
+          <div *ngIf="f.login.errors.required">Login is required</div>
         </div>
-        <div class="form-group">
-          <label for="pass">Password</label>
-          <input formControlName="password" type="password" class="form-control" id="pass" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Password is required</div>
-            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-          </div>
+
+        <input type="password" id="password" class="form-control fadeIn third"  name="login" placeholder="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
         </div>
-        <button type="submit" class="btn btn-success btn-block">Login</button>
-    </form>
+
+        <input type="submit" class="fadeIn fourth" value="Log In">
+      </div>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+
+    </div>
+  </form>
 </div>
