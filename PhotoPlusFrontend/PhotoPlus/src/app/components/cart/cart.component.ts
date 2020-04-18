@@ -12,7 +12,7 @@ export class CartComponent implements OnInit {
   items: [Product, number][];
   price: number;
 
-  constructor(private cartService: CartService,) {
+  constructor(private cartService: CartService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
