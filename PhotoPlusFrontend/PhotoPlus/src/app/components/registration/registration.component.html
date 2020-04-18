@@ -10,14 +10,14 @@
 
       <!-- Register Form -->
       <div>
-        <input formControlName="logim" type="text" class="form-control fadeIn second" id="login" name="login" placeholder="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
+        <input formControlName="login" type="text" class="form-control fadeIn second" id="login" name="login" placeholder="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
         <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
           <div *ngIf="f.login.errors.required">Login is required</div>
           <div *ngIf="f.login.errors.minlength">Login must be at least 5 characters</div>
         </div>
 
         <div>
-          <input formControlName="email" type="text" class="form-control fadeIn second" id="email" name="email" placeholder="email" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }">
+          <input formControlName="mail" type="text" class="form-control fadeIn second" id="email" name="email" placeholder="email" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }">
           <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
             <div *ngIf="f.mail.errors.required">Email is required</div>
             <div *ngIf="f.mail.errors.email">Email must be a valid email address</div>
