@@ -27,6 +27,10 @@ table tr td:first-child::before {
     content: counter(row-num) ". ";
 }
 
+th {
+  white-space:nowrap;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
