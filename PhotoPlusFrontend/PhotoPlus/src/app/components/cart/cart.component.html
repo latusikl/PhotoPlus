@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col" class="d-none d-lg-table-cell">#</th>
+          <th scope="col" name="image" class="d-none d-lg-table-cell"></th>
+          <th scope="col" name="name" >Name</th>
+          <th scope="col" name="price" class="d-none d-lg-table-cell">Price</th>
+          <th scope="col" name="quantity">Quantity</th>
+          <th scope="col" name="remove" class="d-none d-md-table-cell">Remove from cart</th>
+          <th scope="col" name="remove" class="d-md-none">Remove</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of items">
+          <td class="align-middle row-number d-none d-lg-table-cell"></td>
+          <td class="align-middle d-none d-lg-table-cell">
+            <img class="image" [src]="item[0].imagesUrl[0]">
+          </td>
+          <td class="align-middle">
+            <a id="product-name">{{ item[0].name }}</a>
+          </td>
+          <td class="align-middle d-none d-lg-table-cell">
+            <b id="price">${{ item[0].price }}</b>
+          </td>
+          <td class="align-middle">
+            <input (change)="onValueChange($event.target.value, item)" required type="number" [(value)]="item[1]" min="1" max="100"/>
+          </td>
+          <td class="align-middle d-none d-md-table-cell">
+          <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
+        </td>
+          <td class="align-middle d-md-none">
+            <button type="button" (click)="removeItem(item)" class="btn btn-danger">Rm</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <h1 id="checkout">Total: <b>${{ price }}</b></h1>
+      <button class="btn btn-success" href="#" id="cart-link">Buy now</button>
+    </div>
+
+  </div>
+</div>

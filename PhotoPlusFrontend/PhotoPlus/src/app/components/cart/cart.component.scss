@@ -1,0 +1,65 @@
+.container {
+  margin-top: 1em;
+}
+
+.image{
+  height: 5rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+table {
+  counter-reset: no -1;
+  text-align: center;
+  margin-top: 25px;
+  table-layout:fixed;
+}
+
+table tr {
+  counter-increment: row-num;
+  height: 90px;
+  th {
+    height: 100%;
+  }
+}
+
+table tr td:first-child::before {
+    content: counter(row-num) ". ";
+}
+
+th {
+  white-space:nowrap;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+input[type=number] {
+  text-align: center;
+  font-size: 18px;
+}
+
+.row-number {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#price {
+  font-size: 18px;
+}
+
+#checkout {
+  text-align: center;
+}
+
+#product-name {
+  font-size: 18px;
+}
+
+.btn {
+  margin: 0 auto;
+  padding: 10px;
+  display: flex;
+}
