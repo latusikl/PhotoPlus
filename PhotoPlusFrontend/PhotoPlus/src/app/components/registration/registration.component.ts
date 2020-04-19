@@ -64,7 +64,7 @@ export class RegistrationComponent implements OnInit {
     {
       const errorArray = error.error as Array<ErrorModel>;
       errorArray.forEach(el => {
-            const modalRef = this.modalService.open(ErrorModalComponent);
+        const modalRef = this.modalService.open(ErrorModalComponent);
         modalRef.componentInstance.message = el.message;
         modalRef.componentInstance.title = "Error occured!";
       });
