@@ -1,13 +1,19 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
-import {LoginModel} from "../models/login/login-model.model";
+import {LoginModel} from "../../models/login/login-model.model";
+import {Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModalComponent } from 'src/app/components/error-modal/error-modal.component';
+import { ErrorModel } from 'src/app/models/error/errormodel';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private router: Router,
+      private modalService: NgbModal) {
     }
 
     login(login: string, password: string) {
@@ -17,8 +23,14 @@ export class LoginService {
         this.http.post<HttpResponse<LoginModel>>('http://localhost:8090/login', {
             login: login,
             password: password
-        }, {observe: 'response'}).subscribe(res => this.readTokenFromResponse(res));
-
+        }, {observe: 'response'}).subscribe(res => {
+          this.readTokenFromResponse(res);
+          this.router.navigate(['/']);
+        }, error => {
+            const modalRef = this.modalService.open(ErrorModalComponent);
+            modalRef.componentInstance.message = "Bad login or password. Please try again!";
+            modalRef.componentInstance.title = "Error occured!";
+      });
     }
 
     public logout() {
