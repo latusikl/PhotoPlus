@@ -12,6 +12,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthInterceptor} from "./auth-interceptor";
 import {CartComponent} from './components/cart/cart.component';
+import {ErrorModalComponent} from './components/error-modal/error-modal.component';
+import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,9 @@ import {CartComponent} from './components/cart/cart.component';
         HomeComponent,
         RegistrationComponent,
         LoginComponent,
-        CartComponent
+        CartComponent,
+        ErrorModalComponent,
+        SuccessModalComponent
     ],
     imports: [
         BrowserModule,

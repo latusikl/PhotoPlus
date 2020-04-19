@@ -8,8 +8,10 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
+import pl.polsl.photoplus.annotations.validators.Unique;
 import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
 import pl.polsl.photoplus.model.enums.UserRole;
+import pl.polsl.photoplus.services.controllers.UserService;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,12 +29,14 @@ public class UserModelDto
     @NotBlank(message = "Login is mandatory.")
     @Length(min = 5, message = "Login should be longer than 5 signs.")
     @Patchable
+    @Unique(service = UserService.class, fieldName = "login", fieldNameToBeDisplayed = "Login")
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
     @Patchable
+    @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     private String email;
 
     @JsonProperty("name")
@@ -70,7 +74,7 @@ public class UserModelDto
         this.surname = surname;
         this.password = password;
         this.number = number;
-        this.userRole = userRole;
+        this.userRole = userRole != null ? userRole : "CLIENT";
     }
 }
 

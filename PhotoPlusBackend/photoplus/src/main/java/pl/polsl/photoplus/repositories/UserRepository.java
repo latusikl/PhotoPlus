@@ -10,4 +10,5 @@ public interface UserRepository
         extends EntityRepository<User,Long>
 {
     Optional<User> findUserByLogin(String login);
+    Optional<User> findUserByEmail(String email);
 }

@@ -4,8 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,7 +18,6 @@ import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.security.services.TokenHoldingService;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,10 +44,10 @@ public class CustomUsernamePasswordAuthenticationFilter
         this.authenticationManager = authenticationManager;
     }
 
+    @SneakyThrows(IOException.class)
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) throws
-                                                                                                                      AuthenticationException
-    {
+                                                                                                                      AuthenticationException {
         final Map<String,String> credentials;
         try {
             credentials = readCredentials(request.getInputStream());
@@ -56,14 +57,19 @@ public class CustomUsernamePasswordAuthenticationFilter
         final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credentials
                                                                                                                         .get("login"), credentials
                                                                                                                         .get("password"));
-        final Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        return authentication;
+        try {
+            final Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            return authentication;
+        } catch(final BadCredentialsException e) {
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getOutputStream().println("{ \"error\": \"" + e.getMessage() + "\" }");
+            return null;
+        }
     }
 
     @Override
-    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain, final Authentication authResult) throws
-                                                                                                                                                                            IOException,
-                                                                                                                                                                            ServletException
+    protected void successfulAuthentication(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain, final Authentication authResult)
     {
         final User user = (User)authResult.getPrincipal();
         final Pair<String,Date> tokenPair = createTokenAndAddToTokenHolder(user.getLogin());
@@ -96,4 +102,5 @@ public class CustomUsernamePasswordAuthenticationFilter
     {
         tokenHoldingService.addTokenOnLogin(token, expirationDate);
     }
+
 }

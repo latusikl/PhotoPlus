@@ -8,7 +8,7 @@ import pl.polsl.photoplus.repositories.UserRepository;
 
 @Service
 public class UserService
-        extends AbstractModelService<User,UserModelDto,UserRepository>
+        extends AbstractModelService<User,UserModelDto,UserRepository> implements FieldValueExists
 {
     final UserRepository userRepository;
 
@@ -38,4 +38,13 @@ public class UserService
                 .getPassword(), dtoObject.getNumber(), UserRole.getUserRoleFromString(dtoObject.getUserRole()));
     }
 
+    @Override
+    public boolean fieldValueExists(final String value, final String fieldName) {
+        if (fieldName.equals("email")) {
+            return this.userRepository.findUserByEmail(value).isPresent();
+        } else if (fieldName.equals("login")) {
+            return this.userRepository.findUserByLogin(value).isPresent();
+        }
+        return false;
+    }
 }
