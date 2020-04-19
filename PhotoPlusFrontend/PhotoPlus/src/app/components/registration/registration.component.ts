@@ -3,6 +3,11 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MustMatch } from '../../helpers/must-match';
 import { User } from '../../models/user/user';
 import { UserService } from "../../services/user/user.service";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModel } from 'src/app/models/error/errormodel';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
+
 
 @Component({
   selector: 'app-registration',
@@ -14,7 +19,8 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   submitted: boolean;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService,
+    private modalService: NgbModal) {
 
    }
 
@@ -50,14 +56,19 @@ export class RegistrationComponent implements OnInit {
       number: alias.phoneNumber
     };
 
-    console.log(user);
-    const preparedRequest = this.userService.post(user);
-    console.log(preparedRequest);
-    let responseObject = null
-    preparedRequest.subscribe((x) => responseObject = x);
-    console.log(responseObject);
-
-
+    this.userService.post(user).subscribe(result => {
+      const modalRef = this.modalService.open(SuccessModalComponent);
+      modalRef.componentInstance.message = "Welcome " + user.name + " " + user.surname + "!";
+      modalRef.componentInstance.title = "Registered successfully!";
+    }, error =>
+    {
+      const errorArray = error.error as Array<ErrorModel>;
+      errorArray.forEach(el => {
+            const modalRef = this.modalService.open(ErrorModalComponent);
+        modalRef.componentInstance.message = el.message;
+        modalRef.componentInstance.title = "Error occured!";
+      });
+    });
   }
 
 }
