@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/product/product';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
