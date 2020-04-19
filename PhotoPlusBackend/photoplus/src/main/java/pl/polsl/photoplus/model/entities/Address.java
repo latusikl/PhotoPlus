@@ -20,7 +20,6 @@ public class Address
         extends AbstractEntityModel
 {
 
-    @NotBlank(message = "Street is mandatory.")
     @Patchable
     private String street;
 
