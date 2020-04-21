@@ -4,6 +4,8 @@ import { Product } from '../../models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { CategoryService } from "../../services/category/category.service";
 import { Category } from '../../models/category/category';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -16,7 +18,8 @@ export class HomeComponent implements OnInit {
   products: Product[];
   categories: Category[];
 
-  constructor(private productService: ProductService, private categoryService: CategoryService, private cartService: CartService) { }
+  constructor(private productService: ProductService, private categoryService: CategoryService,
+    private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.productService.getAll().subscribe((data: Product[]) => {
@@ -30,7 +33,9 @@ export class HomeComponent implements OnInit {
 
   addToCart(product: Product) {
     this.cartService.addToCart(product);
-    console.log("added to cart");
+    const modalRef = this.modalService.open(SuccessModalComponent);
+    modalRef.componentInstance.message = "Please go to checkout to place an order.";
+    modalRef.componentInstance.title = "Added " + product.name + " to card.";
   }
 
 }
