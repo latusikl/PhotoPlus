@@ -4,8 +4,6 @@ import {LoginModel} from "../../models/login/login-model.model";
 import {Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ErrorModalComponent } from 'src/app/components/error-modal/error-modal.component';
-import { ErrorModel } from 'src/app/models/error/errormodel';
-
 
 @Injectable({
     providedIn: 'root'
