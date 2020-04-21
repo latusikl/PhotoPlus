@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.security.services;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -11,8 +12,8 @@ import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.Set;
 public class RolePropertiesService
 {
 
-    private final String PROP_FILE = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "roleConfig.xml";
+    private final String PROP_FILE = "roleConfig.xml";
 
     private final String ROLE_TAG_NAME = "role";
 
@@ -54,13 +55,13 @@ public class RolePropertiesService
     @PostConstruct
     public void loadRoleConfig() throws InputException
     {
-        final File file = new File(PROP_FILE);
-        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-
         try {
+            final InputStream roleInputStream = new ClassPathResource(PROP_FILE).getInputStream();
+            final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+
             final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             //Create DOM for file
-            final Document document = documentBuilder.parse(file);
+            final Document document = documentBuilder.parse(roleInputStream);
             final NodeList roleNodes = document.getElementsByTagName(ROLE_TAG_NAME);
 
             fillRoleAuthenticatorsMap(roleNodes);
