@@ -55,7 +55,6 @@ public class SpringSecurityConfig
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception
     {
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-        auth.inMemoryAuthentication().withUser("guest").password("guest").roles("guest");
     }
 
     @Override
@@ -73,13 +72,12 @@ public class SpringSecurityConfig
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/picture/**")
                 .permitAll()
-
                 .antMatchers("/login")
                 .permitAll()
                 .antMatchers("/logout")
                 .permitAll()
-                .antMatchers("/**")
-                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .logout()
                 .addLogoutHandler(new CustomLogoutHandler())
