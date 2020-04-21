@@ -4,6 +4,8 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+import pl.polsl.photoplus.components.ContextProvider;
+import pl.polsl.photoplus.security.services.RolePropertiesService;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,9 +13,12 @@ import java.util.List;
 @Service
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
-    private static final List<String> PUBLIC_LINK_WHITELIST = List.of(
-            "product/all",
-            "category/all", "category/single");
+    private final List<String> publicLinkWhitelist;
+
+    public CustomPermissionEvaluator() {
+        final RolePropertiesService rolePropertiesService = ContextProvider.getBean(RolePropertiesService.class);
+        this.publicLinkWhitelist = rolePropertiesService.getPropertiesByRoleName("all");
+    }
 
     @Override
     public boolean hasPermission(final Authentication auth, final Object targetDomainObject, final Object permission) {
@@ -35,9 +40,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     }
 
     private boolean hasPrivilege(final Authentication auth, final String targetType, final String permission) {
-        final String urlToAccess = targetType + "/" + permission;
+        final String urlToAccess = "/" + targetType + "/" + permission;
         for (final GrantedAuthority grantedAuth : auth.getAuthorities()) {
-            if (grantedAuth.getAuthority().equalsIgnoreCase(urlToAccess) || PUBLIC_LINK_WHITELIST.contains(urlToAccess)) {
+            if (grantedAuth.getAuthority().equalsIgnoreCase(urlToAccess) || publicLinkWhitelist.contains(urlToAccess)) {
                     return true;
             }
         }
