@@ -1,9 +1,12 @@
 spring:
-  profiles:
-    active: "dev"
   jpa:
     hibernate:
       ddl-auto: update
+
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    active: "dev"
 
 logging:
   level:
@@ -39,7 +42,7 @@ spring:
   profiles: prod
 
   datasource:
-    url: jdbc:mysql://mysqlPP:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://database-service:3306/photoplusdb?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
 

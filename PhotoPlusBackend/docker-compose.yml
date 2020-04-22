@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  database-service:
+    image: mysql:8.0.19
+    networks:
+      - photo-plus-network
+    environment:
+      - MYSQL_DATABASE=photoplusdb
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    restart: always
+
+  photoplus_service:
+    build:
+      context: ./photoplus
+      dockerfile: Dockerfile
+    ports:
+      - "9020:9020"
+    networks:
+      - photo-plus-network
+    depends_on:
+      - database-service
+    restart: on-failure
+    environment:
+      - DATABASE_HOST=database-service
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=photoplusdb
+      - DATABASE_PORT=3306
+networks:
+  photo-plus-network:
+    driver: bridge
