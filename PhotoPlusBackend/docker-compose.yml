@@ -7,8 +7,6 @@ services:
     environment:
       - MYSQL_DATABASE=photoplusdb
       - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - "3306:3306"
     restart: always
 
   photoplus_service:
@@ -28,6 +26,21 @@ services:
       - DATABASE_PASSWORD=root
       - DATABASE_NAME=photoplusdb
       - DATABASE_PORT=3306
+
+  baseadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: database-service
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+       - photo-plus-network
+    restart: always
+    depends_on:
+      - database-service
+    ports:
+      - 8020:80
+
 networks:
   photo-plus-network:
     driver: bridge
