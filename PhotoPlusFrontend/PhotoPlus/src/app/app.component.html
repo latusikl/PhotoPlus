@@ -12,7 +12,24 @@
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
         <li class="darkenDiv" href="#" routerLink="/"><a class="nav-link">Home</a></li>
         <li class="darkenDiv" href="#" routerLink="/registration"><a class="nav-link">Sign Up</a></li>
-        <li class="darkenDiv" href="#" routerLink="/login"><a class="nav-link">Log In</a></li>
+        <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
+        </div>
+        <ng-template #showPersonLogin>
+          <li class="darkenDiv" ngbDropdown>
+            <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown1" role="button">
+              {{loggedPersonLogin}}
+            </a>
+            <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+              <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="$event.preventDefault()">Edit profile</a>
+              <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="$event.preventDefault()">Show orders</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="logout()">Logout</a>
+            </div>
+          </li>
+        </ng-template>
+        <ng-template #showLoginLink>
+          <li class="darkenDiv" href="#" routerLink="/login"><a class="nav-link">Log In</a></li>
+        </ng-template>
         <li class="darkenDiv" href="#" routerLink="/cart">
           <a class="material-icons nav-link">
             shopping_cart

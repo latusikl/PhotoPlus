@@ -4,7 +4,7 @@ import {LoginModel} from "../../models/login/login-model.model";
 import {Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ErrorModalComponent } from 'src/app/components/error-modal/error-modal.component';
-import { ErrorModel } from 'src/app/models/error/errormodel';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -12,8 +12,14 @@ import { ErrorModel } from 'src/app/models/error/errormodel';
 })
 export class LoginService {
 
-    constructor(private http: HttpClient, private router: Router,
-      private modalService: NgbModal) {
+    private loggedPersonLogin: BehaviorSubject<string>;
+
+    constructor(private http: HttpClient, private router: Router, private modalService: NgbModal) {
+        if (this.isLoggedIn()) {
+          this.loggedPersonLogin = new BehaviorSubject<string>(sessionStorage.getItem("login"));
+        } else {
+          this.loggedPersonLogin = new BehaviorSubject<string>('');
+        }
     }
 
     login(login: string, password: string) {
@@ -24,12 +30,20 @@ export class LoginService {
             login: login,
             password: password
         }, {observe: 'response'}).subscribe(res => {
+
           this.readTokenFromResponse(res);
+          console.log(res.body['login']);
+          this.loggedPersonLogin.next(res.body['login']);
+          //saving login in session storage
+          sessionStorage.setItem("login", this.loggedPersonLogin.value);
           this.router.navigate(['/']);
+
         }, error => {
+
             const modalRef = this.modalService.open(ErrorModalComponent);
             modalRef.componentInstance.message = "Bad login or password. Please try again!";
             modalRef.componentInstance.title = "Error occured!";
+
       });
     }
 
@@ -37,6 +51,7 @@ export class LoginService {
         localStorage.removeItem("token")
         localStorage.removeItem("date")
         this.http.get('http://localhost:8090/logout');
+        this.loggedPersonLogin.next("");
     }
 
     readTokenFromResponse(res) {
@@ -52,5 +67,9 @@ export class LoginService {
         }
         //TODO:Check if not expired
         return true;
+    }
+
+    getLoggedPersonLogin(): Observable<string> {
+      return this.loggedPersonLogin.asObservable();
     }
 }
