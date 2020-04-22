@@ -17,6 +17,7 @@ services:
       - "8090:8090"
     networks:
       - photo-plus-network
+      - photo-plus-front-network
     depends_on:
       - database-service
     restart: on-failure
@@ -41,6 +42,19 @@ services:
     ports:
       - 8000:80
 
+  angular_service:
+    build:
+      context: ./PhotoPlusFrontend/PhotoPlus
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - photo-plus-front-network
+    depends_on:
+      - photoplus_service
+    restart: on-failure
+
 networks:
   photo-plus-network:
+  photo-plus-front-network:
     driver: bridge
