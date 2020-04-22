@@ -47,4 +47,4 @@ spring:
     password: root
 
 server:
-  port: 9020
+  port: 8090

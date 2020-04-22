@@ -11,10 +11,10 @@ services:
 
   photoplus_service:
     build:
-      context: ./photoplus
+      context: ./PhotoPlusBackend/photoplus
       dockerfile: Dockerfile
     ports:
-      - "9020:9020"
+      - "8090:8090"
     networks:
       - photo-plus-network
     depends_on:
@@ -39,7 +39,7 @@ services:
     depends_on:
       - database-service
     ports:
-      - 8020:80
+      - 8000:80
 
 networks:
   photo-plus-network:
