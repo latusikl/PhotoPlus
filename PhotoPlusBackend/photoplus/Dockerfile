@@ -1,22 +1,21 @@
-#building from mvn
-#maven and jdk slim
+##Building JAR##
 FROM openjdk:11-jdk-slim as build
 MAINTAINER latusikl
-
-#Mkdir + cd
+#mkdir + cd
 WORKDIR /usr/local/app
-#source destionation
+#Copy necessary files to container.
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-
 RUN chmod +x ./mvnw
-#download dependencies and pack to jar
 
+#Download dependencies and pack to jar.
 RUN ./mvnw clean install package -DskipTests=true
 
+#Create final container.
 FROM openjdk:11-jdk-buster as production
+
 WORKDIR /usr/local/prod
 ARG JAR_FILE=/usr/local/app/target/photoPlussApp.jar
 
