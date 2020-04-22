@@ -15,11 +15,11 @@
         <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
-          <li class="darkenDiv" ngbDropdown>
-            <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown1" role="button">
-              {{loggedPersonLogin}}
+          <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
+            <a class="nav-link" id="UserDropdown" role="button">
+              {{loggedPersonLogin}} <i class="fa fa-angle-down"></i>
             </a>
-            <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+            <div ngbDropdownMenu aria-labelledby="UserDropdown" class="dropdown-menu">
               <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="$event.preventDefault()">Edit profile</a>
               <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="$event.preventDefault()">Show orders</a>
               <div class="dropdown-divider"></div>

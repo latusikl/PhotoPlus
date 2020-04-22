@@ -41,6 +41,10 @@ header {
   }
 }
 
+#dropdown-toggle-hidden::after {
+  display: none;
+}
+
 #navbarHeader-list {
   li {
     min-width: 6rem;
@@ -84,6 +88,10 @@ header {
 }
 
 .darkenDiv:hover {
+  background: darken($primary, 10%);
+}
+
+.darkenDiv.show {
   background: darken($primary, 10%);
 }
 
