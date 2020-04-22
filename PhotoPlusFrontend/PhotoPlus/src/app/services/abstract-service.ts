@@ -20,7 +20,7 @@ export abstract class AbstractService<T> {
 
   public post(item: T): Observable<T[]> {
     return this._http.post<T[]>(this.endpointUrl, [item])
-      .pipe(retry(2), catchError(this.handleError));
+      .pipe(retry(2));
   }
 
   public patch(code: number, item: T): Observable<T> {
