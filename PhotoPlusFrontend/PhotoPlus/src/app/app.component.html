@@ -1,19 +1,23 @@
 <header class="sticky-top">
   <nav class="container-header navbar navbar-expand-lg navbar-light">
     <a href="#" routerLink="/" class="logo">PhotoPlus</a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarHeader">
+
       <div class="searchbar">
         <input class="search_input" type="text" name="" placeholder="Search...">
         <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
+
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
         <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
         <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
-        <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
-        </div>
+
+        <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink"></div>
         <ng-template #showPersonLogin>
           <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
             <a class="nav-link" id="UserDropdown" role="button">
@@ -30,6 +34,7 @@
         <ng-template #showLoginLink>
           <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Log In</a></li>
         </ng-template>
+
         <li class="darkenDiv" href="#" routerLink="/cart" data-toggle="collapse" data-target="#navbarHeader.show">
           <a class="material-icons nav-link">
             shopping_cart
@@ -39,6 +44,7 @@
     </div>
   </nav>
 </header>
+
 <nav class="navbar-expand-lg bg-light navbar-light container-centered">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarUnderHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
