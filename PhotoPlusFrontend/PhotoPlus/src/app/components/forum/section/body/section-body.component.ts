@@ -11,14 +11,14 @@ import { Topic } from 'src/app/models/topic/topic';
   styleUrls: ['./section-body.component.scss']
 })
 export class SectionBodyComponent implements OnInit {
-
-  section: Topic[];
+  sectionCode: number;
+  topics: Topic[];
 
   constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private sectionService: SectionService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      const sectionCode = params['code'];
+      this.sectionCode = params['code'];
       
     })
   }

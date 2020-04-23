@@ -16,10 +16,11 @@ import {ErrorModalComponent} from './components/error-modal/error-modal.componen
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { ForumComponent } from './components/forum/forum.component';
-import { SectionComponent } from './components/section/header/section-header.component';
-import { SectionBodyComponent } from './components/section/body/section-body.component';
-import { SectionEditComponent } from './components/section/edit/section-edit.component';
-import { SectionRemoveComponent } from './components/section/remove/section-remove.component';
+import { SectionComponent } from './components/forum/section/header/section-header.component';
+import { SectionBodyComponent } from './components/forum/section/body/section-body.component';
+import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
+import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
+import { SectionAddComponent } from './components/forum/section/add/section-add.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { SectionRemoveComponent } from './components/section/remove/section-remo
         SectionComponent,
         SectionBodyComponent,
         SectionEditComponent,
-        SectionRemoveComponent
+        SectionRemoveComponent,
+        SectionAddComponent
     ],
     imports: [
         BrowserModule,

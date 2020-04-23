@@ -1,9 +1,9 @@
 <div class="container app-section">
     <div style="float: right;" *ngIf="auth.isModerator">
-        <a [routerLink]="['/forum/section/edit', section.code]">
+        <a [routerLink]="['/forum/edit/section', section.code]">
             <button >Edit</button>
         </a>
-        <a [routerLink]="['/forum/section/remove', section.code]">
+        <a [routerLink]="['/forum/remove/section', section.code]">
             <button>Remove</button>
         </a>
     </div>

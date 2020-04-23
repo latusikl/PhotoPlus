@@ -1,4 +1,9 @@
 <div class="container">
+    <div *ngIf="auth.isAdmin" >
+        <a [routerLink]="['/forum/add/section']" >
+            <button>Add Section</button>
+        </a>
+    </div>
     <div class="row-12" *ngFor="let singular of sections">
         <app-section [section]="singular"></app-section>
     </div>
