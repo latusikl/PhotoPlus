@@ -18,6 +18,8 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { ForumComponent } from './components/forum/forum.component';
 import { SectionComponent } from './components/section/header/section-header.component';
 import { SectionBodyComponent } from './components/section/body/section-body.component';
+import { SectionEditComponent } from './components/section/edit/section-edit.component';
+import { SectionRemoveComponent } from './components/section/remove/section-remove.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,9 @@ import { SectionBodyComponent } from './components/section/body/section-body.com
         SuccessModalComponent,
         ForumComponent,
         SectionComponent,
-        SectionBodyComponent
+        SectionBodyComponent,
+        SectionEditComponent,
+        SectionRemoveComponent
     ],
     imports: [
         BrowserModule,

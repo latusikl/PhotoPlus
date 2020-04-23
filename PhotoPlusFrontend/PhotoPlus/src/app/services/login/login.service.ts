@@ -12,6 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 =======
 =======
 import { LoggedUser } from 'src/app/models/login/logged-user.model';
+import { Role } from 'src/app/models/role/role.enum';
 
 >>>>>>> d321679... Rework login service a little bit.
 >>>>>>> 7ddc20d... Rework login service a little bit.
@@ -97,5 +98,15 @@ export class LoginService {
 
     getLoggedUser(): LoggedUser {
       return this.loggedUser;
+    }
+
+    get isModerator(): boolean{
+      const role = this.getLoggedUser().role;
+      return role === Role.ADMIN || role === Role.EMPLOYEE;
+    }
+  
+    get isAdmin(): boolean{
+      const role = this.getLoggedUser().role;
+      return role === Role.ADMIN;
     }
 }

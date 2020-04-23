@@ -1,5 +1,5 @@
 <div class="container app-section">
-    <div style="float: right;" *ngIf="isAdmin">
+    <div style="float: right;" *ngIf="auth.isModerator">
         <a [routerLink]="['/forum/section/edit', section.code]">
             <button >Edit</button>
         </a>

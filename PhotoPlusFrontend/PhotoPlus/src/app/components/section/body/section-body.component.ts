@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Section } from 'src/app/models/section/section';
+import { SectionService } from 'src/app/services/section/section.service';
+import { LoginService } from 'src/app/services/login/login.service';
+import { Topic } from 'src/app/models/topic/topic';
 
 @Component({
   selector: 'app-section-body',
@@ -8,13 +12,19 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SectionBodyComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  section: Topic[];
+
+  constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private sectionService: SectionService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const sectionCode = params['code'];
-      console.log(sectionCode);      
+      
     })
+  }
+
+  get auth(): LoginService{
+    return this.loginService;
   }
 
 }

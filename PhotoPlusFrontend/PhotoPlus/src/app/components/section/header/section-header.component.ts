@@ -18,15 +18,7 @@ export class SectionComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  get isModerator(): boolean{
-    const role = this.loginService.getLoggedUser().role;
-    return role === Role.ADMIN || role === Role.EMPLOYEE;
+  get auth(): LoginService{
+    return this.loginService;
   }
-
-  get isAdmin(): boolean{
-    const role = this.loginService.getLoggedUser().role;
-    return role === Role.ADMIN;
-  }
-
 }
