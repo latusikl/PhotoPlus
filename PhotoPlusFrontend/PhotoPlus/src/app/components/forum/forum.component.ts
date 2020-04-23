@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Section } from 'src/app/models/section/section';
 import { SectionService } from 'src/app/services/section/section.service';
 import { LoginService } from 'src/app/services/login/login.service';
+import { Role } from 'src/app/models/role/role.enum';
 
 @Component({
   selector: 'app-forum',
@@ -19,5 +20,10 @@ export class ForumComponent implements OnInit {
       (data: Section[]) => {
         this.sections = data;
       });
+  }
+
+  get isModerator(): boolean{
+    const role = this.loginService.getLoggedUser().role;
+    return role === Role.ADMIN || role === Role.EMPLOYEE;
   }
 }
