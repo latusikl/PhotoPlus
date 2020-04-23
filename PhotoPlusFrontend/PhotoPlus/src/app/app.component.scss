@@ -35,6 +35,14 @@ header {
   .navbar-light .navbar-nav .nav-link {
     color: #FFFFFF;
   }
+
+  a.dropdown-login-item {
+    color: black;
+  }
+}
+
+#dropdown-toggle-hidden::after {
+  display: none;
 }
 
 #navbarHeader-list {
@@ -83,6 +91,10 @@ header {
   background: darken($primary, 10%);
 }
 
+.darkenDiv.show {
+  background: darken($primary, 10%);
+}
+
 .lightenDiv:hover {
   background: lighten($primary, 20%);
 }
@@ -101,7 +113,7 @@ header {
     float: none;
 }
 
-.searchbar{
+.searchbar {
   margin-left: auto;
   //display:block;
   display: inline-flex;
@@ -111,7 +123,7 @@ header {
   padding: 10px;
 }
 
-.search_input{
+.search_input {
   color: white;
   padding: 0 0px;
   border: 0;
@@ -137,7 +149,7 @@ header {
   transition: color 0.4s linear, background 0.4s linear;
 }
 
-.search_icon{
+.search_icon {
   height: 40px;
   width: 40px;
   float: right;
@@ -147,4 +159,12 @@ header {
   border-radius: 50%;
   color:white;
   text-decoration:none;
+}
+
+@media (min-width: 992px) {
+  .dropdown-menu {
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 }

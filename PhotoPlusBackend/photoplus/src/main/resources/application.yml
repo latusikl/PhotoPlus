@@ -3,13 +3,10 @@ spring:
     hibernate:
       ddl-auto: update
 
-  datasource:
-    url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
-    username: root
-    password: pass
-
-server:
-  port: 8090
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    active: "dev"
 
 logging:
   level:
@@ -26,3 +23,28 @@ photoplus:
   securityHeaderName: Authorization
   securityTokenPrefix: "Bearer "
 
+---
+
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
+    username: root
+    password: pass
+
+server:
+  port: 8090
+
+---
+
+spring:
+  profiles: prod
+
+  datasource:
+    url: jdbc:mysql://database-service:3306/photoplusdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+server:
+  port: 8090
