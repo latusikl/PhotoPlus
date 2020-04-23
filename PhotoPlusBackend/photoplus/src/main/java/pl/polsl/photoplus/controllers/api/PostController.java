@@ -13,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PostController extends BaseModelController<PostModelDto,PostService> {
 
     private final String TOPIC_RELATION_NAME = "topic";
+    private final String CREATOR_RELATION_NAME  = "creator";
 
     public PostController(final PostService dtoService) {
         super(dtoService, "post");
@@ -23,5 +24,6 @@ public class PostController extends BaseModelController<PostModelDto,PostService
         dto.add(linkTo(methodOn(PostController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(PostController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
         dto.add(linkTo(methodOn(TopicController.class).getSingle(dto.getTopicCode())).withRel(TOPIC_RELATION_NAME));
+        dto.add(linkTo(methodOn(UserController.class).getSingle(dto.getUserCode())).withRel(CREATOR_RELATION_NAME));
     }
 }

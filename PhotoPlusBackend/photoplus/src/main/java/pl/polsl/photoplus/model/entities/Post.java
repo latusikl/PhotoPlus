@@ -29,4 +29,7 @@ public class Post extends AbstractEntityModel {
 
     @Patchable
     private String content;
+
+    @ManyToOne
+    private User user;
 }
