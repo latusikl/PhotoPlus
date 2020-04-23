@@ -113,7 +113,7 @@ header {
     float: none;
 }
 
-.searchbar{
+.searchbar {
   margin-left: auto;
   //display:block;
   display: inline-flex;
@@ -123,7 +123,7 @@ header {
   padding: 10px;
 }
 
-.search_input{
+.search_input {
   color: white;
   padding: 0 0px;
   border: 0;
@@ -149,7 +149,7 @@ header {
   transition: color 0.4s linear, background 0.4s linear;
 }
 
-.search_icon{
+.search_icon {
   height: 40px;
   width: 40px;
   float: right;
@@ -161,10 +161,10 @@ header {
   text-decoration:none;
 }
 
-.dropdown-menu {
-  right: auto;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-  -o-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
+@media (min-width: 992px) {
+  .dropdown-menu {
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 }
