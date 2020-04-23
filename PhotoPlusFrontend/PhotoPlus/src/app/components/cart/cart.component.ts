@@ -28,7 +28,8 @@ export class CartComponent implements OnInit {
     if (value > 0 && value < 100 && Number.isInteger(+value)) {
       this.cartService.changeQuantity(value, item);
     } else {
-      (document.querySelector("#quantityInput") as HTMLInputElement).value = item[1].toString();
+    console.log(item[0].code);
+      (document.querySelector(("#input"+item[0].code).toString()) as HTMLInputElement).value = item[1].toString();
     }
   }
 
