@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.PostModelDto;
 import pl.polsl.photoplus.model.entities.Post;
 import pl.polsl.photoplus.model.entities.Topic;
+import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.PostRepository;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.function.Function;
 public class PostService extends AbstractModelService<Post, PostModelDto, PostRepository> {
 
     private final TopicService topicService;
+    private final UserService userService;
 
-    public PostService(final PostRepository entityRepository, final TopicService topicService) {
+    public PostService(final PostRepository entityRepository, final TopicService topicService, final UserService userService) {
         super(entityRepository);
         this.topicService = topicService;
+        this.userService = userService;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
     @Override
     protected PostModelDto getDtoFromModel(final Post modelObject) {
         return new PostModelDto(modelObject.getCode(), modelObject.getDate(), modelObject.getTopic().getCode(),
-                modelObject.getContent());
+                modelObject.getContent(), modelObject.getUser().getCode());
     }
 
     @Override
@@ -41,8 +44,12 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
         final Function<PostModelDto, Post> insertTopicDependencyAndParseToModel = postModelDto -> {
             final Topic topicToInsert = topicService.findByCodeOrThrowError(postModelDto.getTopicCode(),
                     "SAVE TOPIC");
+
+            final User userToInsert = userService.findByCodeOrThrowError(postModelDto.getUserCode(),
+                    "SAVE USER");
             final Post postToAdd = getModelFromDto(postModelDto);
             postToAdd.setTopic(topicToInsert);
+            postToAdd.setUser(userToInsert);
             return postToAdd;
         };
 
