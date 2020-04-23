@@ -13,22 +13,12 @@ export class ForumComponent implements OnInit {
 
   sections: Section[];
 
-  constructor(private sectionService: SectionService, private loginService:LoginService) {}
+  constructor(private sectionService: SectionService) {}
 
   ngOnInit(): void {
     this.sectionService.getAll().subscribe(
       (data: Section[]) => {
         this.sections = data;
       });
-  }
-
-  get isModerator(): boolean{
-    const role = this.loginService.getLoggedUser().role;
-    return role === Role.ADMIN || role === Role.EMPLOYEE;
-  }
-
-  get isAdmin(): boolean{
-    const role = this.loginService.getLoggedUser().role;
-    return role === Role.ADMIN;
   }
 }
