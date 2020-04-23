@@ -16,6 +16,7 @@ import {ErrorModalComponent} from './components/error-modal/error-modal.componen
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { ForumComponent } from './components/forum/forum.component';
+import { SectionComponent } from './components/section/section.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import { ForumComponent } from './components/forum/forum.component';
         CartComponent,
         ErrorModalComponent,
         SuccessModalComponent,
-        ForumComponent
+        ForumComponent,
+        SectionComponent
     ],
     imports: [
         BrowserModule,
