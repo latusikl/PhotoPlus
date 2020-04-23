@@ -9,6 +9,6 @@ import { AbstractService } from '../abstract-service';
 export class CategoryService extends AbstractService<Category> {
 
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:8090/category');
+    super(http, 'category');
   }
 }

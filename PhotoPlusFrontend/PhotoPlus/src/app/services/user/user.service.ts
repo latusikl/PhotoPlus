@@ -9,7 +9,7 @@ import { AbstractService } from '../abstract-service';
 export class UserService extends AbstractService<User> {
 
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:8090/user')
+    super(http, 'user')
   }
 
 }
