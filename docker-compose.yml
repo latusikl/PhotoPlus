@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+  database-service:
+    image: mysql:8.0.19
+    networks:
+      - photo-plus-network
+    environment:
+      - MYSQL_DATABASE=photoplusdb
+      - MYSQL_ROOT_PASSWORD=root
+    restart: always
+
+  photoplus_service:
+    build:
+      context: ./PhotoPlusBackend/photoplus
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    networks:
+      - photo-plus-network
+      - photo-plus-front-network
+    depends_on:
+      - database-service
+    restart: on-failure
+    environment:
+      - DATABASE_HOST=database-service
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_NAME=photoplusdb
+      - DATABASE_PORT=3306
+
+  baseadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: database-service
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+       - photo-plus-network
+    restart: always
+    depends_on:
+      - database-service
+    ports:
+      - 8000:80
+
+  angular_service:
+    build:
+      context: ./PhotoPlusFrontend/PhotoPlus
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - photo-plus-front-network
+    depends_on:
+      - photoplus_service
+    restart: on-failure
+
+networks:
+  photo-plus-network:
+  photo-plus-front-network:
+    driver: bridge
