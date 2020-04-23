@@ -1,29 +1,31 @@
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { retry } from 'rxjs/operators';
 
 export abstract class AbstractService<T> {
+
+  protected hostAddress = environment.hostAddress;
 
   constructor(protected _http: HttpClient, protected endpointUrl: string) { }
 
   public getAll(): Observable<T[]>  {
-    return this._http.get<T[]>(this.endpointUrl + "/all").pipe(retry(2));
+    return this._http.get<T[]>(this.hostAddress + this.endpointUrl + "/all");
   }
 
   public getSingle(code: number): Observable<T>  {
-    return this._http.get<T>(this.endpointUrl + "/" + code).pipe(retry(2));
+    return this._http.get<T>(this.hostAddress + this.endpointUrl + "/" + code);
   }
 
   public post(item: T): Observable<T[]> {
-    return this._http.post<T[]>(this.endpointUrl, [item]).pipe(retry(2));
+    return this._http.post<T[]>(this.hostAddress + this.endpointUrl, [item]);
   }
 
   public patch(code: number, item: T): Observable<T> {
-    return this._http.patch<T>(this.endpointUrl + "/" + code, item).pipe(retry(2));
+    return this._http.patch<T>(this.hostAddress + this.endpointUrl + "/" + code, item);
   }
 
   public delete(code: number): Observable<T> {
-    return this._http.delete<T>(this.endpointUrl + "/" + code).pipe(retry(2));
+    return this._http.delete<T>(this.hostAddress + this.endpointUrl + "/" + code);
   }
 
 }

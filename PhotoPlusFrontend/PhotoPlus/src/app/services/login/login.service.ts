@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { LoginModel } from "../../models/login/login-model.model";
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
+    private hostAddress = environment.hostAddress;
 
     constructor(private http: HttpClient, private router: Router) {
         if (this.isLoggedIn()) {
@@ -23,7 +25,7 @@ export class LoginService {
         const loginModel: LoginModel = {login: login, password: password};
         console.log("sending post");
 
-        this.http.post<HttpResponse<LoginModel>>('http://localhost:8090/login', {
+        this.http.post<HttpResponse<LoginModel>>(this.hostAddress + 'login', {
             login: login,
             password: password
         }, {observe: 'response'}).subscribe(res => {
@@ -35,7 +37,7 @@ export class LoginService {
     public logout() {
         localStorage.removeItem("token")
         localStorage.removeItem("date")
-        this.http.get('http://localhost:8090/logout');
+        this.http.get(this.hostAddress + 'logout');
     }
 
     readTokenFromResponse(res) {
