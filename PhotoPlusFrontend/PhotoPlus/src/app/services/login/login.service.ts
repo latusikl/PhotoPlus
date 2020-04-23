@@ -11,11 +11,9 @@ import { environment } from '../../../environments/environment';
 export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
-
     private hostAddress = environment.hostAddress;
 
     constructor(private http: HttpClient, private router: Router) {
-
         if (this.isLoggedIn()) {
           this.loggedPersonLogin = new BehaviorSubject<string>(sessionStorage.getItem("login"));
         } else {
