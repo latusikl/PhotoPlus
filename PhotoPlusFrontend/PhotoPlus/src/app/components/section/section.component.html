@@ -1,5 +1,7 @@
 <div class="container app-section">
-    <div *ngIf=""></div>
+    <div style="float: right;" *ngIf="isAdmin">
+        <button>Edit</button>
+    </div>
     Section name:{{section.name}}<br>
     Section description: {{section.description}}<br>
 </div>
