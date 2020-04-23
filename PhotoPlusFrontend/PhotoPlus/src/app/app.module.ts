@@ -10,10 +10,11 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {LoginComponent} from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {AuthInterceptor} from "./auth-interceptor";
+import {AuthInterceptor} from "./interceptors/auth-interceptor";
 import {CartComponent} from './components/cart/cart.component';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
+import { ErrorInterceptor } from './interceptors/error-interceptor';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,12 @@ import {SuccessModalComponent} from './components/success-modal/success-modal.co
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
-        }
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: ErrorInterceptor,
+          multi: true
+      }
     ],
     bootstrap: [AppComponent]
 })

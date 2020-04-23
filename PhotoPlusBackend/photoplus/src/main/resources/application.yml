@@ -6,8 +6,9 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
     username: root
-    password: pass
-
+    password:
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 8090
 
