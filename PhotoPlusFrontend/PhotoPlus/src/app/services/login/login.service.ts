@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {LoginModel} from "../../models/login/login-model.model";
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from "@angular/common/http";
+import { LoginModel } from "../../models/login/login-model.model";
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
