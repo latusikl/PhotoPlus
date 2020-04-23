@@ -161,10 +161,15 @@ header {
   text-decoration:none;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 992px){
   .dropdown-menu {
     right: auto;
     left: 50%;
     transform: translate(-50%, 0);
   }
+}
+
+.dropdown-menu {
+  animation-name: fadeIn;
+  animation-duration: 0.6s;
 }
