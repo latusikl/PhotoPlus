@@ -14,7 +14,10 @@ import {AuthInterceptor} from "./interceptors/auth-interceptor";
 import {CartComponent} from './components/cart/cart.component';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
+<<<<<<< HEAD
 import { ErrorInterceptor } from './interceptors/error-interceptor';
+=======
+>>>>>>> 1386f7d... Move forum component to its own folder.
 import { ForumComponent } from './components/forum/forum.component';
 
 @NgModule({
