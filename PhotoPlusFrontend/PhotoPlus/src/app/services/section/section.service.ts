@@ -9,6 +9,6 @@ import { HttpClient } from '@angular/common/http';
 export class SectionService extends AbstractService<Section> {
 
   constructor(httpClient: HttpClient) {
-    super(httpClient, "http://localhost:8090/section");
+    super(httpClient, "section");
    }
 }
