@@ -26,4 +26,9 @@ export class ForumComponent implements OnInit {
     const role = this.loginService.getLoggedUser().role;
     return role === Role.ADMIN || role === Role.EMPLOYEE;
   }
+
+  get isAdmin(): boolean{
+    const role = this.loginService.getLoggedUser().role;
+    return role === Role.ADMIN;
+  }
 }
