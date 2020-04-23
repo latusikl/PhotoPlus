@@ -16,8 +16,8 @@ import {ErrorModalComponent} from './components/error-modal/error-modal.componen
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { ForumComponent } from './components/forum/forum.component';
-import { SectionComponent } from './components/section/section.component';
-import { SectionBodyComponent } from './components/section-body/section-body.component';
+import { SectionComponent } from './components/section/header/section-header.component';
+import { SectionBodyComponent } from './components/section/body/section-body.component';
 
 @NgModule({
     declarations: [

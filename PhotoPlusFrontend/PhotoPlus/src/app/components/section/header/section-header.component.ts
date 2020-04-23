@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-section',
-  templateUrl: './section.component.html',
-  styleUrls: ['./section.component.scss']
+  templateUrl: './section-header.component.html',
+  styleUrls: ['./section-header.component.scss']
 })
 export class SectionComponent implements OnInit {
 
@@ -17,14 +17,6 @@ export class SectionComponent implements OnInit {
   constructor(private loginService:LoginService, private router: Router) { }
 
   ngOnInit(): void {
-  }
-
-  edit(){
-    alert("Edit clicked!");
-  }
-
-  remove(){
-    alert("Remove clicked!");
   }
 
   get isModerator(): boolean{

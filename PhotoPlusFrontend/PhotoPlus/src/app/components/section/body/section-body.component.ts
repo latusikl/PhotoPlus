@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-section-body',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SectionBodyComponent implements OnInit {
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      const sectionCode = params['code'];
+      console.log(sectionCode);      
+    })
   }
 
 }

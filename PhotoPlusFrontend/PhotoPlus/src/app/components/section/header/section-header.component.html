@@ -1,0 +1,16 @@
+<div class="container app-section">
+    <div style="float: right;" *ngIf="isAdmin">
+        <a [routerLink]="['/forum/section/edit', section.code]">
+            <button >Edit</button>
+        </a>
+        <a [routerLink]="['/forum/section/remove', section.code]">
+            <button>Remove</button>
+        </a>
+    </div>
+    <a [routerLink]="['/forum/section', section.code]">
+        <div>
+            Section name:{{section.name}}<br>
+            Section description: {{section.description}}<br>
+        </div>
+    </a>
+</div>
