@@ -11,9 +11,11 @@ import { environment } from '../../../environments/environment';
 export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
+
     private hostAddress = environment.hostAddress;
 
     constructor(private http: HttpClient, private router: Router) {
+
         if (this.isLoggedIn()) {
           this.loggedPersonLogin = new BehaviorSubject<string>(sessionStorage.getItem("login"));
         } else {
@@ -29,7 +31,12 @@ export class LoginService {
             login: login,
             password: password
         }, {observe: 'response'}).subscribe(res => {
+
           this.readTokenFromResponse(res);
+          console.log(res.body['login']);
+          this.loggedPersonLogin.next(res.body['login']);
+          //saving login in session storage
+          sessionStorage.setItem("login", this.loggedPersonLogin.value);
           this.router.navigate(['/']);
         });
     }
@@ -38,6 +45,7 @@ export class LoginService {
         localStorage.removeItem("token")
         localStorage.removeItem("date")
         this.http.get(this.hostAddress + 'logout');
+        this.loggedPersonLogin.next("");
     }
 
     readTokenFromResponse(res) {
@@ -53,5 +61,9 @@ export class LoginService {
         }
         //TODO:Check if not expired
         return true;
+    }
+
+    getLoggedPersonLogin(): Observable<string> {
+      return this.loggedPersonLogin.asObservable();
     }
 }

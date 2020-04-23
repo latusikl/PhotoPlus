@@ -26,7 +26,7 @@
             <b id="price">${{ item[0].price }}</b>
           </td>
           <td class="align-middle">
-            <input id="quantityInput" [(value)]="item[1]" (change)="onValueChange($event.target.value, item)" required type="number" min="1" max="100"/>
+            <input id="input{{ item[0].code }}" [(value)]="item[1]" (change)="onValueChange($event.target.value, item)" required type="number" min="1" max="100"/>
           </td>
           <td class="align-middle d-none d-md-table-cell">
           <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
