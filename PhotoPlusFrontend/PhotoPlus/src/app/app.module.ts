@@ -17,6 +17,7 @@ import {SuccessModalComponent} from './components/success-modal/success-modal.co
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { ForumComponent } from './components/forum/forum.component';
 import { SectionComponent } from './components/section/section.component';
+import { SectionBodyComponent } from './components/section-body/section-body.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import { SectionComponent } from './components/section/section.component';
         ErrorModalComponent,
         SuccessModalComponent,
         ForumComponent,
-        SectionComponent
+        SectionComponent,
+        SectionBodyComponent
     ],
     imports: [
         BrowserModule,
