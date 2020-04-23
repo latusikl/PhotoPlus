@@ -72,6 +72,7 @@ export class LoginService {
         localStorage.removeItem("loggedUser");
 >>>>>>> 7ddc20d... Rework login service a little bit.
         this.http.get(this.hostAddress + 'logout');
+        this.loggedPersonLogin.next("");
     }
 
     readTokenFromResponse(res) {
