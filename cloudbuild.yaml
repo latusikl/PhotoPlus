@@ -1,3 +1,12 @@
-steps:
-- name: ‘docker/compose:1.25.5’
-  args: [‘up’, ‘-d’]
+# Build the new docker image.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcb-docker-compose:latest', '.']
+
+# Run the app and dependencies in the background using docker-compose.
+- name: 'docker/compose:1.25.5'
+  args: ['up', '-d']
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
+
+#From: https://github.com/Philmod/gcb-docker-compose/blob/master/cloudbuild.yaml
+images: ['gcr.io/$PROJECT_ID/gcb-docker-compose:latest']
