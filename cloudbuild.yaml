@@ -8,5 +8,5 @@
   env:
   - 'PROJECT_ID=$PROJECT_ID'
 
-#From: https://github.com/Philmod/gcb-docker-compose/blob/master/cloudbuild.yaml
+# https://github.com/Philmod/gcb-docker-compose/blob/master/cloudbuild.yaml
 images: ['gcr.io/$PROJECT_ID/gcb-docker-compose:latest']
