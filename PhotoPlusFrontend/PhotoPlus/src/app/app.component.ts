@@ -17,5 +17,6 @@ export class AppComponent {
 
   logout() {
     this.loginService.logout();
+    window.location.reload();
   }
 }

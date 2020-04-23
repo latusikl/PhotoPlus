@@ -10,8 +10,8 @@
         <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
-        <li class="darkenDiv" href="#" routerLink="/"><a class="nav-link">Home</a></li>
-        <li class="darkenDiv" href="#" routerLink="/registration"><a class="nav-link">Sign Up</a></li>
+        <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
+        <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
@@ -28,9 +28,9 @@
           </li>
         </ng-template>
         <ng-template #showLoginLink>
-          <li class="darkenDiv" href="#" routerLink="/login"><a class="nav-link">Log In</a></li>
+          <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Log In</a></li>
         </ng-template>
-        <li class="darkenDiv" href="#" routerLink="/cart">
+        <li class="darkenDiv" href="#" routerLink="/cart" data-toggle="collapse" data-target="#navbarHeader.show">
           <a class="material-icons nav-link">
             shopping_cart
           </a>
