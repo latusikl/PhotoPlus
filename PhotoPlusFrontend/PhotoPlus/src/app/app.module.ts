@@ -15,6 +15,7 @@ import {CartComponent} from './components/cart/cart.component';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
+import { CategoryComponent } from './components/category/category.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { ErrorInterceptor } from './interceptors/error-interceptor';
         LoginComponent,
         CartComponent,
         ErrorModalComponent,
-        SuccessModalComponent
+        SuccessModalComponent,
+        CategoryComponent
     ],
     imports: [
         BrowserModule,
