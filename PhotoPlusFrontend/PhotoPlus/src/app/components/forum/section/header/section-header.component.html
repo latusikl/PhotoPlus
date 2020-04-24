@@ -1,16 +1,20 @@
 <div class="container app-section">
-    <div style="float: right;" *ngIf="auth.isModerator">
-        <a [routerLink]="['/forum/edit/section', section.code]">
-            <button >Edit</button>
-        </a>
-        <a [routerLink]="['/forum/remove/section', section.code]">
-            <button>Remove</button>
-        </a>
-    </div>
-    <a [routerLink]="['/forum/section', section.code]">
-        <div>
-            Section name:{{section.name}}<br>
-            Section description: {{section.description}}<br>
+    <div class="row">
+        <div class="col-10">
+            <a [routerLink]="['/forum/section', section.code]">
+                <div class="app-section-content">
+                    Section name:{{section.name}}<br>
+                    Section description: {{section.description}}<br>
+                </div>
+            </a>
         </div>
-    </a>
+        <div class="col justify-content" *ngIf="auth.isModerator">
+            <a [routerLink]="['/forum/edit/section', section.code]">
+                <button class="btn btn-primary button-edit"  >Edit</button>
+            </a>
+            <a [routerLink]="['/forum/remove/section', section.code]">
+                <button class="btn btn-danger">Remove</button>
+            </a>
+        </div>
+    </div>
 </div>
