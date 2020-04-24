@@ -20,6 +20,7 @@ Proper file format example:
 <config>
         <role name="all">
                 <access>/product/all</access>
+                <access>/product/single</access>
                 <access>/category/all</access>
                 <access>/category/single</access>
         </role>
