@@ -49,8 +49,6 @@ Proper file format example:
                 <access>/address/delete</access>
                 <access>/address/post</access>
 
-                <access>/category/all</access>
-                <access>/category/single</access>
                 <access>/category/patch</access>
                 <access>/category/delete</access>
                 <access>/category/post</access>
@@ -67,7 +65,6 @@ Proper file format example:
                 <access>/orderItem/delete</access>
                 <access>/orderItem/post</access>
 
-                <access>/picture/single</access>
                 <access>/picture/patch</access>
                 <access>/picture/delete</access>
                 <access>/picture/post</access>
@@ -78,7 +75,6 @@ Proper file format example:
                 <access>/post/delete</access>
                 <access>/post/post</access>
 
-                <access>/product/all</access>
                 <access>/product/single</access>
                 <access>/product/patch</access>
                 <access>/product/delete</access>
