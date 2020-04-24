@@ -1,0 +1,15 @@
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0em auto;
+  justify-content: center;
+}
+
+.card {
+  width: 18rem;
+  min-height: 30rem;
+  margin: 20px 1em;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+}

@@ -1,1 +1,6 @@
 <p>category works!</p>
+<div class="flex-container fadeInDown">
+  <div class="card shadow-border" *ngIf="categories">
+    <p class="card-subtitle mb-2 text-muted fadeIn first" *ngFor="let category of categories"> {{ category.name }} </p>
+  </div>
+</div>
