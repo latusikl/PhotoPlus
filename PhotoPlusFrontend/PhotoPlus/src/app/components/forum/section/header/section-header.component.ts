@@ -13,6 +13,9 @@ export class SectionComponent implements OnInit {
 
   @Input("section")
   section: Section;
+  
+  @Input("shouldModeratorButtonsBeRenedered")
+  shouldModeratorButtonsBeRenedered:boolean;
 
   constructor(private loginService:LoginService, private router: Router) { }
 
