@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from "../../services/product/product.service";
 import { Product } from '../../models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
-import { CategoryService } from "../../services/category/category.service";
-import { Category } from '../../models/category/category';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,18 +14,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class HomeComponent implements OnInit {
 
   products: Product[];
-  categories: Category[];
 
-  constructor(private productService: ProductService, private categoryService: CategoryService,
-    private cartService: CartService, private modalService: NgbModal) { }
+  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.productService.getAll().subscribe((data: Product[]) => {
       this.products = data;
       this.products.forEach(element => { this.productService.getDataFromLinks(element) });
-    });
-    this.categoryService.getAll().subscribe((data: Category[]) => {
-      this.categories = data;
     });
   }
 
