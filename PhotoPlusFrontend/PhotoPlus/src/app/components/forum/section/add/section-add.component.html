@@ -1,5 +1,12 @@
 <div class="container">
-    Section title:<input style="width: 100%;" /><br>
-    Section description:<textarea style="width: 100%;" ></textarea><br>
-    <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">Add section</button>
+    <form [formGroup]="sectionForm" (ngSubmit)="onSubmit()">
+        Section title:
+        <input class="form-control" type="text" formControlName="name" style="width: 100%;" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Title is required</div>
+          </div>
+        Section description:
+        <input class="form-control" formControlName="description" style="width: 100%;" />
+        <input type="submit" value="Add section" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+    </form>
 </div>
