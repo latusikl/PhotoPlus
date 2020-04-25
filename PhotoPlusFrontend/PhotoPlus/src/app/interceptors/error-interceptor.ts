@@ -19,24 +19,30 @@ export class ErrorInterceptor implements HttpInterceptor {
   };
 
   handleError(error: HttpErrorResponse) {
-    const modalRef = this.modalService.open(ErrorModalComponent);
-    modalRef.componentInstance.title = "Error occured!";
     switch(error.status) {
       case 0: {
+        const modalRef = this.modalService.open(ErrorModalComponent);
+        modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "No connection to backend.";
         break;
       }
       case 401: {
+        const modalRef = this.modalService.open(ErrorModalComponent);
+        modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "Bad login or password. Please try again.";
         break;
       }
       case 403: {
+        const modalRef = this.modalService.open(ErrorModalComponent);
+        modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "Access denied.";
         break;
       }
       case 422: {
         const errorArray = error.error as Array<ErrorModel>;
         errorArray.forEach(el => {
+          const modalRef = this.modalService.open(ErrorModalComponent);
+          modalRef.componentInstance.title = "Error occured!";
           modalRef.componentInstance.message = el.message;
         });
         break;
