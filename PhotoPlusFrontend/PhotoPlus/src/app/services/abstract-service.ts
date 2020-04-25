@@ -24,8 +24,8 @@ export abstract class AbstractService<T> {
     return this._http.patch<T>(this.hostAddress + this.endpointUrl + "/" + code, item);
   }
 
-  public delete(code: number): Observable<T> {
-    return this._http.delete<T>(this.hostAddress + this.endpointUrl + "/" + code);
+  public delete(code: string): Observable<T> {
+    return this._http.delete<T>(this.hostAddress + this.endpointUrl + "/delete/" + code);
   }
 
 }

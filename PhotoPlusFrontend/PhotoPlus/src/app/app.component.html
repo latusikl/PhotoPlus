@@ -11,7 +11,9 @@
       </div>
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
         <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
+        <div *ngIf="!isLoggedIn">
         <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
+      </div>
         <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
@@ -26,6 +28,7 @@
               <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="logout()">Logout</a>
             </div>
           </li>
+          <li class="darkenDiv" href="#" routerLink="/forum"><a class="nav-link">Forum</a></li>
         </ng-template>
         <ng-template #showLoginLink>
           <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Log In</a></li>
