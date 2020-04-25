@@ -19,4 +19,8 @@ export class AppComponent {
     this.loginService.logout();
     window.location.reload();
   }
+
+  get isLoggedIn(): boolean {
+    return this.loginService.isLoggedIn();
+  }
 }

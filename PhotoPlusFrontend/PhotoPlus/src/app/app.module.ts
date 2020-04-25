@@ -16,6 +16,12 @@ import {ErrorModalComponent} from './components/error-modal/error-modal.componen
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { CategoryComponent } from './components/category/category.component';
+import { ForumComponent } from './components/forum/forum.component';
+import { SectionComponent } from './components/forum/section/header/section-header.component';
+import { SectionBodyComponent } from './components/forum/section/body/section-body.component';
+import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
+import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
+import { SectionAddComponent } from './components/forum/section/add/section-add.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +32,13 @@ import { CategoryComponent } from './components/category/category.component';
         CartComponent,
         ErrorModalComponent,
         SuccessModalComponent,
-        CategoryComponent
+        CategoryComponent,
+        ForumComponent,
+        SectionComponent,
+        SectionBodyComponent,
+        SectionEditComponent,
+        SectionRemoveComponent,
+        SectionAddComponent
     ],
     imports: [
         BrowserModule,

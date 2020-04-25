@@ -22,25 +22,26 @@ public class PictureController {
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @PreAuthorize("hasPermission('picture', 'single' )")
     public ResponseEntity<Resource> getSingle(@PathVariable("name") final String name) {
         final Resource resource = pictureService.getImage(name);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('picture/post')")
+    @PreAuthorize("hasPermission('picture', 'post' )")
     public ResponseEntity post(@RequestParam("image") final MultipartFile image) throws IOException {
         return new ResponseEntity(pictureService.saveImage(image));
     }
 
     @DeleteMapping(path = "/{name}")
-    @PreAuthorize("hasAuthority('picture/delete')")
+    @PreAuthorize("hasPermission('picture', 'delete' )")
     public ResponseEntity delete(@PathVariable("name") final String name) throws IOException {
         return new ResponseEntity<>(pictureService.deleteImage(name));
     }
 
     @PatchMapping
-    @PreAuthorize("hasAuthority('picture/patch')")
+    @PreAuthorize("hasPermission('picture', 'patch' )")
     public ResponseEntity patch(@RequestParam("image") final MultipartFile image) throws IOException {
         return new ResponseEntity(pictureService.patchImage(image));
     }
