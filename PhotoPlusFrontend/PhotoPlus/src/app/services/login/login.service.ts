@@ -41,8 +41,8 @@ export class LoginService {
     }
 
     public logout() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("date")
+        sessionStorage.removeItem("token")
+        sessionStorage.removeItem("date")
         this.http.get(this.hostAddress + 'logout');
         this.loggedPersonLogin.next("");
     }
@@ -50,12 +50,12 @@ export class LoginService {
     readTokenFromResponse(res) {
         const token = res.headers.get("Authorization");
         const date = res.headers.get("Expires");
-        localStorage.setItem("token", token);
-        localStorage.setItem("date", date);
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("date", date);
     }
 
     public isLoggedIn() {
-        if (localStorage.getItem("token") == null) {
+        if (sessionStorage.getItem("token") == null) {
             return false
         }
         //TODO:Check if not expired
