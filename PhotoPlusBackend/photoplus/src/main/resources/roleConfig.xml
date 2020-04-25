@@ -81,7 +81,6 @@ Proper file format example:
                 <access>/post/delete</access>
                 <access>/post/post</access>
 
-                <access>/product/single</access>
                 <access>/product/patch</access>
                 <access>/product/delete</access>
                 <access>/product/post</access>
