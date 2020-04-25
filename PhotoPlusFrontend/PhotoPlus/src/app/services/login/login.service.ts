@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { LoginModel } from "../../models/login/login-model.model";
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+<<<<<<< HEAD
 import { Observable } from 'rxjs';
+<<<<<<< HEAD
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+=======
+=======
+import { LoggedUser } from 'src/app/models/login/logged-user.model';
+
+>>>>>>> d321679... Rework login service a little bit.
+>>>>>>> 7ddc20d... Rework login service a little bit.
 
 @Injectable({
     providedIn: 'root'
@@ -15,9 +23,19 @@ export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
     private hostAddress = environment.hostAddress;
+<<<<<<< HEAD
     private jwtHelper = new JwtHelperService();
+=======
+    private loggedUser: LoggedUser | any;
+>>>>>>> 7ddc20d... Rework login service a little bit.
 
     constructor(private http: HttpClient, private router: Router) {
+
+      try{
+        this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      } catch {
+        this.loggedUser = null;
+      }
         if (this.isLoggedIn()) {
           this.loggedPersonLogin = new BehaviorSubject<string>(sessionStorage.getItem("login"));
         } else {
@@ -33,9 +51,10 @@ export class LoginService {
             login: login,
             password: password
         }, {observe: 'response'}).subscribe(res => {
-
+          this.loggedUser = res.body;
           this.readTokenFromResponse(res);
           console.log(res.body['login']);
+          localStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
           this.loggedPersonLogin.next(res.body['login']);
           //saving login in session storage
           sessionStorage.setItem("login", this.loggedPersonLogin.value);
@@ -44,10 +63,15 @@ export class LoginService {
     }
 
     public logout() {
+<<<<<<< HEAD
         sessionStorage.removeItem("token")
         sessionStorage.removeItem("date")
+=======
+        localStorage.removeItem("token")
+        localStorage.removeItem("date")
+        localStorage.removeItem("loggedUser");
+>>>>>>> 7ddc20d... Rework login service a little bit.
         this.http.get(this.hostAddress + 'logout');
-        this.loggedPersonLogin.next("");
     }
 
     readTokenFromResponse(res) {
@@ -68,5 +92,9 @@ export class LoginService {
 
     getLoggedPersonLogin(): Observable<string> {
       return this.loggedPersonLogin.asObservable();
+    }
+
+    getLoggedUser(): LoggedUser {
+      return this.loggedUser;
     }
 }
