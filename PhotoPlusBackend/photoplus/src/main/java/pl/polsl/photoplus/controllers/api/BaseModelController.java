@@ -57,7 +57,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all/{page}", produces = {"application/hal+json"})
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
         final List<T> dtos = dtoService.getPageFromAll(page);
@@ -66,7 +66,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all", produces = {"application/hal+json"})
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll()
     {
         final List<T> dtos = dtoService.getAll();
@@ -76,7 +76,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "/{code}", produces = {"application/hal+json"})
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/single' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'single' )")
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
         final T dto = dtoService.getSingleObject(code);
@@ -85,28 +85,30 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/post' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'post' )")
     public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }
 
     @DeleteMapping("/delete/{code}")
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/delete' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'delete' )")
     public ResponseEntity delete(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
     }
 
     @PatchMapping("/{code}")
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/patch' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'patch' )")
     public ResponseEntity patch(@RequestBody final T dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
 
+    //it is used
     public String getAuthorizationPrefix()
     {
         return authorizationPrefix;
     }
+
 }

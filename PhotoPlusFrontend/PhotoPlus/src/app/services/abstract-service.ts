@@ -1,50 +1,31 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { ErrorModel } from '../models/error/errormodel';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export abstract class AbstractService<T> {
+
+  protected hostAddress = environment.hostAddress;
 
   constructor(protected _http: HttpClient, protected endpointUrl: string) { }
 
   public getAll(): Observable<T[]>  {
-    return this._http.get<T[]>(this.endpointUrl + "/all")
-      .pipe(retry(2), catchError(this.handleError));
+    return this._http.get<T[]>(this.hostAddress + this.endpointUrl + "/all");
   }
 
   public getSingle(code: number): Observable<T>  {
-    return this._http.get<T>(this.endpointUrl + "/" + code)
-      .pipe(retry(2), catchError(this.handleError));
-
+    return this._http.get<T>(this.hostAddress + this.endpointUrl + "/" + code);
   }
 
   public post(item: T): Observable<T[]> {
-    return this._http.post<T[]>(this.endpointUrl, [item])
-      .pipe(retry(2));
+    return this._http.post<T[]>(this.hostAddress + this.endpointUrl, [item]);
   }
 
   public patch(code: number, item: T): Observable<T> {
-    return this._http.patch<T>(this.endpointUrl + "/" + code, item)
-      .pipe(retry(2), catchError(this.handleError));
+    return this._http.patch<T>(this.hostAddress + this.endpointUrl + "/" + code, item);
   }
 
-  public delete(code: number): Observable<T> {
-    return this._http.delete<T>(this.endpointUrl + "/" + code)
-      .pipe(retry(2), catchError(this.handleError));
+  public delete(code: string): Observable<T> {
+    return this._http.delete<T>(this.hostAddress + this.endpointUrl + "/delete/" + code);
   }
-
-  private handleError(errorResponse: HttpErrorResponse) {
-
-    const errorArray = errorResponse.error as Array<ErrorModel>;
-    console.error(`Http code: ${errorResponse.status}.`);
-    errorArray.forEach(el => {
-      console.error(
-        `Error: ${el.error}\n`
-      + `Object: ${el.object}\n`
-      + `Message: ${el.message}\n`);
-    });
-
-    return throwError("An error occured.");
-  };
 
 }
