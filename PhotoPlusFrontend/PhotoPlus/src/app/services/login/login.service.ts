@@ -58,10 +58,12 @@ export class LoginService {
     }
 
     public isLoggedIn() {
-        if (sessionStorage.getItem("token") == null) {
+        const token = sessionStorage.getItem("token")
+        if (token == null) {
             return false
         }
-        return !this.jwtHelper.isTokenExpired();
+
+        return !this.jwtHelper.isTokenExpired(token);
     }
 
     getLoggedPersonLogin(): Observable<string> {
