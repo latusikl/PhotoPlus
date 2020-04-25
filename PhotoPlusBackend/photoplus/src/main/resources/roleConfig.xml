@@ -23,6 +23,7 @@ Proper file format example:
                 <access>/product/single</access>
                 <access>/category/all</access>
                 <access>/category/single</access>
+                <access>/user/post</access>
         </role>
         <role name="client">
                 <access>/product/all</access>
