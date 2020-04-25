@@ -78,9 +78,8 @@ public class CustomBasicAuthenticationFilter
             }
         } catch (final TokenExpiredException e) {
             log.info("Token expired.");
-        } finally {
-            return null;
         }
+        return null;
     }
 
     private boolean isNotLoggedOut(final String token)
