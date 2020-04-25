@@ -42,7 +42,7 @@ public class RolePropertiesService
      */
     private Map<String,List<String>> roleAuthenticatorsMap;
 
-    RolePropertiesService()
+    public RolePropertiesService()
     {
         this.roleAuthenticatorsMap = new HashMap<>();
     }

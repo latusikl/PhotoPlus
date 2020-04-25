@@ -4,7 +4,6 @@ import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import pl.polsl.photoplus.components.ContextProvider;
 import pl.polsl.photoplus.security.services.RolePropertiesService;
 
 import java.io.Serializable;
@@ -15,8 +14,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
     private final List<String> publicLinkWhitelist;
 
-    public CustomPermissionEvaluator() {
-        final RolePropertiesService rolePropertiesService = ContextProvider.getBean(RolePropertiesService.class);
+    public CustomPermissionEvaluator(final RolePropertiesService rolePropertiesService) {
         this.publicLinkWhitelist = rolePropertiesService.getPropertiesByRoleName("all");
     }
 
