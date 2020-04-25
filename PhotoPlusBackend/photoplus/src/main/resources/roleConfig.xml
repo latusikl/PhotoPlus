@@ -21,8 +21,13 @@ Proper file format example:
         <role name="all">
                 <access>/product/all</access>
                 <access>/product/single</access>
+
                 <access>/category/all</access>
                 <access>/category/single</access>
+
+                <access>/picture/single</access>
+
+                <access>/user/post</access>
         </role>
         <role name="client">
                 <access>/product/all</access>
@@ -76,7 +81,6 @@ Proper file format example:
                 <access>/post/delete</access>
                 <access>/post/post</access>
 
-                <access>/product/single</access>
                 <access>/product/patch</access>
                 <access>/product/delete</access>
                 <access>/product/post</access>
@@ -107,6 +111,5 @@ Proper file format example:
                 <access>/user/single</access>
                 <access>/user/patch</access>
                 <access>/user/delete</access>
-                <access>/user/post</access>
         </role>
 </config>

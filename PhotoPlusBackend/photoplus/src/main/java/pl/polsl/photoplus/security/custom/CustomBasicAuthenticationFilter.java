@@ -2,7 +2,9 @@ package pl.polsl.photoplus.security.custom;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+@Slf4j
 public class CustomBasicAuthenticationFilter
         extends BasicAuthenticationFilter
 {
@@ -59,21 +62,25 @@ public class CustomBasicAuthenticationFilter
         if (token == null) {
             return null;
         }
-        final DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256(modelPropertiesService.securitySecret.getBytes()))
-                .build()
-                .verify(tokenWithoutPrefix);
-        final String login = decodedJwt.getSubject();
-        if (login != null && isNotLoggedOut(tokenWithoutPrefix)) {
-            final Optional<User> foundUser = userRepository.findUserByLogin(login);
-            if (foundUser.isPresent()) {
-                final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, null, foundUser
-                        .get()
-                        .getAuthorities());
-                return auth;
+        try {
+            final DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256(modelPropertiesService.securitySecret.getBytes()))
+                    .build()
+                    .verify(tokenWithoutPrefix);
+            final String login = decodedJwt.getSubject();
+            if (login != null && isNotLoggedOut(tokenWithoutPrefix)) {
+                final Optional<User> foundUser = userRepository.findUserByLogin(login);
+                if (foundUser.isPresent()) {
+                    final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, null, foundUser
+                            .get()
+                            .getAuthorities());
+                    return auth;
+                }
             }
+        } catch (final TokenExpiredException e) {
+            log.info("Token expired.");
+        } finally {
             return null;
         }
-        return null;
     }
 
     private boolean isNotLoggedOut(final String token)

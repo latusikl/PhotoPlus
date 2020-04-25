@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +15,7 @@ export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
     private hostAddress = environment.hostAddress;
+    private jwtHelper = new JwtHelperService();
 
     constructor(private http: HttpClient, private router: Router) {
         if (this.isLoggedIn()) {
@@ -41,8 +44,8 @@ export class LoginService {
     }
 
     public logout() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("date")
+        sessionStorage.removeItem("token")
+        sessionStorage.removeItem("date")
         this.http.get(this.hostAddress + 'logout');
         this.loggedPersonLogin.next("");
     }
@@ -50,16 +53,17 @@ export class LoginService {
     readTokenFromResponse(res) {
         const token = res.headers.get("Authorization");
         const date = res.headers.get("Expires");
-        localStorage.setItem("token", token);
-        localStorage.setItem("date", date);
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("date", date);
     }
 
     public isLoggedIn() {
-        if (localStorage.getItem("token") == null) {
+        const token = sessionStorage.getItem("token")
+        if (token == null) {
             return false
         }
-        //TODO:Check if not expired
-        return true;
+
+        return !this.jwtHelper.isTokenExpired(token);
     }
 
     getLoggedPersonLogin(): Observable<string> {

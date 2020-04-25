@@ -41,13 +41,13 @@ public class UserModelDto
 
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
-    @OnlyLetters
+    @OnlyLetters(message = "Invalid name. Only letters are allowed.")
     @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
-    @OnlyLetters
+    @OnlyLetters(message = "Invalid surname. Only letters are allowed.")
     @Patchable
     private String surname;
 
