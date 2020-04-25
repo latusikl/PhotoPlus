@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Observable } from 'rxjs';
 <<<<<<< HEAD
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -17,6 +18,11 @@ import { Role } from 'src/app/models/role/role.enum';
 >>>>>>> d321679... Rework login service a little bit.
 >>>>>>> 7ddc20d... Rework login service a little bit.
 
+=======
+import { LoggedUser } from 'src/app/models/login/logged-user.model';
+import { Role } from 'src/app/models/role/role.enum';
+
+>>>>>>> c90b5d5... Fix login service rebase.
 @Injectable({
     providedIn: 'root'
 })
