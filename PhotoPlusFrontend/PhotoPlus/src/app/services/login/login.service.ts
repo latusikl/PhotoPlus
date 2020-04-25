@@ -4,25 +4,9 @@ import { LoginModel } from "../../models/login/login-model.model";
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { Observable } from 'rxjs';
-<<<<<<< HEAD
 import { JwtHelperService } from '@auth0/angular-jwt';
-
-=======
-=======
 import { LoggedUser } from 'src/app/models/login/logged-user.model';
 import { Role } from 'src/app/models/role/role.enum';
-
->>>>>>> d321679... Rework login service a little bit.
->>>>>>> 7ddc20d... Rework login service a little bit.
-
-=======
-import { LoggedUser } from 'src/app/models/login/logged-user.model';
-import { Role } from 'src/app/models/role/role.enum';
-
->>>>>>> c90b5d5... Fix login service rebase.
 @Injectable({
     providedIn: 'root'
 })
@@ -30,16 +14,13 @@ export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
     private hostAddress = environment.hostAddress;
-<<<<<<< HEAD
     private jwtHelper = new JwtHelperService();
-=======
     private loggedUser: LoggedUser | any;
->>>>>>> 7ddc20d... Rework login service a little bit.
 
     constructor(private http: HttpClient, private router: Router) {
 
       try{
-        this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        this.loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
       } catch {
         this.loggedUser = null;
       }
@@ -61,7 +42,7 @@ export class LoginService {
           this.loggedUser = res.body;
           this.readTokenFromResponse(res);
           console.log(res.body['login']);
-          localStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
+          sessionStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
           this.loggedPersonLogin.next(res.body['login']);
           //saving login in session storage
           sessionStorage.setItem("login", this.loggedPersonLogin.value);
@@ -70,14 +51,9 @@ export class LoginService {
     }
 
     public logout() {
-<<<<<<< HEAD
         sessionStorage.removeItem("token")
         sessionStorage.removeItem("date")
-=======
-        localStorage.removeItem("token")
-        localStorage.removeItem("date")
-        localStorage.removeItem("loggedUser");
->>>>>>> 7ddc20d... Rework login service a little bit.
+        sessionStorage.removeItem("loggedUser");
         this.http.get(this.hostAddress + 'logout');
         this.loggedPersonLogin.next("");
     }
