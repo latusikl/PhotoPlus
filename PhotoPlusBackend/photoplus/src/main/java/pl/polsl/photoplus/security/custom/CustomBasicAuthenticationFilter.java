@@ -59,29 +59,30 @@ public class CustomBasicAuthenticationFilter
     {
         final String token = request.getHeader(modelPropertiesService.securityHeaderName);
         final String tokenWithoutPrefix = token.replace(modelPropertiesService.securityTokenPrefix, "");
-        if (token == null) {
-            return null;
-        }
-        try {
-            final DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256(modelPropertiesService.securitySecret.getBytes()))
-                    .build()
-                    .verify(tokenWithoutPrefix);
-            final String login = decodedJwt.getSubject();
-            if (login != null && isNotLoggedOut(tokenWithoutPrefix)) {
-                final Optional<User> foundUser = userRepository.findUserByLogin(login);
-                if (foundUser.isPresent()) {
-                    final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, null, foundUser
-                            .get()
-                            .getAuthorities());
-                    return auth;
+        if (token != null)
+        {
+            try {
+                final DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256(modelPropertiesService.securitySecret.getBytes()))
+                        .build()
+                        .verify(tokenWithoutPrefix);
+                final String login = decodedJwt.getSubject();
+                if (login != null && isNotLoggedOut(tokenWithoutPrefix)) {
+                    final Optional<User> foundUser = userRepository.findUserByLogin(login);
+                    if (foundUser.isPresent()) {
+                        final UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(login, null, foundUser
+                                .get()
+                                .getAuthorities());
+                        return auth;
+                    }
+
                 }
-                return null;
+
+            } catch (final TokenExpiredException e) {
+                log.info("Token expired.");
             }
-            return null;
-        } catch (final TokenExpiredException e) {
-            log.info("Token expired.");
-            return null;
         }
+        
+        return null;
     }
 
     private boolean isNotLoggedOut(final String token)
