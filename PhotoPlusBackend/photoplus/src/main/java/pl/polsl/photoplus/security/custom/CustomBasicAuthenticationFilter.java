@@ -75,11 +75,10 @@ public class CustomBasicAuthenticationFilter
                             .getAuthorities());
                     return auth;
                 }
-                return null;
             }
-            return null;
         } catch (final TokenExpiredException e) {
             log.info("Token expired.");
+        } finally {
             return null;
         }
     }
