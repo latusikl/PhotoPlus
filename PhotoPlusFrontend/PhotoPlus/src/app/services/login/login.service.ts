@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +15,7 @@ export class LoginService {
 
     private loggedPersonLogin: BehaviorSubject<string>;
     private hostAddress = environment.hostAddress;
+    private jwtHelper = new JwtHelperService();
 
     constructor(private http: HttpClient, private router: Router) {
         if (this.isLoggedIn()) {
@@ -58,8 +61,7 @@ export class LoginService {
         if (sessionStorage.getItem("token") == null) {
             return false
         }
-        //TODO:Check if not expired
-        return true;
+        return !this.jwtHelper.isTokenExpired();
     }
 
     getLoggedPersonLogin(): Observable<string> {
