@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorModalComponent } from '../components/error-modal/error-modal.component';
 import { Injectable } from '@angular/core';
+import { ErrorModel } from '../models/error/errormodel';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,13 @@ export class ErrorInterceptor implements HttpInterceptor {
       }
       case 403: {
         modalRef.componentInstance.message = "Access denied.";
+        break;
+      }
+      case 422: {
+        const errorArray = error.error as Array<ErrorModel>;
+        errorArray.forEach(el => {
+          modalRef.componentInstance.message = el.message;
+        });
         break;
       }
       default: {
