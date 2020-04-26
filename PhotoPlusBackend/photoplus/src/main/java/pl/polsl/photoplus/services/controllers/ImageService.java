@@ -16,12 +16,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 @Service
-public class PictureService {
+public class ImageService {
 
     private final ResourceLoader resourceLoader;
     private final String IMG_PATH = "src/main/resources/images";
 
-    public PictureService(final ResourceLoader resourceLoader) {
+    public ImageService(final ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 
@@ -31,7 +31,7 @@ public class PictureService {
                 .filter(x -> x.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> { throw new NotFoundException("No image with name: " + name,
-                PictureService.class.getSimpleName()); });
+                ImageService.class.getSimpleName()); });
         return resourceLoader.getResource("file:" + IMG_PATH + File.separator + foundImage.getName());
     }
 
@@ -55,7 +55,7 @@ public class PictureService {
                 .filter(x -> x.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> { throw new NotFoundException("No image with name: " + name,
-                        PictureService.class.getSimpleName()); });
+                        ImageService.class.getSimpleName()); });
         Files.delete(Paths.get(IMG_PATH + File.separator + foundImage.getName()));
         return HttpStatus.NO_CONTENT;
     }

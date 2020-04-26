@@ -7,43 +7,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.polsl.photoplus.services.controllers.PictureService;
+import pl.polsl.photoplus.services.controllers.ImageService;
 
 import java.io.IOException;
 
 @RestController
 @RequestMapping("/picture")
-public class PictureController {
+public class ImageController {
 
-    final PictureService pictureService;
+    final ImageService imageService;
 
-    public PictureController(final PictureService pictureService) {
-        this.pictureService = pictureService;
+    public ImageController(final ImageService imageService) {
+        this.imageService = imageService;
     }
 
     @GetMapping(path = "/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-    @PreAuthorize("hasPermission('picture', 'single' )")
+    @PreAuthorize("hasPermission('image', 'single' )")
     public ResponseEntity<Resource> getSingle(@PathVariable("name") final String name) {
-        final Resource resource = pictureService.getImage(name);
+        final Resource resource = imageService.getImage(name);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasPermission('picture', 'post' )")
+    @PreAuthorize("hasPermission('image', 'post' )")
     public ResponseEntity post(@RequestParam("image") final MultipartFile image) throws IOException {
-        return new ResponseEntity(pictureService.saveImage(image));
+        return new ResponseEntity(imageService.saveImage(image));
     }
 
     @DeleteMapping(path = "/{name}")
-    @PreAuthorize("hasPermission('picture', 'delete' )")
+    @PreAuthorize("hasPermission('image', 'delete' )")
     public ResponseEntity delete(@PathVariable("name") final String name) throws IOException {
-        return new ResponseEntity<>(pictureService.deleteImage(name));
+        return new ResponseEntity<>(imageService.deleteImage(name));
     }
 
     @PatchMapping
-    @PreAuthorize("hasPermission('picture', 'patch' )")
+    @PreAuthorize("hasPermission('image', 'patch' )")
     public ResponseEntity patch(@RequestParam("image") final MultipartFile image) throws IOException {
-        return new ResponseEntity(pictureService.patchImage(image));
+        return new ResponseEntity(imageService.patchImage(image));
     }
 
 }
