@@ -26,7 +26,7 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
     }
 
     @GetMapping(produces = {"application/hal+json"})
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<TopicModelDto>> getAllFromCategory(@RequestParam final String sectionCode) {
         final List<TopicModelDto> dtos = this.dtoService.getTopicsBySection(sectionCode);
         addLinks(dtos);

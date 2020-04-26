@@ -27,7 +27,7 @@ public class PostController extends BaseModelController<PostModelDto,PostService
     }
 
     @GetMapping(produces = {"application/hal+json"})
-    @PreAuthorize("hasAuthority(this.authorizationPrefix + '/all' )")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<PostModelDto>> getAllFromCategory(@RequestParam final String topicCode) {
         final List<PostModelDto> dtos = this.dtoService.getPostsByTopic(topicCode);
         addLinks(dtos);
