@@ -25,7 +25,7 @@ Proper file format example:
                 <access>/category/all</access>
                 <access>/category/single</access>
 
-                <access>/picture/single</access>
+                <access>/image/single</access>
 
                 <access>/user/post</access>
         </role>
@@ -71,9 +71,9 @@ Proper file format example:
                 <access>/orderItem/delete</access>
                 <access>/orderItem/post</access>
 
-                <access>/picture/patch</access>
-                <access>/picture/delete</access>
-                <access>/picture/post</access>
+                <access>/image/post</access>
+                <access>/image/delete</access>
+                <access>/image/patch</access>
 
                 <access>/post/all</access>
                 <access>/post/single</access>
