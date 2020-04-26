@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ public class Image extends AbstractEntityModel {
     }
 
     @Patchable
+    @Column(unique = true)
     private String name;
 
     @Patchable

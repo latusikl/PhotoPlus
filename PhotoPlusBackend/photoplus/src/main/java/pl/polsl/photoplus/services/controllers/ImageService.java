@@ -1,13 +1,9 @@
 package pl.polsl.photoplus.services.controllers;
 
-import org.apache.tika.Tika;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import pl.polsl.photoplus.model.dto.ImageModelDto;
 import pl.polsl.photoplus.model.entities.Image;
 import pl.polsl.photoplus.repositories.ImageRepository;
-
-import java.io.IOException;
 
 @Service
 public class ImageService extends AbstractModelService<Image,ImageModelDto, ImageRepository>
@@ -40,12 +36,4 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
         return false;
     }
 
-    public boolean isPicture(final MultipartFile file) throws IOException {
-        final Tika tika = new Tika();
-        final String detectedType = tika.detect(file.getBytes());
-        if (detectedType.startsWith("image")) {
-            return true;
-        }
-        return false;
-    }
 }
