@@ -25,7 +25,7 @@ public class CustomPermissionEvaluator
     }
 
     @PostConstruct
-    public void test()
+    public void injectWhitelistedEndpoints()
     {
         this.publicLinkWhitelist = rolePropertiesService.getPropertiesByRoleName("all");
     }
