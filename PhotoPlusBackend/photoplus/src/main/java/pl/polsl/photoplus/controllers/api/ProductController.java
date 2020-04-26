@@ -43,7 +43,7 @@ public class ProductController
         dto.add(linkTo(methodOn(ProductController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(ProductController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
         dto.add(linkTo(methodOn(CategoryController.class).getSingle(dto.getCategory())).withRel(CATEGORY_RELATION_NAME));
-        dto.getImageFilenames().forEach(image -> dto.add(linkTo(methodOn(PictureController.class).getSingle(image)).withRel(IMAGE_RELATION_NAME)));
+        dto.getImageFilenames().forEach(image -> dto.add(linkTo(methodOn(ImageController.class).getSingle(image)).withRel(IMAGE_RELATION_NAME)));
     }
 
 }

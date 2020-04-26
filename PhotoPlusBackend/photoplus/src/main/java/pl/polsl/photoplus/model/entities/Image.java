@@ -6,6 +6,7 @@ import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity(name = "images")
@@ -24,6 +25,7 @@ public class Image extends AbstractEntityModel {
     private String name;
 
     @Patchable
+    @Lob
     private byte[] bytes;
 
 
