@@ -56,4 +56,8 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
         dto.stream().map(insertTopicDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
+
+    public List<PostModelDto> getPostsByTopic(final String topicCode) {
+        return getDtoListFromModels(this.entityRepository.findAllByTopic_Code(topicCode));
+    }
 }
