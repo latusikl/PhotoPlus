@@ -53,4 +53,8 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
         dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
+
+    public List<TopicModelDto> getTopicsBySection(final String sectionCode) {
+        return getDtoListFromModels(this.entityRepository.findAllBySection_Code(sectionCode));
+    }
 }
