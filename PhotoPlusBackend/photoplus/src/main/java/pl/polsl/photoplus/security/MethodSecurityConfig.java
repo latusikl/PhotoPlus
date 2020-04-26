@@ -9,13 +9,22 @@ import pl.polsl.photoplus.security.custom.CustomPermissionEvaluator;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+public class MethodSecurityConfig
+        extends GlobalMethodSecurityConfiguration
+{
+
+    final CustomPermissionEvaluator customPermissionEvaluator;
+
+    public MethodSecurityConfig(final CustomPermissionEvaluator customPermissionEvaluator)
+    {
+        this.customPermissionEvaluator = customPermissionEvaluator;
+    }
 
     @Override
-    protected MethodSecurityExpressionHandler createExpressionHandler() {
-        final DefaultMethodSecurityExpressionHandler expressionHandler =
-                new DefaultMethodSecurityExpressionHandler();
-        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
+    protected MethodSecurityExpressionHandler createExpressionHandler()
+    {
+        final DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(customPermissionEvaluator);
         return expressionHandler;
     }
 }
