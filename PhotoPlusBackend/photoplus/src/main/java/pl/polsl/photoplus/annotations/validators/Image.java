@@ -12,7 +12,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 public @interface Image {
-    String message() default "Image is not valid.";
+
+    String message() default "Image is not valid or not unique.";
 
     Class<?>[] groups() default {};
 
