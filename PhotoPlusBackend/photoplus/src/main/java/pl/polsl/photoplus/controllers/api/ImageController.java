@@ -41,4 +41,17 @@ public class ImageController {
         return new ResponseEntity(imageService.save(List.of(
                 new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()))));
     }
+
+    @DeleteMapping("/delete/{code}")
+    @PreAuthorize("hasPermission('image', 'delete' )")
+    public ResponseEntity delete(@PathVariable("code") final String code) {
+        return new ResponseEntity(imageService.delete(code));
+    }
+
+    @PatchMapping("/{code}")
+    @PreAuthorize("hasPermission('image', 'patch' )")
+    public ResponseEntity patch(final MultipartFile file, @PathVariable("code") final String code) throws IOException {
+        final ImageModelDto img = new ImageModelDto(code, file.getOriginalFilename(), file.getBytes());
+        return new ResponseEntity(imageService.patch(img, code));
+    }
 }
