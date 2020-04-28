@@ -10,6 +10,7 @@ import { SectionBodyComponent } from './components/forum/section/body/section-bo
 import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
 import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
+import { ProductComponent } from './components/product/product.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'forum/section/:code', component: SectionBodyComponent},
   { path: 'forum/edit/section/:code', component: SectionEditComponent},
   { path: 'forum/remove/section/:code', component: SectionRemoveComponent},
-  { path: 'forum/add/section', component: SectionAddComponent}
+  { path: 'forum/add/section', component: SectionAddComponent},
+  { path: 'product/:productCode', component: ProductComponent }
 ];
 
 @NgModule({

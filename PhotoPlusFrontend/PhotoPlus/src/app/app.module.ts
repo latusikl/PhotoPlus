@@ -21,6 +21,7 @@ import { SectionBodyComponent } from './components/forum/section/body/section-bo
 import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
 import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
+import { ProductComponent } from './components/product/product.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { SectionAddComponent } from './components/forum/section/add/section-add.
         SectionBodyComponent,
         SectionEditComponent,
         SectionRemoveComponent,
-        SectionAddComponent
+        SectionAddComponent,
+        ProductComponent
     ],
     imports: [
         BrowserModule,

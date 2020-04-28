@@ -1,0 +1,30 @@
+<div class="wrapper fadeInDown" >
+    <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
+    <p class="name" >{{product.name}}</p>
+    
+    
+    <ngb-carousel wrap="true" style="width:30%;margin-left: 5%;float: left;" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
+        <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+          <div class="picsum-img-wrapper" >
+            <img class="carouselImage" src="{{image}}">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <ng-template #noCarousel  >
+        <div style="width:30%;margin-left: 5%;float: left;">
+          <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">
+        </div>    
+      </ng-template>
+     <p class="description"> {{ product.description }} </p>
+    
+    
+      <p class="price" style="float:left" >$<span>{{ product.price }}</span></p>
+    <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+    <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
+  
+
+
+    </div>
+            
+    
+    

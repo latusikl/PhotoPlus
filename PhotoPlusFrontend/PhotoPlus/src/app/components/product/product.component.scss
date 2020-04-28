@@ -1,0 +1,103 @@
+
+.name {
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1%; 
+  }
+  .description{
+    margin-left: 38%;
+    margin-right: 38%;
+    font-size: 1rem;
+    margin-top: 5%;
+
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    padding: 1em 0;
+  }
+  
+  .noCarouselImage{
+    position: absolute;
+
+    max-width: 100%;
+    max-height: 25rem;
+    padding: 1em 0;
+    float: left;
+  }
+  
+  .carouselImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    max-width: 100%;
+    max-height: 25rem;
+    padding: 1em 0;
+    float: left;
+  }
+  
+  ::ng-deep .carousel {
+    height: 30rem;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  ::ng-deep .carousel-inner {
+    height: 90%;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  ::ng-deep .carousel-control-next-icon,
+  ::ng-deep .carousel-control-prev-icon,
+  ::ng-deep .carousel-indicators {
+    filter: invert(1);
+  }
+  
+  ::ng-deep .carousel-control-next,
+  ::ng-deep .carousel-control-prev {
+    cursor: pointer;
+  }
+  
+  ::ng-deep .carousel-item {
+    display: block !important;
+    position: absolute;
+    height: 100%;
+    transform: translateX(100%);
+    opacity: 0;
+    transition:all  2s;
+  }
+  
+  ::ng-deep .carousel-item.active {
+    position: relative;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+
+  
+  #cart-link {
+    position: absolute;
+    bottom: 40%;
+    right: 15%;
+  }
+  
+  #buy-link {
+    position: absolute;
+    bottom: 40%;
+    right: 21%;
+  }
+
+  .price {
+  position: absolute;
+  width: 90%;
+  left: 80%;
+  transform: translateX(-50%);
+  bottom: 60%;
+  color: #2070ff;
+  text-align: center;
+  font-size: 22px;
+}
