@@ -1,7 +1,8 @@
 <div class="wrapper fadeInDown" >
     <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
-    
+
     <p class="name" >{{product.name}}</p>
+    
     
     
     <ngb-carousel wrap="true" style="width:30%;margin-left: 5%;float: left;" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
