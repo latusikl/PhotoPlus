@@ -1,3 +1,8 @@
+.carousel{
+  width:30%;
+  margin-left: 5%;
+  float: left;
+}
 
 .name {
     font-weight: bold;
@@ -6,11 +11,11 @@
     margin-top: 1%; 
   }
   .description{
+    position: absolute;
+    margin-top:3%;
     margin-left: 38%;
     margin-right: 38%;
     font-size: 1rem;
-    margin-top: 5%;
-
   }
 
   img {
@@ -80,24 +85,21 @@
 
   
   #cart-link {
-    position: absolute;
-    bottom: 40%;
-    right: 15%;
+    float:right;
+    bottom: 0%;
+    margin-right: 14%;
   }
   
   #buy-link {
-    position: absolute;
-    bottom: 40%;
-    right: 21%;
+    float:right;
+    bottom: 0%;
+    margin-right: 0.5%;
   }
 
   .price {
   position: absolute;
-  width: 90%;
-  left: 80%;
-  transform: translateX(-50%);
-  bottom: 60%;
+  right: 19%;
+  bottom:-30%;
   color: #2070ff;
-  text-align: center;
   font-size: 22px;
 }
