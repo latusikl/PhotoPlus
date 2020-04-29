@@ -1,8 +1,7 @@
-import { Section } from '../section/section';
-
 export class Topic {
+    code: string;
     name:string;
-    section: string;
+    sectionCode: string;
     date: Date;
-    usercode: string;
+    userCode: string;
 }
