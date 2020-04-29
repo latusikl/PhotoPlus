@@ -1,4 +1,4 @@
-.carousel{
+.carousel1{
   width:30%;
   margin-left: 5%;
   float: left;
@@ -24,7 +24,7 @@
     padding: 1em 0;
   }
   
-  .noCarouselImage{
+  .noCarouselImage1{
     position: absolute;
 
     max-width: 100%;
@@ -33,7 +33,7 @@
     float: left;
   }
   
-  .carouselImage {
+  .carouselImage1 {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -44,30 +44,30 @@
     float: left;
   }
   
-  ::ng-deep .carousel {
+  ::ng-deep .carousel1 {
     height: 30rem;
     max-width: 100%;
     margin: 0 auto;
   }
   
-  ::ng-deep .carousel-inner {
+  ::ng-deep .carousel1-inner {
     height: 90%;
     max-width: 90%;
     margin: 0 auto;
   }
   
-  ::ng-deep .carousel-control-next-icon,
-  ::ng-deep .carousel-control-prev-icon,
-  ::ng-deep .carousel-indicators {
+  ::ng-deep .carousel1-control-next-icon,
+  ::ng-deep .carousel1-control-prev-icon,
+  ::ng-deep .carousel1-indicators {
     filter: invert(1);
   }
   
-  ::ng-deep .carousel-control-next,
-  ::ng-deep .carousel-control-prev {
+  ::ng-deep .carousel1-control-next,
+  ::ng-deep .carousel1-control-prev {
     cursor: pointer;
   }
   
-  ::ng-deep .carousel-item {
+  ::ng-deep .carousel1-item {
     display: block !important;
     position: absolute;
     height: 100%;
@@ -76,7 +76,7 @@
     transition:all  2s;
   }
   
-  ::ng-deep .carousel-item.active {
+  ::ng-deep .carousel1-item.active {
     position: relative;
     transform: translateX(0);
     opacity: 1;
@@ -96,10 +96,11 @@
     margin-right: 0.5%;
   }
 
-  .price {
+  .price1 {
+  
   position: absolute;
-  right: 19%;
-  bottom:-30%;
+  margin-top: -2%;
+  margin-left: 78%;
   color: #2070ff;
   font-size: 22px;
 }

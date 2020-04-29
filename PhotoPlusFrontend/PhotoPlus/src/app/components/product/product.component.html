@@ -1,20 +1,25 @@
 <div class="wrapper fadeInDown" >
-    <p class="card-subtitle mb-2 text-muted"> {{ product.category }} </p>
+    <p class="mb-2 text-muted"> {{ product.category }} </p>
     <p class="name" >{{product.name}}</p>
-    <ngb-carousel class="carousel" wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
+    <div>
+    <ngb-carousel class="carousel1" wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
         <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
           <div class="picsum-img-wrapper" >
-            <img class="carouselImage" src="{{image}}">
+            <img class="carouselImage1" src="{{image}}">
           </div>
         </ng-template>
       </ngb-carousel>
       <ng-template #noCarousel  >        
-          <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">   
+          <img class="noCarouselImage1" src="{{product.imagesUrl[0]}}">   
       </ng-template>
-      <p class="price">$<span>{{ product.price }}</span></p>
+      
+      <p class="price1">${{ product.price }}</p>
+      
       <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
       <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
-     <p class="description">{{product.description}}</p>   
+   
+     <p class="description">{{product.description}}</p>  
+    </div> 
     </div>
             
     

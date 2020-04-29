@@ -22,6 +22,7 @@ import { SectionEditComponent } from './components/forum/section/edit/section-ed
 import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
 import { ProductComponent } from './components/product/product.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { ProductComponent } from './components/product/product.component';
         SectionEditComponent,
         SectionRemoveComponent,
         SectionAddComponent,
-        ProductComponent
+        ProductComponent,
+        OrderComponent
     ],
     imports: [
         BrowserModule,
