@@ -2,7 +2,7 @@ import { Section } from '../section/section';
 
 export class Topic {
     name:string;
-    section: Section;
+    section: string;
     date: Date;
     usercode: string;
 }
