@@ -4,7 +4,7 @@
            User: {{topicOwnerName.name}}
         </div>
         <div class="col-10">
-            <div style="float:right">
+            <div *ngIf="!canModify" style="float:right">
                 <a [routerLink]="['/forum/edit/topic', topic.code]">
                     <button class="btn btn-primary button-edit"  >Edit</button>
                 </a>
@@ -18,7 +18,6 @@
                     Topic : {{topic.date}}
                 </div>
             </a>
-            
         </div>
     </div>
 </div>
