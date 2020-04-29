@@ -1,106 +1,95 @@
-.carousel1{
-  width:30%;
-  margin-left: 5%;
-  float: left;
+.carouselProduct{
+  width:80%;
+
 }
 
 .name {
     font-weight: bold;
     font-size: 2rem;
-    text-align: center;
     margin-top: 1%; 
+    margin-left: 5%;
   }
+
+  .category{
+    margin-left: 5%;
+  }
+
   .description{
-    position: absolute;
-    margin-top:3%;
-    margin-left: 38%;
-    margin-right: 38%;
+    width: 40%;
     font-size: 1rem;
+    margin-top: 10%;
   }
 
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    padding: 1em 0;
+  .column1 {
+    float: left;
+    width: 40%
   }
+  .column2 {
+    float: left;
+    width: 40%
+  }
+  .column3 {
+    float: left;
+    width: 20%
+  }
+
   
-  .noCarouselImage1{
-    position: absolute;
-
+  .noCarouselImageProduct{
     max-width: 100%;
     max-height: 25rem;
     padding: 1em 0;
-    float: left;
+   margin-left: 20%;
   }
   
-  .carouselImage1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+  .carouselImageProduct {
     max-width: 100%;
     max-height: 25rem;
     padding: 1em 0;
-    float: left;
+    margin-left: 7%;
   }
   
-  ::ng-deep .carousel1 {
+  ::ng-deep .carouselProduct {
     height: 30rem;
     max-width: 100%;
     margin: 0 auto;
   }
   
-  ::ng-deep .carousel1-inner {
+  ::ng-deep .carouselProduct-inner {
     height: 90%;
     max-width: 90%;
     margin: 0 auto;
   }
   
-  ::ng-deep .carousel1-control-next-icon,
-  ::ng-deep .carousel1-control-prev-icon,
-  ::ng-deep .carousel1-indicators {
-    filter: invert(1);
+  ::ng-deep .carouselProduct-control-next-icon,
+  ::ng-deep .carouselProduct-control-prev-icon,
+  ::ng-deep .carouselProduct-indicators {
+    filter: invert(1); 
   }
   
-  ::ng-deep .carousel1-control-next,
-  ::ng-deep .carousel1-control-prev {
+  ::ng-deep .carouselProduct-control-next,
+  ::ng-deep .carouselProduct-control-prev {
     cursor: pointer;
+    
   }
   
-  ::ng-deep .carousel1-item {
+  ::ng-deep .carouselProduct-item {
     display: block !important;
-    position: absolute;
     height: 100%;
-    transform: translateX(100%);
     opacity: 0;
     transition:all  2s;
   }
   
-  ::ng-deep .carousel1-item.active {
-    position: relative;
-    transform: translateX(0);
+  ::ng-deep .carouselProduct-item.active {
     opacity: 1;
   }
 
-
   
-  #cart-link {
-    float:right;
-    bottom: 0%;
-    margin-right: 14%;
-  }
-  
-  #buy-link {
-    float:right;
-    bottom: 0%;
-    margin-right: 0.5%;
-  }
-
   .price1 {
-  
-  position: absolute;
-  margin-top: -2%;
-  margin-left: 78%;
   color: #2070ff;
   font-size: 22px;
 }
+
+.buttons{
+  margin-top: 20%;
+}
+
