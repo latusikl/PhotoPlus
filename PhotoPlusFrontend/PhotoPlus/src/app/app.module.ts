@@ -24,6 +24,7 @@ import { SectionAddComponent } from './components/forum/section/add/section-add.
 import { TopicBodyComponent } from './components/forum/topic/topic-body/topic-body.component';
 import { TopicHeaderComponent } from './components/forum/topic/topic-header/topic-header.component';
 import { TopicAddComponent } from './components/forum/topic/topic-add/topic-add.component';
+import { TopicEditComponent } from './components/forum/topic/topic-edit/topic-edit.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { TopicAddComponent } from './components/forum/topic/topic-add/topic-add.
         SectionAddComponent,
         TopicBodyComponent,
         TopicHeaderComponent,
-        TopicAddComponent
+        TopicAddComponent,
+        TopicEditComponent
     ],
     imports: [
         BrowserModule,
