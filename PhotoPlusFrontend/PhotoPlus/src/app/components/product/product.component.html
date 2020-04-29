@@ -1,4 +1,4 @@
-<div class="row">
+<div class="roww">
   <div class="column1">
     <ngb-carousel class="carouselProduct" wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
       <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
@@ -19,7 +19,7 @@
  </div>
 </div> 
  <div class="column3">
-   <div class="buttons">
+   <div >
   <p class="price1">${{ product.price }}</p> 
   <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
   <br>

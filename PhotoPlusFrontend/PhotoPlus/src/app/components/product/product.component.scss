@@ -1,63 +1,72 @@
 .carouselProduct{
   width:80%;
-
 }
+
+.roww{
+  display: flex;
+  flex-flow:wrap;
+  width: 100%;
+}
+
 
 .name {
     font-weight: bold;
     font-size: 2rem;
-    margin-top: 1%; 
-    margin-left: 5%;
+    margin-top: 1rem; 
+    margin-left: 5rem;
   }
 
   .category{
-    margin-left: 5%;
+    margin-left: 5rem;
   }
 
   .description{
-    width: 40%;
+    width: 60%;
     font-size: 1rem;
     margin-top: 10%;
   }
 
   .column1 {
     float: left;
-    width: 40%
+    width: 40rem;
   }
   .column2 {
     float: left;
-    width: 40%
+    width: 45rem;
   }
   .column3 {
     float: left;
-    width: 20%
+    width: 25rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 15%;
   }
 
   
   .noCarouselImageProduct{
-    max-width: 100%;
+    max-width: 90%;
     max-height: 25rem;
     padding: 1em 0;
-   margin-left: 20%;
+   
   }
   
   .carouselImageProduct {
-    max-width: 100%;
-    max-height: 25rem;
+    max-width: 90%;
+    max-height: 20rem;
     padding: 1em 0;
-    margin-left: 7%;
+ 
   }
   
   ::ng-deep .carouselProduct {
-    height: 30rem;
+    height: 23rem;
     max-width: 100%;
-    margin: 0 auto;
   }
   
   ::ng-deep .carouselProduct-inner {
     height: 90%;
     max-width: 90%;
-    margin: 0 auto;
+ 
   }
   
   ::ng-deep .carouselProduct-control-next-icon,
@@ -74,7 +83,6 @@
   
   ::ng-deep .carouselProduct-item {
     display: block !important;
-    height: 100%;
     opacity: 0;
     transition:all  2s;
   }
@@ -89,7 +97,5 @@
   font-size: 22px;
 }
 
-.buttons{
-  margin-top: 20%;
-}
+
 
