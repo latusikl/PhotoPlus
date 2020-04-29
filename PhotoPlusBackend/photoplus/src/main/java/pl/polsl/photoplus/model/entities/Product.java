@@ -18,11 +18,11 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends AbstractEntityModel {
 
-    public Product(final String name, final Integer price, final String description, final List<String> imageFileNames) {
+    public Product(final String name, final Integer price, final String description, final List<String> imageCodes) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imageFilenames = imageFileNames;
+        this.imageCodes = imageCodes;
     }
 
     @Patchable
@@ -40,6 +40,6 @@ public class Product extends AbstractEntityModel {
 
     @Patchable
     @ElementCollection
-    private List<String> imageFilenames;
+    private List<String> imageCodes;
 
 }

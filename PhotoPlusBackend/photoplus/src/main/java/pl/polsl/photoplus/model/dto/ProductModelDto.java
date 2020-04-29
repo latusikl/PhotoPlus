@@ -38,20 +38,20 @@ public class ProductModelDto
     @Patchable
     private String description;
 
-    @JsonProperty("imageFilenames")
+    @JsonProperty("imageCodes")
     @Patchable
     @ElementCollection
-    private List<String> imageFilenames;
+    private List<String> imageCodes;
 
     public ProductModelDto(final String code, final String name, final Integer price, final String description,
-                           final String category, final List<String> imageFilenames)
+                           final String category, final List<String> imageCodes)
     {
         super(code);
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
-        this.imageFilenames = imageFilenames;
+        this.imageCodes = imageCodes;
     }
 
     public Category categoryPatch()

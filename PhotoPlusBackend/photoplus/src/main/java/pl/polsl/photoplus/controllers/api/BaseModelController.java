@@ -56,7 +56,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
         dtos.forEach(this::addLinks);
     }
 
-    @GetMapping(path = "all/{page}", produces = {"application/hal+json"})
+    @GetMapping(path = "all/{page}", produces = {"application/json"})
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
@@ -65,7 +65,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping(path = "all", produces = {"application/hal+json"})
+    @GetMapping(path = "all", produces = {"application/json"})
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll()
     {
@@ -75,7 +75,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{code}", produces = {"application/hal+json"})
+    @GetMapping(path = "/{code}", produces = {"application/json"})
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'single' )")
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
