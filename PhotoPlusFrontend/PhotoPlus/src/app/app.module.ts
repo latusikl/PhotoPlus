@@ -21,10 +21,11 @@ import { SectionBodyComponent } from './components/forum/section/body/section-bo
 import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
 import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
-import { TopicBodyComponent } from './components/forum/topic/topic-body/topic-body.component';
-import { TopicHeaderComponent } from './components/forum/topic/topic-header/topic-header.component';
-import { TopicAddComponent } from './components/forum/topic/topic-add/topic-add.component';
-import { TopicEditComponent } from './components/forum/topic/topic-edit/topic-edit.component';
+import { TopicBodyComponent } from './components/forum/topic/body/topic-body.component';
+import { TopicHeaderComponent } from './components/forum/topic/header/topic-header.component';
+import { TopicAddComponent } from './components/forum/topic/add/topic-add.component';
+import { TopicEditComponent } from './components/forum/topic/edit/topic-edit.component';
+import { TopicRemoveComponent } from './components/forum/topic/remove/topic-remove.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import { TopicEditComponent } from './components/forum/topic/topic-edit/topic-ed
         TopicBodyComponent,
         TopicHeaderComponent,
         TopicAddComponent,
-        TopicEditComponent
+        TopicEditComponent,
+        TopicRemoveComponent
     ],
     imports: [
         BrowserModule,
