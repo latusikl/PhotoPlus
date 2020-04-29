@@ -1,1 +1,24 @@
-<p>topic-header works!</p>
+<div class="container app-topic">
+    <div class="row">
+        <div class="col-2 user-profile no-float">
+           User: {{topicOwnerName.name}}
+        </div>
+        <div class="col-10">
+            <div style="float:right">
+                <a [routerLink]="['/forum/edit/topic', topic.code]">
+                    <button class="btn btn-primary button-edit"  >Edit</button>
+                </a>
+                <a [routerLink]="['/forum/remove/topic', topic.code]">
+                    <button class="btn btn-danger">Remove</button>
+                </a>
+            </div>
+            <a [routerLink]="['/forum/topic', topic.code]">
+                <div class="app-topic-content">
+                    Topic name:{{topic.name}}<br>
+                    Topic : {{topic.date}}
+                </div>
+            </a>
+            
+        </div>
+    </div>
+</div>
