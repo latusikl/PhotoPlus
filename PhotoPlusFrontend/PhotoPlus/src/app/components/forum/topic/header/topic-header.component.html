@@ -1,10 +1,10 @@
 <div class="container app-topic">
     <div class="row">
         <div class="col-2 user-profile no-float">
-           User: {{topicOwnerName.name}}
+           User: {{(topicOwner | async).name || ''}}
         </div>
         <div class="col-10">
-            <div *ngIf="!canModify" style="float:right">
+            <div *ngIf="(canModify | async)" style="float:right">
                 <a [routerLink]="['/forum/edit/topic', topic.code]">
                     <button class="btn btn-primary button-edit"  >Edit</button>
                 </a>
