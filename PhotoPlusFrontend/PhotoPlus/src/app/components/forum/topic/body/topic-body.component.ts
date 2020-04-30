@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from 'src/app/models/topic/topic';
 import { TopicService } from 'src/app/services/topic/topic.service';
 import { Post } from 'src/app/models/post/post';
-import { PostService } from 'src/app/services/post.service';
+import { PostService } from 'src/app/services/post/post.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { LoginService } from 'src/app/services/login/login.service';
 import { UserService } from 'src/app/services/user/user.service';

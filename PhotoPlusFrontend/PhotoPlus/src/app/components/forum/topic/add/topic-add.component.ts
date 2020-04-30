@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SectionService } from 'src/app/services/section/section.service';
 import { TopicService } from 'src/app/services/topic/topic.service';
-import { PostService } from 'src/app/services/post.service';
+import { PostService } from 'src/app/services/post/post.service';
 import { Topic } from 'src/app/models/topic/topic';
 import { LoginService } from 'src/app/services/login/login.service';
 import { Post } from 'src/app/models/post/post';

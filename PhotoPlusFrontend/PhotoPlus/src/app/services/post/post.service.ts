@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AbstractService } from './abstract-service';
+import { AbstractService } from '../abstract-service';
 import { HttpClient } from '@angular/common/http';
-import { Post } from '../models/post/post';
+import { Post } from '../../models/post/post';
 import { Observable } from 'rxjs';
 
 @Injectable({
