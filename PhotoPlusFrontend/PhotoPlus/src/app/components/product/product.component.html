@@ -1,39 +1,44 @@
-<div class="roww">
-  <div class="column1">
-    <ngb-carousel class="carouselProduct" wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
-      <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+<div class="flex-container fadeInDown">
+  <div class="card shadow-border">
+    <div class="card-body fadeIn first">
+      <div class="row">
+      <div class="column1">
+        <ngb-carousel  wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
+          <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+            <div>
+              <img class="carouselImage" src="{{image}}">
+            </div>
+          </ng-template>
+        </ngb-carousel>
+        <ng-template #noCarousel  >
+          <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">
+        </ng-template>
+      </div>
+      <div class="column2">
         <div>
-          <img class="carouselImageProduct" src="{{image}}">
+          <p class="card-title fadeIn second" id="product-card-title">{{product.name}}</p>
+          <p class="category text-muted"> {{ product.category }} </p>
+          <p class="description">{{product.description}}</p>
         </div>
-      </ng-template>
-    </ngb-carousel>
-    <ng-template #noCarousel  >        
-        <img class="noCarouselImageProduct" src="{{product.imagesUrl[0]}}">   
-    </ng-template>
+      </div>
+      <div class="column3">
+        <div >
+          <p id="product-price">${{ product.price }}</p>
+          <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+          <br>
+          <br>
+          <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
-  <div class="column2">
-  <div>
-   <p class="name" >{{product.name}}</p>
-   <p class="category text-muted"> {{ product.category }} </p>
-   <p class="description">{{product.description}}</p>  
- </div>
-</div> 
- <div class="column3">
-   <div >
-  <p class="price1">${{ product.price }}</p> 
-  <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
-  <br>
-  <br>
-  <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
 </div>
-</div>
-  </div>
 
- 
 
-   
-    
-    
-          
-    
-    
+
+
+
+
+
+

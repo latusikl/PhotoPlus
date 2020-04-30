@@ -1,100 +1,81 @@
-.carouselProduct{
-  width:80%;
-}
-
-.roww{
+.flex-container {
   display: flex;
-  flex-flow:wrap;
+  flex-wrap: wrap;
   width: 100%;
+  margin: 0em auto;
+  justify-content: center;
 }
 
+.card {
+  min-height: 30rem;
+  margin: 20px 1em;
+  border-radius: 10px 10px 10px 10px;
+    width: 80%;
+      text-align: center;
+}
 
-.name {
-    font-weight: bold;
-    font-size: 2rem;
-    margin-top: 1rem; 
-    margin-left: 5rem;
-  }
+img {
+  max-width: 100%;
+  max-height: 100%;
+  padding: 1em 0;
+}
 
-  .category{
-    margin-left: 5rem;
-  }
+.noCarouselImage{
+  height: 12rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
 
-  .description{
-    width: 60%;
-    font-size: 1rem;
-    margin-top: 10%;
-  }
+.carouselImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-width: 100%;
+  max-height: 100%;
+  padding: 1em 0;
+}
 
+#product-card-title {
+  cursor:pointer;
+  font-size: 2rem;
+  padding: 1em;
+}
+
+.row{
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
   .column1 {
-    float: left;
-    width: 40rem;
+    width: 20rem;
   }
   .column2 {
-    float: left;
-    width: 45rem;
+    width: 20rem;
   }
   .column3 {
-    float: left;
-    width: 25rem;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin-bottom: 15%;
+    width: 15rem;
+    padding: 1em;
   }
 
-  
+
   .noCarouselImageProduct{
     max-width: 90%;
     max-height: 25rem;
     padding: 1em 0;
-   
+
   }
-  
+
   .carouselImageProduct {
     max-width: 90%;
     max-height: 20rem;
     padding: 1em 0;
- 
-  }
-  
-  ::ng-deep .carouselProduct {
-    height: 23rem;
-    max-width: 100%;
-  }
-  
-  ::ng-deep .carouselProduct-inner {
-    height: 90%;
-    max-width: 90%;
- 
-  }
-  
-  ::ng-deep .carouselProduct-control-next-icon,
-  ::ng-deep .carouselProduct-control-prev-icon,
-  ::ng-deep .carouselProduct-indicators {
-    filter: invert(1); 
-  }
-  
-  ::ng-deep .carouselProduct-control-next,
-  ::ng-deep .carouselProduct-control-prev {
-    cursor: pointer;
-    
-  }
-  
-  ::ng-deep .carouselProduct-item {
-    display: block !important;
-    opacity: 0;
-    transition:all  2s;
-  }
-  
-  ::ng-deep .carouselProduct-item.active {
-    opacity: 1;
+
   }
 
-  
-  .price1 {
+#product-price {
   color: #2070ff;
-  font-size: 22px;
+  font-size: 26px;
+  padding: 1em;
 }
 
 
