@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.controllers.api;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,7 @@ public class OrderController extends BaseModelController<OrderModelDto,OrderServ
 
     @PostMapping("/buy")
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'post' )")
-    public HttpStatus saveOrderWithOrderItems(@RequestBody @Valid final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
-        return dtoService.saveWithItems(orderModelDtoWithItems);
+    public ResponseEntity saveOrderWithOrderItems(@RequestBody @Valid final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
+        return new ResponseEntity(dtoService.saveWithItems(orderModelDtoWithItems));
     }
 }
