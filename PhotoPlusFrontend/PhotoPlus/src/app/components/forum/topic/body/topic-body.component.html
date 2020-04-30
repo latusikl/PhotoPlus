@@ -8,7 +8,7 @@
                 <textarea #topicName class="edit-textarea" value="{{(topic|async).name || ''}}"  ></textarea>
             </div>
         </div>
-        <div class="col-2 justify-content-center topic-moderation-buttons" *ngIf="topic">
+        <div class="col-2 justify-content-center topic-moderation-buttons" *ngIf="topic && (canModify | async)">
                 <div *ngIf="modifyingTopic">
                     <button class="btn btn-success button" (click)="saveChanges()">Save</button><br>
                     <button class="btn btn-primary button" (click)="cancelEdit()">Cancel</button><br>

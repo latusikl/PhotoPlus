@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from 'src/app/models/topic/topic';
 import { TopicService } from 'src/app/services/topic/topic.service';
 import { Post } from 'src/app/models/post/post';
 import { PostService } from 'src/app/services/post.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { LoginService } from 'src/app/services/login/login.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-topic-body',
@@ -16,21 +18,26 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
   @ViewChild("topicName",{static: false})
   titleTextarea:ElementRef;
 
+  canModify: BehaviorSubject<boolean>;
+
   topic: BehaviorSubject<Topic|any>;
   posts: BehaviorSubject<Post>[];
   topicName: string;
 
   modifyingTopic:boolean;
 
-  constructor(private rd:Renderer2, private topicService:TopicService, private postService: PostService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private topicService:TopicService, private postService: PostService,
+     private activatedRoute: ActivatedRoute, private router: Router, private loginService: LoginService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.canModify = new BehaviorSubject(false);
     this.topic = new BehaviorSubject({})
     this.posts = new Array<BehaviorSubject<Post>>();
     this.activatedRoute.params.subscribe(params =>{
       let topicCode = params["topicCode"];
       this.topicService.getSingle(topicCode).subscribe(topicData => {
         this.topic.next(topicData);
+        this.checkPermission();
       })
       this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
         
@@ -39,6 +46,14 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
         }
       })
     })
+  }
+
+  checkPermission(){
+    let userCode = this.topic.value.userCode;    
+    this.userService.getSingle(parseInt(userCode)).subscribe(data=> {
+      const isAuthorizedToEdit = (data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator);
+      this.canModify.next(isAuthorizedToEdit);
+    });
   }
 
   ngAfterViewInit(){
