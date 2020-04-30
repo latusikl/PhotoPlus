@@ -17,7 +17,7 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
   titleTextarea:ElementRef;
 
   topic: BehaviorSubject<Topic|any>;
-  posts: Post[];
+  posts: BehaviorSubject<Post>[];
   topicName: string;
 
   modifyingTopic:boolean;
@@ -26,13 +26,17 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
 
   ngOnInit(): void {
     this.topic = new BehaviorSubject({})
+    this.posts = new Array<BehaviorSubject<Post>>();
     this.activatedRoute.params.subscribe(params =>{
       let topicCode = params["topicCode"];
       this.topicService.getSingle(topicCode).subscribe(topicData => {
         this.topic.next(topicData);
       })
       this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
-        this.posts = postsData;
+        
+        for(let post of postsData){          
+          this.posts.push(new BehaviorSubject(post));
+        }
       })
     })
   }
