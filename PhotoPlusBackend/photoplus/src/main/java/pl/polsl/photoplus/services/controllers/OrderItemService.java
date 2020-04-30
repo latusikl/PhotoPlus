@@ -57,4 +57,9 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
         dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
+
+    public List<OrderItemModelDto> getOrderItemsByOrderCode(final String orderCode)
+    {
+        return getDtoListFromModels(this.entityRepository.getAllByOrder_code(orderCode));
+    }
 }
