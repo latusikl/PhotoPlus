@@ -1,10 +1,14 @@
 package pl.polsl.photoplus.controllers.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.UserModelDto;
 import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.UserService;
+
+import javax.validation.Valid;
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -30,4 +34,14 @@ public class UserController extends BaseModelController<UserModelDto,UserService
                 dto.add(linkTo(methodOn(AddressController.class).getSingle(address.getCode())).withRel(ADDRESS_RELATION_NAME))
         );
     }
+
+    @Override
+    @PatchMapping("/{code}")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, #code )")
+    public ResponseEntity patch(@RequestBody final UserModelDto dtoPatch,
+                                                 @PathVariable("code") final String code)
+    {
+        return new ResponseEntity(dtoService.patch(dtoPatch, code));
+    }
+
 }
