@@ -24,8 +24,7 @@ img {
   height: 18rem;
 }
 
-.noCarouselImage{
-  height: 12rem;
+.noCarouselImage {
   max-width: 100%;
   margin: 0 auto;
 }
@@ -45,35 +44,23 @@ img {
   padding: 1em;
 }
 
-.row{
+.row {
   justify-content: space-around;
   flex-wrap: wrap;
 }
-  .column1 {
-    width: 20rem;
-  }
-  .column2 {
-    width: 30rem;
-  }
-  .column3 {
-    width: 15rem;
-    padding: 1em;
-  }
 
+.column1 {
+  width: 20rem;
+}
 
-  .noCarouselImageProduct{
-    max-width: 90%;
-    max-height: 25rem;
-    padding: 1em 0;
+.column2 {
+  width: 30rem;
+}
 
-  }
-
-  .carouselImageProduct {
-    max-width: 90%;
-    max-height: 20rem;
-    padding: 1em 0;
-
-  }
+.column3 {
+  width: 15rem;
+  padding: 1em;
+}
 
 #product-price {
   color: #2070ff;
