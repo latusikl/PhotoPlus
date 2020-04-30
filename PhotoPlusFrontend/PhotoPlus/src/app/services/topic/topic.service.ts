@@ -14,6 +14,6 @@ export class TopicService extends AbstractService<Topic> {
   }
 
   getAllFromSectionCode(sectionCode: number): Observable<Topic[]>{
-    return this._http.get<Topic[]>(this.hostAddress + this.endpointUrl + "/all?sectionCode=" + sectionCode);
+    return this._http.get<Topic[]>(this.hostAddress + this.endpointUrl + "/bySection/" + sectionCode);
   }
 }
