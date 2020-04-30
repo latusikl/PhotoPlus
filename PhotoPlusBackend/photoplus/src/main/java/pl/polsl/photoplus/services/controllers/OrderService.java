@@ -2,7 +2,9 @@ package pl.polsl.photoplus.services.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import pl.polsl.photoplus.model.dto.OrderItemModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
+import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
 import pl.polsl.photoplus.model.entities.Order;
 import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.model.enums.OrderStatus;
@@ -16,10 +18,14 @@ import java.util.function.Function;
 public class OrderService extends AbstractModelService<Order, OrderModelDto, OrderRepository> {
 
     private final UserService userService;
+    private final OrderItemService orderItemService;
 
-    public OrderService(final OrderRepository entityRepository, final UserService userService) {
+
+    public OrderService(final OrderRepository entityRepository, final UserService userService,
+                        final OrderItemService orderItemService) {
         super(entityRepository);
         this.userService = userService;
+        this.orderItemService = orderItemService;
     }
 
     @Override
@@ -39,17 +45,29 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
                 PaymentMethod.getPaymentMethodFromString(dtoObject.getPaymentMethod()), dtoObject.getPrice());
     }
 
+    private Order insertUserDependencyAndParseToModel(final OrderModelDto orderModelDto) {
+        final User userToInsert = userService.findByCodeOrThrowError(orderModelDto.getUserCode(),
+                "SAVE USER(customer)");
+        final Order orderToAdd = getModelFromDto(orderModelDto);
+        orderToAdd.setUser(userToInsert);
+        return orderToAdd;
+    }
+
     @Override
     public HttpStatus save(final List<OrderModelDto> dto) {
-        final Function<OrderModelDto, Order> insertUserDependencyAndParseToModel = orderModelDto -> {
-            final User userToInsert = userService.findByCodeOrThrowError(orderModelDto.getUserCode(),
-                    "SAVE USER(customer)");
-            final Order orderToAdd = getModelFromDto(orderModelDto);
-            orderToAdd.setUser(userToInsert);
-            return orderToAdd;
-        };
+        dto.stream().map(this::insertUserDependencyAndParseToModel).forEach(entityRepository::save);
+        return HttpStatus.CREATED;
+    }
 
-        dto.stream().map(insertUserDependencyAndParseToModel).forEach(entityRepository::save);
+    public HttpStatus saveWithItems(final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
+        //Create Order
+        orderModelDtoWithItems.forEach(orderDto -> {
+            final Order orderModel = insertUserDependencyAndParseToModel(orderDto);
+            entityRepository.save(orderModel);
+            final List<OrderItemModelDto> orderItems = orderDto.getOrderItemModelDtos();
+            orderItems.forEach(orderItem -> orderItem.setOrderCode(orderModel.getCode()));
+            orderItemService.save(orderItems);
+        });
         return HttpStatus.CREATED;
     }
 }
