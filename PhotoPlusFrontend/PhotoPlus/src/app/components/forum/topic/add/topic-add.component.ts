@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SectionService } from 'src/app/services/section/section.service';
+import { TopicService } from 'src/app/services/topic/topic.service';
+import { PostService } from 'src/app/services/post.service';
+import { Topic } from 'src/app/models/topic/topic';
+import { LoginService } from 'src/app/services/login/login.service';
+import { Post } from 'src/app/models/post/post';
 
 @Component({
   selector: 'app-topic-add',
@@ -7,9 +15,52 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopicAddComponent implements OnInit {
 
-  constructor() { }
+  sectionCode: string;
+  topicForm:FormGroup;
+  submitted:boolean;
 
+  constructor(private formBuilder: FormBuilder,private sectionService:SectionService, private router: Router,private loginService:LoginService,
+              private activatedRoute:ActivatedRoute, private topicService:TopicService, private postService: PostService) { }
+  
   ngOnInit(): void {
+    this.topicForm = this.formBuilder.group({
+      title: ['',Validators.required],
+      post: ['', Validators.required],
+    });
+    this.activatedRoute.params.subscribe(params => {
+      this.sectionCode = params["sectionCode"];
+    })
   }
 
+  get f(){
+    return this.topicForm.controls;
+  }
+
+  async onSubmit(){
+    this.submitted = true;
+    if(this.topicForm.invalid){
+      return;
+    }
+    const form = this.topicForm.value;
+    const topic: Topic = {
+      code: null,
+      name: form.title,
+      sectionCode: this.sectionCode,
+      date: new Date(),
+      userCode: this.loginService.getLoggedUser().code
+    }
+    this.topicService.post(topic).subscribe(data => {
+      console.log(data);
+      const post:Post = {
+        topicCode: data[0] as any,
+        userCode: this.loginService.getLoggedUser().code,
+        date: new Date(),
+        content: form.post
+      }
+      this.postService.post(post).subscribe(data => {
+        
+      });
+    });
+    
+  }
 }
