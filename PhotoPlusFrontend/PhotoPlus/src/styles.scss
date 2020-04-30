@@ -83,3 +83,41 @@ body {
 .shadow-border {
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
 }
+
+.carousel {
+  height: 12rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.carousel-inner {
+  height: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+ .carousel-control-next-icon,
+ .carousel-control-prev-icon,
+.carousel-indicators {
+  filter: invert(1);
+}
+
+ .carousel-control-next,
+ .carousel-control-prev {
+  cursor: pointer;
+}
+
+.carousel-item {
+  display: block;
+  position: absolute;
+  height: 100%;
+  transform: translateX(100%);
+  opacity: 0;
+  transition:all  2s;
+}
+
+.carousel-item.active {
+  position: relative;
+  transform: translateX(0);
+  opacity: 1;
+}

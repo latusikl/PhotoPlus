@@ -42,44 +42,6 @@ img {
   padding: 1em 0;
 }
 
-::ng-deep .carousel {
-  height: 12rem;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-::ng-deep .carousel-inner {
-  height: 90%;
-  max-width: 90%;
-  margin: 0 auto;
-}
-
-::ng-deep .carousel-control-next-icon,
-::ng-deep .carousel-control-prev-icon,
-::ng-deep .carousel-indicators {
-  filter: invert(1);
-}
-
-::ng-deep .carousel-control-next,
-::ng-deep .carousel-control-prev {
-  cursor: pointer;
-}
-
-::ng-deep .carousel-item {
-  display: block !important;
-  position: absolute;
-  height: 100%;
-  transform: translateX(100%);
-  opacity: 0;
-  transition:all  2s;
-}
-
-::ng-deep .carousel-item.active {
-  position: relative;
-  transform: translateX(0);
-  opacity: 1;
-}
-
 .price {
   position: absolute;
   width: 90%;
@@ -106,4 +68,19 @@ img {
 //google stylesheet overwrite
 :focus {
     outline: 0px;
+}
+
+.carousel-item {
+  display: block;
+  position: absolute;
+  height: 100%;
+  transform: translateX(100%);
+  opacity: 0;
+  transition:all  2s;
+}
+
+.carousel-item.active {
+  position: relative;
+  transform: translateX(0);
+  opacity: 1;
 }
