@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class OrderModelDtoWithOrderItems extends OrderModelDto {
     }
 
     @JsonProperty("orderItems")
-    @NotEmpty(message = "OrderItem list shouldn't be empty.")
+    @NotEmpty(message = "Order item list shouldn't be empty.")
+    @Valid
     private List<OrderItemModelDto> orderItemModelDtos;
 }
