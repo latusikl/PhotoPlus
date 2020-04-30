@@ -1,14 +1,13 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.UserModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.UserService;
-
-import javax.validation.Valid;
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -18,11 +17,14 @@ public class UserController extends BaseModelController<UserModelDto,UserService
 {
     private final AddressService addressService;
     private final static String ADDRESS_RELATION_NAME = "address";
+    private final PermissionEvaluatorService permissionEvaluatorService;
 
-    public UserController(final UserService userService, final AddressService addressService)
+    public UserController(final UserService userService, final AddressService addressService,
+                          final PermissionEvaluatorService permissionEvaluatorService)
     {
         super(userService, "user");
         this.addressService = addressService;
+        this.permissionEvaluatorService = permissionEvaluatorService;
     }
 
     @Override
@@ -35,11 +37,9 @@ public class UserController extends BaseModelController<UserModelDto,UserService
         );
     }
 
-    @Override
-    @PatchMapping("/{code}")
-    @PreAuthorize("hasPermission(this.authorizationPrefix, #code )")
-    public ResponseEntity patch(@RequestBody final UserModelDto dtoPatch,
-                                                 @PathVariable("code") final String code)
+    @PatchMapping("/editAccount/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(#code)")
+    public ResponseEntity patch(@RequestBody final UserModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
