@@ -1,14 +1,19 @@
 .flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  margin: 0em auto;
-  justify-content: center;
+   display: flex;
+   flex-wrap: wrap;
+   width: 100%;
+   margin: 0em auto;
+   justify-content: center;
 }
 
-.card {
-  width: 18rem;
-  min-height: 30rem;
+#category-card {
+  width: 30rem;
   margin: 20px 1em;
   border-radius: 10px 10px 10px 10px;
 }
+
+#category-list-group-item {
+  background-color: #EEE;
+  text-align: center;
+}
+

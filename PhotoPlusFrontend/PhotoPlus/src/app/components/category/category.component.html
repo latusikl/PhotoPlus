@@ -1,8 +1,7 @@
-<p>category works!</p>
-<div class="flex-container fadeInDown">
-  <div class="card shadow-border" *ngIf="categories">
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action fadeIn first" *ngFor="let category of categories">
+<div class="flex-container fadeInDown row no-gutters">
+  <div class="card shadow-border" id="category-card" *ngIf="categories">
+    <div class="list-group d-flex flex-row flex-wrap">
+      <a href="#" id="category-list-group-item" class="w-50 card p-2 px-3 list-group-item-action fadeIn first" *ngFor="let category of categories">
         {{ category.name }}
       </a>
     </div>
