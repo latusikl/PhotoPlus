@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.ProductModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.ProductService;
 
 import java.util.List;
@@ -23,13 +24,13 @@ public class ProductController
     private static final String CATEGORY_RELATION_NAME = "category";
     private static final String IMAGE_RELATION_NAME = "image";
 
-    public ProductController(final ProductService dtoService)
+    public ProductController(final ProductService dtoService, final PermissionEvaluatorService permissionEvaluatorService)
     {
-        super(dtoService, "product");
+        super(dtoService, "product", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/hal+json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @GetMapping(produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getAllFromCategory(@RequestParam final String categoryCode)
     {
         final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(categoryCode);

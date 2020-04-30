@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.BatchModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.BatchService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -14,8 +15,8 @@ public class BatchController extends BaseModelController<BatchModelDto,BatchServ
 
     private final String PRODUCT_RELATION_NAME = "product";
 
-    public BatchController(final BatchService dtoService) {
-        super(dtoService, "product");
+    public BatchController(final BatchService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "product", permissionEvaluatorService);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.PostModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.PostService;
 
 import java.util.List;
@@ -22,12 +23,12 @@ public class PostController extends BaseModelController<PostModelDto,PostService
     private final String TOPIC_RELATION_NAME = "topic";
     private final String CREATOR_RELATION_NAME  = "creator";
 
-    public PostController(final PostService dtoService) {
-        super(dtoService, "post");
+    public PostController(final PostService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "post", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/hal+json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @GetMapping(produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<PostModelDto>> getAllFromCategory(@RequestParam final String topicCode) {
         final List<PostModelDto> dtos = this.dtoService.getPostsByTopic(topicCode);
         addLinks(dtos);

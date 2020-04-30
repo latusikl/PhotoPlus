@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AbstractModelService;
 import pl.polsl.photoplus.services.controllers.ModelService;
 
@@ -34,15 +35,19 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
 
     protected String DELETE_RELATION_NAME = "delete";
 
+    protected final PermissionEvaluatorService permissionEvaluatorService;
+
     /**
      * Service needs to be injected manually by calling super class constructor
      */
     protected S dtoService;
 
-    public BaseModelController(final S dtoService, final String authorizationPrefix)
+    public BaseModelController(final S dtoService, final String authorizationPrefix,
+                               final PermissionEvaluatorService permissionEvaluatorService)
     {
         this.dtoService = dtoService;
         this.authorizationPrefix = authorizationPrefix;
+        this.permissionEvaluatorService = permissionEvaluatorService;
     }
 
     /**
@@ -57,7 +62,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all/{page}", produces = {"application/json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
         final List<T> dtos = dtoService.getPageFromAll(page);
@@ -66,7 +71,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all", produces = {"application/json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll()
     {
         final List<T> dtos = dtoService.getAll();
@@ -76,7 +81,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "/{code}", produces = {"application/json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'single' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'single' )")
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
         final T dto = dtoService.getSingleObject(code);
@@ -85,21 +90,21 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @PostMapping
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'post' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'post' )")
     public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }
 
     @DeleteMapping("/delete/{code}")
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'delete' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'delete' )")
     public ResponseEntity delete(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
     }
 
     @PatchMapping("/{code}")
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'patch' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'patch' )")
     public ResponseEntity patch(@RequestBody final T dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));

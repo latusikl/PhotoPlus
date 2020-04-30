@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.TopicModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.TopicService;
 
 import java.util.List;
@@ -21,12 +22,12 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
 
     private final String SECTION_RELATION_NAME = "section";
 
-    public TopicController(final TopicService dtoService) {
-        super(dtoService, "topic");
+    public TopicController(final TopicService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "topic", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/hal+json"})
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @GetMapping(produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<TopicModelDto>> getAllFromCategory(@RequestParam final String sectionCode) {
         final List<TopicModelDto> dtos = this.dtoService.getTopicsBySection(sectionCode);
         addLinks(dtos);

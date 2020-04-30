@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.OrderService;
 
 import javax.validation.Valid;
@@ -23,8 +24,8 @@ public class OrderController extends BaseModelController<OrderModelDto,OrderServ
 
     private final String CUSTOMER_RELATION_NAME = "customer";
 
-    public OrderController(final OrderService dtoService) {
-        super(dtoService, "order");
+    public OrderController(final OrderService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "order", permissionEvaluatorService);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class OrderController extends BaseModelController<OrderModelDto,OrderServ
     }
 
     @PostMapping("/buy")
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'post' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'post' )")
     public ResponseEntity saveOrderWithOrderItems(@RequestBody @Valid final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
         return new ResponseEntity(dtoService.saveWithItems(orderModelDtoWithItems));
     }

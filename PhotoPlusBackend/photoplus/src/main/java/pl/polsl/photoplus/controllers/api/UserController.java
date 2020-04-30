@@ -1,6 +1,5 @@
 package pl.polsl.photoplus.controllers.api;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +16,12 @@ public class UserController extends BaseModelController<UserModelDto,UserService
 {
     private final AddressService addressService;
     private final static String ADDRESS_RELATION_NAME = "address";
-    private final PermissionEvaluatorService permissionEvaluatorService;
 
     public UserController(final UserService userService, final AddressService addressService,
                           final PermissionEvaluatorService permissionEvaluatorService)
     {
-        super(userService, "user");
+        super(userService, "user", permissionEvaluatorService);
         this.addressService = addressService;
-        this.permissionEvaluatorService = permissionEvaluatorService;
     }
 
     @Override
