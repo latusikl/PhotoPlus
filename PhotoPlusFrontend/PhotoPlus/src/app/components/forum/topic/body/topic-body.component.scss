@@ -3,7 +3,7 @@
 
 .topic-posts{
     border: 4px dashed #0FF;
-    padding: 0  ;
+    padding: 0;
 }
 
 .topic-moderation-buttons{
@@ -15,10 +15,11 @@
     height: 100%;
 }
 
-.edit-textarea{
+.dynamic-textarea{
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    margin-bottom: 5px;
 }
 
 .topic-title{
@@ -32,4 +33,8 @@
     width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.add-post-section{
+    margin-top: 10px;
 }

@@ -13,10 +13,13 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './topic-body.component.html',
   styleUrls: ['./topic-body.component.scss']
 })
-export class TopicBodyComponent implements OnInit,AfterViewInit {
+export class TopicBodyComponent implements OnInit {
 
   @ViewChild("topicName",{static: false})
   titleTextarea:ElementRef;
+
+  @ViewChild("newPost", {static: false})
+  newPostArea: ElementRef;
 
   canModify: BehaviorSubject<boolean>;
 
@@ -39,14 +42,11 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
         this.topic.next(topicData);
         this.checkPermission();
       })
-      this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
-        
-        for(let post of postsData){          
-          this.posts.push(new BehaviorSubject(post));
-        }
-      })
+      this.reloadTopic(topicCode);
     })
   }
+
+  
 
   checkPermission(){
     let userCode = this.topic.value.userCode;    
@@ -56,7 +56,31 @@ export class TopicBodyComponent implements OnInit,AfterViewInit {
     });
   }
 
-  ngAfterViewInit(){
+  sendPost(){
+    const newPostTextarea = this.newPostArea.nativeElement;
+    const newPostContent:string = newPostTextarea.value;
+    newPostTextarea.value = "";
+    if(newPostContent.trim() === ""){
+      return;
+    }
+    const post: Post = {
+      date: new Date(),
+      topicCode: this.topic.value.code,
+      userCode: this.loginService.getLoggedUser().code,
+      content: newPostContent.trim(),
+    }
+    this.postService.post(post).subscribe(() => {
+      this.reloadTopic(this.topic.value.code);
+    })
+  }
+
+  reloadTopic(topicCode: number){
+    this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
+      this.posts = new Array<BehaviorSubject<Post>>();
+      for(let post of postsData){          
+        this.posts.push(new BehaviorSubject(post));
+      }
+    })
   }
 
   editTopic(){

@@ -5,7 +5,7 @@
                 Topic title: {{(topic|async).name || ''}}
             </div>
             <div *ngIf="modifyingTopic" class="edit-box">
-                <textarea #topicName class="edit-textarea" value="{{(topic|async).name || ''}}"  ></textarea>
+                <textarea #topicName class="dynamic-textarea" value="{{(topic|async).name || ''}}"  ></textarea>
             </div>
         </div>
         <div class="col-2 justify-content-center topic-moderation-buttons" *ngIf="topic && (canModify | async)">
@@ -26,5 +26,9 @@
                 <app-post [post]="post"></app-post>
             </div>
         </div>
+    </div>
+    <div class="row add-post-section">
+            <textarea #newPost class="dynamic-textarea" ></textarea>
+            <button class="btn btn-primary w-100" (click)="sendPost()">Send Post</button>
     </div>
 </div>
