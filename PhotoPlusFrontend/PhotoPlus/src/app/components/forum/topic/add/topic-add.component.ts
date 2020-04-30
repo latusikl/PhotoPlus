@@ -36,7 +36,7 @@ export class TopicAddComponent implements OnInit {
     return this.topicForm.controls;
   }
 
-  async onSubmit(){
+  onSubmit(){
     this.submitted = true;
     if(this.topicForm.invalid){
       return;
@@ -49,16 +49,16 @@ export class TopicAddComponent implements OnInit {
       date: new Date(),
       userCode: this.loginService.getLoggedUser().code
     }
-    this.topicService.post(topic).subscribe(data => {
-      console.log(data);
+    this.topicService.post(topic).subscribe(topicData => {
+      console.log(topicData);
       const post:Post = {
-        topicCode: data[0] as any,
+        topicCode: topicData[0] as any,
         userCode: this.loginService.getLoggedUser().code,
         date: new Date(),
         content: form.post
       }
-      this.postService.post(post).subscribe(data => {
-        
+      this.postService.post(post).subscribe(postData => {
+        this.router.navigate(["/forum/topic", topicData[0]]);
       });
     });
     
