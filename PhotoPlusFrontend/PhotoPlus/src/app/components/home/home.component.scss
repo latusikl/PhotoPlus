@@ -10,7 +10,6 @@
   width: 18rem;
   min-height: 30rem;
   margin: 20px 1em;
-  -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
 }
 
@@ -68,19 +67,4 @@ img {
 //google stylesheet overwrite
 :focus {
     outline: 0px;
-}
-
-.carousel-item {
-  display: block;
-  position: absolute;
-  height: 100%;
-  transform: translateX(100%);
-  opacity: 0;
-  transition:all  2s;
-}
-
-.carousel-item.active {
-  position: relative;
-  transform: translateX(0);
-  opacity: 1;
 }
