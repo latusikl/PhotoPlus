@@ -12,8 +12,11 @@
   border-radius: 10px 10px 10px 10px;
 }
 
-#category-list-group-item {
-  background-color: #EEE;
-  text-align: center;
+#category-list-group {
+  justify-content: center;
 }
 
+#category-list-group-item {
+  text-align: center;
+  cursor: pointer;
+}

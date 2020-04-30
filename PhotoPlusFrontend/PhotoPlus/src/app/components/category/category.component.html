@@ -1,9 +1,19 @@
 <div class="flex-container fadeInDown row no-gutters">
   <div class="card shadow-border" id="category-card" *ngIf="categories">
-    <div class="list-group d-flex flex-row flex-wrap">
-      <a href="#" id="category-list-group-item" class="w-50 card p-2 px-3 list-group-item-action fadeIn first" *ngFor="let category of categories">
+    <div class="list-group d-flex flex-row flex-wrap" id="category-list-group">
+      <div (click)="filterProducts(category.name)" id="category-list-group-item" class="w-50 list-group-item-action card p-2 px-3 fadeIn first" *ngFor="let category of categories">
         {{ category.name }}
-      </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex-container" *ngIf="productsToShow">
+  <div class="card shadow-border fadeInDown" *ngFor="let product of productsToShow">
+    <div class="card-body fadeIn first">
+
+      <p class="card-title fadeIn first"> {{ product.name }} </p>
+
     </div>
   </div>
 </div>
