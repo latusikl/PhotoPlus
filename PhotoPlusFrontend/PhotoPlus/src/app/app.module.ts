@@ -26,6 +26,7 @@ import { TopicHeaderComponent } from './components/forum/topic/header/topic-head
 import { TopicAddComponent } from './components/forum/topic/add/topic-add.component';
 import { TopicEditComponent } from './components/forum/topic/edit/topic-edit.component';
 import { TopicRemoveComponent } from './components/forum/topic/remove/topic-remove.component';
+import { PostComponent } from './components/forum/post/post.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { TopicRemoveComponent } from './components/forum/topic/remove/topic-remo
         TopicHeaderComponent,
         TopicAddComponent,
         TopicEditComponent,
-        TopicRemoveComponent
+        TopicRemoveComponent,
+        PostComponent
     ],
     imports: [
         BrowserModule,
