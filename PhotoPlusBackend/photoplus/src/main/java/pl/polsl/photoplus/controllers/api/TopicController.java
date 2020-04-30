@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.polsl.photoplus.model.dto.PostModelDto;
 import pl.polsl.photoplus.model.dto.TopicModelDto;
+import pl.polsl.photoplus.services.controllers.PostService;
 import pl.polsl.photoplus.services.controllers.TopicService;
 
 import javax.validation.Valid;
@@ -18,9 +20,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class TopicController extends BaseModelController<TopicModelDto,TopicService> {
 
     private final String SECTION_RELATION_NAME = "section";
-
-    public TopicController(final TopicService dtoService) {
+    private final PostService postService;
+    public TopicController(final TopicService dtoService, final PostService postService) {
         super(dtoService, "topic");
+        this.postService = postService;
     }
 
     @GetMapping(path = "/bySection/{sectionCode}")
@@ -36,6 +39,18 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
     public ResponseEntity<List<String>> post(@RequestBody @Valid final List<TopicModelDto> dtos){
         final List<String> codesFromSavedDtos = this.dtoService.saveAndReturnSaved(dtos);
         return new ResponseEntity(codesFromSavedDtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/delete/{code}")
+    @PreAuthorize("hasPermission(this.authorizationPrefix, 'delete' )")
+    @Override
+    public ResponseEntity delete(@PathVariable("code") final String code)
+    {
+        final List<PostModelDto> postsByTopic = postService.getPostsByTopic(code);
+        for(final var post : postsByTopic){
+            postService.delete(post.getCode());
+        }
+        return new ResponseEntity(dtoService.delete(code));
     }
 
     @Override
