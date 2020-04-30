@@ -8,7 +8,6 @@ import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.PaymentMethod;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "orders")
 @Table(name = "orders")
@@ -37,7 +36,5 @@ public class Order extends AbstractEntityModel {
     @Patchable
     private Integer price;
 
-    @OneToMany
-    private List<OrderItem> orderItems;
 }
 

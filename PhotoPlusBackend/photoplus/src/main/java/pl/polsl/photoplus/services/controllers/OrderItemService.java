@@ -1,6 +1,5 @@
 package pl.polsl.photoplus.services.controllers;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
@@ -19,7 +18,7 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
 
     private ProductService productService;
 
-    public OrderItemService(final OrderItemRepository entityRepository, @Lazy final OrderService orderService,
+    public OrderItemService(final OrderItemRepository entityRepository, final OrderService orderService,
                             final ProductService productService) {
         super(entityRepository);
         this.orderService = orderService;
@@ -57,10 +56,5 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
 
         dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
-    }
-
-    public List<OrderItemModelDto> getOrderItemsByOrderCode(final String orderCode)
-    {
-        return getDtoListFromModels(this.entityRepository.getAllByOrder_code(orderCode));
     }
 }
