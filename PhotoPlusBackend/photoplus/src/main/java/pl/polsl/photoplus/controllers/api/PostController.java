@@ -3,10 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.PostModelDto;
 import pl.polsl.photoplus.services.controllers.PostService;
 
@@ -26,9 +23,9 @@ public class PostController extends BaseModelController<PostModelDto,PostService
         super(dtoService, "post");
     }
 
-    @GetMapping(produces = {"application/hal+json"})
+    @GetMapping(path = "/byTopic/{topicCode}")
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
-    public ResponseEntity<List<PostModelDto>> getAllFromCategory(@RequestParam final String topicCode) {
+    public ResponseEntity<List<PostModelDto>> getAllFromCategory(@PathVariable("topicCode") final String topicCode) {
         final List<PostModelDto> dtos = this.dtoService.getPostsByTopic(topicCode);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
