@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Topic } from 'src/app/models/topic/topic';
-import { UserService } from 'src/app/services/user/user.service';
-import { BehaviorSubject } from 'rxjs';
-import { User } from 'src/app/models/user/user';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Topic } from 'src/app/models/topic/topic';
 import { TopicService } from 'src/app/services/topic/topic.service';
 
 @Component({
@@ -15,7 +13,7 @@ export class TopicRemoveComponent implements OnInit {
 
   topic: Topic;
 
-  constructor(private activatedRoute:ActivatedRoute, private topicService:TopicService, private router:Router) { }
+  constructor(private activatedRoute:ActivatedRoute, private topicService:TopicService, private router:Router, private location:Location) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -34,6 +32,6 @@ export class TopicRemoveComponent implements OnInit {
   }
 
   takeMeBack(){
-    this.router.navigate(['/forum/section', this.topic.sectionCode]);
+    this.location.back();
   }
 }
