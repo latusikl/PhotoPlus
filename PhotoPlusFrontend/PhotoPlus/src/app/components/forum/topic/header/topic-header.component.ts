@@ -15,6 +15,10 @@ export class TopicHeaderComponent implements OnInit {
 
   @Input("topic")
   topic: Topic;
+
+  @Input("disableControls")
+  disableControls:boolean;
+
   canModify: Subject<boolean>;
   topicOwner: Subject<User|any>;
   
@@ -25,7 +29,7 @@ export class TopicHeaderComponent implements OnInit {
     this.topicOwner = new BehaviorSubject({});
     this.userService.getSingle(parseInt(this.topic.userCode)).subscribe(data=> {
       this.topicOwner.next(data);
-      this.canModify.next(data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator);
+      this.canModify.next(!this.disableControls && (data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator));
     });
 
   }
