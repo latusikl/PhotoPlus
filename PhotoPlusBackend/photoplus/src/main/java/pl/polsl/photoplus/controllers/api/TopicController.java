@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.PostModelDto;
 import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.services.controllers.PostService;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.TopicService;
 
 import javax.validation.Valid;
@@ -21,13 +22,14 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
 
     private final String SECTION_RELATION_NAME = "section";
     private final PostService postService;
-    public TopicController(final TopicService dtoService, final PostService postService) {
-        super(dtoService, "topic");
+
+    public TopicController(final TopicService dtoService, final PermissionEvaluatorService permissionEvaluatorService, final PostService postService){
+        super(dtoService, "topic", permissionEvaluatorService);
         this.postService = postService;
     }
 
-    @GetMapping(path = "/bySection/{sectionCode}")
-    @PreAuthorize("hasPermission(this.authorizationPrefix, 'all' )")
+    @GetMapping(path = "/bySection/{sectionCode}",produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<TopicModelDto>> getAllFromCategory(@PathVariable("sectionCode") final String sectionCode) {
         final List<TopicModelDto> dtos = this.dtoService.getTopicsBySection(sectionCode);
         addLinks(dtos);

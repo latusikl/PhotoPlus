@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.AddressModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -13,9 +14,9 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
 {
     private final String OWNER_RELATION_NAME = "owner";
 
-    public AddressController(final AddressService addressService)
+    public AddressController(final AddressService addressService, final PermissionEvaluatorService permissionEvaluatorService)
     {
-        super(addressService, "address");
+        super(addressService, "address", permissionEvaluatorService);
     }
 
     @Override
