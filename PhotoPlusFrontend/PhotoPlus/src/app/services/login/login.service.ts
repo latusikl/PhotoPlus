@@ -45,6 +45,7 @@ export class LoginService {
           sessionStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
           this.loggedPersonLogin.next(res.body['login']);
           //saving login in session storage
+            //remove duplicate login !!
           sessionStorage.setItem("login", this.loggedPersonLogin.value);
           this.router.navigate(['/']);
         });
@@ -59,7 +60,8 @@ export class LoginService {
     }
 
     readTokenFromResponse(res) {
-        const token = res.headers.get("Authorization");
+        const token
+            = res.headers.get("Authorization");
         const date = res.headers.get("Expires");
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("date", date);
