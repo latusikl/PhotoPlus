@@ -62,7 +62,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all/{page}", produces = {"application/json"})
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll(@PathVariable("page") final Integer page)
     {
         final List<T> dtos = dtoService.getPageFromAll(page);
@@ -71,7 +71,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "all", produces = {"application/json"})
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<T>> getAll()
     {
         final List<T> dtos = dtoService.getAll();
@@ -81,7 +81,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @GetMapping(path = "/{code}", produces = {"application/json"})
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'single' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'single' )")
     public ResponseEntity<T> getSingle(@PathVariable("code") final String code)
     {
         final T dto = dtoService.getSingleObject(code);
@@ -90,21 +90,21 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
     }
 
     @PostMapping
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'post' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'post' )")
     public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
     {
         return new ResponseEntity(dtoService.save(dtoSet));
     }
 
     @DeleteMapping("/delete/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'delete' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'delete' )")
     public ResponseEntity delete(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
     }
 
     @PatchMapping("/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'patch' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'patch' )")
     public ResponseEntity patch(@RequestBody final T dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));

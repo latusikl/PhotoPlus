@@ -30,7 +30,7 @@ public class ProductController
     }
 
     @GetMapping(produces = {"application/json"})
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getAllFromCategory(@RequestParam final String categoryCode)
     {
         final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(categoryCode);

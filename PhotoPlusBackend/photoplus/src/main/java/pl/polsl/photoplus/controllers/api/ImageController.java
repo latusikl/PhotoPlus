@@ -30,7 +30,7 @@ public class ImageController {
     }
 
     @GetMapping(path = "/{code}", produces = MediaType.IMAGE_PNG_VALUE)
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege('image', 'single' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'single' )")
     public ResponseEntity<ByteArrayResource> getSingle(@PathVariable("code") final String code) {
         final ImageModelDto img = imageService.getSingleObject(code);
         final ByteArrayResource resource = new ByteArrayResource(img.getBytes());
@@ -38,20 +38,20 @@ public class ImageController {
     }
 
     @PostMapping
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege('image', 'post' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'post' )")
     public ResponseEntity postImage(@Image(service = ImageService.class) final MultipartFile file) throws IOException {
         return new ResponseEntity(imageService.save(List.of(
                 new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()))));
     }
 
     @DeleteMapping("/delete/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege('image', 'delete' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'delete' )")
     public ResponseEntity delete(@PathVariable("code") final String code) {
         return new ResponseEntity(imageService.delete(code));
     }
 
     @PatchMapping("/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege('image', 'patch' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'patch' )")
     public ResponseEntity patch(@Image(service = ImageService.class) final MultipartFile file,
                                 @PathVariable("code") final String code) throws IOException {
         final ImageModelDto img = new ImageModelDto(code, file.getOriginalFilename(), file.getBytes());

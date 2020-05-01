@@ -36,7 +36,7 @@ public class OrderController extends BaseModelController<OrderModelDto,OrderServ
     }
 
     @PostMapping("/buy")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(this.authorizationPrefix, 'post' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'post' )")
     public ResponseEntity saveOrderWithOrderItems(@RequestBody @Valid final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
         return new ResponseEntity(dtoService.saveWithItems(orderModelDtoWithItems));
     }

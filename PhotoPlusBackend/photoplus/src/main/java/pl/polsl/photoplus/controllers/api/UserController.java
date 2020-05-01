@@ -35,7 +35,7 @@ public class UserController extends BaseModelController<UserModelDto,UserService
     }
 
     @PatchMapping("/editAccount/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(#code)")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
     public ResponseEntity patch(@RequestBody final UserModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
