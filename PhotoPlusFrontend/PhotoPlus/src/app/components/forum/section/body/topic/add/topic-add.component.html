@@ -1,0 +1,15 @@
+<div class="container">
+    <form [formGroup]="topicForm" (ngSubmit)="onSubmit()">
+        Topic title:
+        <input class="form-control" type="text" formControlName="title" style="width: 100%;" [ngClass]="{ 'is-invalid': submitted && f.title.errors }"/>
+        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+            <div *ngIf="f.title.errors.required">Give a brief explanation what you want to say</div>
+        </div>
+        Post:
+        <textarea class="form-control" formControlName="post" style="width: 100%;"  [ngClass]="{ 'is-invalid': submitted && f.post.errors }"></textarea>
+        <div *ngIf="submitted && f.post.errors" class="invalid-feedback">
+            <div *ngIf="f.post.errors.required">Didn't you want to tell us something?</div>
+        </div>
+        <input type="submit" value="Add topic" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+    </form>
+</div>

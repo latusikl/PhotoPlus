@@ -19,7 +19,7 @@ export class SectionRemoveComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      let sectionCode = params['code'];
+      let sectionCode = params['sectionCode'];
       
       this.sectionService.getSingle(sectionCode).subscribe( (data:Section) => {
         this.section = data;

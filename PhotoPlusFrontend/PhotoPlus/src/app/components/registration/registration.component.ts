@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorModel } from 'src/app/models/error/errormodel';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import { Role } from 'src/app/models/role/role.enum';
 
 
 @Component({
@@ -53,7 +54,9 @@ export class RegistrationComponent implements OnInit {
       password: alias.password,
       name: alias.name,
       surname: alias.surname,
-      number: alias.phoneNumber
+      number: alias.phoneNumber,
+      code: null,
+      role: Role.CLIENT
     };
 
     this.userService.post(user).subscribe(result => {

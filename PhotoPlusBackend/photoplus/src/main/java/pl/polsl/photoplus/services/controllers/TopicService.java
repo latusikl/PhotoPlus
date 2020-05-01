@@ -6,8 +6,8 @@ import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.model.entities.*;
 import pl.polsl.photoplus.repositories.TopicRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class TopicService extends AbstractModelService<Topic, TopicModelDto, TopicRepository> {
@@ -40,18 +40,28 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
 
     @Override
     public HttpStatus save(final List<TopicModelDto> dto) {
-        final Function<TopicModelDto, Topic> insertDependenciesAndParseToModel = topicModelDto -> {
-            final User userToInsert = userService.findByCodeOrThrowError(topicModelDto.getUserCode(),
-                    "SAVE USER");
-            final Section orderToInsert = sectionService.findByCodeOrThrowError(topicModelDto.getSection(),
-                    "SAVE SECTION");
-            final Topic topicToAdd = getModelFromDto(topicModelDto);
-            topicToAdd.setCreator(userToInsert);
-            topicToAdd.setSection(orderToInsert);
-            return topicToAdd;
-        };
-        dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
+        dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
+    }
+
+    public List<String> saveAndReturnSaved(final List<TopicModelDto> dto){
+        final List<String> codesFromDtos = new ArrayList<>();
+        dto.stream().map(this::insertDependenciesAndParseToModel).filter(e -> {
+            codesFromDtos.add(e.getCode());
+            return true;
+        }).forEach(entityRepository::save);
+        return codesFromDtos;
+    }
+
+    private Topic insertDependenciesAndParseToModel(final TopicModelDto topicModelDto){
+        final User userToInsert = userService.findByCodeOrThrowError(topicModelDto.getUserCode(),
+                "SAVE USER");
+        final Section orderToInsert = sectionService.findByCodeOrThrowError(topicModelDto.getSection(),
+                "SAVE SECTION");
+        final Topic topicToAdd = getModelFromDto(topicModelDto);
+        topicToAdd.setCreator(userToInsert);
+        topicToAdd.setSection(orderToInsert);
+        return topicToAdd;
     }
 
     public List<TopicModelDto> getTopicsBySection(final String sectionCode) {
