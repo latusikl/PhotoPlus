@@ -8,11 +8,8 @@ import { LoginService } from './services/login/login.service';
 })
 export class AppComponent {
   title = 'PhotoPlus';
-  loggedPersonLogin: string;
-
 
   constructor(private loginService: LoginService) {
-    this.loginService.getLoggedPersonLogin().subscribe(value => this.loggedPersonLogin = value);
   }
 
   logout() {
@@ -20,7 +17,7 @@ export class AppComponent {
     window.location.reload();
   }
 
-  get isLoggedIn(): boolean {
-    return this.loginService.isLoggedIn();
+  get auth(): LoginService {
+    return this.loginService;
   }
 }

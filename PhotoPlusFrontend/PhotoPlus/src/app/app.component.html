@@ -15,15 +15,15 @@
 
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
         <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
-        <div *ngIf="!isLoggedIn">
+        <div *ngIf="!auth.getLoggedUser()">
           <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         </div>
-        <div *ngIf="loggedPersonLogin!= null && loggedPersonLogin.length>0; then showPersonLogin else showLoginLink">
+        <div *ngIf="auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
           <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
             <a class="nav-link" id="UserDropdown" role="button">
-              {{loggedPersonLogin}} <i class="fa fa-angle-down"></i>
+              {{auth.getLoggedUser().login}} <i class="fa fa-angle-down"></i>
             </a>
             <div ngbDropdownMenu aria-labelledby="UserDropdown" class="dropdown-menu">
               <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="$event.preventDefault()">Edit profile</a>

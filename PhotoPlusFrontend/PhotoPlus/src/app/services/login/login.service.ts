@@ -12,7 +12,6 @@ import { Role } from 'src/app/models/role/role.enum';
 })
 export class LoginService {
 
-    private loggedPersonLogin: BehaviorSubject<string>;
     private hostAddress = environment.hostAddress;
     private jwtHelper = new JwtHelperService();
     private loggedUser: LoggedUser | any;
@@ -24,11 +23,6 @@ export class LoginService {
       } catch {
         this.loggedUser = null;
       }
-        if (this.isLoggedIn()) {
-          this.loggedPersonLogin = new BehaviorSubject<string>(sessionStorage.getItem("login"));
-        } else {
-          this.loggedPersonLogin = new BehaviorSubject<string>('');
-        }
     }
 
     login(login: string, password: string) {
@@ -43,9 +37,6 @@ export class LoginService {
           this.readTokenFromResponse(res);
           console.log(res.body['login']);
           sessionStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
-          this.loggedPersonLogin.next(res.body['login']);
-          //saving login in session storage
-          sessionStorage.setItem("login", this.loggedPersonLogin.value);
           this.router.navigate(['/']);
         });
     }
@@ -55,7 +46,6 @@ export class LoginService {
         sessionStorage.removeItem("date")
         sessionStorage.removeItem("loggedUser");
         this.http.get(this.hostAddress + 'logout');
-        this.loggedPersonLogin.next("");
     }
 
     readTokenFromResponse(res) {
@@ -72,10 +62,6 @@ export class LoginService {
         }
 
         return !this.jwtHelper.isTokenExpired(token);
-    }
-
-    getLoggedPersonLogin(): Observable<string> {
-      return this.loggedPersonLogin.asObservable();
     }
 
     getLoggedUser(): LoggedUser {
