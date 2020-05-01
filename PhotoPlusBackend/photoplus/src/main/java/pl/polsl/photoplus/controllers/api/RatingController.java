@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.RatingModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.RatingService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -15,8 +16,8 @@ public class RatingController extends BaseModelController<RatingModelDto,RatingS
     private final String PRODUCT_RELATION_NAME = "product";
     private final String CUSTOMER_RELATION_NAME = "customer";
 
-    public RatingController(final RatingService dtoService) {
-        super(dtoService, "rating");
+    public RatingController(final RatingService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "rating", permissionEvaluatorService);
     }
 
     @Override
