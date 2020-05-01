@@ -3,17 +3,15 @@ package pl.polsl.photoplus.security.services;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import pl.polsl.photoplus.model.entities.AbstractEntityModel;
 import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.UserRepository;
-import pl.polsl.photoplus.services.controllers.AbstractModelService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PermissionEvaluatorService<S extends AbstractModelService> {
+public class PermissionEvaluatorService {
 
     private final RolePropertiesService rolePropertiesService;
     private List<String> publicLinkWhitelist;
