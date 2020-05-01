@@ -24,9 +24,9 @@ public class PostController extends BaseModelController<PostModelDto,PostService
         super(dtoService, "post", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/json"})
+    @GetMapping(path = "/byTopic/{topicCode}",produces = {"application/json"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity<List<PostModelDto>> getAllFromCategory(@RequestParam final String topicCode) {
+    public ResponseEntity<List<PostModelDto>> getAllFromCategory(@PathVariable("topicCode") final String topicCode) {
         final List<PostModelDto> dtos = this.dtoService.getPostsByTopic(topicCode);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
