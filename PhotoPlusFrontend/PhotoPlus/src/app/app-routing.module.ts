@@ -14,7 +14,8 @@ import { TopicBodyComponent } from './components/forum/section/body/topic/body/t
 import { TopicEditComponent } from './components/forum/section/body/topic/edit/topic-edit.component';
 import { TopicRemoveComponent } from './components/forum/section/body/topic/remove/topic-remove.component';
 import { TopicAddComponent } from './components/forum/section/body/topic/add/topic-add.component';
-
+import { ProductComponent } from './components/product/product.component';
+import { OrderComponent } from './components/order/order.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartComponent},
   { path: 'forum', component: ForumComponent},
+  { path: 'product/:productCode', component: ProductComponent },
+  { path: 'order', component: OrderComponent },
   { path: 'forum/section/:sectionCode', component: SectionBodyComponent},
   { path: 'forum/edit/section/:sectionCode', component: SectionEditComponent},
   { path: 'forum/remove/section/:sectionCode', component: SectionRemoveComponent},

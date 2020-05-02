@@ -1,0 +1,45 @@
+<div class="container fadeInDown">
+    <div class="card shadow-border">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead class="fadeIn first">
+          <tr>
+            <th scope="col" class="d-none d-lg-table-cell">#</th>
+            <th scope="col" name="image"></th>
+            <th scope="col" name="name" >Name</th>
+            <th scope="col" name="price" class="d-none d-lg-table-cell">Price</th>
+            <th scope="col" name="quantity">Quantity</th>
+          </tr>
+          </thead >
+          <tbody class="fadeIn second">
+          <tr *ngFor="let item of items">
+            <td class="align-middle row-number d-none d-lg-table-cell"></td>
+            <td class="align-middle">
+              <img class="image" [src]="item[0].imagesUrl[0]">
+            </td>
+            <td class="align-middle">
+              <a id="product-name">{{ item[0].name }}</a>
+            </td>
+            <td class="align-middle d-none d-lg-table-cell">
+              <b id="price">${{ item[0].price }}</b>
+
+            </td>
+            <td class="align-middle">{{item[1]}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <h1 id="checkout" class="fadeIn third">Total: <b>${{ price }}</b></h1>
+      </div>
+
+    </div>
+  <br>
+    <div class="card shadow-border fadeIn fourth">
+     <p class="text">Enter the order details:</p>
+   <div class="formOrder"> <input  type="text" placeholder="Name"></div>
+   <div class="formOrder"> <input  type="text" placeholder="Surname"></div>
+   <div class="formOrder"> <input  type="text" placeholder="Adress"></div>
+   <div class="formOrder"> <input  type="text" placeholder="Nie wiem"></div>
+   <div class="formOrder"> <input  type="text" placeholder="Co"></div>
+   <p class="text"><br></p>
+    </div>
+  </div>

@@ -27,6 +27,8 @@ import { TopicAddComponent } from './components/forum/section/body/topic/add/top
 import { TopicEditComponent } from './components/forum/section/body/topic/edit/topic-edit.component';
 import { TopicRemoveComponent } from './components/forum/section/body/topic/remove/topic-remove.component';
 import { PostComponent } from './components/forum/section/body/topic/body/post/post.component';
+import { ProductComponent } from './components/product/product.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
     declarations: [
@@ -48,7 +50,9 @@ import { PostComponent } from './components/forum/section/body/topic/body/post/p
         TopicAddComponent,
         TopicEditComponent,
         TopicRemoveComponent,
-        PostComponent
+        PostComponent,
+        ProductComponent,
+        OrderComponent
     ],
     imports: [
         BrowserModule,
