@@ -1,59 +1,63 @@
 .container {
-    height: 50%;
-    width: 50%;
     padding: 20px;
   }
-  
-.orderContainer{
-    background: white;
-}
-.formOrder{
 
+.formOrder {
     display: flex;
     justify-content: center;
 }
+
 .text{
-    font-weight: bold;
+  padding: 20px;
+  font-weight: bold;
   font-size: 1.2rem;
   color: #0d0d0d;
-  border: 2px solid #f6f6f6;
-  border: none;
   text-align: center;
   text-decoration: none;
 }
-  .card {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-  }
 
-  input[type=text], input[type=password] {
-    background-color: #f6f6f6;
-    border: none;
-    color: #0d0d0d;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    width: 65%;
-    height: 50%;
-    border: 2px solid #f6f6f6;
-    transition: all 0.5s ease-in-out;
-    border-radius: 5px 5px 5px 5px;
-  }
-  .image{
-    height: 5rem;
+.card {
+    border-radius: 10px 10px 10px 10px;
+}
+
+input[type=text] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  transition: all 0.5s ease-in-out;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=text]:placeholder  input[type=password]:placeholder {
+  color: #cccccc;
+}
+
+  .image {
+    max-height: 5rem;
     max-width: 100%;
     margin: 0 auto;
   }
-  
+
   table {
     counter-reset: no -1;
     text-align: center;
     margin-top: 25px;
     table-layout:fixed;
   }
-  
+
   table tr {
     counter-increment: row-num;
     height: 90px;
@@ -61,36 +65,32 @@
       height: 100%;
     }
   }
-  
+
   table tr td:first-child::before {
       content: counter(row-num) ". ";
   }
-  
+
   th {
     white-space:nowrap;
   }
-  
- 
-  
 
-  
-  
-  
   #price {
     font-size: 18px;
   }
-  
+
   #checkout {
     text-align: center;
   }
-  
+
   #product-name {
     font-size: 18px;
   }
-  
+
   .btn {
     margin: 0 auto;
     padding: 10px;
     display: flex;
   }
-  
+*:focus {
+    outline: none;
+}
