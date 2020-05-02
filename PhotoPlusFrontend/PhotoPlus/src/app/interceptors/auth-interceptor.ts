@@ -6,7 +6,7 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>,
               next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         /* for authorization in microsoft edge
         req.headers.set('Access-Control-Allow-Origin', '*');
         req.headers.set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token')

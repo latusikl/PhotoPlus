@@ -30,8 +30,8 @@ export class AppComponent {
     window.location.reload();
   }
 
-  get isLoggedIn(): boolean {
-    return this.loginService.isLoggedIn();
+  get auth(): LoginService {
+    return this.loginService;
   }
     model: any;
 
