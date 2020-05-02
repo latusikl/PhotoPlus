@@ -13,11 +13,9 @@ import { Product } from './models/product/product';
 })
 export class AppComponent {
   title = 'PhotoPlus';
-  loggedPersonLogin: string;
   products: Product[];
 
   constructor(private loginService: LoginService, private productService: ProductService) {
-    this.loginService.getLoggedPersonLogin().subscribe(value => this.loggedPersonLogin = value);
 
      this.productService.getAll().subscribe((data: Product[]) => {
         this.products = data;
@@ -33,7 +31,6 @@ export class AppComponent {
   get auth(): LoginService {
     return this.loginService;
   }
-    model: any;
 
     @ViewChild('instance', {static: true}) instance: NgbTypeahead;
     focus$ = new Subject<string>();
