@@ -57,7 +57,7 @@ public class UserModelDto
     private String password;
 
     @JsonProperty("number")
-    @Pattern(regexp = "[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}", message = "Please add valid phone number.")
+    @Pattern(regexp = "(^$)|([1-9][0-9]{2}-[0-9]{3}-[0-9]{3})", message = "Please add valid phone number.")
     @Patchable
     private String number;
 
