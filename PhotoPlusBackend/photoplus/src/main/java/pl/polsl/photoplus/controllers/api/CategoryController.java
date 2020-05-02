@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.CategoryModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.CategoryService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -12,8 +13,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/category")
 public class CategoryController extends BaseModelController<CategoryModelDto,CategoryService> {
 
-    public CategoryController(final CategoryService dtoService) {
-        super(dtoService, "category");
+    public CategoryController(final CategoryService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "category", permissionEvaluatorService);
     }
 
     @Override

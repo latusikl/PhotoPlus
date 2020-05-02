@@ -60,4 +60,9 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
     public List<PostModelDto> getPostsByTopic(final String topicCode) {
         return getDtoListFromModels(this.entityRepository.findAllByTopic_Code(topicCode));
     }
+
+    public String getPostOwnerCode(final String postCode) {
+        final Post post = findByCodeOrThrowError(postCode, "Find post owner");
+        return post.getUser().getCode();
+    }
 }

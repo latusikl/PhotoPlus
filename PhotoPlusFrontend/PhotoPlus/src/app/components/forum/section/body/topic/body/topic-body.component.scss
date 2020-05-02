@@ -1,0 +1,40 @@
+
+
+
+.topic-posts{
+    border: 4px dashed #0FF;
+    padding: 0;
+}
+
+.topic-moderation-buttons{
+    float:right;
+}
+
+.edit-box{
+    width: 100%;
+    height: 100%;
+}
+
+.dynamic-textarea{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.topic-title{
+    padding: 10px 0px 10px 0px;
+    border: 4px dashed #0FF;
+    border-bottom: none;
+    font-size: 1.5em;
+}
+
+.button{
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.add-post-section{
+    margin-top: 10px;
+}

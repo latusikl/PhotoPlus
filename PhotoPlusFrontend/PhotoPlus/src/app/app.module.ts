@@ -22,6 +22,12 @@ import { SectionBodyComponent } from './components/forum/section/body/section-bo
 import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
 import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
+import { TopicBodyComponent } from './components/forum/section/body/topic/body/topic-body.component';
+import { TopicHeaderComponent } from './components/forum/section/body/topic/header/topic-header.component';
+import { TopicAddComponent } from './components/forum/section/body/topic/add/topic-add.component';
+import { TopicEditComponent } from './components/forum/section/body/topic/edit/topic-edit.component';
+import { TopicRemoveComponent } from './components/forum/section/body/topic/remove/topic-remove.component';
+import { PostComponent } from './components/forum/section/body/topic/body/post/post.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +44,13 @@ import { SectionAddComponent } from './components/forum/section/add/section-add.
         SectionBodyComponent,
         SectionEditComponent,
         SectionRemoveComponent,
-        SectionAddComponent
+        SectionAddComponent,
+        TopicBodyComponent,
+        TopicHeaderComponent,
+        TopicAddComponent,
+        TopicEditComponent,
+        TopicRemoveComponent,
+        PostComponent
     ],
     imports: [
         BrowserModule,

@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.OrderItemService;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -15,8 +16,8 @@ public class OrderItemController extends BaseModelController<OrderItemModelDto,O
     private final String ORDER_RELATION_NAME = "order";
     private final String PRODUCT_RELATION_NAME = "product";
 
-    public OrderItemController(final OrderItemService dtoService) {
-        super(dtoService, "orderItem");
+    public OrderItemController(final OrderItemService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
+        super(dtoService, "orderItem", permissionEvaluatorService);
     }
 
     @Override
