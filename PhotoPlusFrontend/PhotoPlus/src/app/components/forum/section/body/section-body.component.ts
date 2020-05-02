@@ -4,6 +4,7 @@ import { Section } from 'src/app/models/section/section';
 import { SectionService } from 'src/app/services/section/section.service';
 import { LoginService } from 'src/app/services/login/login.service';
 import { Topic } from 'src/app/models/topic/topic';
+import { TopicService } from 'src/app/services/topic/topic.service';
 
 @Component({
   selector: 'app-section-body',
@@ -11,16 +12,19 @@ import { Topic } from 'src/app/models/topic/topic';
   styleUrls: ['./section-body.component.scss']
 })
 export class SectionBodyComponent implements OnInit {
+
   sectionCode: number;
   topics: Topic[];
 
-  constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private sectionService: SectionService) { }
+  constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private topicService: TopicService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.sectionCode = params['code'];
-      
-    })
+      this.sectionCode = params['sectionCode'];
+      this.topicService.getAllFromSectionCode(this.sectionCode).subscribe(data =>{
+        this.topics = data;
+      });
+    });
   }
 
   get auth(): LoginService{

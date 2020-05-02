@@ -1,3 +1,8 @@
 <div class="container">
-    {{sectionCode}}
+        <a [routerLink]="['/forum/add/topic/', this.sectionCode]" >
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Add Topic</button>
+        </a>
+    <div class="row-12" *ngFor="let single of topics">
+        <app-topic-header [topic]="single" ></app-topic-header>
+    </div>
 </div>

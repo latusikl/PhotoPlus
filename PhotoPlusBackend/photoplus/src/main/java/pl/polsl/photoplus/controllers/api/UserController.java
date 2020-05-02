@@ -1,8 +1,10 @@
 package pl.polsl.photoplus.controllers.api;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.UserModelDto;
+import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.UserService;
 
@@ -15,9 +17,10 @@ public class UserController extends BaseModelController<UserModelDto,UserService
     private final AddressService addressService;
     private final static String ADDRESS_RELATION_NAME = "address";
 
-    public UserController(final UserService userService, final AddressService addressService)
+    public UserController(final UserService userService, final AddressService addressService,
+                          final PermissionEvaluatorService permissionEvaluatorService)
     {
-        super(userService, "user");
+        super(userService, "user", permissionEvaluatorService);
         this.addressService = addressService;
     }
 
@@ -30,4 +33,12 @@ public class UserController extends BaseModelController<UserModelDto,UserService
                 dto.add(linkTo(methodOn(AddressController.class).getSingle(address.getCode())).withRel(ADDRESS_RELATION_NAME))
         );
     }
+
+    @PatchMapping("/editAccount/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    public ResponseEntity patch(@RequestBody final UserModelDto dtoPatch, @PathVariable("code") final String code)
+    {
+        return new ResponseEntity(dtoService.patch(dtoPatch, code));
+    }
+
 }
