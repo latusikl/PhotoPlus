@@ -59,12 +59,19 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
     }
 
-    public void updateStoreQuantity(final String productCode, final Integer quantityToSub) {
-        final Product product = this.findByCodeOrThrowError(productCode, "UPDATE STORE QUANTITY");
+    public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
+        final Product product = this.findByCodeOrThrowError(productCode, "SUB STORE QUANTITY");
         final Integer newQuantity = product.getStoreQuantity() - quantityToSub;
         if (newQuantity < 0) {
             throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
         }
+        product.setStoreQuantity(newQuantity);
+        this.entityRepository.save(product);
+    }
+
+    public void addStoreQuantity(final String productCode, final Integer quantityToAdd) {
+        final Product product = this.findByCodeOrThrowError(productCode, "ADD STORE QUANTITY");
+        final Integer newQuantity = product.getStoreQuantity() + quantityToAdd;
         product.setStoreQuantity(newQuantity);
         this.entityRepository.save(product);
     }

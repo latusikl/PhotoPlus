@@ -7,6 +7,7 @@ import pl.polsl.photoplus.model.entities.Batch;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.BatchRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,12 +40,12 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
     }
 
     @Override
+    @Transactional
     public HttpStatus save(final List<BatchModelDto> dto) {
         final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
+            productService.addStoreQuantity(batchModelDto.getProductCode(), batchModelDto.getStoreQuantity());
             final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
                     "SAVE PRODUCT");
-            productToInsert.setStoreQuantity(productToInsert.getStoreQuantity() + batchModelDto.getStoreQuantity());
-            productService.patch(productService.getDtoFromModel(productToInsert), productToInsert.getCode());
             final Batch batchToAdd = getModelFromDto(batchModelDto);
             batchToAdd.setProduct(productToInsert);
             return batchToAdd;
