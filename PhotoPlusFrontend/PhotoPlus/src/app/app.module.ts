@@ -15,6 +15,7 @@ import {CartComponent} from './components/cart/cart.component';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
+import { CategoryComponent } from './components/category/category.component';
 import { ForumComponent } from './components/forum/forum.component';
 import { SectionComponent } from './components/forum/section/header/section-header.component';
 import { SectionBodyComponent } from './components/forum/section/body/section-body.component';
@@ -39,6 +40,7 @@ import { OrderComponent } from './components/order/order.component';
         CartComponent,
         ErrorModalComponent,
         SuccessModalComponent,
+        CategoryComponent,
         ForumComponent,
         SectionComponent,
         SectionBodyComponent,
