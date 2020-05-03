@@ -65,8 +65,7 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
             throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
         }
 
-        for (int i = 0; i < batchList.size(); i++) {
-            final Batch batch = batchList.get(i);
+        for (final var batch: batchList) {
             final Integer newQuantity = batch.getStoreQuantity() - quantityToSub;
             if (newQuantity >= 0) {
                 batch.setStoreQuantity(newQuantity);
