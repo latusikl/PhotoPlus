@@ -43,6 +43,8 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
         final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
             final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
                     "SAVE PRODUCT");
+            productToInsert.setStoreQuantity(productToInsert.getStoreQuantity() + batchModelDto.getStoreQuantity());
+            productService.patch(productService.getDtoFromModel(productToInsert), productToInsert.getCode());
             final Batch batchToAdd = getModelFromDto(batchModelDto);
             batchToAdd.setProduct(productToInsert);
             return batchToAdd;
