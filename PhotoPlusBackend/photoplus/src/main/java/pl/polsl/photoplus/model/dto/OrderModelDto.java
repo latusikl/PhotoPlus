@@ -3,6 +3,7 @@ package pl.polsl.photoplus.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
 import pl.polsl.photoplus.model.enums.OrderStatus;
@@ -10,6 +11,7 @@ import pl.polsl.photoplus.model.enums.PaymentMethod;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -32,18 +34,26 @@ public class OrderModelDto
     @Patchable(method = "paymentMethodPatch")
     private String paymentMethod;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "Date is mandatory.")
+    @JsonProperty("date")
+    @Patchable
+    private LocalDate date;
+
     @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
     @Patchable
     private Integer price;
 
-    public OrderModelDto(final String code, final String userCode, final String orderStatus, final String paymentMethod, final Integer price)
+    public OrderModelDto(final String code, final String userCode, final String orderStatus, final String paymentMethod,
+                         final Integer price, final LocalDate date)
     {
         super(code);
         this.userCode = userCode;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.price = price;
+        this.date = date;
     }
 
     public PaymentMethod paymentMethodPatch()

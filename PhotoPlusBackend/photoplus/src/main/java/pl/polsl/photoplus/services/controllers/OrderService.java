@@ -41,13 +41,14 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     @Override
     protected OrderModelDto getDtoFromModel(final Order modelObject) {
         return new OrderModelDto(modelObject.getCode(), modelObject.getUser().getCode(), modelObject.getOrderStatus().name(),
-                modelObject.getPaymentMethod().name(), modelObject.getPrice());
+                modelObject.getPaymentMethod().name(), modelObject.getPrice(), modelObject.getDate());
     }
 
     @Override
     protected Order getModelFromDto(final OrderModelDto dtoObject) {
         return new Order(OrderStatus.getOrderStatusFromString(dtoObject.getOrderStatus()),
-                PaymentMethod.getPaymentMethodFromString(dtoObject.getPaymentMethod()), dtoObject.getPrice());
+                PaymentMethod.getPaymentMethodFromString(dtoObject.getPaymentMethod()), dtoObject.getPrice(),
+                dtoObject.getDate());
     }
 
     private Order insertUserDependencyAndParseToModel(final OrderModelDto orderModelDto) {

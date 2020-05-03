@@ -8,6 +8,7 @@ import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.PaymentMethod;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity(name = "orders")
 @Table(name = "orders")
@@ -16,10 +17,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Order extends AbstractEntityModel {
 
-    public Order(final OrderStatus orderStatus, final PaymentMethod paymentMethod, final Integer price) {
+    public Order(final OrderStatus orderStatus, final PaymentMethod paymentMethod, final Integer price,
+                 final LocalDate date) {
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.price = price;
+        this.date = date;
     }
 
     @ManyToOne
@@ -35,6 +38,9 @@ public class Order extends AbstractEntityModel {
 
     @Patchable
     private Integer price;
+
+    @Patchable
+    private LocalDate date;
 
 }
 
