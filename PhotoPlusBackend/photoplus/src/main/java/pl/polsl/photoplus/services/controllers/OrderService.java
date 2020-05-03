@@ -71,7 +71,7 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
             final List<OrderItemModelDto> orderItems = orderDto.getOrderItemModelDtos();
 
             orderItems.forEach(orderItem -> {
-                productService.updateStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
+                productService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
                 orderItem.setOrderCode(orderModel.getCode());
             });
             orderItemService.save(orderItems);
