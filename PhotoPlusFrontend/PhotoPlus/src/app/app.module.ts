@@ -29,6 +29,8 @@ import { TopicRemoveComponent } from './components/forum/section/body/topic/remo
 import { PostComponent } from './components/forum/section/body/topic/body/post/post.component';
 import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
 
 @NgModule({
     declarations: [
@@ -60,6 +62,8 @@ import { OrderComponent } from './components/order/order.component';
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
+        MatCardModule,
+        MatDividerModule,
         NgbModule
     ],
     providers: [
