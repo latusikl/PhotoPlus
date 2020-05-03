@@ -22,11 +22,9 @@ product:Product;
   ngOnInit(): void {
     this.route.paramMap.forEach(({params}:Params)=>{
       this.param = params['productCode']})
-      console.log(this.param);
       this.productService.getSingle(this.param).subscribe((data: Product) => {
         this.product = data;
         this.productService.getDataFromLinks(this.product);
-        console.log(this.product);
   })
 }
 addToCart(product: Product) {
