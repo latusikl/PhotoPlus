@@ -26,14 +26,12 @@ public class ReportService {
     private final OrderService orderService;
     private final CategoryService categoryService;
     private final BatchService batchService;
-    private final OrderItemService orderItemService;
 
     public ReportService(final ProductService productService, final OrderService orderService, final CategoryService categoryService, final BatchService batchService, final OrderItemService orderItemService) {
         this.productService = productService;
         this.orderService = orderService;
         this.categoryService = categoryService;
         this.batchService = batchService;
-        this.orderItemService = orderItemService;
     }
 
     public ByteArrayResource generateProfitReport() throws DocumentException {
@@ -104,14 +102,7 @@ public class ReportService {
                 order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0).collect(Collectors.toList());
         Double priceSum = 0.0;
         for (final var order: orderList) {
-            final List<OrderItemModelDto> orderItemList = orderItemService.getAllByOrderCode(order.getCode());
-
-            for (final var orderItem: orderItemList) {
-                final Product product = productService.findByCodeOrThrowError(orderItem.getProductCode(),
-                        "GET AVERAGE ORDER VALUE");
-                priceSum += product.getPrice() * orderItem.getQuantity();
-            }
-
+            priceSum += order.getPrice();
         }
         return priceSum / orderList.size();
     }
