@@ -18,7 +18,7 @@
         <div *ngIf="!auth.getLoggedUser()">
           <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         </div>
-        <div *ngIf="auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
+        <div *ngIf="auth.isLoggedIn() && auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
           <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
