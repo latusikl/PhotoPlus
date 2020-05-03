@@ -18,8 +18,13 @@ export class LoginService {
 
     constructor(private http: HttpClient, private router: Router) {
 
-      try{
+      try {
         this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        const token = localStorage.getItem("token");
+        if (this.jwtHelper.isTokenExpired(token)) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("loggedUser");
+        }
       } catch {
         this.loggedUser = null;
       }

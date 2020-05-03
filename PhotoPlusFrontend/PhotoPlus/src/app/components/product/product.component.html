@@ -3,7 +3,7 @@
     <div class="card-body fadeIn first">
       <div class="row">
       <div class="column1 fadeIn second">
-        <ngb-carousel id="product-carousel" wrap="true"  [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
+        <ngb-carousel id="product-carousel" wrap="true" [interval]="false" *ngIf="product?.imagesUrl.length > 1; else noCarousel" #carousel>
           <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
             <div>
               <img class="carouselImage" src="{{image}}">
@@ -11,19 +11,19 @@
           </ng-template>
         </ngb-carousel>
         <ng-template #noCarousel  >
-          <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">
+          <img class="noCarouselImage" src="{{product?.imagesUrl[0]}}">
         </ng-template>
       </div>
       <div class="column2 fadeIn third">
         <div>
-          <p class="card-title" id="product-card-title">{{product.name}}</p>
-          <p class="category text-muted"> {{ product.category }} </p>
-          <p class="description">{{product.description}}</p>
+          <p class="card-title" id="product-card-title">{{product?.name}}</p>
+          <p class="category text-muted"> {{ product?.category }} </p>
+          <p class="description">{{product?.description}}</p>
         </div>
       </div>
       <div class="column3 fadeIn fourth">
         <div >
-          <p id="product-price">${{ product.price }}</p>
+          <p id="product-price">${{ product?.price }}</p>
           <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
           <br>
           <br>
