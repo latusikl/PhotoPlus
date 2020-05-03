@@ -16,7 +16,7 @@ public class BatchController extends BaseModelController<BatchModelDto,BatchServ
     private final String PRODUCT_RELATION_NAME = "product";
 
     public BatchController(final BatchService dtoService, final PermissionEvaluatorService permissionEvaluatorService) {
-        super(dtoService, "product", permissionEvaluatorService);
+        super(dtoService, "batch", permissionEvaluatorService);
     }
 
     @Override
