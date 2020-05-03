@@ -38,20 +38,21 @@
      <br>
      <div class="checkbox">
      <div class="custom-control custom-radio">
-      <input type="radio" class="custom-control-input" id="cash" name="paymant" mdbInput>
+      <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="cash_on_delivery" id="cash" name="paymant" mdbInput>
       <label class="custom-control-label" for="cash">Cash</label>
     </div>
     <div class="custom-control custom-radio">
-      <input type="radio" class="custom-control-input" id="card" name="paymant" mdbInput>
+      <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="card" id="card" name="paymant" mdbInput>
       <label class="custom-control-label" for="card">Card</label>
     </div>
     <div class="custom-control custom-radio">
-      <input type="radio" class="custom-control-input" id="paypal" name="paymant" mdbInput>
+      <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="paypal"  id="paypal" name="paymant" mdbInput>
       <label class="custom-control-label" for="paypal">Paypal</label>
     </div>
   </div>
+  <p class="text"><br></p>
+  <p class="error" id="error">Check payment method!</p>
+   <button (click)="buy()" class="btn btn-success" href="#" id="cart-link">Buy</button>
    <p class="text"><br></p>
   </div>
-  <button (click)="buy()" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
-
   </div>
