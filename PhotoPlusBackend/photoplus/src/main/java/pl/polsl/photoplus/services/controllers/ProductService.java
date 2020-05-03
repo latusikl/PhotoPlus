@@ -7,6 +7,7 @@ import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.ProductRepository;
+import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
 import java.util.List;
 import java.util.function.Function;
@@ -56,5 +57,15 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
     {
         return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+    }
+
+    public void updateStoreQuantity(final String productCode, final Integer quantityToSub) {
+        final Product product = this.findByCodeOrThrowError(productCode, "UPDATE STORE QUANTITY");
+        final Integer newQuantity = product.getStoreQuantity() - quantityToSub;
+        if (newQuantity < 0) {
+            throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
+        }
+        product.setStoreQuantity(newQuantity);
+        this.entityRepository.save(product);
     }
 }
