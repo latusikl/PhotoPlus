@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 public class OrderModelDto
-        extends AbstractModelDto<BatchModelDto>
+        extends AbstractModelDto<OrderModelDto>
 {
     @NotBlank(message = "User code is mandatory.")
     @JsonProperty("userCode")

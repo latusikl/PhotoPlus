@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "products")
@@ -36,6 +33,7 @@ public class Product extends AbstractEntityModel {
     private Integer price;
 
     @Patchable
+    @Column(columnDefinition = "text")
     private String description;
 
     @Patchable
