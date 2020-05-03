@@ -6,7 +6,6 @@ import pl.polsl.photoplus.model.dto.OrderItemModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
 import pl.polsl.photoplus.model.entities.Order;
-import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.PaymentMethod;
@@ -21,14 +20,17 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     private final UserService userService;
     private final OrderItemService orderItemService;
     private final ProductService productService;
+    private final BatchService batchService;
 
 
     public OrderService(final OrderRepository entityRepository, final UserService userService,
-                        final OrderItemService orderItemService, final ProductService productService) {
+                        final OrderItemService orderItemService, final ProductService productService,
+                        final BatchService batchService) {
         super(entityRepository);
         this.userService = userService;
         this.orderItemService = orderItemService;
         this.productService = productService;
+        this.batchService = batchService;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
 
             orderItems.forEach(orderItem -> {
                 productService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
+                batchService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
                 orderItem.setOrderCode(orderModel.getCode());
             });
             orderItemService.save(orderItems);
