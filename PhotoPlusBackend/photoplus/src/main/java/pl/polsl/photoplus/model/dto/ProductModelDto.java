@@ -9,6 +9,7 @@ import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.services.controllers.CategoryService;
 
 import javax.persistence.ElementCollection;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ProductModelDto
     private String description;
 
     @JsonProperty("storeQuantity")
+    @Min(value = 0, message ="Store quantity cannot be less than zero.")
     @Patchable
     private Integer storeQuantity;
 
