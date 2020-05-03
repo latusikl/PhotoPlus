@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends AbstractEntityModel {
 
-    public Product(final String name, final Integer price, final String description, final Integer storeQuantity,
+    public Product(final String name, final Double price, final String description, final Integer storeQuantity,
                    final List<String> imageCodes) {
         this.name = name;
         this.price = price;
@@ -33,7 +33,7 @@ public class Product extends AbstractEntityModel {
     private Category category;
 
     @Patchable
-    private Integer price;
+    private Double price;
 
     @Patchable
     @Column(columnDefinition = "text")

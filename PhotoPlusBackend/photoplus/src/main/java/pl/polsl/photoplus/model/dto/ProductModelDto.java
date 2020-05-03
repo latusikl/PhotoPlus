@@ -33,7 +33,7 @@ public class ProductModelDto
     @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
     @Patchable
-    private Integer price;
+    private Double price;
 
     @JsonProperty("description")
     @Patchable
@@ -49,7 +49,7 @@ public class ProductModelDto
     @ElementCollection
     private List<String> imageCodes;
 
-    public ProductModelDto(final String code, final String name, final Integer price, final String description,
+    public ProductModelDto(final String code, final String name, final Double price, final String description,
                            final String category, final Integer storeQuantity, final List<String> imageCodes)
     {
         super(code);
