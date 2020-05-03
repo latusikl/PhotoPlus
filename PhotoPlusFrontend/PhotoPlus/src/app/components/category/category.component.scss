@@ -1,0 +1,22 @@
+.flex-container {
+   display: flex;
+   flex-wrap: wrap;
+   width: 100%;
+   margin: 0em auto;
+   justify-content: center;
+}
+
+#category-card {
+  width: 30rem;
+  margin: 20px 1em;
+  border-radius: 10px 10px 10px 10px;
+}
+
+#category-list-group {
+  justify-content: center;
+}
+
+#category-list-group-item {
+  text-align: center;
+  cursor: pointer;
+}

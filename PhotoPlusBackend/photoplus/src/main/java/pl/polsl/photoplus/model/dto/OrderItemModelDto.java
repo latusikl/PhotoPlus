@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 public class OrderItemModelDto
         extends AbstractModelDto<OrderItemModelDto>
 {
-    @NotBlank(message = "Order code is mandatory.")
     @JsonProperty("orderCode")
     private String orderCode;
 

@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
+import { CategoryComponent } from './components/category/category.component';
 import { ForumComponent } from './components/forum/forum.component';
 import { SectionBodyComponent } from './components/forum/section/body/section-body.component';
 import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartComponent},
+  { path: 'category', component: CategoryComponent },
   { path: 'forum', component: ForumComponent},
   { path: 'product/:productCode', component: ProductComponent },
   { path: 'order', component: OrderComponent },
