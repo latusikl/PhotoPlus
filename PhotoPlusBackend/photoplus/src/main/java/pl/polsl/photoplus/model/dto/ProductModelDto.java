@@ -38,13 +38,17 @@ public class ProductModelDto
     @Patchable
     private String description;
 
+    @JsonProperty("storeQuantity")
+    @Patchable
+    private Integer storeQuantity;
+
     @JsonProperty("imageCodes")
     @Patchable
     @ElementCollection
     private List<String> imageCodes;
 
     public ProductModelDto(final String code, final String name, final Integer price, final String description,
-                           final String category, final List<String> imageCodes)
+                           final String category, final Integer storeQuantity, final List<String> imageCodes)
     {
         super(code);
         this.name = name;
@@ -52,6 +56,7 @@ public class ProductModelDto
         this.description = description;
         this.category = category;
         this.imageCodes = imageCodes;
+        this.storeQuantity = storeQuantity;
     }
 
     public Category categoryPatch()

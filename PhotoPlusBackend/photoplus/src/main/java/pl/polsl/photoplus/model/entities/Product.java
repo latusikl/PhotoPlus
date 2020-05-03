@@ -3,6 +3,7 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.*;
@@ -15,11 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 public class Product extends AbstractEntityModel {
 
-    public Product(final String name, final Integer price, final String description, final List<String> imageCodes) {
+    public Product(final String name, final Integer price, final String description, final Integer storeQuantity,
+                   final List<String> imageCodes) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.imageCodes = imageCodes;
+        this.storeQuantity = storeQuantity;
     }
 
     @Patchable
@@ -35,6 +38,10 @@ public class Product extends AbstractEntityModel {
     @Patchable
     @Column(columnDefinition = "text")
     private String description;
+
+    @Patchable
+    @ColumnDefault("0")
+    private Integer storeQuantity;
 
     @Patchable
     @ElementCollection
