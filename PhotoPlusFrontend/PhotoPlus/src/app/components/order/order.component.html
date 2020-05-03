@@ -33,13 +33,25 @@
 
     </div>
   <br>
-    <div class="card shadow-border fadeIn fourth">
-     <p class="text">Enter the order details:</p>
-   <div class="formOrder"> <input  type="text" placeholder="Name"></div>
-   <div class="formOrder"> <input  type="text" placeholder="Surname"></div>
-   <div class="formOrder"> <input  type="text" placeholder="Adress"></div>
-   <div class="formOrder"> <input  type="text" placeholder="Nie wiem"></div>
-   <div class="formOrder"> <input  type="text" placeholder="Co"></div>
-   <p class="text"><br></p>
+   <div class="card shadow-border">
+     <p class="text">Select payment method:</p>
+     <br>
+     <div class="checkbox">
+     <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input" id="cash" name="paymant" mdbInput>
+      <label class="custom-control-label" for="cash">Cash</label>
     </div>
+    <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input" id="card" name="paymant" mdbInput>
+      <label class="custom-control-label" for="card">Card</label>
+    </div>
+    <div class="custom-control custom-radio">
+      <input type="radio" class="custom-control-input" id="paypal" name="paymant" mdbInput>
+      <label class="custom-control-label" for="paypal">Paypal</label>
+    </div>
+  </div>
+   <p class="text"><br></p>
+  </div>
+  <button (click)="buy()" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+
   </div>
