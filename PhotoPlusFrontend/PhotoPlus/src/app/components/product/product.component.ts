@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
   param: number;
 
 product:Product;
-  constructor(private route: ActivatedRoute,private productService: ProductService,private cartService: CartService,private modalService: NgbModal) { }
+  constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.route.paramMap.forEach(({params}:Params)=>{
