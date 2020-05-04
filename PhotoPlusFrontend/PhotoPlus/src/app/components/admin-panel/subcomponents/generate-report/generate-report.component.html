@@ -1,1 +1,19 @@
-<p>generate-report works!</p>
+<div class="container">
+    <div class="row-12 mt-1" style="border: 5px solid red;">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Profit report:
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+                <div class="form-group">
+                    <span>From: <input #fromDate type="date" ></span>
+                    <span>&nbsp;To: <input #toDate type="date" ></span>
+                    &nbsp;<button (click)="generateProfitReport()" class="btn btn-primary">Generate report</button>
+                </div>
+
+            </mat-panel-description>
+        </mat-expansion-panel>
+    </div>
+</div>
