@@ -1,0 +1,43 @@
+import {Injectable} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MustMatch} from "../../helpers/must-match";
+import {User} from "../../models/user/user";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class UserFormService {
+
+    constructor(private formBuilder: FormBuilder) {
+    }
+
+    public generateUserForm(): FormGroup {
+        return this.formBuilder.group({
+            login: ['', [Validators.required, Validators.minLength(5)]],
+            mail: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(5)]],
+            confirmPass: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            surname: ['', [Validators.required]],
+            phoneNumber: ['', Validators.pattern(new RegExp("[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}"))]
+        }, {
+            validator: [MustMatch('password', 'confirmPass')]
+        });
+
+    }
+
+    public getUserFromUserForm(registrationForm: FormGroup): User {
+        const alias = registrationForm.value;
+        const user: User = {
+            login: alias.login,
+            email: alias.mail,
+            password: alias.password,
+            name: alias.name,
+            surname: alias.surname,
+            number: alias.phoneNumber
+        };
+        return user;
+    }
+
+
+}
