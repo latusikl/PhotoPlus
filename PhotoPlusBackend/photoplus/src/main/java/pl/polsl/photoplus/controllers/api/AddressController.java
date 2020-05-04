@@ -32,7 +32,7 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
     }
 
     @GetMapping(path = "/byUser/{code}", produces = {"application/json"})
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getAddressOwner(#code))")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
     public ResponseEntity<List<AddressModelDto>> getAllFromCategory(@PathVariable("code") final String code)
     {
         final List<AddressModelDto> dtos = this.dtoService.getUserAddresses(code);
@@ -41,18 +41,9 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
     }
 
     @PatchMapping("/editAddress/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getAddressOwner(#code))")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
     public ResponseEntity patch(@RequestBody final AddressModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
-    }
-
-    /**
-     *
-     * You need to use getter to use service in @PreAuthorize because SpEL cannot use inherited field.
-     * @return
-     */
-    public AddressService getService() {
-        return this.dtoService;
     }
 }
