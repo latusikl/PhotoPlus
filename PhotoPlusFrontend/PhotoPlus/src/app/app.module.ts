@@ -22,6 +22,7 @@ import { SectionRemoveComponent } from './components/forum/section/remove/sectio
 import { SectionAddComponent } from './components/forum/section/add/section-add.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UserDataComponent } from './components/user-details/user-data/user-data.component';
+import { UserAddressComponent } from './components/user-details/user-address/user-address.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { UserDataComponent } from './components/user-details/user-data/user-data
         SectionAddComponent,
         UserDetailsComponent,
         UserDataComponent,
+        UserAddressComponent,
     ],
     imports: [
         BrowserModule,
