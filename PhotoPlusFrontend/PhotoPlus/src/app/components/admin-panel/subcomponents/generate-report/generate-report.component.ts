@@ -14,6 +14,9 @@ export class GenerateReportComponent implements OnInit {
   @ViewChild("toDate")
   toDateEl: ElementRef;
 
+  @ViewChild("productCode")
+  productCodeEl: ElementRef;
+
   constructor(private reportService: ReportService) { }
 
   ngOnInit(): void {
@@ -24,16 +27,27 @@ export class GenerateReportComponent implements OnInit {
     const fromDate = this.fromDateEl.nativeElement.value as Date;
     const toDate = this.toDateEl.nativeElement.value as Date;
     console.log(fromDate, toDate, fromDate > toDate);
-    if(fromDate > toDate ){
+    if(fromDate > toDate){
       alert("Starting date should not be greater than ending date");
       return;
     }
     this.reportService.getProfitReport(fromDate, toDate).subscribe(pdfObject => {
-      const downloadURL = window.URL.createObjectURL(pdfObject);
+      this.createAndDownloadData(pdfObject,`${fromDate}_${toDate}_profit_report.pdf`);
+    })
+  }
+  generateProductReport(){
+    const productCode = this.productCodeEl.nativeElement.value as string;
+    console.log(productCode);
+    this.reportService.getProductReport(productCode).subscribe(pdfObject => {
+      this.createAndDownloadData(pdfObject, `${new Date()}_${productCode}_product_report.pdf`)
+    })
+    
+  }
+  createAndDownloadData(data: Blob, filename: string){
+    const downloadURL = window.URL.createObjectURL(data);
       const link = document.createElement("a");
       link.href = downloadURL;
-      link.download = `${fromDate} ${toDate} profit report.pdf`;
+      link.download = filename;
       link.click();
-    })
   }
 }

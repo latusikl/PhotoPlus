@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row-12 mt-1" style="border: 5px solid red;">
+    <div class="row-12 mt-1">
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -10,9 +10,23 @@
                 <div class="form-group">
                     <span>From: <input #fromDate type="date" ></span>
                     <span>&nbsp;To: <input #toDate type="date" ></span>
-                    &nbsp;<button (click)="generateProfitReport()" class="btn btn-primary">Generate report</button>
+                    &nbsp;<button (click)="generateProfitReport()" class="btn btn-primary">Generate profit report</button>
                 </div>
-
+            </mat-panel-description>
+        </mat-expansion-panel>
+    </div>
+    <div class="row-12 mt-1">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Product report:
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+                <div class="form-group">
+                    <span>&nbsp;Product code: <input #productCode type="number" ></span>
+                    &nbsp;<button (click)="generateProductReport()" class="btn btn-primary">Generate product report</button>
+                </div>
             </mat-panel-description>
         </mat-expansion-panel>
     </div>

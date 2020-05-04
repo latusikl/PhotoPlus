@@ -15,4 +15,7 @@ export class ReportService {
   getProfitReport(fromDate: Date, toDate: Date): Observable<Blob>{
     return this.http.get<Blob>(this.hostAddress + "report" + "/profit" + `?beginDate=${fromDate}&endDate=${toDate}`);
   }
+  getProductReport(productCode: string): Observable<Blob>{
+    return this.http.get<Blob>(this.hostAddress + "report" + "/product" + `?code=${productCode}`);
+  }
 }
