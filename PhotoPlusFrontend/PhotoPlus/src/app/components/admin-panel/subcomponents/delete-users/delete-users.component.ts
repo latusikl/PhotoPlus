@@ -23,6 +23,9 @@ export class DeleteUsersComponent implements OnInit {
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getAll().subscribe((data) => {
       for (let user of data) {
+        if(user.login === "admin"){
+          continue;
+        }
         this.users.push(new BehaviorSubject(user));
       }
       this.filteredUsers = this.users;
@@ -40,7 +43,10 @@ export class DeleteUsersComponent implements OnInit {
     });
   }
   deleteUser(user: BehaviorSubject<User>){
-    // TODO
-    console.log("delete", user.value.login);
+    if(confirm("Do you want to delete user: \n\n" + user.value.name + " " + user.value.surname)){
+      this.userService.delete(user.value.code).subscribe(()=>{
+        this.ngOnInit(); // reinicjalizcja        
+      })
+    }
   }
 }

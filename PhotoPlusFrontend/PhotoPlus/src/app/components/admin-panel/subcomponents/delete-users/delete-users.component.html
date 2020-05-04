@@ -1,18 +1,18 @@
 <div class="container">
     <div class="form-group mt-3">
-        <span>Search by login:<input #searchInput class="w-100" type="text" /></span>
+        <span>Search by login or usercode:<input #searchInput class="w-100" type="text" /></span>
     </div>
     <div class="row">
         <div class="col-4 mt-1" *ngFor="let user of filteredUsers">
             <div class="form-group">
                 <mat-card>
                     <button (click)="deleteUser(user)" class="btn btn-danger mb-1">Delete</button><br>
-                    Code: {{(user | async) && (user | async).code}}<br>
-                    Login: {{(user | async) && (user | async).login}}<br>
-                    Name: {{(user | async) && (user | async).name}}<br>
-                    Surname: {{(user | async) && (user | async).surname}}<br>
-                    Email: {{(user | async) && (user | async).email}}<br>
-                    Username: {{(user | async) && (user | async).login}}
+                    Code: {{(user | async)?.code}}<br>
+                    Login: {{(user | async)?.login}}<br>
+                    Name: {{(user | async)?.name}}<br>
+                    Surname: {{(user | async)?.surname}}<br>
+                    Email: {{(user | async)?.email}}<br>
+                    Username: {{(user | async)?.login}}
                 </mat-card>
             </div>
         </div>
