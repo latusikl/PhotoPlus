@@ -4,9 +4,11 @@
         <input class="form-control" type="text" formControlName="name" style="width: 100%;" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
             <div *ngIf="f.name.errors.required">Title is required</div>
-          </div>
+        </div>
         Section description:
         <textarea class="form-control" formControlName="description" style="width: 100%;" ></textarea>
-        <input type="submit" value="Edit section" class="btn btn-success" style="width: 100%; margin-top: 10px;">
+        <div class="center">
+          <input type="submit" value="Edit section" class="btn btn-success">
+        </div>
     </form>
 </div>
