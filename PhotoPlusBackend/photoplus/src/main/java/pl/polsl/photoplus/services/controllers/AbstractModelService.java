@@ -132,7 +132,6 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     public List<T> getAll()
     {
         final Iterable<M> foundModels = entityRepository.findAll();
-        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return getDtoListFromModels(foundModels);
     }
 
