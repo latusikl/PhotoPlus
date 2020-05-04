@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -13,8 +14,8 @@ import java.util.List;
 public class OrderModelDtoWithOrderItems extends OrderModelDto {
 
     public OrderModelDtoWithOrderItems(final String code, final String userCode, final String orderStatus,
-                                       final String paymentMethod, final Integer price) {
-        super(code, userCode, orderStatus, paymentMethod, price);
+                                       final String paymentMethod, final Integer price, final LocalDate date) {
+        super(code, userCode, orderStatus, paymentMethod, price, date);
     }
 
     @JsonProperty("orderItems")
