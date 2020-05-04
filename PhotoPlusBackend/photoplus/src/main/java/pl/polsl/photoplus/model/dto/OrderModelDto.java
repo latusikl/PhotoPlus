@@ -22,6 +22,10 @@ public class OrderModelDto
     @JsonProperty("userCode")
     private String userCode;
 
+    @NotBlank(message = "Address code is mandatory.")
+    @JsonProperty("addressCode")
+    private String addressCode;
+
     @NotBlank(message = "Order status is mandatory.")
     @JsonProperty("orderStatus")
     @ValueOfEnum(enumClass = OrderStatus.class)
@@ -45,11 +49,12 @@ public class OrderModelDto
     @Patchable
     private Integer price;
 
-    public OrderModelDto(final String code, final String userCode, final String orderStatus, final String paymentMethod,
+    public OrderModelDto(final String code, final String userCode, final String addressCode, final String orderStatus, final String paymentMethod,
                          final Integer price, final LocalDate date)
     {
         super(code);
         this.userCode = userCode;
+        this.addressCode = addressCode;
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
         this.price = price;

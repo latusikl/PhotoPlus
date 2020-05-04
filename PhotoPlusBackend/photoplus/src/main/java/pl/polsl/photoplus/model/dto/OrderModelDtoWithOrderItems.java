@@ -13,9 +13,9 @@ import java.util.List;
 @Setter
 public class OrderModelDtoWithOrderItems extends OrderModelDto {
 
-    public OrderModelDtoWithOrderItems(final String code, final String userCode, final String orderStatus,
+    public OrderModelDtoWithOrderItems(final String code, final String userCode, final String addressCode, final String orderStatus,
                                        final String paymentMethod, final Integer price, final LocalDate date) {
-        super(code, userCode, orderStatus, paymentMethod, price, date);
+        super(code, userCode, addressCode, orderStatus, paymentMethod, price, date);
     }
 
     @JsonProperty("orderItems")

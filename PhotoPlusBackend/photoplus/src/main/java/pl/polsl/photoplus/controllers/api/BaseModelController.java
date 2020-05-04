@@ -1,5 +1,7 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,8 +18,12 @@ import pl.polsl.photoplus.services.controllers.AbstractModelService;
 import pl.polsl.photoplus.services.controllers.ModelService;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Basic controller for model object responsible for handling standard operations on objects.
@@ -91,9 +97,13 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
 
     @PostMapping
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'post' )")
-    public ResponseEntity post(@RequestBody @Valid final List<T> dtoSet)
+    public ResponseEntity post(@RequestBody @Valid final T dto)
     {
-        return new ResponseEntity(dtoService.save(dtoSet));
+        final String entityCode = dtoService.save(dto);
+        final HttpHeaders headers = new HttpHeaders();
+        final URI uri = linkTo(methodOn(this.getClass()).getSingle(entityCode)).toUri();
+        headers.add("Location", uri.toASCIIString());
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{code}")

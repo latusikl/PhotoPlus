@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export abstract class AbstractService<T> {
@@ -16,8 +16,12 @@ export abstract class AbstractService<T> {
     return this._http.get<T>(this.hostAddress + this.endpointUrl + "/" + code);
   }
 
-  public post(item: T): Observable<T[]> {
-    return this._http.post<T[]>(this.hostAddress + this.endpointUrl, [item]);
+  public getFromLink(link: string): Observable<T>  {
+    return this._http.get<T>(link);
+  }
+
+  public post(item: T): Observable<HttpResponse<T>> {
+    return this._http.post<T>(this.hostAddress + this.endpointUrl, item, { observe: 'response' });
   }
 
   public patch(code: number, item: T): Observable<T> {

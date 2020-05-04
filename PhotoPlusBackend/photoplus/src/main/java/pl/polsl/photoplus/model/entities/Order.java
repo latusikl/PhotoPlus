@@ -28,6 +28,9 @@ public class Order extends AbstractEntityModel {
     @ManyToOne
     private User user;
 
+    @ManyToOne
+    private Address address;
+
     @Patchable
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
