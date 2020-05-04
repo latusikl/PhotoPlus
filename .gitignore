@@ -5,7 +5,7 @@ HELP.md
 **/out/
 .idea/sonarlint
 *.iws
-
+**/.idea/**/misc.xml
 # User-specific stuff
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml

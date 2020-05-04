@@ -10,7 +10,6 @@ import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsExcep
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class BatchService extends AbstractModelService<Batch, BatchModelDto, BatchRepository> {
@@ -40,19 +39,26 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
                 dtoObject.getStoreQuantity());
     }
 
+    private Batch insertProductDependencyAndParseToModel(final BatchModelDto dto) {
+        productService.addStoreQuantity(dto.getProductCode(), dto.getStoreQuantity());
+        final Product productToInsert = productService.findByCodeOrThrowError(dto.getProductCode(),
+                "SAVE PRODUCT");
+        final Batch batchToAdd = getModelFromDto(dto);
+        batchToAdd.setProduct(productToInsert);
+        return batchToAdd;
+    }
+
     @Override
     @Transactional
-    public HttpStatus save(final List<BatchModelDto> dto) {
-        final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
-            productService.addStoreQuantity(batchModelDto.getProductCode(), batchModelDto.getStoreQuantity());
-            final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
-                    "SAVE PRODUCT");
-            final Batch batchToAdd = getModelFromDto(batchModelDto);
-            batchToAdd.setProduct(productToInsert);
-            return batchToAdd;
-        };
+    public String save(final BatchModelDto dto) {
+        final String entityCode = entityRepository.save(insertProductDependencyAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
 
-        dto.stream().map(insertProductDependencyAndParseToModel).forEach(entityRepository::save);
+    @Override
+    @Transactional
+    public HttpStatus saveAll(final List<BatchModelDto> dto) {
+        dto.stream().map(this::insertProductDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
 

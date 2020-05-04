@@ -10,7 +10,6 @@ import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class ProductService extends AbstractModelService<Product, ProductModelDto, ProductRepository> {
@@ -40,17 +39,23 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
                 dtoObject.getImageCodes());
     }
 
-    @Override
-    public HttpStatus save(final List<ProductModelDto> dtoSet) {
-        final Function<ProductModelDto, Product> insertCategoryDependencyAndParseToModel = productModelDto -> {
-            final Category categoryToAdd = categoryService.findByCodeOrThrowError(productModelDto.getCategory(),
-                    "SAVE PRODUCT");
-            final Product productToAdd = getModelFromDto(productModelDto);
-            productToAdd.setCategory(categoryToAdd);
-            return productToAdd;
-        };
+    private Product insertCategoryDependencyAndParseToModel(final ProductModelDto dto) {
+        final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
+                "SAVE PRODUCT");
+        final Product productToAdd = getModelFromDto(dto);
+        productToAdd.setCategory(categoryToAdd);
+        return productToAdd;
+    }
 
-        dtoSet.stream().map(insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
+    @Override
+    public String save(final ProductModelDto dto) {
+        final String entityCode = entityRepository.save(insertCategoryDependencyAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
+
+    @Override
+    public HttpStatus saveAll(final List<ProductModelDto> dtoSet) {
+        dtoSet.stream().map(this::insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
         return HttpStatus.CREATED;
     }
 
