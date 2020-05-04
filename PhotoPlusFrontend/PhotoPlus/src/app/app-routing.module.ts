@@ -43,6 +43,7 @@ const routes: Routes = [
   { path: 'manage/delivery', component: AdminPanelComponent},
   { path: 'manage/newEmployee', component: AdminPanelComponent},
   { path: 'manage/deleteUser', component: AdminPanelComponent},
+  { path: 'manage/generateReports', component: AdminPanelComponent}
 
 ];
 
