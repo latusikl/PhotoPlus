@@ -5,7 +5,6 @@ import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.model.entities.*;
 import pl.polsl.photoplus.repositories.TopicRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
