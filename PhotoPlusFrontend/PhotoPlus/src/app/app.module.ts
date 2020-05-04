@@ -30,6 +30,7 @@ import { TopicRemoveComponent } from './components/forum/section/body/topic/remo
 import { PostComponent } from './components/forum/section/body/topic/body/post/post.component';
 import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { OrderComponent } from './components/order/order.component';
         TopicRemoveComponent,
         PostComponent,
         ProductComponent,
-        OrderComponent
+        OrderComponent,
+        AdminPanelComponent
     ],
     imports: [
         BrowserModule,
