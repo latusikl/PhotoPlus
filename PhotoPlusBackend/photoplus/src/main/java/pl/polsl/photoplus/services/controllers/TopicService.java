@@ -43,15 +43,6 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
         return entityCode;
     }
 
-    public List<String> saveAndReturnSaved(final List<TopicModelDto> dto){
-        final List<String> codesFromDtos = new ArrayList<>();
-        dto.stream().map(this::insertDependenciesAndParseToModel).filter(e -> {
-            codesFromDtos.add(e.getCode());
-            return true;
-        }).forEach(entityRepository::save);
-        return codesFromDtos;
-    }
-
     private Topic insertDependenciesAndParseToModel(final TopicModelDto topicModelDto){
         final User userToInsert = userService.findByCodeOrThrowError(topicModelDto.getUserCode(),
                 "SAVE USER");
