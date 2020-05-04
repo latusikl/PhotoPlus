@@ -1,14 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="col center text-center warning-text">
-            Are you sure that you want to delete this section ?
+            Are you sure that you want to delete this section?
         </div>
     </div>
     <div class="row-12">
         <app-section [section]="section" [shouldModeratorButtonsBeRenedered]="false"></app-section>
     </div>
-    <div class="row">
-        <button class="btn btn-danger button" (click)="deleteSection()">Yes, I am sure</button>
-        <button class="btn btn-warning button" (click)="takeMeBack()">No, take me back</button>
+    <div class="center">
+        <button class="btn btn-danger" (click)="deleteSection()">Yes, I am sure.</button>
+    </div>
+    <div class="center">
+        <button class="btn btn-warning" (click)="takeMeBack()">No, take me back.</button>
     </div>
 </div>

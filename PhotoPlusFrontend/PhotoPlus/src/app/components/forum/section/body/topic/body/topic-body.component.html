@@ -21,20 +21,28 @@
         *ngIf="topic && (canModify | async)"
       >
         <div *ngIf="modifyingTopic">
-          <button class="btn btn-success button" (click)="saveChanges()">
-            Save</button
-          ><br />
-          <button class="btn btn-primary button" (click)="cancelEdit()">
-            Cancel</button
-          ><br />
+          <div class="center">
+            <button class="btn btn-success button" (click)="saveChanges()">
+              Save
+            </button>
+          </div>
+          <div class="center">
+            <button class="btn btn-primary button" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
         </div>
         <div *ngIf="!modifyingTopic">
-          <button class="btn btn-warning button" (click)="editTopic()">
-            Edit
-          </button>
-          <button class="btn btn-danger button" (click)="deleteTopic()">
-            Remove</button
-          ><br />
+          <div class="center">
+            <button class="btn btn-warning button" (click)="editTopic()">
+              Edit
+            </button>
+          </div>
+          <div class="center">
+            <button class="btn btn-danger button" (click)="deleteTopic()">
+              Remove
+            </button>
+          </div>
         </div>
       </div>
   </mat-card>
@@ -51,7 +59,9 @@
   </div>
   <div class="row add-post-section">
     <textarea #newPost class="dynamic-textarea"></textarea>
-    <button class="btn btn-primary w-100" (click)="sendPost()">
+  </div>
+  <div class="center">
+    <button class="btn btn-primary" (click)="sendPost()">
       Send Post
     </button>
   </div>

@@ -1,10 +1,12 @@
 <div class="container max-width">
-    <div *ngIf="auth.isAdmin" >
-        <a [routerLink]="['/forum/add/section']" >
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Add Section</button>
-        </a>
-    </div>
     <div class="row-12" *ngFor="let singular of sections">
         <app-section [section]="singular" [shouldModeratorButtonsBeRenedered]="true"></app-section>
     </div>
+    <div *ngIf="auth.isAdmin" >
+      <a [routerLink]="['/forum/add/section']" >
+          <div class="center">
+            <button class="btn btn-primary" >Add Section</button>
+          </div>
+      </a>
+  </div>
 </div>

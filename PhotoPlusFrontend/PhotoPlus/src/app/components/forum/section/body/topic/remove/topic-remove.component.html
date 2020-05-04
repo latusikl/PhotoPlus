@@ -7,8 +7,11 @@
     <div *ngIf="topic" class="row-12">
         <app-topic-header [topic]="topic" [disableControls]="true" ></app-topic-header>
     </div>
-    <div class="row">
-        <button class="btn btn-danger button" (click)="deleteTopic()">Yes, I am sure</button>
-        <button class="btn btn-warning button" (click)="takeMeBack()">No, take me back</button>
+    <div class="center">
+      <button class="btn btn-danger" (click)="deleteTopic()">Yes, I am sure</button>
     </div>
+    <div class="center">
+      <button class="btn btn-warning" (click)="takeMeBack()">No, take me back</button>
+    <div>
+  </div>
 </div>
