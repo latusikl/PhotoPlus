@@ -32,7 +32,6 @@ export class DeleteUsersComponent implements OnInit {
     });
     this.renderer.listen(this.el.nativeElement,"input",() => {
       const searchText = this.el.nativeElement.value;
-      console.log(searchText);
       if(searchText == ''){
         this.filteredUsers = this.users;
         return;
