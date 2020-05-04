@@ -10,6 +10,7 @@ import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
 import pl.polsl.photoplus.annotations.validators.Unique;
 import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
+import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.UserRole;
 import pl.polsl.photoplus.services.controllers.UserService;
 
@@ -63,6 +64,7 @@ public class UserModelDto
 
     @JsonProperty("role")
     @ValueOfEnum(enumClass = UserRole.class)
+    @Patchable(method = "userRolePatch")
     private String userRole;
 
     public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code, final String userRole)
@@ -76,5 +78,11 @@ public class UserModelDto
         this.number = number;
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
+
+    public UserRole userRolePatch()
+    {
+        return UserRole.getUserRoleFromString(this.userRole);
+    }
+
 }
 

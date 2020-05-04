@@ -33,9 +33,14 @@ public class ReportController {
                                                              @RequestParam("endDate")
                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                                                                 final LocalDate endDate) throws DocumentException {
-        reportService.setBeginDate(beginDate);
-        reportService.setEndDate(endDate);
-        final ByteArrayResource resource = reportService.generateProfitReport();
+        final ByteArrayResource resource = reportService.generateProfitReport(beginDate, endDate);
+        return new ResponseEntity<>(resource, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/product", produces = {"application/pdf"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'report', 'single' )")
+    public ResponseEntity<ByteArrayResource> getProductReport(@RequestParam("code") final String code) throws DocumentException {
+        final ByteArrayResource resource = reportService.generateProductReport(code);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
