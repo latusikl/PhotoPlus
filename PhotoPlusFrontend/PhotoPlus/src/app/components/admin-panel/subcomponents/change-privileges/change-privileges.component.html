@@ -20,10 +20,10 @@
           Surname: {{ (user | async)?.surname }}<br />
           <div class="form-group">
             Role:
-            <select>
+            <select (change)="changeRoleInModel(user.value.code,$event.target.value)">
               <option
                 *ngFor="let role of roleClass"
-                (change)="changeRoleInModel(user.value.code,role)"
+               
                 [selected]="user.value.role === role"
               >
                 {{ role }}
