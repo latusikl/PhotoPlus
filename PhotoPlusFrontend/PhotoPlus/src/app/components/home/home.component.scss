@@ -6,13 +6,6 @@
   justify-content: center;
 }
 
-.card {
-  width: 18rem;
-  min-height: 25rem;
-  margin: 20px 1em;
-  border-radius: 10px 10px 10px 10px;
-}
-
 #home-card-title {
   cursor:pointer;
   font-size: 1.2rem;
@@ -29,7 +22,7 @@ img {
 }
 
 .noCarouselImage {
-  max-height:12rem;
+  max-height: 12rem;
   width: auto;
   height: auto;
   display: block;
