@@ -5,7 +5,7 @@ import { ManageMultipleOrdersComponent } from './subcomponents/manage-multiple-o
 import { CreateProductComponent } from './subcomponents/create-product/create-product.component';
 import { GenerateReportComponent } from './subcomponents/generate-report/generate-report.component';
 import { AddDeliveryComponent } from './subcomponents/add-delivery/add-delivery.component';
-import { AddEmployeeComponent } from './subcomponents/add-employee/add-employee.component';
+import { ChangePrivilegesComponent } from './subcomponents/change-privileges/change-privileges.component';
 import { DeleteUsersComponent } from './subcomponents/delete-users/delete-users.component';
 import { ManageSingleOrderComponent } from './subcomponents/manage-single-order/manage-single-order.component';
 
@@ -89,7 +89,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   mountNewEmployeeComponent(){
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(AddEmployeeComponent);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChangePrivilegesComponent);
     this.displayElement.createComponent(componentFactory,0);
   }
 

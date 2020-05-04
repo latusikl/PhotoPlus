@@ -37,7 +37,7 @@ import { ManageMultipleOrdersComponent } from './components/admin-panel/subcompo
 import { CreateProductComponent } from './components/admin-panel/subcomponents/create-product/create-product.component';
 import { DeleteUsersComponent } from './components/admin-panel/subcomponents/delete-users/delete-users.component';
 import { GenerateReportComponent } from './components/admin-panel/subcomponents/generate-report/generate-report.component';
-import { AddEmployeeComponent } from './components/admin-panel/subcomponents/add-employee/add-employee.component';
+import { ChangePrivilegesComponent } from './components/admin-panel/subcomponents/change-privileges/change-privileges.component';
 import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add-delivery/add-delivery.component';
 import { ManageSingleOrderComponent } from './components/admin-panel/subcomponents/manage-single-order/manage-single-order.component';
 
@@ -70,7 +70,7 @@ import { ManageSingleOrderComponent } from './components/admin-panel/subcomponen
         CreateProductComponent,
         DeleteUsersComponent,
         GenerateReportComponent,
-        AddEmployeeComponent,
+        ChangePrivilegesComponent,
         AddDeliveryComponent,
         ManageSingleOrderComponent
     ],
