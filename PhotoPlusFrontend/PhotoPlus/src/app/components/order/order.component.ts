@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit {
     this.items = this.cartService.getItems();
     console.log(this.items)
     this.items.forEach(element => {
-      this.order.orderItems.push({productCode: element[0].code,quantity:element[1],orderCode:'dupa'})
+      this.order.orderItems.push({productCode: element[0].code,quantity:element[1],orderCode:'orderCode'})
     });
     this.order.orderItems.splice(0,1)
     console.log(this.order)
