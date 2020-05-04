@@ -50,7 +50,6 @@ export class TopicAddComponent implements OnInit {
       userCode: this.loginService.getLoggedUser().code
     }
     this.topicService.post(topic).subscribe(topicData => {
-      console.log(topicData);
       const post:Post = {
         topicCode: topicData[0] as any,
         userCode: this.loginService.getLoggedUser().code,

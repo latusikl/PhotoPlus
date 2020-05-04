@@ -36,7 +36,6 @@ export class SectionAddComponent implements OnInit {
     this.sectionService.post({
       ...form
     }).subscribe((data:Section[]) => {
-      console.log(data)
       this.router.navigate(['/forum']);
     });
   }
