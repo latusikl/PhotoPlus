@@ -42,17 +42,24 @@ public class AddressService
                 .getCountryCode());
     }
 
-    @Override
-    public HttpStatus save(final List<AddressModelDto> dto)
-    {
-        final Function<AddressModelDto,Address> insertUserDependencyAndParseToModel = addressModelDto -> {
-            final User userToInsert = userService.findByCodeOrThrowError(addressModelDto.getUserCode(), "SAVE ADDRESS");
-            final Address addressToAdd = getModelFromDto(addressModelDto);
-            addressToAdd.setAddressOwner(userToInsert);
-            return addressToAdd;
-        };
+    private Address insertUserDependencyAndParseToModel(final AddressModelDto dto) {
+        final User userToInsert = userService.findByCodeOrThrowError(dto.getUserCode(), "SAVE ADDRESS");
+        final Address addressToAdd = getModelFromDto(dto);
+        addressToAdd.setAddressOwner(userToInsert);
+        return addressToAdd;
+    }
 
-        dto.stream().map(insertUserDependencyAndParseToModel).forEach(entityRepository::save);
+    @Override
+    public String save(final AddressModelDto dto)
+    {
+        final String addressCode = entityRepository.save(insertUserDependencyAndParseToModel(dto)).getCode();
+        return addressCode;
+    }
+
+    @Override
+    public HttpStatus saveAll(final List<AddressModelDto> dto)
+    {
+        dto.stream().map(this::insertUserDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.OK;
     }
 

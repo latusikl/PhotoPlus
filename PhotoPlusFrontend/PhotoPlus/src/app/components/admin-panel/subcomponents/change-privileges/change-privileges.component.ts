@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, Renderer2, ViewChild } from '@angular/co
 import { BehaviorSubject } from 'rxjs';
 import { User } from 'src/app/models/user/user';
 import { UserService } from 'src/app/services/user/user.service';
+import { Role } from 'src/app/models/role/role.enum';
 
 @Component({
   selector: 'app-change-privileges',
@@ -23,9 +24,7 @@ export class ChangePrivilegesComponent implements OnInit {
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getAll().subscribe((data) => {
       for (let user of data) {
-        if(user.login === "admin"){
-          continue;
-        }
+   
         this.users.push(new BehaviorSubject(user));
       }
       this.filteredUsers = this.users;
@@ -42,8 +41,18 @@ export class ChangePrivilegesComponent implements OnInit {
     });
   }
 
-  updateUserRole(user: BehaviorSubject<User>){
-    console.log("updateRole");
+  sendUpdateRole(userCode: string){
+    console.log("updateRole", userCode, this.users.find((x)=> x.value.code === userCode).value.role);
+  }
+
+  changeRoleInModel(userCode: string, role: Role){
+    const idx = this.users.findIndex((x)=> x.value.code === userCode);
+    this.users[idx].value.role = role;
+    console.log('changed value');
     
+  }
+  
+  get roleClass(): Role[]{
+    return Object.values(Role) as Role[];
   }
 }

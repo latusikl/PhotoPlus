@@ -1,12 +1,10 @@
 package pl.polsl.photoplus.services.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.model.entities.*;
 import pl.polsl.photoplus.repositories.TopicRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,18 +37,9 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
     }
 
     @Override
-    public HttpStatus save(final List<TopicModelDto> dto) {
-        dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
-        return HttpStatus.CREATED;
-    }
-
-    public List<String> saveAndReturnSaved(final List<TopicModelDto> dto){
-        final List<String> codesFromDtos = new ArrayList<>();
-        dto.stream().map(this::insertDependenciesAndParseToModel).filter(e -> {
-            codesFromDtos.add(e.getCode());
-            return true;
-        }).forEach(entityRepository::save);
-        return codesFromDtos;
+    public String save(final TopicModelDto dto) {
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
+        return entityCode;
     }
 
     private Topic insertDependenciesAndParseToModel(final TopicModelDto topicModelDto){
