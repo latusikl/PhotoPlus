@@ -7,7 +7,7 @@
                 User: {{(topicOwner | async).name || ''}}
             </mat-card>
         </div>
-        <div class="col-8">
+        <div class="col">
             <a [routerLink]="['/forum/topic', topic.code]">
                 <div>
                     Date : {{topic.date}}<br>
@@ -15,7 +15,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <div *ngIf="(canModify | async)" style="float:right">
                 <a [routerLink]="['/forum/edit/topic', topic.code]">
                     <button class="btn btn-primary button-edit">Edit</button>

@@ -5,7 +5,7 @@
             User: {{(postOwner|async) && (postOwner | async).name ||  '' }}
             </mat-card>
         </div>
-        <div class="col-8 post-content">
+        <div class="col-7 post-content">
             <div class="d-inline-block align-top" >
                 Says:
             </div>
@@ -16,7 +16,7 @@
                 <textarea class="dynamic-textarea" #postEdit value="{{(post | async).content}}"></textarea>
             </div>
         </div>
-        <div *ngIf="canModify" class="col-2">
+        <div *ngIf="canModify" class="col-3">
             <div *ngIf="!duringModification" class="d-inline-block">
                 <button class="btn btn-primary button-edit" (click)="editPost()">Edit</button>
             </div>
