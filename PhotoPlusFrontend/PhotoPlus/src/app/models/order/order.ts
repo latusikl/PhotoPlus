@@ -5,6 +5,7 @@ export class Order {
         orderStatus: string;
         paymentMethod: string;
         price: number;
+        date: string;
         orderItems:[{
           orderCode: string;
           productCode: number,
