@@ -21,7 +21,7 @@ export class TopicAddComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private sectionService:SectionService, private router: Router,private loginService:LoginService,
               private activatedRoute:ActivatedRoute, private topicService:TopicService, private postService: PostService) { }
-  
+
   ngOnInit(): void {
     this.topicForm = this.formBuilder.group({
       title: ['',Validators.required],
@@ -49,7 +49,23 @@ export class TopicAddComponent implements OnInit {
       date: new Date(),
       userCode: this.loginService.getLoggedUser().code
     }
-    this.topicService.post(topic).subscribe(topicData => {
+
+    this.topicService.post(topic).subscribe(resp => {
+      const link = resp.headers.get("Location");
+      this.topicService.getFromLink(link).subscribe(newTopic =>{
+        const post:Post = {
+          topicCode: newTopic.code as any,
+          userCode: this.loginService.getLoggedUser().code,
+          date: new Date(),
+          content: form.post
+        }
+        this.postService.post(post).subscribe(postData => {
+          this.router.navigate(["/forum/topic", newTopic.code]);
+        });
+      })
+    });
+
+    (topicData => {
       console.log(topicData);
       const post:Post = {
         topicCode: topicData[0] as any,
@@ -61,6 +77,6 @@ export class TopicAddComponent implements OnInit {
         this.router.navigate(["/forum/topic", topicData[0]]);
       });
     });
-    
+
   }
 }

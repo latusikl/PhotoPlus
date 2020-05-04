@@ -3,6 +3,7 @@ import { Section } from 'src/app/models/section/section';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SectionService } from 'src/app/services/section/section.service';
 import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-section-add',
@@ -23,11 +24,11 @@ export class SectionAddComponent implements OnInit {
     },);
   }
 
-  get f(){
+  get f() {
     return this.sectionForm.controls;
   }
 
-  onSubmit(){
+  onSubmit() {
     this.submitted = true;
     if(this.sectionForm.invalid){
       return;
@@ -35,8 +36,12 @@ export class SectionAddComponent implements OnInit {
     const form = this.sectionForm.value;
     this.sectionService.post({
       ...form
-    }).subscribe((data:Section[]) => {
-      console.log(data)
+    }).subscribe(resp => {
+      const keys = resp.headers.keys();
+      let headers = keys.map(key =>
+        `${key}: ${resp.headers.get(key)}`);
+
+      console.log(headers)
       this.router.navigate(['/forum']);
     });
   }
