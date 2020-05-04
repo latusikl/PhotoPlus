@@ -33,7 +33,11 @@ import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ManageOrdersComponent } from './components/admin-panel/subcomponents/manage-orders/manage-orders.component';
-import { CreateNewProductComponent } from './components/admin-panel/subcomponents/create-new-product/create-new-product.component';
+import { CreateProductComponent } from './components/admin-panel/subcomponents/create-product/create-product.component';
+import { DeleteUsersComponent } from './components/admin-panel/subcomponents/delete-users/delete-users.component';
+import { GenerateReportComponent } from './components/admin-panel/subcomponents/generate-report/generate-report.component';
+import { AddEmployeeComponent } from './components/admin-panel/subcomponents/add-employee/add-employee.component';
+import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add-delivery/add-delivery.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +65,11 @@ import { CreateNewProductComponent } from './components/admin-panel/subcomponent
         OrderComponent,
         AdminPanelComponent,
         ManageOrdersComponent,
-        CreateNewProductComponent
+        CreateProductComponent,
+        DeleteUsersComponent,
+        GenerateReportComponent,
+        AddEmployeeComponent,
+        AddDeliveryComponent
     ],
     imports: [
         BrowserModule,
