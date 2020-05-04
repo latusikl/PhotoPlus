@@ -1,33 +1,53 @@
 <div class="container">
-    <div class="row-12 mt-1">
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Profit report:
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-panel-description>
-                <div class="form-group">
-                    <span>From: <input #fromDate type="date" ></span>
-                    <span>&nbsp;To: <input #toDate type="date" ></span>
-                    &nbsp;<button (click)="generateProfitReport()" class="btn btn-primary">Generate profit report</button>
-                </div>
-            </mat-panel-description>
-        </mat-expansion-panel>
+  <div class="row-12 mt-1">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Profit report:
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="form-group">
+          <span>From: <input #fromDate type="date" /></span>
+          <span>&nbsp;To: <input #toDate type="date" /></span>
+          &nbsp;<button
+            (click)="generateProfitReport()"
+            class="btn btn-primary"
+          >
+            Generate profit report
+          </button>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+  <div class="row-12 mt-1">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Product report:
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="form-group">
+          <span
+            >&nbsp;Product code or name: <input #productCode type="text"
+          /></span>
+          &nbsp;<button
+            (click)="generateProductReport()"
+            class="btn btn-primary"
+          >
+            Generate product report
+          </button>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+    <div class="row">
+      <div class="col-3 mt-1 text-center" *ngFor="let product of filteredProducts" (click)="insertCodeToSearchBar(product)">
+        <mat-card style="height:fit-content;">
+                <img src="{{(product|async)?.imagesUrl[0]}}" style="height: 75px;max-width: 120px;" ><br>
+                {{ (product | async)?.name }}
+        </mat-card>
+      </div>
     </div>
-    <div class="row-12 mt-1">
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Product report:
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-panel-description>
-                <div class="form-group">
-                    <span>&nbsp;Product code: <input #productCode type="number" ></span>
-                    &nbsp;<button (click)="generateProductReport()" class="btn btn-primary">Generate product report</button>
-                </div>
-            </mat-panel-description>
-        </mat-expansion-panel>
-    </div>
+  </div>
 </div>
