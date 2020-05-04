@@ -90,10 +90,6 @@ export class UserDataComponent implements OnInit {
         this.editable = true;
     }
 
-    containsKey(key : string) : boolean{
-        return this.changedFields.has(key);
-    }
-
     get f() {
         return this.userForm.controls;
     }
