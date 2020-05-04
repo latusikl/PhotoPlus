@@ -57,6 +57,7 @@ public class User
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
+    @Patchable
     private UserRole userRole;
 
     public User(final String login, final String email, final String name, final String surname, final String password, final String number, final UserRole userRole)

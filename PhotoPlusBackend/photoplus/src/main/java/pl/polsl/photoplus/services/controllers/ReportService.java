@@ -2,17 +2,13 @@ package pl.polsl.photoplus.services.controllers;
 
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.Setter;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-import pl.polsl.photoplus.model.dto.BatchModelDto;
-import pl.polsl.photoplus.model.dto.CategoryModelDto;
-import pl.polsl.photoplus.model.dto.OrderItemModelDto;
-import pl.polsl.photoplus.model.dto.OrderModelDto;
+import pl.polsl.photoplus.model.dto.*;
 import pl.polsl.photoplus.model.entities.Product;
 
 import java.io.ByteArrayOutputStream;
@@ -33,16 +29,22 @@ public class ReportService {
     private final CategoryService categoryService;
     private final BatchService batchService;
     private final OrderItemService orderItemService;
+    private final RatingService ratingService;
 
-    public ReportService(final ProductService productService, final OrderService orderService, final CategoryService categoryService, final BatchService batchService, final OrderItemService orderItemService, final OrderItemService orderItemService1) {
+    public ReportService(final ProductService productService, final OrderService orderService,
+                         final CategoryService categoryService, final BatchService batchService,
+                         final OrderItemService orderItemService, final RatingService ratingService) {
         this.productService = productService;
         this.orderService = orderService;
         this.categoryService = categoryService;
         this.batchService = batchService;
-        this.orderItemService = orderItemService1;
+        this.orderItemService = orderItemService;
+        this.ratingService = ratingService;
     }
 
-    public ByteArrayResource generateProfitReport() throws DocumentException {
+    public ByteArrayResource generateProfitReport(final LocalDate beginDate, final LocalDate endDate) throws DocumentException {
+        this.beginDate = beginDate;
+        this.endDate = endDate;
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         final Document document = new Document();
         PdfWriter.getInstance(document, byteArrayOutputStream);
@@ -97,6 +99,45 @@ public class ReportService {
         return new ByteArrayResource(byteArrayOutputStream.toByteArray());
     }
 
+    public ByteArrayResource generateProductReport(final String code) throws DocumentException {
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.COURIER, 20, BaseColor.BLACK);
+        Chunk chunk = new Chunk("PRODUCT REPORT", font);
+        Paragraph para = new Paragraph(chunk);
+        para.setAlignment(Paragraph.ALIGN_CENTER);
+        para.setSpacingAfter(50);
+        document.add(para);
+
+        final Product product = productService.findByCodeOrThrowError(code, "GENERATE PRODUCT REPORT");
+        font = FontFactory.getFont(FontFactory.COURIER, 13, BaseColor.BLACK);
+        chunk = new Chunk("Code: " + product.getCode() + "\n" +
+                "Name: " + product.getName() + "\n" +
+                "Price: " + product.getPrice() + "$\n" +
+                "Category: " + product.getCategory().getName() + "\n" +
+                "Description: " + product.getDescription() + "\n", font);
+        para = new Paragraph(chunk);
+        para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        para.setSpacingAfter(30);
+        document.add(para);
+
+        final Double averageRating = getAverageRating(code);
+        final Double averageProfit = getAverageProfit(product);
+        final Integer soldItemsNumber = getSoldItemsNumber(code);
+        chunk = new Chunk("Sold items number: " + soldItemsNumber + "\n" +
+                "Average rating: " + averageRating + "\n" +
+                "Average profit per piece: " + averageProfit + "$\n", font);
+        para = new Paragraph(chunk);
+        para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
+        document.add(para);
+
+        document.close();
+        return new ByteArrayResource(byteArrayOutputStream.toByteArray());
+    }
+
     private Double getProfit() {
         Double profit = 0.0;
         final List<BatchModelDto> batchList = batchService.getAll();
@@ -131,6 +172,9 @@ public class ReportService {
     private Double getAverageOrderValue() {
         final List<OrderModelDto> orderList = orderService.getAll().stream().filter(order ->
                 order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0).collect(Collectors.toList());
+        if (orderList.isEmpty()) {
+            return 0.0;
+        }
         Double priceSum = 0.0;
         for (final var order: orderList) {
             priceSum += order.getPrice();
@@ -163,5 +207,45 @@ public class ReportService {
             pairList.add(new SimpleEntry(category.getName(), soldProductsNumber));
         }
         return pairList;
+    }
+
+    private Double getAverageRating(final String productCode) {
+        final List<RatingModelDto> productRatingList = ratingService.getRatingsByProductCode(productCode);
+        if (productRatingList.isEmpty()) {
+            return 0.0;
+        }
+
+        Double ratingSum = 0.0;
+        for (final var rating: productRatingList) {
+            ratingSum += rating.getRate();
+        }
+
+        return ratingSum / productRatingList.size();
+    }
+
+    private Double getAverageProfit(final Product product) {
+        final List<BatchModelDto> batchList = batchService.getAll().stream()
+                .filter(batch -> batch.getProductCode().equals(product.getCode()))
+                .collect(Collectors.toList());
+        if (batchList.isEmpty()) {
+            return 0.0;
+        }
+
+        Double profit = 0.0;
+        for (final BatchModelDto batch : batchList) {
+            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * product.getPrice();
+        }
+        return profit / getSoldItemsNumber(product.getCode());
+    }
+
+    private Integer getSoldItemsNumber(final String code) {
+        final List<BatchModelDto> batchList = batchService.getAll().stream()
+                .filter(batch -> batch.getProductCode().equals(code))
+                .collect(Collectors.toList());
+        Integer soldItems = 0;
+        for (final BatchModelDto batch : batchList) {
+            soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
+        }
+        return soldItems;
     }
 }
