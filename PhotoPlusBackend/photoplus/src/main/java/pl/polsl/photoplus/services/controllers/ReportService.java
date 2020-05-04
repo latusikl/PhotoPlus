@@ -6,7 +6,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.util.Pair;
 import lombok.Setter;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.entities.Product;
 
 import java.io.ByteArrayOutputStream;
+import java.util.AbstractMap.SimpleEntry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class ReportService {
         table.addCell(cell);
 
         font = FontFactory.getFont(FontFactory.COURIER, 11, BaseColor.BLACK);
-        final List<Pair<String, Integer>> soldProductNumberFromCategory = getSoldProductNumberFromCategory();
+        final List<SimpleEntry<String, Integer>> soldProductNumberFromCategory = getSoldProductNumberFromCategory();
         for(final var pair: soldProductNumberFromCategory){
             cell = new PdfPCell(new Phrase(pair.getKey(), font));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -138,8 +138,8 @@ public class ReportService {
         return priceSum / orderList.size();
     }
 
-    private List<Pair<String, Integer>> getSoldProductNumberFromCategory() {
-        final List<Pair<String, Integer>> pairList = new ArrayList<>();
+    private List<SimpleEntry<String, Integer>> getSoldProductNumberFromCategory() {
+        final List<SimpleEntry<String, Integer>> pairList = new ArrayList<>();
         final List<OrderModelDto> orderList = orderService.getAll().stream().filter(order ->
                 order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0).collect(Collectors.toList());
         final List<CategoryModelDto> categoryList = categoryService.getAll();
@@ -160,7 +160,7 @@ public class ReportService {
                     }
             }
 
-            pairList.add(new Pair(category.getName(), soldProductsNumber));
+            pairList.add(new SimpleEntry(category.getName(), soldProductsNumber));
         }
         return pairList;
     }
