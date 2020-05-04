@@ -66,26 +66,31 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     }
 
     @Override
-    public HttpStatus save(final List<OrderModelDto> dto) {
+    public String save(final OrderModelDto dto) {
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
+
+    @Override
+    public HttpStatus saveAll(final List<OrderModelDto> dto) {
         dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
 
     @Transactional
-    public HttpStatus saveWithItems(final List<OrderModelDtoWithOrderItems> orderModelDtoWithItems) {
+    public HttpStatus saveWithItems(final OrderModelDtoWithOrderItems dto) {
         //Create Order
-        orderModelDtoWithItems.forEach(orderDto -> {
-            final Order orderModel = insertDependenciesAndParseToModel(orderDto);
-            entityRepository.save(orderModel);
-            final List<OrderItemModelDto> orderItems = orderDto.getOrderItemModelDtos();
+        final Order orderModel = insertDependenciesAndParseToModel(dto);
+        entityRepository.save(orderModel);
+        final List<OrderItemModelDto> orderItems = dto.getOrderItemModelDtos();
 
-            orderItems.forEach(orderItem -> {
-                productService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
-                batchService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
-                orderItem.setOrderCode(orderModel.getCode());
-            });
-            orderItemService.save(orderItems);
+        orderItems.forEach(orderItem -> {
+            productService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
+            batchService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
+            orderItem.setOrderCode(orderModel.getCode());
         });
+
+        orderItemService.saveAll(orderItems);
         return HttpStatus.CREATED;
     }
 }

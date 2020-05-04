@@ -36,12 +36,13 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    /*
     @PostMapping
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'post' )")
     public ResponseEntity<List<String>> post(@RequestBody @Valid final List<TopicModelDto> dtos){
         final List<String> codesFromSavedDtos = this.dtoService.saveAndReturnSaved(dtos);
         return new ResponseEntity(codesFromSavedDtos, HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping(path = "/delete/{code}")
     @PreAuthorize("hasPermission(this.authorizationPrefix, 'delete' )")
