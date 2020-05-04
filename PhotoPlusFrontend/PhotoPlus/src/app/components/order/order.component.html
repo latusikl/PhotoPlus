@@ -53,6 +53,10 @@
   <p class="text"><br></p>
   <p class="error" id="error">Check payment method!</p>
    <button (click)="buy()" class="btn btn-success" href="#" id="cart-link">Buy</button>
+   
    <p class="text"><br></p>
+   <select  >
+    <option *ngFor="let address of addreses" [value]="address">{{address.street}} &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
+ </select>
   </div>
   </div>

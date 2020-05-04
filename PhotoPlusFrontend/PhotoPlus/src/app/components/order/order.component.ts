@@ -7,6 +7,7 @@ import { DatePipe } from '@angular/common';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
+import { Link } from 'src/app/models/link/link';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class OrderComponent implements OnInit {
   isChecked: boolean=false;
   error:any;
   myDate=new Date();
+  addreses: any[];
   
   constructor(private cartService: CartService,private http: HttpClient,private datePipe: DatePipe,private modalService: NgbModal,private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
@@ -47,6 +49,15 @@ export class OrderComponent implements OnInit {
     }
 
   ngOnInit(): void {
+
+    this.http.get<HttpResponse<[]>>('http://localhost:8090/address/all',  
+    ).subscribe((data:any)=>{
+      console.log(data)
+      this.addreses=data
+      console.log("Adres")
+      console.log(this.addreses)
+    })
+    
     this.items = this.cartService.getItems();
     console.log(this.items)
     this.items.forEach(element => {
