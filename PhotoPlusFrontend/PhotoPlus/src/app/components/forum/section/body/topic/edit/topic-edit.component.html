@@ -5,6 +5,8 @@
         <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
             <div *ngIf="f.title.errors.required">Give a brief explanation what you want to say</div>
         </div>
-        <input type="submit" value="Edit topic" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+        <div class="center">
+          <input type="submit" value="Edit topic" class="btn btn-primary">
+        </div>
     </form>
 </div>
