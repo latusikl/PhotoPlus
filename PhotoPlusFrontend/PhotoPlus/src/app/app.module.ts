@@ -4,6 +4,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCardModule } from "@angular/material/card";
+import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 
 import {AppComponent} from './app.component';
@@ -82,6 +83,7 @@ import { ManageSingleOrderComponent } from './components/admin-panel/subcomponen
         HttpClientModule,
         MatCardModule,
         MatDividerModule,
+        MatExpansionModule,
         NgbModule
     ],
     providers: [
