@@ -1,0 +1,12 @@
+
+.item-card{
+    background-color: lighten($color: #424242, $amount: 10%);
+    cursor: pointer;
+    max-height: 150px;
+    height: 150px;
+}
+
+.item-card-photo{
+    height: 75px; 
+    max-width: 120px;
+}

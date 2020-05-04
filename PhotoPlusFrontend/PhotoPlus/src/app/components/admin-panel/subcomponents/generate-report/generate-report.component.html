@@ -28,26 +28,38 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <div class="form-group">
-          <span
-            >&nbsp;Product code or name: <input #productCode type="text"
-          /></span>
-          &nbsp;<button
-            (click)="generateProductReport()"
-            class="btn btn-primary"
-          >
-            Generate product report
-          </button>
+        <div class="container">
+          <div class="row-12">
+            <div class="form-group">
+              <span
+                >&nbsp;Product code or name: <input #productCode type="text"
+              /></span>
+              &nbsp;<button
+                (click)="generateProductReport()"
+                class="btn btn-primary"
+              >
+                Generate product report
+              </button>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div
+              class="col-3 mt-1 text-center"
+              *ngFor="let product of filteredProducts"
+              (click)="insertCodeToSearchBar(product)"
+            >
+              <mat-card class="item-card">
+                <img
+                  src="{{ ((product | async)?.imagesUrl)[0] }}"
+                  class="item-card-photo"
+                /><br />
+                {{ (product | async)?.name }}
+              </mat-card>
+            </div>
+          </div>
         </div>
       </mat-panel-description>
     </mat-expansion-panel>
-    <div class="row">
-      <div class="col-3 mt-1 text-center" *ngFor="let product of filteredProducts" (click)="insertCodeToSearchBar(product)">
-        <mat-card style="height:fit-content;">
-                <img src="{{(product|async)?.imagesUrl[0]}}" style="height: 75px;max-width: 120px;" ><br>
-                {{ (product | async)?.name }}
-        </mat-card>
-      </div>
-    </div>
   </div>
 </div>
