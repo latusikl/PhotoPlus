@@ -1,10 +1,11 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
-
 import {ReactiveFormsModule} from '@angular/forms';
-import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatCardModule } from "@angular/material/card";
+
+import {AppComponent} from './app.component';
 import {HomeComponent} from './components/home/home.component';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {LoginComponent} from './components/login/login.component';
@@ -31,6 +32,8 @@ import { PostComponent } from './components/forum/section/body/topic/body/post/p
 import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { ManageOrdersComponent } from './components/admin-panel/subcomponents/manage-orders/manage-orders.component';
+import { CreateNewProductComponent } from './components/admin-panel/subcomponents/create-new-product/create-new-product.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +59,9 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
         PostComponent,
         ProductComponent,
         OrderComponent,
-        AdminPanelComponent
+        AdminPanelComponent,
+        ManageOrdersComponent,
+        CreateNewProductComponent
     ],
     imports: [
         BrowserModule,
@@ -64,6 +69,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
         AppRoutingModule,
         ReactiveFormsModule,
         HttpClientModule,
+        MatCardModule,
         NgbModule
     ],
     providers: [

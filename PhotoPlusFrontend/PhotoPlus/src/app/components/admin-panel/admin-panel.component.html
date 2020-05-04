@@ -1,10 +1,47 @@
 <div class="container mt-2">
     <div class="row border">
         <div class="col-3 border">
-            
+            <div class="mt-2" *ngIf="auth.isModerator">
+                Employee:
+                <a routerLink="/manage/orders">
+                    <mat-card class="mt-1">
+                        Orders
+                    </mat-card>
+                </a>
+                <a routerLink="/manage/newProduct">
+                    <mat-card class="mt-1">
+                        Add new product
+                    </mat-card>
+                </a>
+                <a routerLink="/manage/delivery">
+                    <mat-card class="mt-1">
+                        Add new delivery
+                    </mat-card>
+                </a>
+            </div>
+            <div class="mt-2" *ngIf="auth.isAdmin">
+                Owner:
+                <a routerLink="/manage/newEmployee">
+                    <mat-card class="mt-1">
+                        Add new employee
+                    </mat-card>
+                </a>
+                <a routerLink="/manage/deleteUser">
+                    <mat-card class="mt-1">
+                        Delete user accounts
+                    </mat-card>
+                </a>
+                <a routerLink="/manage/generateReports">
+                    <mat-card class="mt-1">
+                        Generate reports
+                    </mat-card>
+                </a>
+            </div>
         </div>
         <div class="col-9 border" style="height: 1000px;">
-            Something
+            <div #anchor>
+
+            </div>
         </div>
     </div>
 </div>
