@@ -106,7 +106,7 @@ public class ReportService {
 
         document.open();
         Font font = FontFactory.getFont(FontFactory.COURIER, 20, BaseColor.BLACK);
-        Chunk chunk = new Chunk("PRODUCT REPORT FOR PRODUCT", font);
+        Chunk chunk = new Chunk("PRODUCT REPORT", font);
         Paragraph para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_CENTER);
         para.setSpacingAfter(50);
@@ -125,10 +125,13 @@ public class ReportService {
         document.add(para);
 
         final Double averageRating = getAverageRating(code);
-        chunk = new Chunk("Average rating: " + averageRating + "\n", font);
+        final Double averageProfit = getAverageProfit(product);
+        final Integer soldItemsNumber = getSoldItemsNumber(code);
+        chunk = new Chunk("Sold items number: " + soldItemsNumber + "\n" +
+                "Average rating: " + averageRating + "\n" +
+                "Average profit per piece: " + averageProfit + "$\n", font);
         para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
-        para.setSpacingAfter(50);
         document.add(para);
 
         document.close();
@@ -218,5 +221,31 @@ public class ReportService {
         }
 
         return ratingSum / productRatingList.size();
+    }
+
+    private Double getAverageProfit(final Product product) {
+        final List<BatchModelDto> batchList = batchService.getAll().stream()
+                .filter(batch -> batch.getProductCode().equals(product.getCode()))
+                .collect(Collectors.toList());
+        if (batchList.isEmpty()) {
+            return 0.0;
+        }
+
+        Double profit = 0.0;
+        for (final BatchModelDto batch : batchList) {
+            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * product.getPrice();
+        }
+        return profit / getSoldItemsNumber(product.getCode());
+    }
+
+    private Integer getSoldItemsNumber(final String code) {
+        final List<BatchModelDto> batchList = batchService.getAll().stream()
+                .filter(batch -> batch.getProductCode().equals(code))
+                .collect(Collectors.toList());
+        Integer soldItems = 0;
+        for (final BatchModelDto batch : batchList) {
+            soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
+        }
+        return soldItems;
     }
 }
