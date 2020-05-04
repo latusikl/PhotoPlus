@@ -2,13 +2,10 @@
     <div class="row">
         <div class="col-2 user-info-box">
             <mat-card class="user-profile">
-            User: {{(postOwner|async) && (postOwner | async).name ||  '' }}
+              {{(postOwner|async) && (postOwner | async).name ||  '' }}
             </mat-card>
         </div>
         <div class="col-7 post-content">
-            <div class="d-inline-block align-top" >
-                Says:
-            </div>
             <div *ngIf="!duringModification" class="d-inline-block">
                 {{(post |async) && (post | async).content || ''}}
             </div>
@@ -23,7 +20,7 @@
             <div *ngIf="duringModification" class="d-inline-block">
                 <button class="btn btn-success button-edit" (click)="savePost()">Save</button>
             </div>
-            
+
             <button class="btn btn-danger" (click)="removePost()">Remove</button>
         </div>
     </div>
