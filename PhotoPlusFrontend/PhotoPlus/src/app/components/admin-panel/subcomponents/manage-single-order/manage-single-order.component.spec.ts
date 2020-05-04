@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageOrdersComponent } from './manage-orders.component';
+import { ManageSingleOrderComponent } from './manage-single-order.component';
 
-describe('ManageOrdersComponent', () => {
-  let component: ManageOrdersComponent;
-  let fixture: ComponentFixture<ManageOrdersComponent>;
+describe('ManageSingleOrderComponent', () => {
+  let component: ManageSingleOrderComponent;
+  let fixture: ComponentFixture<ManageSingleOrderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManageOrdersComponent ]
+      declarations: [ ManageSingleOrderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManageOrdersComponent);
+    fixture = TestBed.createComponent(ManageSingleOrderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

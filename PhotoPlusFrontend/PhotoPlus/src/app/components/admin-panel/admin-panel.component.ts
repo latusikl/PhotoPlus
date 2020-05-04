@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver, ViewContainerRef, Renderer2 } from '@angular/core';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ActivatedRoute, UrlSegment, Router } from '@angular/router';
-import { ManageOrdersComponent } from './subcomponents/manage-orders/manage-orders.component';
+import { ManageMultipleOrdersComponent } from './subcomponents/manage-multiple-orders/manage-multiple-orders.component';
 import { CreateProductComponent } from './subcomponents/create-product/create-product.component';
 import { GenerateReportComponent } from './subcomponents/generate-report/generate-report.component';
 import { AddDeliveryComponent } from './subcomponents/add-delivery/add-delivery.component';
 import { AddEmployeeComponent } from './subcomponents/add-employee/add-employee.component';
 import { DeleteUsersComponent } from './subcomponents/delete-users/delete-users.component';
+import { ManageSingleOrderComponent } from './subcomponents/manage-single-order/manage-single-order.component';
 
 @Component({
   selector: 'app-admin-panel',
@@ -23,42 +24,57 @@ export class AdminPanelComponent implements OnInit {
               private componentFactoryResolver:ComponentFactoryResolver) { }
 
   ngOnInit(): void {
-    this.activatedRoute.url.subscribe(urlSegment => {
-      if(!urlSegment[1]){
-        return;
-      }
-      switch(urlSegment[1].path){
-        case 'orders':{
-          this.mountOrdersComponent(); 
-          break;
-        }
-        case 'newProduct':{
-          this.mountNewProductComponent();
-          break;
-        }
-        case 'delivery':{
-          this.mountAddDeliveryComponent();
-          break;
-        }
-        case 'generateReports':{
-          this.mountGenerateReportsComponent();
-          break;
-        }
-        case 'newEmployee':{
-          this.mountNewEmployeeComponent();
-          break;
-        }
-        case 'deleteUser':{
-          this.mountDeleteUserComponent();
-          break;
-        }
-      }
+    this.activatedRoute.url.subscribe(urlSegments => {
+      this.mountSubcomponentView(urlSegments);
     })
   }
 
-  mountOrdersComponent(){
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageOrdersComponent);
+  mountSubcomponentView(urlSegment: UrlSegment[]){
+    if(!urlSegment[1]){
+      return;
+    }
+    switch(urlSegment[1].path){
+      case 'orders':{
+        if(!urlSegment[2]){
+          this.mountMultipleOrdersComponent(); 
+          break;
+        }
+        else{
+          this.mountSingleOrderComponent();
+          break;
+        }
+      }
+      case 'newProduct':{
+        this.mountNewProductComponent();
+        break;
+      }
+      case 'delivery':{
+        this.mountAddDeliveryComponent();
+        break;
+      }
+      case 'generateReports':{
+        this.mountGenerateReportsComponent();
+        break;
+      }
+      case 'newEmployee':{
+        this.mountNewEmployeeComponent();
+        break;
+      }
+      case 'deleteUser':{
+        this.mountDeleteUserComponent();
+        break;
+      }
+    }
+  }
+
+  mountMultipleOrdersComponent(){
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageMultipleOrdersComponent);
     this.displayElement.createComponent(componentFactory,0);
+  }
+
+  mountSingleOrderComponent(){
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageSingleOrderComponent);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
   mountNewProductComponent(){
