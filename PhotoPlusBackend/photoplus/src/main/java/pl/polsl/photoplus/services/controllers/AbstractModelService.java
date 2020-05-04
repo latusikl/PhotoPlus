@@ -94,7 +94,8 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     @Override
     public T getSingleObject(final String code)
     {
-        return getDtoFromModel(findByCodeOrThrowError(code, "FIND SINGLE"));
+        // findByCodeOrThrowError(code, "FIND SINGLE")
+        return getDtoFromModel((M) entityRepository.findByCode(code).get());
     }
 
     @Override
