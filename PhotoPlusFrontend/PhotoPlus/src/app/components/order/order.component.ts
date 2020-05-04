@@ -4,6 +4,10 @@ import { Product } from '../../models/product/product';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Order } from 'src/app/models/order/order';
 import { DatePipe } from '@angular/common';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginService } from 'src/app/services/login/login.service';
+
 
 @Component({
   selector: 'app-order',
@@ -23,7 +27,7 @@ export class OrderComponent implements OnInit {
   error:any;
   myDate=new Date();
   
-  constructor(private cartService: CartService,private http: HttpClient,private datePipe: DatePipe) {
+  constructor(private cartService: CartService,private http: HttpClient,private datePipe: DatePipe,private modalService: NgbModal,private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
     this.order={
       userCode: 0,
@@ -52,7 +56,10 @@ export class OrderComponent implements OnInit {
     console.log(this.order)
     this.user=localStorage.getItem("loggedUser")
     this.user=JSON.parse(this.user)
+    if(this.loginService.isLoggedIn() == true)
+    {
     this.order.userCode=this.user.code
+    }
     this.order.price=this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     console.log([this.order])
@@ -60,6 +67,15 @@ export class OrderComponent implements OnInit {
 
   buy()
   {
+
+    if(this.loginService.isLoggedIn() == false)
+    {
+    const modalRef = this.modalService.open(ErrorModalComponent);
+    modalRef.componentInstance.title = "Error occured!";
+    modalRef.componentInstance.message = "Please login!.";
+    console.log("dziala")
+    return;
+    }
 
     if(this.isChecked==false)
     { 
