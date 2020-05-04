@@ -28,10 +28,16 @@ img {
   height: 12rem;
 }
 
-.noCarouselImage{
-  height: 12rem;
-  max-width: 100%;
+.noCarouselImage {
+  max-height:12rem;
+  width: auto;
+  height: auto;
+  display: block;
   margin: 0 auto;
+}
+
+.noCarouselImgContainer {
+  height: 12rem;
 }
 
 .carouselImage {
