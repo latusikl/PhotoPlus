@@ -30,6 +30,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   mountSubcomponentView(urlSegment: UrlSegment[]){
+    // User właśnie wszedł na panel, można zmienić który komponent ma się domyślnie ładować
     if(!urlSegment[1]){
       return;
     }
