@@ -6,7 +6,9 @@ import pl.polsl.photoplus.model.dto.BatchModelDto;
 import pl.polsl.photoplus.model.entities.Batch;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.BatchRepository;
+import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,8 +41,10 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
     }
 
     @Override
+    @Transactional
     public HttpStatus save(final List<BatchModelDto> dto) {
         final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
+            productService.addStoreQuantity(batchModelDto.getProductCode(), batchModelDto.getStoreQuantity());
             final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
                     "SAVE PRODUCT");
             final Batch batchToAdd = getModelFromDto(batchModelDto);
@@ -50,6 +54,30 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
 
         dto.stream().map(insertProductDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
+    }
+
+    public void subStoreQuantity(final String productCode, Integer quantityToSub) {
+        final List<Batch> batchList = this.entityRepository.getAllByProduct_CodeOrderByDate(productCode);
+        final int quantitySum = batchList.stream().mapToInt(Batch::getStoreQuantity).sum();
+
+        if (quantitySum - quantityToSub < 0) {
+            final Product product = productService.findByCodeOrThrowError(productCode, "SUB STORE QUANTITY");
+            throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
+        }
+
+        for (final var batch: batchList) {
+            final Integer newQuantity = batch.getStoreQuantity() - quantityToSub;
+            if (newQuantity >= 0) {
+                batch.setStoreQuantity(newQuantity);
+                this.entityRepository.save(batch);
+                break;
+            } else {
+                quantityToSub -= batch.getStoreQuantity();
+                batch.setStoreQuantity(0);
+                this.entityRepository.save(batch);
+            }
+        }
+
     }
 
 }

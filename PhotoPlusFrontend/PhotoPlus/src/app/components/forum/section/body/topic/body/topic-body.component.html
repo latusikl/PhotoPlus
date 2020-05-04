@@ -1,52 +1,67 @@
-<div class="container topic-container">
+<div class="container topic-container max-width">
   <div class="row topic-title">
-    <div
-      *ngIf="((topic | async) && (topic | async).name) || ''"
-      class="col-10 justify-content-center"
-    >
-      <div *ngIf="!modifyingTopic">
-        Topic title: {{ (topic | async).name || "" }}
+  <mat-card class="w-100">
+      <div
+        *ngIf="((topic | async) && (topic | async).name) || ''"
+        class="col-10 justify-content-center"
+      >
+        <div *ngIf="!modifyingTopic">
+          Topic title: {{ (topic | async).name || "" }}
+        </div>
+        <div *ngIf="modifyingTopic" class="edit-box">
+          <textarea
+            #topicName
+            class="dynamic-textarea"
+            value="{{ (topic | async).name || '' }}"
+          ></textarea>
+        </div>
       </div>
-      <div *ngIf="modifyingTopic" class="edit-box">
-        <textarea
-          #topicName
-          class="dynamic-textarea"
-          value="{{ (topic | async).name || '' }}"
-        ></textarea>
+      <div
+        class="col-2 justify-content-center topic-moderation-buttons"
+        *ngIf="topic && (canModify | async)"
+      >
+        <div *ngIf="modifyingTopic">
+          <div class="center">
+            <button class="btn btn-success button" (click)="saveChanges()">
+              Save
+            </button>
+          </div>
+          <div class="center">
+            <button class="btn btn-primary button" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div *ngIf="!modifyingTopic">
+          <div class="center">
+            <button class="btn btn-warning button" (click)="editTopic()">
+              Edit
+            </button>
+          </div>
+          <div class="center">
+            <button class="btn btn-danger button" (click)="deleteTopic()">
+              Remove
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div
-      class="col-2 justify-content-center topic-moderation-buttons"
-      *ngIf="topic && (canModify | async)"
-    >
-      <div *ngIf="modifyingTopic">
-        <button class="btn btn-success button" (click)="saveChanges()">
-          Save</button
-        ><br />
-        <button class="btn btn-primary button" (click)="cancelEdit()">
-          Cancel</button
-        ><br />
-      </div>
-      <div *ngIf="!modifyingTopic">
-        <button class="btn btn-warning button" (click)="editTopic()">
-          Edit
-        </button>
-        <button class="btn btn-danger button" (click)="deleteTopic()">
-          Remove</button
-        ><br />
-      </div>
-    </div>
+  </mat-card>
   </div>
   <div class="row">
     <div class="container topic-posts">
+      <mat-card>
       <div *ngFor="let post of posts">
         <app-post [post]="post" (reloadParentFunction)="reloadTopic(this.topic.value.code)"></app-post>
+        <mat-divider [inset]="true"></mat-divider>
       </div>
+    </mat-card>
     </div>
   </div>
   <div class="row add-post-section">
     <textarea #newPost class="dynamic-textarea"></textarea>
-    <button class="btn btn-primary w-100" (click)="sendPost()">
+  </div>
+  <div class="center">
+    <button class="btn btn-primary" (click)="sendPost()">
       Send Post
     </button>
   </div>

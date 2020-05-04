@@ -1,17 +1,21 @@
-<div class="container app-topic">
+<div class="container mt-1">
+    <mat-card>
+
     <div class="row">
-        <div class="col-2 user-profile no-float">
-           User: {{(topicOwner | async).name || ''}}
+        <div class="col-2 no-float">
+            <mat-card class="user-profile">
+                {{(topicOwner | async).name || ''}}
+            </mat-card>
         </div>
-        <div class="col-8">
+        <div class="col">
             <a [routerLink]="['/forum/topic', topic.code]">
-                <div class="app-topic-content">
+                <div>
                     Date : {{topic.date}}<br>
                     Topic name : {{topic.name}}
                 </div>
             </a>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <div *ngIf="(canModify | async)" style="float:right">
                 <a [routerLink]="['/forum/edit/topic', topic.code]">
                     <button class="btn btn-primary button-edit">Edit</button>
@@ -22,4 +26,6 @@
             </div>
         </div>
     </div>
+</mat-card>
+
 </div>

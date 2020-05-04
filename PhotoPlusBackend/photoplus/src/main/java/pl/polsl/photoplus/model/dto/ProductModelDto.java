@@ -9,6 +9,7 @@ import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.services.controllers.CategoryService;
 
 import javax.persistence.ElementCollection;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -32,19 +33,24 @@ public class ProductModelDto
     @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
     @Patchable
-    private Integer price;
+    private Double price;
 
     @JsonProperty("description")
     @Patchable
     private String description;
+
+    @JsonProperty("storeQuantity")
+    @Min(value = 0, message ="Store quantity cannot be less than zero.")
+    @Patchable
+    private Integer storeQuantity;
 
     @JsonProperty("imageCodes")
     @Patchable
     @ElementCollection
     private List<String> imageCodes;
 
-    public ProductModelDto(final String code, final String name, final Integer price, final String description,
-                           final String category, final List<String> imageCodes)
+    public ProductModelDto(final String code, final String name, final Double price, final String description,
+                           final String category, final Integer storeQuantity, final List<String> imageCodes)
     {
         super(code);
         this.name = name;
@@ -52,6 +58,7 @@ public class ProductModelDto
         this.description = description;
         this.category = category;
         this.imageCodes = imageCodes;
+        this.storeQuantity = storeQuantity;
     }
 
     public Category categoryPatch()
