@@ -1,5 +1,7 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,9 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     @Autowired
     ModelPropertiesService modelPropertiesService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     public AbstractModelService(final R entityRepository)
     {
         this.entityRepository = entityRepository;
@@ -83,12 +88,15 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     @Override
     public List<T> getPageFromAll(final Integer page)
     {
-        final Pageable modelPage = PageRequest.of(page, modelPropertiesService.getPageSize());
+        return getDtoListFromModels(getPage(page));
+    }
+
+    private Page<M> getPage(final Integer pageNumber){
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
         final Page<M> foundModels = entityRepository.findAll(modelPage);
 
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
-
-        return getDtoListFromModels(foundModels);
+        return foundModels;
     }
 
     @Override
@@ -135,6 +143,18 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         return getDtoListFromModels(foundModels);
     }
 
+    @Override
+    public ObjectNode getPageCount(){
+
+        final Page<M> firstPage = getPage(0);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalElements());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
     private void throwNotFoundErrorIfIterableEmpty(final String methodName, final Iterable<?> iterable)
     {
         if (IterableUtils.size(iterable) == 0) {
@@ -156,5 +176,6 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         log.info("{} | No objects of class {} found. Throwing NotFoundException.", sourceMethod, getModelNameForError());
         throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
     }
+
 
 }
