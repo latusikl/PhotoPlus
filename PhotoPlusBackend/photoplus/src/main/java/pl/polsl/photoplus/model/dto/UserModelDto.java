@@ -10,7 +10,6 @@ import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.OnlyLetters;
 import pl.polsl.photoplus.annotations.validators.Unique;
 import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
-import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.UserRole;
 import pl.polsl.photoplus.services.controllers.UserService;
 
