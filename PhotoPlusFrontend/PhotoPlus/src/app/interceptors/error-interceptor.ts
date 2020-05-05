@@ -39,12 +39,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         break;
       }
       case 422: {
-        const errorArray = error.error as Array<ErrorModel>;
-        errorArray.forEach(el => {
+        if (Array.isArray(error.error)) {
+          const errorArray = error.error as Array<ErrorModel>;
+          errorArray.forEach(el => {
+            const modalRef = this.modalService.open(ErrorModalComponent);
+            modalRef.componentInstance.title = "Error occured!";
+            modalRef.componentInstance.message = el.message;
+          });
+        } else {
+          const err = error.error as ErrorModel;
           const modalRef = this.modalService.open(ErrorModalComponent);
           modalRef.componentInstance.title = "Error occured!";
-          modalRef.componentInstance.message = el.message;
-        });
+          modalRef.componentInstance.message = err.message;
+        }
         break;
       }
       default: {
