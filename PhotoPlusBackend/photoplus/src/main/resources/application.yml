@@ -1,0 +1,53 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  main:
+    allow-bean-definition-overriding: true
+
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    active: "dev"
+
+logging:
+  level:
+    pl:
+      polsl:
+        photoplus: debug
+
+photoplus:
+  pageSize: 20
+
+  securitySecret: 8N13^lM7wOI^c@2jaell6M#$zM703SL47#rY0UUo6wp344VYroSdGloYB3ff%yi8$SOqivz$C#hjU*gjRPEUrA&46UO0C5pgM3J
+  #5 hours
+  securityExpiration: 18000000
+  securityHeaderName: Authorization
+  securityTokenPrefix: "Bearer "
+
+---
+
+spring:
+  profiles: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=Europe/Warsaw
+    username: root
+    password: pass
+
+server:
+  port: 8090
+
+---
+
+spring:
+  profiles: prod
+
+  datasource:
+    url: jdbc:mysql://database-service:3306/photoplusdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+server:
+  port: 8090
