@@ -44,13 +44,12 @@ public class OrderModelDto
     @Patchable
     private LocalDate date;
 
-    @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
     @Patchable
-    private Integer price;
+    private Double price;
 
     public OrderModelDto(final String code, final String userCode, final String addressCode, final String orderStatus, final String paymentMethod,
-                         final Integer price, final LocalDate date)
+                         final Double price, final LocalDate date)
     {
         super(code);
         this.userCode = userCode;
