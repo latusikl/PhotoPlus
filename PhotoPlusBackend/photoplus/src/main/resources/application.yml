@@ -32,7 +32,7 @@ spring:
   profiles: dev
 
   datasource:
-    url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/photoPlusDB?useSSL=false&serverTimezone=Europe/Warsaw
     username: root
     password: pass
 

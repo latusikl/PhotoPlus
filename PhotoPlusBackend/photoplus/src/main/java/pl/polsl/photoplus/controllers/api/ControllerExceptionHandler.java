@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.polsl.photoplus.model.dto.ErrorDto;
 import pl.polsl.photoplus.model.exceptions.EnumValueException;
+import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
 
@@ -100,6 +101,15 @@ public class ControllerExceptionHandler
         log.info("EnumValueException handled for type: {}.", e.getCauseClassType());
 
         final ErrorDto error = new ErrorDto(EnumValueException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(NotEnoughProductsException.class)
+    protected ResponseEntity<ErrorDto> handleNotEnoughProductsException(final NotEnoughProductsException e)
+    {
+        log.info("NotEnoughProductsException handled for type: {}.", e.getCauseClassType());
+
+        final ErrorDto error = new ErrorDto(NotEnoughProductsException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

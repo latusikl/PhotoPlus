@@ -45,7 +45,6 @@ export class SectionEditComponent implements OnInit {
       ...this.section,
       ...form
     }).subscribe((data) => {
-      console.log(data)
       this.router.navigate(['/forum']);
     });
   }

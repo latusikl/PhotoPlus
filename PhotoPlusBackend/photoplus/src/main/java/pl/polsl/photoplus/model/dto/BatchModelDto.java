@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 public class BatchModelDto extends AbstractModelDto<BatchModelDto> {
 
-    public BatchModelDto(final String code, final String productCode, final Integer purchasePrice,
+    public BatchModelDto(final String code, final String productCode, final Double purchasePrice,
                          final LocalDate date, final Integer supplyQuantity, final Integer storeQuantity) {
         super(code);
         this.productCode = productCode;
@@ -31,7 +31,7 @@ public class BatchModelDto extends AbstractModelDto<BatchModelDto> {
     @NotNull(message = "Purchase price is mandatory.")
     @JsonProperty("purchasePrice")
     @Patchable
-    private Integer purchasePrice;
+    private Double purchasePrice;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "Date is mandatory.")

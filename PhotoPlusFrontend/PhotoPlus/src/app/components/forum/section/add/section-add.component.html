@@ -6,7 +6,9 @@
             <div *ngIf="f.name.errors.required">Title is required</div>
           </div>
         Section description:
-        <textarea class="form-control" formControlName="description" style="width: 100%;" ></textarea>
-        <input type="submit" value="Add section" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+        <textarea class="form-control w-100" formControlName="description" ></textarea>
+        <div class="center">
+          <input type="submit" value="Add section" class="btn btn-primary add">
+        </div>
     </form>
 </div>

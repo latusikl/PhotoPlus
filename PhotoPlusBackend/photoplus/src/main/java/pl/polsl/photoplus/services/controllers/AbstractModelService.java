@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import pl.polsl.photoplus.components.ModelPropertiesService;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
@@ -15,11 +16,15 @@ import pl.polsl.photoplus.repositories.EntityRepository;
 import pl.polsl.photoplus.services.ModelPatchService;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Abstract service containing handlers for base API requests.
@@ -93,10 +98,18 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     }
 
     @Override
-    public HttpStatus save(final List<T> dto)
+    public HttpStatus saveAll(final List<T> dto)
     {
         entityRepository.saveAll(getModelListFromDtos(dto));
         return HttpStatus.CREATED;
+    }
+
+    @Override
+    public String save(final T dto)
+    {
+        final String entityCode = getModelFromDto(dto).getCode();
+        entityRepository.save(getModelFromDto(dto));
+        return entityCode;
     }
 
     @Override
@@ -119,7 +132,6 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     public List<T> getAll()
     {
         final Iterable<M> foundModels = entityRepository.findAll();
-        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return getDtoListFromModels(foundModels);
     }
 

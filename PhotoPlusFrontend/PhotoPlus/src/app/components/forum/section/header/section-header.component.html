@@ -1,14 +1,15 @@
-<div class="container app-section">
+<div class="container max-width">
+    <mat-card class="mt-1">
     <div class="row">
-        <div class="col-10">
+        <div class="col">
             <a [routerLink]="['/forum/section', section.code]">
                 <div class="app-section-content">
-                    Section name:{{section.name}}<br>
+                    Section name: {{section.name}}<br>
                     Section description: {{section.description}}<br>
                 </div>
             </a>
         </div>
-        <div class="col-2 justify-content" *ngIf="auth.isModerator && shouldModeratorButtonsBeRenedered">
+        <div class="col-3 text-align-left" *ngIf="auth.isModerator && shouldModeratorButtonsBeRenedered">
             <a [routerLink]="['/forum/edit/section', section.code]">
                 <button class="btn btn-primary button-edit"  >Edit</button>
             </a>
@@ -17,4 +18,5 @@
             </a>
         </div>
     </div>
+    </mat-card>
 </div>

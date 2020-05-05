@@ -26,7 +26,6 @@ export class TopicRemoveComponent implements OnInit {
 
   deleteTopic(){
     this.topicService.delete(this.topic.code).subscribe((data:Topic)=>{
-      console.log(data);
       this.router.navigate(['/forum/section', this.topic.sectionCode]);
     })
   }

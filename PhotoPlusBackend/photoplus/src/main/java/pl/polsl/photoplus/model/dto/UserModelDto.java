@@ -63,6 +63,7 @@ public class UserModelDto
 
     @JsonProperty("role")
     @ValueOfEnum(enumClass = UserRole.class)
+    @Patchable(method = "userRolePatch")
     private String userRole;
 
     public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code, final String userRole)
@@ -76,5 +77,11 @@ public class UserModelDto
         this.number = number;
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
+
+    public UserRole userRolePatch()
+    {
+        return UserRole.getUserRoleFromString(this.userRole);
+    }
+
 }
 

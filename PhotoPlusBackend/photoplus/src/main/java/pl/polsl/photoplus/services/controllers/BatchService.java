@@ -6,9 +6,10 @@ import pl.polsl.photoplus.model.dto.BatchModelDto;
 import pl.polsl.photoplus.model.entities.Batch;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.BatchRepository;
+import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class BatchService extends AbstractModelService<Batch, BatchModelDto, BatchRepository> {
@@ -38,18 +39,51 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
                 dtoObject.getStoreQuantity());
     }
 
-    @Override
-    public HttpStatus save(final List<BatchModelDto> dto) {
-        final Function<BatchModelDto, Batch> insertProductDependencyAndParseToModel = batchModelDto -> {
-            final Product productToInsert = productService.findByCodeOrThrowError(batchModelDto.getProductCode(),
-                    "SAVE PRODUCT");
-            final Batch batchToAdd = getModelFromDto(batchModelDto);
-            batchToAdd.setProduct(productToInsert);
-            return batchToAdd;
-        };
+    private Batch insertProductDependencyAndParseToModel(final BatchModelDto dto) {
+        productService.addStoreQuantity(dto.getProductCode(), dto.getStoreQuantity());
+        final Product productToInsert = productService.findByCodeOrThrowError(dto.getProductCode(),
+                "SAVE PRODUCT");
+        final Batch batchToAdd = getModelFromDto(dto);
+        batchToAdd.setProduct(productToInsert);
+        return batchToAdd;
+    }
 
-        dto.stream().map(insertProductDependencyAndParseToModel).forEach(entityRepository::save);
+    @Override
+    @Transactional
+    public String save(final BatchModelDto dto) {
+        final String entityCode = entityRepository.save(insertProductDependencyAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
+
+    @Override
+    @Transactional
+    public HttpStatus saveAll(final List<BatchModelDto> dto) {
+        dto.stream().map(this::insertProductDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
+    }
+
+    public void subStoreQuantity(final String productCode, Integer quantityToSub) {
+        final List<Batch> batchList = this.entityRepository.getAllByProduct_CodeOrderByDate(productCode);
+        final int quantitySum = batchList.stream().mapToInt(Batch::getStoreQuantity).sum();
+
+        if (quantitySum - quantityToSub < 0) {
+            final Product product = productService.findByCodeOrThrowError(productCode, "SUB STORE QUANTITY");
+            throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
+        }
+
+        for (final var batch: batchList) {
+            final Integer newQuantity = batch.getStoreQuantity() - quantityToSub;
+            if (newQuantity >= 0) {
+                batch.setStoreQuantity(newQuantity);
+                this.entityRepository.save(batch);
+                break;
+            } else {
+                quantityToSub -= batch.getStoreQuantity();
+                batch.setStoreQuantity(0);
+                this.entityRepository.save(batch);
+            }
+        }
+
     }
 
 }

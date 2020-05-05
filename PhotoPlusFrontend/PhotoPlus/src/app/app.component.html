@@ -9,7 +9,15 @@
     <div class="collapse navbar-collapse" id="navbarHeader">
 
       <div class="searchbar">
-        <input class="search_input" type="text" name="" placeholder="Search...">
+        <input   id="typeahead-focus"
+                 type="text"
+                 class="form-control search_input"
+                 [ngbTypeahead]="search"
+                 (focus)="focus$.next($any($event).target.value)"
+                 (click)="click$.next($any($event).target.value)"
+                 #instance="ngbTypeahead"
+                 placeholder="Search..."
+        />
         <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
 
@@ -18,7 +26,7 @@
         <div *ngIf="!auth.getLoggedUser()">
           <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         </div>
-        <div *ngIf="auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
+        <div *ngIf="auth.isLoggedIn() && auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
           <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
@@ -33,6 +41,7 @@
             </div>
           </li>
           <li class="darkenDiv" href="#" routerLink="/forum"><a class="nav-link">Forum</a></li>
+          <li *ngIf="auth.isModerator" class="darkenDiv" href="#" routerLink="/manage"><a class="nav-link">Manage</a></li>
         </ng-template>
         <ng-template #showLoginLink>
           <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Log In</a></li>
@@ -63,7 +72,7 @@
       <li class="nav-item active lightenDiv" href="#">
         <a class="nav-link">Pricing</a>
       </li>
-      <li class="nav-item active lightenDiv" href="#">
+      <li class="nav-item active lightenDiv" href="#" routerLink="/category" >
         <a class="nav-link">Categories</a>
       </li>
       <li class="nav-item active lightenDiv" href="#">
