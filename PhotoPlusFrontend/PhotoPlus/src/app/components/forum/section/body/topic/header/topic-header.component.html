@@ -18,8 +18,8 @@
         <div class="col-3">
             <div *ngIf="(canModify | async)" style="float:right">
                 <a [routerLink]="['/forum/edit/topic', topic.code]">
-                    <button class="btn btn-primary button-edit">Edit</button>
-                </a>
+                    <button class="btn btn-primary">Edit</button>
+                </a>&nbsp;
                 <a [routerLink]="['/forum/remove/topic', topic.code]">
                     <button class="btn btn-danger">Remove</button>
                 </a>
