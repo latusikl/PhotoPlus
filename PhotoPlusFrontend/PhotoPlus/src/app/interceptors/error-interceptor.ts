@@ -21,18 +21,21 @@ export class ErrorInterceptor implements HttpInterceptor {
   handleError(error: HttpErrorResponse) {
     switch(error.status) {
       case 0: {
+        //only one modal even if more than 1 error to prevent modal spam
         const modalRef = this.modalService.open(ErrorModalComponent);
         modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "No connection to backend.";
         break;
       }
       case 401: {
+        //only one modal even if more than 1 error to prevent modal spam
         const modalRef = this.modalService.open(ErrorModalComponent);
         modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "Bad login or password. Please try again.";
         break;
       }
       case 403: {
+        //only one modal even if more than 1 error to prevent modal spam
         const modalRef = this.modalService.open(ErrorModalComponent);
         modalRef.componentInstance.title = "Error occured!";
         modalRef.componentInstance.message = "Access denied.";
