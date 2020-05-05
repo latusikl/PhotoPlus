@@ -61,4 +61,8 @@ public class RatingService extends AbstractModelService<Rating, RatingModelDto, 
         dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
+
+    public List<RatingModelDto> getRatingsByProductCode(final String code) {
+        return getDtoListFromModels(entityRepository.getAllByProduct_Code(code));
+    }
 }

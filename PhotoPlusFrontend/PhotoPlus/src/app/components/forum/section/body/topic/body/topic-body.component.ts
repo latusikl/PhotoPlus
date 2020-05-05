@@ -75,8 +75,6 @@ export class TopicBodyComponent implements OnInit {
   }
 
   reloadTopic(topicCode: number){
-    console.log("reloadTopic " + topicCode + " called");
-    
     this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
       this.posts = new Array<BehaviorSubject<Post>>();
       for(let post of postsData){          

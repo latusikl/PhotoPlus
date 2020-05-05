@@ -1,0 +1,17 @@
+@import '../../../styles.scss';
+
+.menu-bg-color{
+    background-color: $mat-card-color;
+}
+
+.menu-bg-color:hover{
+    background-color: darken($mat-card-color, 10%);
+}
+
+.border {
+    border: 3px solid red;
+}
+
+.hover-animate:hover{
+    cursor: pointer;
+}

@@ -65,18 +65,5 @@ export class TopicAddComponent implements OnInit {
       })
     });
 
-    (topicData => {
-      console.log(topicData);
-      const post:Post = {
-        topicCode: topicData[0] as any,
-        userCode: this.loginService.getLoggedUser().code,
-        date: new Date(),
-        content: form.post
-      }
-      this.postService.post(post).subscribe(postData => {
-        this.router.navigate(["/forum/topic", topicData[0]]);
-      });
-    });
-
   }
 }

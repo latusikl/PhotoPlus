@@ -29,7 +29,6 @@ export class SectionRemoveComponent implements OnInit {
 
   deleteSection(){
     this.sectionService.delete(this.section.code).subscribe((data:Section)=>{
-      console.log(data);
       this.router.navigate(['/forum']);
     })
   }

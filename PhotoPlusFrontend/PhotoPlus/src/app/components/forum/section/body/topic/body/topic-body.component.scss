@@ -1,3 +1,14 @@
+
+@import '../../../../../../../styles.scss';
+
+.topic-bg-color{
+    background-color: $mat-card-color;
+}
+
+.post-bg-color{
+    background-color: $mat-card-color;
+}
+
 .topic-posts{
     padding: 0;
 }

@@ -1,4 +1,15 @@
 
+@import '../../../../../../../styles.scss';
+
+.topic-bg-color, .topic-bg-color a{
+    background-color: $mat-card-color;
+    color: white;
+}
+
+.topic-bg-color:hover{
+    background-color: darken($mat-card-color,10%);
+}
+
 .app-topic{
     border: 5px solid red;
     height: max-content;
@@ -6,11 +17,6 @@
 }
 
 .user-profile{
-    background-color: lighten($color: #424242, $amount: 10%);
+    background-color: darken($color: $mat-card-color, $amount: 10%);
     text-align: center;
-
-}
-
-.button-edit{
-    margin-right: 10px;
 }
