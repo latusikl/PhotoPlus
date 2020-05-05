@@ -5,6 +5,7 @@ export class Product {
   name: string;
   price: number;
   description: string;
+  quantity: number;
   links: Link[]
   category: string;
   imagesUrl: string[];
