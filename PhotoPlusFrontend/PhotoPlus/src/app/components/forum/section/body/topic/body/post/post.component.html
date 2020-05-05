@@ -15,10 +15,10 @@
         </div>
         <div *ngIf="canModify" class="col-3">
             <div *ngIf="!duringModification" class="d-inline-block">
-                <button class="btn btn-primary button-edit" (click)="editPost()">Edit</button>
-            </div>
+                <button class="btn btn-primary" (click)="editPost()">Edit</button>
+            </div>&nbsp;
             <div *ngIf="duringModification" class="d-inline-block">
-                <button class="btn btn-success button-edit" (click)="savePost()">Save</button>
+                <button class="btn btn-success" (click)="savePost()">Save</button>
             </div>
 
             <button class="btn btn-danger" (click)="removePost()">Remove</button>
