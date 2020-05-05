@@ -28,6 +28,7 @@ export class OrderComponent implements OnInit {
   error: any;
   myDate = new Date();
   addreses: any[];
+  selectedOption: any;
 
   constructor(private cartService: CartService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
@@ -37,6 +38,7 @@ export class OrderComponent implements OnInit {
       paymentMethod: 'PAYPAL',
       price: 0,
       date: "2020-01-30",
+      addressCode: 0,
       orderItems: [{ productCode: 0, quantity: 0, orderCode: 'orderCode' }],
       address: {
         street: "street",
@@ -45,9 +47,21 @@ export class OrderComponent implements OnInit {
         city: "city",
         countryCode: "code",
         userCode: 0,
+
       }
     }
+  }
 
+  selectOption(id: any[]) {
+    this.selectedOption = id;
+    console.log(this.selectedOption)
+    this.order.address.city = this.addreses[this.selectedOption].city
+    this.order.address.countryCode = this.addreses[this.selectedOption].country
+    this.order.address.number = this.addreses[this.selectedOption].number
+    this.order.address.street = this.addreses[this.selectedOption].street
+    this.order.address.userCode = this.addreses[this.selectedOption].userCode
+    this.order.address.zipCode = this.addreses[this.selectedOption].zipCode
+    this.order.addressCode = this.addreses[this.selectedOption].code
   }
 
   FieldsChange(values: any) {
@@ -56,42 +70,40 @@ export class OrderComponent implements OnInit {
     console.log(this.paymentMethod)
   }
 
+
   ngOnInit(): void {
 
-    if (this.loginService.isLoggedIn() == true) {
-      this.http.get<HttpResponse<[]>>('http://localhost:8090/address/all',
-      ).subscribe((data: any) => {
-        console.log(data)
-        this.addreses = data
-        console.log("Adres")
-        this.order.address.city = this.addreses[0].city
-        this.order.address.countryCode = this.addreses[0].country
-        this.order.address.number = this.addreses[0].number
-        this.order.address.street = this.addreses[0].street
-        this.order.address.userCode = this.addreses[0].userCode
-        this.order.address.zipCode = this.addreses[0].zipCode
-        console.log(this.order.address)
-      })
-    }
-
-    this.items = this.cartService.getItems();
-    console.log(this.items)
-    this.items.forEach(element => {
-      this.order.orderItems.push({ productCode: element[0].code, quantity: element[1], orderCode: 'orderCode' })
-    });
-    this.order.orderItems.splice(0, 1)
-    console.log(this.order)
     this.user = localStorage.getItem("loggedUser")
     this.user = JSON.parse(this.user)
     if (this.loginService.isLoggedIn() == true) {
       this.order.userCode = this.user.code
     }
+    if (this.loginService.isLoggedIn() == true) {
+      this.http.get<HttpResponse<[]>>('http://localhost:8090/address/byUser/' + this.user.code,
+      ).subscribe((data: any) => {
+        console.log(data)
+        let i = 0;
+        data.forEach(element => {
+          element.key = i;
+          i++
+        });
+        this.addreses = data
+        console.log("Adres")
+        console.log(this.addreses)
+      })
+    }
+
+    this.items = this.cartService.getItems();
+    this.items.forEach(element => {
+      this.order.orderItems.push({ productCode: element[0].code, quantity: element[1], orderCode: 'orderCode' })
+    });
+    this.order.orderItems.splice(0, 1)
     this.order.price = this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    console.log([this.order])
   }
 
   buy() {
+
 
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
@@ -106,14 +118,17 @@ export class OrderComponent implements OnInit {
       this.error.style.display = "block"
       return
     }
+
     if (this.isChecked == true) {
       this.error = document.getElementById("error")
       this.error.style.display = "none"
     }
+
     this.order.paymentMethod = this.paymentMethod
+    console.log(this.order)
 
     this.http.post<HttpResponse<Order[]>>('http://localhost:8090/order/buy',
-      [this.order]
+      this.order
     ).subscribe(res => { })
 
   }

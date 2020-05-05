@@ -6,6 +6,7 @@ export class Order {
   paymentMethod: string;
   price: number;
   date: string;
+  addressCode: number;
   orderItems: [{
     orderCode: string;
     productCode: number;
@@ -18,5 +19,6 @@ export class Order {
     city: string;
     countryCode: string;
     userCode: number;
+
   }
 }
