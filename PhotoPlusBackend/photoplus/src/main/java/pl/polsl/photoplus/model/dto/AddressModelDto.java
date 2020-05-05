@@ -50,7 +50,7 @@ public class AddressModelDto
     private String countryCode;
 
     @NotBlank(message = "User code cannot be empty")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY, value = "userCode")
+    @JsonProperty(value = "userCode")
     private String userCode;
 
     public AddressModelDto(final String code, final String street, final String number, final String zipCode, final String city, final String countryCode, final String userCode)

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MustMatch} from "../../helpers/must-match";
 import {User} from "../../models/user/user";
+import {Role} from "../../models/role/role.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -34,7 +35,9 @@ export class UserFormService {
             password: alias.password,
             name: alias.name,
             surname: alias.surname,
-            number: alias.phoneNumber
+            number: alias.phoneNumber,
+            role: Role.CLIENT,
+            code: null
         };
         return user;
     }

@@ -1,34 +1,56 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import {HomeComponent} from './components/home/home.component';
-import {RegistrationComponent} from './components/registration/registration.component';
-import {LoginComponent} from './components/login/login.component';
-import {CartComponent} from './components/cart/cart.component';
-import {ForumComponent} from './components/forum/forum.component';
-import {SectionBodyComponent} from './components/forum/section/body/section-body.component';
-import {SectionEditComponent} from './components/forum/section/edit/section-edit.component';
-import {SectionRemoveComponent} from './components/forum/section/remove/section-remove.component';
-import {SectionAddComponent} from './components/forum/section/add/section-add.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { LoginComponent } from './components/login/login.component';
+import { CartComponent } from './components/cart/cart.component';
+import { CategoryComponent } from './components/category/category.component';
+import { ForumComponent } from './components/forum/forum.component';
+import { SectionBodyComponent } from './components/forum/section/body/section-body.component';
+import { SectionEditComponent } from './components/forum/section/edit/section-edit.component';
+import { SectionRemoveComponent } from './components/forum/section/remove/section-remove.component';
+import { SectionAddComponent } from './components/forum/section/add/section-add.component';
+import { TopicBodyComponent } from './components/forum/section/body/topic/body/topic-body.component';
+import { TopicEditComponent } from './components/forum/section/body/topic/edit/topic-edit.component';
+import { TopicRemoveComponent } from './components/forum/section/body/topic/remove/topic-remove.component';
+import { TopicAddComponent } from './components/forum/section/body/topic/add/topic-add.component';
+import { ProductComponent } from './components/product/product.component';
+import { OrderComponent } from './components/order/order.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import {UserDetailsComponent} from "./components/user-details/user-details.component";
 
-
 const routes: Routes = [
-    {path: '', component: HomeComponent},
-    {path: 'registration', component: RegistrationComponent},
-    {path: 'login', component: LoginComponent},
-    {path: 'cart', component: CartComponent},
-    {path: 'user/details', component: UserDetailsComponent},
-    {path: 'forum', component: ForumComponent},
-    {path: 'forum/section/:code', component: SectionBodyComponent},
-    {path: 'forum/edit/section/:code', component: SectionEditComponent},
-    {path: 'forum/remove/section/:code', component: SectionRemoveComponent},
-    {path: 'forum/add/section', component: SectionAddComponent}
+  { path: '', component: HomeComponent },
+  { path: 'registration', component: RegistrationComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'cart', component: CartComponent},
+  { path: 'category', component: CategoryComponent },
+  { path: 'forum', component: ForumComponent},
+  { path: 'product/:productCode', component: ProductComponent },
+  { path: 'order', component: OrderComponent },
+  { path: 'forum/section/:sectionCode', component: SectionBodyComponent},
+  { path: 'forum/edit/section/:sectionCode', component: SectionEditComponent},
+  { path: 'forum/remove/section/:sectionCode', component: SectionRemoveComponent},
+  { path: 'forum/add/section', component: SectionAddComponent},
+  { path: 'forum/topic/:topicCode', component: TopicBodyComponent},
+  { path: 'forum/edit/topic/:topicCode', component: TopicEditComponent },
+  { path: 'forum/remove/topic/:topicCode', component: TopicRemoveComponent},
+  { path: 'forum/add/topic/:sectionCode', component: TopicAddComponent},
+  { path: 'manage', component: AdminPanelComponent },
+  { path: 'manage/orders', component: AdminPanelComponent },
+  { path: 'manage/orders/:orderCode', component: AdminPanelComponent },
+  { path: 'manage/newProduct', component: AdminPanelComponent},
+  { path: 'manage/delivery', component: AdminPanelComponent},
+  { path: 'manage/newEmployee', component: AdminPanelComponent},
+  { path: 'manage/deleteUser', component: AdminPanelComponent},
+  { path: 'manage/generateReports', component: AdminPanelComponent},
+  { path: 'user/details', component: UserDetailsComponent}
+
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }

@@ -111,5 +111,7 @@ Proper file format example:
                 <access>/user/single</access>
                 <access>/user/patch</access>
                 <access>/user/delete</access>
+
+                <access>/report/single</access>
         </role>
 </config>

@@ -57,12 +57,13 @@ public class UserModelDto
     private String password;
 
     @JsonProperty("number")
-    @Pattern(regexp = "[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}", message = "Please add valid phone number.")
+    @Pattern(regexp = "(^$)|([1-9][0-9]{2}-[0-9]{3}-[0-9]{3})", message = "Please add valid phone number.")
     @Patchable
     private String number;
 
     @JsonProperty("role")
     @ValueOfEnum(enumClass = UserRole.class)
+    @Patchable(method = "userRolePatch")
     private String userRole;
 
     public UserModelDto(final String login, final String email, final String name, final String surname, final String password, final String number, final String code, final String userRole)
@@ -76,5 +77,11 @@ public class UserModelDto
         this.number = number;
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
+
+    public UserRole userRolePatch()
+    {
+        return UserRole.getUserRoleFromString(this.userRole);
+    }
+
 }
 

@@ -9,7 +9,6 @@ import pl.polsl.photoplus.model.entities.User;
 import pl.polsl.photoplus.repositories.PostRepository;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class PostService extends AbstractModelService<Post, PostModelDto, PostRepository> {
@@ -39,21 +38,27 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
         return new Post(dtoObject.getDate(), dtoObject.getContent());
     }
 
+    private Post insertTopicDependencyAndParseToModel(final PostModelDto dto) {
+        final Topic topicToInsert = topicService.findByCodeOrThrowError(dto.getTopicCode(),
+                "SAVE TOPIC");
+
+        final User userToInsert = userService.findByCodeOrThrowError(dto.getUserCode(),
+                "SAVE USER");
+        final Post postToAdd = getModelFromDto(dto);
+        postToAdd.setTopic(topicToInsert);
+        postToAdd.setUser(userToInsert);
+        return postToAdd;
+    }
+
     @Override
-    public HttpStatus save(final List<PostModelDto> dto) {
-        final Function<PostModelDto, Post> insertTopicDependencyAndParseToModel = postModelDto -> {
-            final Topic topicToInsert = topicService.findByCodeOrThrowError(postModelDto.getTopicCode(),
-                    "SAVE TOPIC");
+    public String save(final PostModelDto dto) {
+        entityRepository.save(insertTopicDependencyAndParseToModel(dto));
+        return "dd";
+    }
 
-            final User userToInsert = userService.findByCodeOrThrowError(postModelDto.getUserCode(),
-                    "SAVE USER");
-            final Post postToAdd = getModelFromDto(postModelDto);
-            postToAdd.setTopic(topicToInsert);
-            postToAdd.setUser(userToInsert);
-            return postToAdd;
-        };
-
-        dto.stream().map(insertTopicDependencyAndParseToModel).forEach(entityRepository::save);
+    @Override
+    public HttpStatus saveAll(final List<PostModelDto> dto) {
+        dto.stream().map(this::insertTopicDependencyAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
     }
 

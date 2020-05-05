@@ -9,6 +9,7 @@ import pl.polsl.photoplus.model.entities.OrderItem;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.OrderItemRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.function.Function;
 
@@ -41,21 +42,32 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
     protected OrderItem getModelFromDto(final OrderItemModelDto dtoObject) {
         return new OrderItem(dtoObject.getQuantity());
     }
+    private OrderItem insertDependenciesAndParseToModel(final OrderItemModelDto dto) {
+        final Product productToInsert = productService.findByCodeOrThrowError(dto.getProductCode(),
+                "SAVE PRODUCT");
+        final Order orderToInsert = orderService.findByCodeOrThrowError(dto.getOrderCode(),
+                "SAVE ORDER");
+        final OrderItem orderItemToAdd = getModelFromDto(dto);
+        orderItemToAdd.setProduct(productToInsert);
+        orderItemToAdd.setOrder(orderToInsert);
+        return orderItemToAdd;
+    };
 
     @Override
-    public HttpStatus save(final List<OrderItemModelDto> dto) {
-        final Function<OrderItemModelDto, OrderItem> insertDependenciesAndParseToModel = orderModelDto -> {
-            final Product productToInsert = productService.findByCodeOrThrowError(orderModelDto.getProductCode(),
-                    "SAVE PRODUCT");
-            final Order orderToInsert = orderService.findByCodeOrThrowError(orderModelDto.getOrderCode(),
-                    "SAVE ORDER");
-            final OrderItem orderItemToAdd = getModelFromDto(orderModelDto);
-            orderItemToAdd.setProduct(productToInsert);
-            orderItemToAdd.setOrder(orderToInsert);
-            return orderItemToAdd;
-        };
+    @Transactional
+    public String save(final OrderItemModelDto dto) {
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
 
-        dto.stream().map(insertDependenciesAndParseToModel).forEach(entityRepository::save);
+    @Override
+    @Transactional
+    public HttpStatus saveAll(final List<OrderItemModelDto> dto) {
+        dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
         return HttpStatus.CREATED;
+    }
+
+    public List<OrderItemModelDto> getAllByOrderCode(final String orderCode) {
+        return getDtoListFromModels(entityRepository.getAllByOrder_Code(orderCode));
     }
 }

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Muli:400,700&display=swap');
 
+$mat-card-color: #24b8f3;
+
 body {
   margin: 0;
   font-family: 'Muli', 'sans-serif';
@@ -82,4 +84,43 @@ body {
 
 .shadow-border {
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+}
+
+.carousel {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.carousel-inner {
+  height: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon,
+.carousel-indicators {
+  filter: invert(1);
+}
+
+ .carousel-control-next,
+ .carousel-control-prev {
+  cursor: pointer;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.max-width{
+  max-width: 900px !important;
+}
+
+.center {
+  text-align: center;
+  margin-top: 10px;
 }

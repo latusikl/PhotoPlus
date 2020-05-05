@@ -1,0 +1,27 @@
+<div class="container post-border my-1">
+    <div class="row">
+        <div class="col-2 user-info-box">
+            <mat-card class="user-profile">
+              {{(postOwner|async) && (postOwner | async).name ||  '' }}
+            </mat-card>
+        </div>
+        <div class="col-7 post-content">
+            <div *ngIf="!duringModification" class="d-inline-block">
+                {{(post |async) && (post | async).content || ''}}
+            </div>
+            <div *ngIf="duringModification" class="d-inline-block w-100">
+                <textarea class="dynamic-textarea" #postEdit value="{{(post | async).content}}"></textarea>
+            </div>
+        </div>
+        <div *ngIf="canModify" class="col-3">
+            <div *ngIf="!duringModification" class="d-inline-block">
+                <button class="btn btn-primary" (click)="editPost()">Edit</button>
+            </div>&nbsp;
+            <div *ngIf="duringModification" class="d-inline-block">
+                <button class="btn btn-success" (click)="savePost()">Save</button>
+            </div>
+
+            <button class="btn btn-danger" (click)="removePost()">Remove</button>
+        </div>
+    </div>
+</div>

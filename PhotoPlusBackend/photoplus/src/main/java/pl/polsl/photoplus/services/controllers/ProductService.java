@@ -7,9 +7,9 @@ import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.ProductRepository;
+import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class ProductService extends AbstractModelService<Product, ProductModelDto, ProductRepository> {
@@ -29,30 +29,55 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     @Override
     protected ProductModelDto getDtoFromModel(final Product modelObject) {
         return new ProductModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getPrice(),
-                modelObject.getDescription(), modelObject.getCategory().getCode(), modelObject.getImageCodes());
+                modelObject.getDescription(), modelObject.getCategory().getCode(), modelObject.getStoreQuantity(),
+                modelObject.getImageCodes());
     }
 
     @Override
     protected Product getModelFromDto(final ProductModelDto dtoObject) {
-        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(), dtoObject.getImageCodes());
+        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(), dtoObject.getStoreQuantity(),
+                dtoObject.getImageCodes());
+    }
+
+    private Product insertCategoryDependencyAndParseToModel(final ProductModelDto dto) {
+        final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
+                "SAVE PRODUCT");
+        final Product productToAdd = getModelFromDto(dto);
+        productToAdd.setCategory(categoryToAdd);
+        return productToAdd;
     }
 
     @Override
-    public HttpStatus save(final List<ProductModelDto> dtoSet) {
-        final Function<ProductModelDto, Product> insertCategoryDependencyAndParseToModel = productModelDto -> {
-            final Category categoryToAdd = categoryService.findByCodeOrThrowError(productModelDto.getCategory(),
-                    "SAVE PRODUCT");
-            final Product productToAdd = getModelFromDto(productModelDto);
-            productToAdd.setCategory(categoryToAdd);
-            return productToAdd;
-        };
+    public String save(final ProductModelDto dto) {
+        final String entityCode = entityRepository.save(insertCategoryDependencyAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
 
-        dtoSet.stream().map(insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
+    @Override
+    public HttpStatus saveAll(final List<ProductModelDto> dtoSet) {
+        dtoSet.stream().map(this::insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
         return HttpStatus.CREATED;
     }
 
     public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
     {
         return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+    }
+
+    public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
+        final Product product = this.findByCodeOrThrowError(productCode, "SUB STORE QUANTITY");
+        final Integer newQuantity = product.getStoreQuantity() - quantityToSub;
+        if (newQuantity < 0) {
+            throw new NotEnoughProductsException("Not enough " + product.getName() +" in store.", product.getName());
+        }
+        product.setStoreQuantity(newQuantity);
+        this.entityRepository.save(product);
+    }
+
+    public void addStoreQuantity(final String productCode, final Integer quantityToAdd) {
+        final Product product = this.findByCodeOrThrowError(productCode, "ADD STORE QUANTITY");
+        final Integer newQuantity = product.getStoreQuantity() + quantityToAdd;
+        product.setStoreQuantity(newQuantity);
+        this.entityRepository.save(product);
     }
 }

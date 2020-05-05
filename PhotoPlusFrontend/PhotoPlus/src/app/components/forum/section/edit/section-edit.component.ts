@@ -19,7 +19,7 @@ export class SectionEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params =>{
-      let sectionCode = params["code"];
+      let sectionCode = params["sectionCode"];
       this.sectionService.getSingle(sectionCode).subscribe((data:Section)=>{
         this.section = data;
         this.sectionForm = this.formBuilder.group({
@@ -45,7 +45,6 @@ export class SectionEditComponent implements OnInit {
       ...this.section,
       ...form
     }).subscribe((data) => {
-      console.log(data)
       this.router.navigate(['/forum']);
     });
   }

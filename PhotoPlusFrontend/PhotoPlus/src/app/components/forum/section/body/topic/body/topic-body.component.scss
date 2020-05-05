@@ -1,0 +1,41 @@
+
+@import '../../../../../../../styles.scss';
+
+.topic-bg-color{
+    background-color: $mat-card-color;
+}
+
+.post-bg-color{
+    background-color: $mat-card-color;
+}
+
+.topic-posts{
+    padding: 0;
+}
+
+.topic-moderation-buttons{
+    float:right;
+}
+
+.edit-box{
+    width: 100%;
+    height: 100%;
+}
+
+.dynamic-textarea{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.topic-title{
+    padding: 10px 0px 10px 0px;
+    border-bottom: none;
+    font-size: 1.5em;
+}
+
+.add-post-section{
+    margin-top: 10px;
+    text-align: center;
+}

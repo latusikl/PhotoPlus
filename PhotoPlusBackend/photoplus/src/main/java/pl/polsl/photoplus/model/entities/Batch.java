@@ -23,7 +23,7 @@ public class Batch
     private Product product;
 
     @Patchable
-    private Integer purchasePrice;
+    private Double purchasePrice;
 
     @Patchable
     private LocalDate date;
@@ -34,7 +34,7 @@ public class Batch
     @Patchable
     private Integer storeQuantity;
 
-    public Batch(final Integer purchasePrice, final LocalDate date, final Integer supplyQuantity, final Integer storeQuantity)
+    public Batch(final Double purchasePrice, final LocalDate date, final Integer supplyQuantity, final Integer storeQuantity)
     {
         this.purchasePrice = purchasePrice;
         this.date = date;

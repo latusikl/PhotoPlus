@@ -19,7 +19,9 @@ public interface ModelService<T extends AbstractModelDto>
 
     T getSingleObject(String code);
 
-    HttpStatus save(List<T> dto);
+    HttpStatus saveAll(List<T> dto);
+
+    String save(T dto);
 
     HttpStatus delete(String code);
 
