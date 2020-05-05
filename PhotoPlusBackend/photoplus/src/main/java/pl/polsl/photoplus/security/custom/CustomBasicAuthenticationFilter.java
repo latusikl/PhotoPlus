@@ -44,7 +44,7 @@ public class CustomBasicAuthenticationFilter
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws IOException, ServletException
     {
-            final String header = request.getHeader(modelPropertiesService.securityHeaderName);
+        final String header = request.getHeader(modelPropertiesService.securityHeaderName);
 
         if (header == null || !header.startsWith(modelPropertiesService.securityTokenPrefix)) {
             chain.doFilter(request, response);
