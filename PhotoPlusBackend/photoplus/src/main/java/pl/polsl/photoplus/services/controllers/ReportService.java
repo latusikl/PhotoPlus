@@ -12,6 +12,8 @@ import pl.polsl.photoplus.model.dto.*;
 import pl.polsl.photoplus.model.entities.Product;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.AbstractMap.SimpleEntry;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class ReportService {
     private final BatchService batchService;
     private final OrderItemService orderItemService;
     private final RatingService ratingService;
+    private NumberFormat formatter = new DecimalFormat("#0.00");
 
     public ReportService(final ProductService productService, final OrderService orderService,
                          final CategoryService categoryService, final BatchService batchService,
@@ -62,10 +65,10 @@ public class ReportService {
         final Integer soldProductsNumber = getSoldProductsNumber();
         final Integer ordersNumber = getOrdersNumber();
         final Double averageOrderValue = getAverageOrderValue();
-        chunk = new Chunk("Profit: " + profit + "$\n" +
+        chunk = new Chunk("Profit: " + formatter.format(profit) + "$\n" +
                 "Number of sold products: " + soldProductsNumber + "\n" +
                 "Number of placed orders: " + ordersNumber + "\n" +
-                "Average order price: " + averageOrderValue + "$\n", font);
+                "Average order price: " + formatter.format(averageOrderValue) + "$\n", font);
         para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         para.setSpacingAfter(50);
@@ -116,7 +119,7 @@ public class ReportService {
         font = FontFactory.getFont(FontFactory.COURIER, 13, BaseColor.BLACK);
         chunk = new Chunk("Code: " + product.getCode() + "\n" +
                 "Name: " + product.getName() + "\n" +
-                "Price: " + product.getPrice() + "$\n" +
+                "Price: " + formatter.format(product.getPrice()) + "$\n" +
                 "Category: " + product.getCategory().getName() + "\n" +
                 "Description: " + product.getDescription() + "\n", font);
         para = new Paragraph(chunk);
