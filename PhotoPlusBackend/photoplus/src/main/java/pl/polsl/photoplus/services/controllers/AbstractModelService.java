@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import pl.polsl.photoplus.components.ModelPropertiesService;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
@@ -18,15 +17,11 @@ import pl.polsl.photoplus.repositories.EntityRepository;
 import pl.polsl.photoplus.services.ModelPatchService;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Abstract service containing handlers for base API requests.
@@ -91,12 +86,11 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         return getDtoListFromModels(getPage(page));
     }
 
-    private Page<M> getPage(final Integer pageNumber){
-        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<M> foundModels = entityRepository.findAll(modelPage);
-
-        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
-        return foundModels;
+    @Override
+    public List<T> getAll()
+    {
+        final Iterable<M> foundModels = entityRepository.findAll();
+        return getDtoListFromModels(foundModels);
     }
 
     @Override
@@ -137,14 +131,8 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     }
 
     @Override
-    public List<T> getAll()
+    public ObjectNode getPageCount()
     {
-        final Iterable<M> foundModels = entityRepository.findAll();
-        return getDtoListFromModels(foundModels);
-    }
-
-    @Override
-    public ObjectNode getPageCount(){
 
         final Page<M> firstPage = getPage(0);
         final ObjectNode jsonNode = objectMapper.createObjectNode();
@@ -153,6 +141,15 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         jsonNode.put("pageSize", modelPropertiesService.getPageSize());
 
         return jsonNode;
+    }
+
+    private Page<M> getPage(final Integer pageNumber)
+    {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<M> foundModels = entityRepository.findAll(modelPage);
+
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return foundModels;
     }
 
     private void throwNotFoundErrorIfIterableEmpty(final String methodName, final Iterable<?> iterable)
@@ -176,6 +173,5 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         log.info("{} | No objects of class {} found. Throwing NotFoundException.", sourceMethod, getModelNameForError());
         throw new NotFoundException("Cannot find object of given code.", getModelNameForError());
     }
-
 
 }
