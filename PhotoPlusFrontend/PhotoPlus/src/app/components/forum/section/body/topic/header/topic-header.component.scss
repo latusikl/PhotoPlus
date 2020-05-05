@@ -1,4 +1,10 @@
 
+@import '../../../../../../../styles.scss';
+
+.topic-bg-color{
+    background-color: $mat-card-color;
+}
+
 .app-topic{
     border: 5px solid red;
     height: max-content;
@@ -6,7 +12,7 @@
 }
 
 .user-profile{
-    background-color: lighten($color: #424242, $amount: 10%);
+    background-color: darken($color: $mat-card-color, $amount: 10%);
     text-align: center;
 
 }

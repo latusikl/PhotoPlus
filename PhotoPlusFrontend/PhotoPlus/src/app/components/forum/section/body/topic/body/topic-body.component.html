@@ -1,6 +1,6 @@
 <div class="container topic-container max-width">
   <div class="row topic-title">
-  <mat-card class="w-100">
+  <mat-card class="w-100 topic-bg-color">
       <div
         *ngIf="((topic | async) && (topic | async).name) || ''"
         class="col-10 justify-content-center"
@@ -49,7 +49,7 @@
   </div>
   <div class="row">
     <div class="container topic-posts">
-      <mat-card>
+      <mat-card class="post-bg-color">
       <div *ngFor="let post of posts">
         <app-post [post]="post" (reloadParentFunction)="reloadTopic(this.topic.value.code)"></app-post>
         <mat-divider [inset]="true"></mat-divider>

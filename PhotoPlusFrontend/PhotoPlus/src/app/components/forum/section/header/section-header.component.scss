@@ -1,8 +1,7 @@
-.app-section {
-    padding: 10px;
-    border: 5px solid blue;
-    height: max-content;
-    width: 100%;
+@import '../../../../../styles.scss';
+
+.section-bg-color{
+    background-color: $mat-card-color;
 }
 
 .app-section-content{
