@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.HttpStatus;
 import pl.polsl.photoplus.model.dto.AbstractModelDto;
 
@@ -26,4 +27,6 @@ public interface ModelService<T extends AbstractModelDto>
     HttpStatus delete(String code);
 
     HttpStatus patch(T dtoPatch, String code);
+
+    ObjectNode getPageCount();
 }
