@@ -10,17 +10,6 @@
           </svg>
         </mat-card>
       </div>
-      <div
-        #photoDisplay
-        *ngFor="let imageUrl of (selectedProduct | async)?.imagesUrl"
-        class="col-3 text-center mt-2"
-      >
-        <mat-card class="item-card">
-          <a href="{{ imageUrl }}">
-            <img src="{{ imageUrl }}" class="item-card-photo" /><br />
-          </a>
-        </mat-card>
-      </div>
       <div class="col-3 text-center mt-2">
         <mat-card
           (click)="addPhoto()"
@@ -32,6 +21,18 @@
             </text>
           </svg>
         </mat-card>
+      </div>
+      <div
+        #photoDisplay
+        *ngFor="let imageUrl of (selectedProduct | async)?.imagesUrl; let i = index"
+        class="col-3 text-center mt-2"
+      >
+        <mat-card class="item-card">
+          <a href="{{ imageUrl }}">
+            <img src="{{ imageUrl }}" class="item-card-photo" /><br />
+          </a>
+        </mat-card>
+        <button class="btn btn-danger" (click)="deletePhoto(selectedProduct.value.imageCodes[i])">Delete</button>
       </div>
     </div>
   </div>
