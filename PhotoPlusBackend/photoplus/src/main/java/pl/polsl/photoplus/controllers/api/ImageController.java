@@ -45,7 +45,8 @@ public class ImageController {
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'post' )")
     public ResponseEntity postImage(@Image(service = ImageService.class) final MultipartFile file) throws IOException {
         final String entityCode = imageService.save(new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()));
-        final HashMap<String,String> response = new HashMap<>(1);
+        final HashMap<String,String> response = new HashMap<>(2);
+        response.put("code", entityCode);
         final URI uri = linkTo(methodOn(this.getClass()).getSingle(entityCode)).toUri();
         response.put("self", uri.toASCIIString());
         return new ResponseEntity(response, HttpStatus.CREATED);
