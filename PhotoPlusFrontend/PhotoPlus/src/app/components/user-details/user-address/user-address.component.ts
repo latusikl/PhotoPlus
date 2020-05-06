@@ -38,10 +38,10 @@ export class UserAddressComponent implements OnInit {
     createAddressForm(): void {
         this.addressForm = this.formBuilder.group({
             street: ['', [Validators.required, Validators.minLength(4), Validators.pattern(new RegExp("[a-zA-Z]+"))]],
-            number: ['', Validators.required, Validators.pattern(new RegExp("\w+"))],
-            city: ['', Validators.required, Validators.pattern(new RegExp("[a-zA-Z]+"))],
-            zipCode: ['', Validators.required, Validators.pattern(new RegExp("\d"))],
-            countryCode: ['', Validators.required],
+            number: ['', [Validators.required, Validators.pattern(new RegExp("\w+"))]],
+            city: ['', [Validators.required, Validators.pattern(new RegExp("[a-zA-Z]+"))]],
+            zipCode: ['',[ Validators.required, Validators.pattern(new RegExp("\d"))]],
+            countryCode: ['', [Validators.required]]
         });
     }
 
@@ -61,6 +61,9 @@ export class UserAddressComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
         if (this.addressForm.invalid) {
+            console.log(this.f);
+            console.log(this.f.street);
+
             return;
         }
         console.log("Valid data")
