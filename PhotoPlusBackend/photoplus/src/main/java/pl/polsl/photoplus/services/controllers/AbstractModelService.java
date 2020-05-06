@@ -107,9 +107,8 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
     @Override
     public String save(final T dto)
     {
-        final String entityCode = getModelFromDto(dto).getCode();
-        entityRepository.save(getModelFromDto(dto));
-        return entityCode;
+        final M saved = (M) entityRepository.save(getModelFromDto(dto));
+        return saved.getCode();
     }
 
     @Override
