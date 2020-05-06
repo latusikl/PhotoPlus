@@ -9,4 +9,5 @@ export class Product {
   links: Link[]
   category: string;
   imagesUrl: string[];
+  imageCodes: string[];
 }
