@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 import {environment} from "../../../environments/environment";
@@ -8,35 +8,43 @@ import {UserModel} from "../../models/user/user-model";
 import {Address} from "../../models/address/address";
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss']
+    selector: 'app-user-details',
+    templateUrl: './user-details.component.html',
+    styleUrls: ['./user-details.component.scss']
 })
 export class UserDetailsComponent implements OnInit {
 
-  constructor(private http : HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
-  public loggedUserWithDetails : UserModel;
-  private loggedUser : LoggedUser;
-  private addresses : Address[];
-  private hostAddress = environment.hostAddress;
+    loggedUserWithDetails: UserModel;
+    loggedUser: LoggedUser;
+    addresses: Address[];
+    hostAddress = environment.hostAddress;
 
-  ngOnInit(): void {
-    this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-    this.getLoggedUser().subscribe(userModel => {this.loggedUserWithDetails = userModel;});
-  }
+    ngOnInit(): void {
+        this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        this.getLoggedUser().subscribe(userModel => {
+            this.loggedUserWithDetails = userModel;
+        });
+        this.getUserAddresses();
+    }
 
-  function() : void {
-    console.log(this.loggedUserWithDetails);
-  }
+    function(): void {
+        this.getUserAddresses();
+        console.log(this.addresses);
+    }
 
-  getUserAddresses(): void {
+    getUserAddresses(): void {
+        this.http.get<Address[]>(environment.hostAddress + "address/byUser/" + this.loggedUser.code).subscribe((res: Address[]) => this.addresses = res);
+    }
 
-  }
+    public getLoggedUser(): Observable<UserModel> {
+        return this.http.get<UserModel>(this.hostAddress + "user/" + this.loggedUser.code);
+    }
 
-  public getLoggedUser() : Observable<UserModel>
-  {
-    return this.http.get<UserModel>(this.hostAddress + "user/" + this.loggedUser.code);
-  }
+    get a() {
+        return this.addresses;
+    }
 
 }

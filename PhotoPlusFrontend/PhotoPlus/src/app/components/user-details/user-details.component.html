@@ -2,38 +2,37 @@
     <h1><u>Welcome {{loggedUserWithDetails.name}} {{loggedUserWithDetails.surname}}!</u></h1>
 </div>
 
-<div class="accordion" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                    Your's data.
-                </button>
-            </h2>
-        </div>
-
-        <div id="collapseOne" class="collapse show in" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-                <app-user-data [loggedUser]="loggedUserWithDetails"></app-user-data>
-            </div>
-        </div>
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Your's data
+            </mat-panel-title>
+            <mat-panel-description>
+                See or edit your personal data.
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-user-data [loggedUser]="loggedUserWithDetails"></app-user-data>
+    </mat-expansion-panel>
+    <div *ngFor="let singleAddress of this.addresses; let i = index">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span>{{"Address no." + (i + 1)}}</span>
+                </mat-panel-title>
+                <mat-panel-description>
+                    <span>{{"See or edit address no." + (i + 1)}}</span>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-user-address [newAddress]="false" [userAddress]="singleAddress"></app-user-address>
+        </mat-expansion-panel>
     </div>
-
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h2 class="mb-0">
-                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="false" aria-controls="collapseTwo">
-                    Address
-                </button>
-            </h2>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                <app-user-address [newAddress]="false"></app-user-address>
-<!--                <app-user-address [newAddress]="true"></app-user-address>-->
-            </div>
-        </div>
-    </div>
-</div>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span>Add new address.</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-user-address [newAddress]="true"></app-user-address>
+    </mat-expansion-panel>
+</mat-accordion>
