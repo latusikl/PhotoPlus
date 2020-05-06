@@ -1,1 +1,66 @@
-<p>user-address works!</p>
+<div [formGroup]="addressForm">
+
+    <label for="street" class="form-label">Street:</label>
+    <input formControlName="street" type="text" class="form-control fadeIn second" id="street" name="street"
+           placeholder="Street" [ngClass]="{ 'is-invalid': submitted && f.street.errors }">
+    <div *ngIf="submitted && !formDisabled && f['street'].errors.required" class="invalid-feedback">
+        Street is required.
+    </div>
+    <div *ngIf="submitted && !formDisabled && f.street.errors.minLength" class="invalid-feedback">
+        Street should have at least 4 letters.
+    </div>
+    <div *ngIf="submitted && !formDisabled && f.street.errors.pattern" class="invalid-feedback">
+        Only letters are allowed.
+    </div>
+
+    <label for="number" class="form-label">Street:</label>
+    <input formControlName="number" type="text" class="form-control fadeIn second" id="number" name="number"
+           placeholder="Street number" [ngClass]="{ 'is-invalid': submitted && f.number.errors }">
+    <div *ngIf="submitted && !formDisabled && f.number.errors.required"class="invalid-feedback">
+        Number is required.
+    </div>
+    <div *ngIf="submitted && !formDisabled && f.number.errors.pattern" class="invalid-feedback">
+        Only letters and numbers are allowed.
+    </div>
+
+
+    <label for="city" class="form-label">City:</label>
+    <input formControlName="city" type="text" class="form-control fadeIn second" id="city" name="city"
+           placeholder="City" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+    <div *ngIf="submitted && !formDisabled && f.city.errors.required" class="invalid-feedback">
+        City is required.
+    </div>
+    <div *ngIf="submitted && !formDisabled && f.city.errors.pattern" class="invalid-feedback">
+        Only letters are allowed.
+    </div>
+
+
+    <label for="zipCode" class="form-label">ZIP Code:</label>
+    <input formControlName="zipCode" type="text" class="form-control fadeIn second" id="zipCode" name="zipCode"
+           placeholder="ZIP Code" [ngClass]="{ 'is-invalid': submitted && f.zipCode.errors }">
+    <div *ngIf="submitted && !formDisabled && f.zipCode.errors.required" class="invalid-feedback">
+        ZIP code is required.
+    </div>
+    <div *ngIf="submitted && !formDisabled && f.zipCode.errors.pattern" class="invalid-feedback">
+        Only numbers are allowed.
+    </div>
+
+    <label for="countryCode" class="form-label">Country:</label>
+    <input formControlName="countryCode" type="text" class="form-control fadeIn second" id="countryCode" name="countryCode"
+           placeholder="Country code" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+    <div *ngIf="submitted && !formDisabled && f.country.errors.required" class="invalid-feedback">
+        Country code is required.
+    </div>
+
+    <div [style.display]="!newAddress ? 'block' : 'none'">
+    <button class="btn btn-success" [disabled]="formDisabled" (click)="onSubmit()">Save changes</button>
+    <button class="btn btn-success" (click)="formDisabled ? enable() : disable()">
+        <span>{{formDisabled ? "Edit" : "Stop Editing" }}</span>
+    </button>
+    </div>
+
+    <div [style.display]="newAddress ? 'block' : 'none'">
+        <button class="btn btn-success" (click)="onSubmit()">Save</button>
+    </div>
+
+</div>

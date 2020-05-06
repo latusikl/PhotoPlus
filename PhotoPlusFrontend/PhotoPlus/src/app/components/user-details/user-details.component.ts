@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {LoggedUser} from "../../models/login/logged-user.model";
 import {UserModel} from "../../models/user/user-model";
+import {Address} from "../../models/address/address";
 
 @Component({
   selector: 'app-user-details',
@@ -17,15 +18,20 @@ export class UserDetailsComponent implements OnInit {
 
   public loggedUserWithDetails : UserModel;
   private loggedUser : LoggedUser;
+  private addresses : Address[];
   private hostAddress = environment.hostAddress;
 
   ngOnInit(): void {
-    this.loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
+    this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
     this.getLoggedUser().subscribe(userModel => {this.loggedUserWithDetails = userModel;});
   }
 
   function() : void {
     console.log(this.loggedUserWithDetails);
+  }
+
+  getUserAddresses(): void {
+
   }
 
   public getLoggedUser() : Observable<UserModel>
