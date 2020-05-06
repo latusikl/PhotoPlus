@@ -137,7 +137,7 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         final Page<M> firstPage = getPage(0);
         final ObjectNode jsonNode = objectMapper.createObjectNode();
 
-        jsonNode.put("pageAmount", firstPage.getTotalElements());
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
         jsonNode.put("pageSize", modelPropertiesService.getPageSize());
 
         return jsonNode;
