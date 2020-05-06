@@ -10,7 +10,7 @@ import {SuccessModalComponent} from "../../success-modal/success-modal.component
 @Component({
     selector: 'app-user-data',
     templateUrl: './user-data.component.html',
-    styleUrls: ['./user-data.component.scss']
+    styleUrls: ['../user-details.component.scss']
 })
 export class UserDataComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class UserDataComponent implements OnInit {
     }
 
     userForm: FormGroup;
-    editable: boolean = false;
+    formDisabled : boolean = true;
     submitted: boolean = false;
     fillerLength: number = 10;
     changedFields: Map<string, string> = new Map<string, string>();
@@ -80,14 +80,14 @@ export class UserDataComponent implements OnInit {
         return JSON.stringify(jsonObject);
     }
 
-    disable(): void {
+    disable(){
         this.userForm.disable();
-        this.editable = false;
+        this.formDisabled=true;
     }
 
-    enable(): void {
+    enable(){
         this.userForm.enable();
-        this.editable = true;
+        this.formDisabled=false;
     }
 
     get f() {
