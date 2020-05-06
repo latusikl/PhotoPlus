@@ -41,6 +41,7 @@ import { GenerateReportComponent } from './components/admin-panel/subcomponents/
 import { ChangePrivilegesComponent } from './components/admin-panel/subcomponents/change-privileges/change-privileges.component';
 import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add-delivery/add-delivery.component';
 import { ManageSingleOrderComponent } from './components/admin-panel/subcomponents/manage-single-order/manage-single-order.component';
+import { ImageCarouselComponent } from './components/admin-panel/subcomponents/create-product/image-carousel/image-carousel.component';
 
 @NgModule({
     declarations: [
@@ -73,7 +74,8 @@ import { ManageSingleOrderComponent } from './components/admin-panel/subcomponen
         GenerateReportComponent,
         ChangePrivilegesComponent,
         AddDeliveryComponent,
-        ManageSingleOrderComponent
+        ManageSingleOrderComponent,
+        ImageCarouselComponent
     ],
     imports: [
         BrowserModule,

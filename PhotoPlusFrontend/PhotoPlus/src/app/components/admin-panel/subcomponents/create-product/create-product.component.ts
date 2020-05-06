@@ -186,6 +186,7 @@ export class CreateProductComponent implements OnInit {
         if(!newSelect){
           return;
         }
+        // update with newSelect
         this.chooseProduct(newSelect);
       });
     })
