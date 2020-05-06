@@ -4,6 +4,9 @@ import {
   Renderer2,
   ViewChild,
   ElementRef,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  ViewContainerRef,
 } from "@angular/core";
 import { CategoryService } from "src/app/services/category/category.service";
 import { Category } from "src/app/models/category/category";
@@ -12,6 +15,7 @@ import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ImageService } from 'src/app/services/image/image.service';
+import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 
 @Component({
   selector: "app-create-new-product",
@@ -27,7 +31,7 @@ export class CreateProductComponent implements OnInit {
   imageInputDialog: ElementRef;
 
   @ViewChild("photoDisplay")
-  photoDisplay: ElementRef;
+  photoDisplay: ViewContainerRef;
 
   selectedProduct: BehaviorSubject<Product>;
   selectedProductImages: BehaviorSubject<string[]>;
@@ -45,7 +49,8 @@ export class CreateProductComponent implements OnInit {
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
   ngOnInit(): void {
@@ -66,10 +71,10 @@ export class CreateProductComponent implements OnInit {
         this.products.push(new BehaviorSubject(product));
       }
       this.filteredProducts = this.products;
+      if(completionHandler){
+        completionHandler();
+      }
     });
-    if(completionHandler){
-      completionHandler();
-    }
   }
 
   loadCategories(){
@@ -178,16 +183,20 @@ export class CreateProductComponent implements OnInit {
   updateOrCheckIfCanUpdate(shouldUpdate: boolean, imageCodeArray: string[]){
     this.productService.patch(this.selectedProduct.value.code, {imageCodes: imageCodeArray} as Product).subscribe(() => {
       this.loadProducts(()=>{
-        const newSelectTmp = this.products.filter((x)=> x.value.code === this.selectedProduct.value.code);
-        if(!newSelectTmp){
-          return;
-        }
-        let newSelect = newSelectTmp[0];
+        const newSelect = this.products.find((x)=> x.value.code === this.selectedProduct.value.code);
+        console.log(newSelect);
         if(!newSelect){
           return;
         }
-        // update with newSelect
-        this.chooseProduct(newSelect);
+        this.selectedProduct.next(newSelect.value);
+        this.photoDisplay.clear();
+        console.log(this.photoDisplay);
+        const factory = this.componentFactoryResolver.resolveComponentFactory(ImageCarouselComponent);
+        const componentRef = this.photoDisplay.createComponent(factory);
+        componentRef.instance.addPhoto = this.addPhoto;
+        componentRef.instance.goBack = this.goBack;
+        componentRef.instance.selectedProduct = this.selectedProduct;
+      
       });
     })
   }
