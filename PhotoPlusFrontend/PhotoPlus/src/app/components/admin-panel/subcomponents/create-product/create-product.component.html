@@ -1,1 +1,171 @@
-<p>create-new-product works!</p>
+<div class="container mt-2">
+  <div class="row">
+    <mat-expansion-panel class="w-100 mt-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Create new product
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <form
+          class="w-100"
+          [formGroup]="productCreationForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="form-group w-100">
+            <span>Product name:&nbsp;</span>
+            <input
+              formControlName="productName"
+              class="form-control"
+              class="w-100"
+              type="text"
+              [ngClass]="{ 'is-invalid': submitted && f.productName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.productName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productName.errors.required">
+                Product name is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <span>Product description:&nbsp;</span>
+            <textarea
+              formControlName="productDescription"
+              class="form-control"
+              class="w-100"
+              type="text"
+              [ngClass]="{
+                'is-invalid': submitted && f.productDescription.errors
+              }"
+            ></textarea>
+            <div
+              *ngIf="submitted && f.productDescription.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productDescription.errors.required">
+                Product description is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <span>Product category:&nbsp;</span>
+            <select formControlName="productCategory" class="w-100">
+              <option
+                *ngFor="let category of categories"
+                [ngValue]="(category | async)?.code"
+                >{{ (category | async)?.name }}</option
+              >
+            </select>
+          </div>
+          <div class="form-group w-100">
+            <span>Product price:&nbsp;</span>
+            <input
+              formControlName="productPrice"
+              class="form-control"
+              class="w-100"
+              type="price"
+              [ngClass]="{
+                'is-invalid': submitted && f.productDescription.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && f.productPrice.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productPrice.errors.required">
+                Product price is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <button type="submit" class="btn btn-primary w-100">
+              Add product
+            </button>
+          </div>
+        </form>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+  <div class="row">
+    <mat-expansion-panel class="w-100 my-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Add photos to product
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div [hidden]="selectedProduct.value" class="container">
+          <div class="row-12">
+            <div class="form-group w-100">
+              <span>Search products by code or name:&nbsp;</span>
+              <input #searchBar class="form-control mt-2 w-100" />
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="col-3 mt-1 text-center"
+              *ngFor="let product of filteredProducts"
+              (click)="chooseProduct(product)"
+            >
+              <mat-card class="item-card">
+                <img
+                  src="{{ ((product | async)?.imagesUrl)[0] }}"
+                  class="item-card-photo"
+                /><br />
+                {{ (product | async)?.name }}
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <div [hidden]="!selectedProduct.value" class="container">
+          <div class="row">
+            <div class="col-3 text-center mt-2">
+              <mat-card
+                (click)="goBack()"
+                class="w-100 item-card item-card-container"
+              >
+                <svg width="100%" height="100%">
+                  <text font-size="150px" fill="white" x="0%" y="90%">←</text>
+                </svg>
+              </mat-card>
+            </div>
+            <div
+              #photoDisplay
+              *ngFor="let imageUrl of (selectedProduct | async)?.imagesUrl"
+              class="col-3 text-center mt-2"
+            >
+              <mat-card class="item-card">
+                <a href="{{ imageUrl }}">
+                  <img src="{{ imageUrl }}" class="item-card-photo" /><br />
+                </a>
+              </mat-card>
+            </div>
+            <div class="col-3 text-center mt-2">
+              <mat-card
+                (click)="addPhoto()"
+                class="w-100 item-card item-card-container"
+              >
+                <svg width="100%" height="100%">
+                  <text font-size="200px" fill="white" x="5%" y="105%">
+                    +
+                  </text>
+                </svg>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+</div>
+<input
+  style="visibility: hidden;"
+  #inputDialog
+  type="file"
+  accept="image/*"
+  (change)="sendFile()"
+  multiple
+/>
