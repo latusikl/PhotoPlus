@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.photoplus.model.dto.PostModelDto;
 import pl.polsl.photoplus.model.dto.TopicModelDto;
 import pl.polsl.photoplus.services.controllers.PostService;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
@@ -35,20 +34,8 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/delete/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'delete' )")
-    @Override
-    public ResponseEntity delete(@PathVariable("code") final String code)
-    {
-        final List<PostModelDto> postsByTopic = postService.getPostsByTopic(code);
-        for(final var post : postsByTopic){
-            postService.delete(post.getCode());
-        }
-        return new ResponseEntity(dtoService.delete(code));
-    }
-
     @DeleteMapping("/deleteOwn/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getTopicCreatorCode(#code))")
     public ResponseEntity deleteOwn(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
@@ -60,5 +47,14 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
         dto.add(linkTo(methodOn(TopicController.class).getSingle(dto.getCode())).withSelfRel());
         dto.add(linkTo(methodOn(TopicController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
         dto.add(linkTo(methodOn(SectionController.class).delete(dto.getCode())).withRel(SECTION_RELATION_NAME));
+    }
+
+
+    /**
+     *
+     * You need to use getter to use service in @PreAuthorize because SpEL cannot use inherited field.
+     */
+    public TopicService getService() {
+        return this.dtoService;
     }
 }
