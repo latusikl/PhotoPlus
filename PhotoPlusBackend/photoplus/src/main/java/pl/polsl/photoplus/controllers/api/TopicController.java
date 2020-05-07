@@ -47,6 +47,14 @@ public class TopicController extends BaseModelController<TopicModelDto,TopicServ
         return new ResponseEntity(dtoService.delete(code));
     }
 
+    @DeleteMapping("/deleteOwn/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
+    public ResponseEntity deleteOwn(@PathVariable("code") final String code)
+    {
+        return new ResponseEntity(dtoService.delete(code));
+    }
+
+
     @Override
     public void addLinks(final TopicModelDto dto) {
         dto.add(linkTo(methodOn(TopicController.class).getSingle(dto.getCode())).withSelfRel());
