@@ -28,14 +28,12 @@ public class UserModelDto
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
     @Length(min = 5, message = "Login should be longer than 5 signs.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "login", fieldNameToBeDisplayed = "Login")
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     private String email;
 
