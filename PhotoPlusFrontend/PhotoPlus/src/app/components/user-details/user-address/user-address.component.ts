@@ -23,7 +23,7 @@ export class UserAddressComponent implements OnInit {
 
     submitted: boolean = false;
 
-    formDisabled: boolean = true;
+    formDisabled: boolean;
 
     ngOnInit(): void {
         this.createAddressForm();
@@ -31,6 +31,10 @@ export class UserAddressComponent implements OnInit {
         if (!this.newAddress) {
             this.addressForm.disable();
             this.fillForm();
+            this.formDisabled=true;
+        }
+        else{
+            this.formDisabled=false;
         }
     }
 
@@ -38,10 +42,10 @@ export class UserAddressComponent implements OnInit {
     createAddressForm(): void {
         this.addressForm = this.formBuilder.group({
             street: ['', [Validators.required, Validators.minLength(4), Validators.pattern(new RegExp("[a-zA-Z]+"))]],
-            number: ['', [Validators.required, Validators.pattern(new RegExp("\w+"))]],
-            city: ['', [Validators.required, Validators.pattern(new RegExp("[a-zA-Z]+"))]],
-            zipCode: ['',[ Validators.required, Validators.pattern(new RegExp("\d"))]],
-            countryCode: ['', [Validators.required]]
+            number: ['', Validators.required],
+            city: ['', Validators.required],
+            zipCode: ['', Validators.required],
+            countryCode: ['', Validators.required]
         });
     }
 
@@ -61,9 +65,6 @@ export class UserAddressComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
         if (this.addressForm.invalid) {
-            console.log(this.f);
-            console.log(this.f.street);
-
             return;
         }
         console.log("Valid data")
