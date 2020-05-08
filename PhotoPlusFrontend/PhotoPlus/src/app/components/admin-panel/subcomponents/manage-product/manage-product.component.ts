@@ -189,14 +189,6 @@ export class ManageProductComponent implements OnInit {
           return;
         }
         this.selectedProduct.next(newSelect.value);
-        this.photoDisplay.clear();
-        console.log(this.photoDisplay);
-        const factory = this.componentFactoryResolver.resolveComponentFactory(ImageCarouselComponent);
-        const componentRef = this.photoDisplay.createComponent(factory);
-        componentRef.instance.addPhoto = this.addPhoto;
-        componentRef.instance.goBack = this.goBack;
-        componentRef.instance.selectedProduct = this.selectedProduct;
-      
       });
     })
   }
