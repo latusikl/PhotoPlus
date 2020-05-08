@@ -27,6 +27,9 @@ export class ImageCarouselComponent implements OnInit {
   @Output("onDeletePhoto")
   onDeletePhoto = new EventEmitter<string>();
 
+  @Output("onDeleteProduct")
+  onDeleteProduct = new EventEmitter<number>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -42,6 +45,10 @@ export class ImageCarouselComponent implements OnInit {
 
   deletePhoto(code:string){
     this.onDeletePhoto.emit(code);
+  }
+
+  deleteProduct(code: number){
+    this.onDeleteProduct.emit(code);
   }
 
 

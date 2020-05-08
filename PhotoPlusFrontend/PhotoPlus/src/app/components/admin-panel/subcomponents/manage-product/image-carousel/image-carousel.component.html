@@ -22,6 +22,18 @@
           </svg>
         </mat-card>
       </div>
+      <div class="col-3 text-center mt-2">
+        <mat-card
+          (click)="deleteProduct(selectedProduct.value.code)"
+          class="w-100 item-card item-card-container"
+        >
+          <svg width="100%" height="100%">
+            <text font-size="200px" fill="white" x="10%" y="97%">
+              x
+            </text>
+          </svg>
+        </mat-card>
+      </div>
       <div
         #photoDisplay
         *ngFor="let imageUrl of (selectedProduct | async)?.imagesUrl; let i = index"

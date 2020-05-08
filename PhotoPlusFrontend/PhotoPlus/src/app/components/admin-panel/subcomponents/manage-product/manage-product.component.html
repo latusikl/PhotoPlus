@@ -116,7 +116,7 @@
     <mat-expansion-panel class="w-100 my-2">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Edit product photos
+          Edit products
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
@@ -149,6 +149,7 @@
           (onAddPhoto)="addPhoto()"
           (onBack)="goBack()"
           (onDeletePhoto)="deletePhoto($event)"
+          (onDeleteProduct)="deleteProduct($event)"
           [hidden]="!selectedProduct.value"
           class="container"
         >

@@ -4,8 +4,6 @@ import {
   Renderer2,
   ViewChild,
   ElementRef,
-  ComponentFactory,
-  ComponentFactoryResolver,
   ViewContainerRef,
 } from "@angular/core";
 import { CategoryService } from "src/app/services/category/category.service";
@@ -13,9 +11,8 @@ import { Category } from "src/app/models/category/category";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ImageService } from 'src/app/services/image/image.service';
-import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 
 @Component({
   selector: "app-create-new-product",
@@ -202,6 +199,20 @@ export class ManageProductComponent implements OnInit {
         /  // TODO PO ZMERGOWANIU BRANCHA KRZYŚKA - PR (71) */
       })
     })
+  }
+
+  deleteProduct(code: number){
+
+    if(confirm("Do you want to delete this product?")){
+      this.productService.delete(code.toString()).subscribe(() => {
+        this.products.filter((x)=> {return x.value.code !== code});
+      })
+    }
+
+  }
+
+  findProduct(code: number): BehaviorSubject<Product>{
+    return this.products.filter((x)=> {return x.value.code !== code})[0];
   }
 
   sendFile(){
