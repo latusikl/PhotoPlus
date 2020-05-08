@@ -57,8 +57,8 @@ export class AdminPanelComponent implements OnInit {
         this.mountGenerateReportsComponent();
         break;
       }
-      case 'newEmployee':{
-        this.mountNewEmployeeComponent();
+      case 'changePrivileges':{
+        this.mountChangePrivilegesComponent();
         break;
       }
       case 'deleteUser':{
@@ -88,7 +88,7 @@ export class AdminPanelComponent implements OnInit {
     this.displayElement.createComponent(componentFactory,0);
   }
 
-  mountNewEmployeeComponent(){
+  mountChangePrivilegesComponent(){
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChangePrivilegesComponent);
     this.displayElement.createComponent(componentFactory,0);
   }
