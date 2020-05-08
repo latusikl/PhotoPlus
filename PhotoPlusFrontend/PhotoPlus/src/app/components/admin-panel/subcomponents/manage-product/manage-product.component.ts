@@ -34,7 +34,6 @@ export class ManageProductComponent implements OnInit {
   photoDisplay: ViewContainerRef;
 
   selectedProduct: BehaviorSubject<Product>;
-  selectedProductImages: BehaviorSubject<string[]>;
 
   productCreationForm: FormGroup;
   submitted: boolean;
@@ -50,7 +49,6 @@ export class ManageProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
     private imageService: ImageService,
-    private componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +62,6 @@ export class ManageProductComponent implements OnInit {
   loadProducts(completionHandler?: Function){
     this.products = new Array<BehaviorSubject<Product>>();
     this.filteredProducts = new Array<BehaviorSubject<Product>>();
-    this.selectedProductImages = new BehaviorSubject([]);
     this.productService.getAll().subscribe((products) => {
       for (let product of products) {
         this.productService.getDataFromLinks(product);
@@ -168,14 +165,6 @@ export class ManageProductComponent implements OnInit {
       return;
     }
     this.selectedProduct.next(singleProduct[0].value);
-    this.updateSelectedProductPhotos();
-  }
-
-  updateSelectedProductPhotos(){
-    this.selectedProductImages = new BehaviorSubject([]);
-    for(let photo of this.selectedProduct.value.imagesUrl){
-      this.selectedProductImages.value.push(photo);
-    }
   }
 
   onSubmit() {
@@ -224,7 +213,7 @@ export class ManageProductComponent implements OnInit {
         imageCodes = productData.imageCodes;
       }
       for(let file of elem.files){
-        this.imageService.postImage(file).subscribe(imageResponse => {
+        this.imageService.post(file).subscribe(imageResponse => {
           imageCodes.push(imageResponse.code);
           currentAmount++;
           this.updateOrCheckIfCanUpdate(currentAmount === elem.files.length, imageCodes);

@@ -13,9 +13,13 @@ export class ImageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  postImage(file: File){
+  post(file: File){
     let formData = new FormData();
     formData.append('file',file,file.name);
     return this.httpClient.request<ImageResponse>('POST',this.hostAddress + "image",{body: formData});
   };
+
+  delete(code: string){
+    return this.httpClient.delete(this.hostAddress + "image/delete/" + code);
+  }
 }
