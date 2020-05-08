@@ -3,6 +3,29 @@
     <mat-expansion-panel class="w-100 mt-2">
       <mat-expansion-panel-header>
         <mat-panel-title>
+          Edit categories
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="container">
+          <button class="btn btn-success w-100" (click)="addCategory()">Add category</button> 
+        <mat-card class="row py-2 mt-2 brighten-background" *ngFor="let category of categories">
+          <div class="col-9 d-inline-block">
+            {{ (category | async)?.name}}
+          </div>
+          <div class="col-3 d-inline-block">
+            <button class="btn btn-danger" (click)="deleteCategory(category.value.code)">Delete</button>&nbsp;
+            <button class="btn btn-primary" (click)="editCategory(category.value.code)">Edit</button>
+          </div>
+        </mat-card>
+      </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+  <div class="row">
+    <mat-expansion-panel class="w-100 mt-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           Create new product
         </mat-panel-title>
       </mat-expansion-panel-header>

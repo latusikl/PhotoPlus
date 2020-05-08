@@ -86,6 +86,49 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
+  addCategory(){
+    const newCategoryName = prompt("Type created category name:");
+    
+    if(newCategoryName){
+      this.categoryService.post({code: null, name: newCategoryName}).subscribe(() => {
+        this.categoryService.getAll().subscribe(categories=> {
+          this.categories = new Array<BehaviorSubject<Category>>();
+          for(const category of categories){
+            this.categories.push(new BehaviorSubject(category));
+          }
+        })
+      })
+    }
+  }
+
+  editCategory(code: string){
+    const category = this.findCategory(code);
+    const categoryNewName = prompt("Type category new name", category.value.name );
+    
+    if(categoryNewName){
+      const patchCategory: Category = {code: code,name: categoryNewName};
+      this.categoryService.patch(parseInt(code), patchCategory ).subscribe(() =>{
+        category.next(patchCategory);
+      })
+    }
+  }
+
+  findCategory(code: string): BehaviorSubject<Category>{
+    return this.categories.find((x) => {return x.value.code === code});
+  }
+
+  deleteCategory(code: string){
+    const category = this.findCategory(code);
+    const isDeleted = confirm(`Should this category be deleted?\n Code:${category.value.code} Name:${category.value.name}`);
+
+    if(isDeleted){
+      this.categoryService.delete(category.value.code).subscribe(()=>{
+        this.categories = this.categories.filter((x) => { return x.value.code !== code});
+      })
+    }
+    
+  }
+
   createForm(){
     this.productCreationForm = this.formBuilder.group({
       productName: ["", [Validators.required]],

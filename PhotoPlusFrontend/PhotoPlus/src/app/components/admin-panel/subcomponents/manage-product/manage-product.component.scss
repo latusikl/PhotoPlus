@@ -9,3 +9,7 @@
     height: 75px; 
     max-width: 120px;
 }
+
+.brighten-background{
+    background-color: lighten(#424242, 10%);
+}
