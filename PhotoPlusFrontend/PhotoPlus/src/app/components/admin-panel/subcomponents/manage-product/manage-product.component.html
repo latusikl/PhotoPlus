@@ -75,13 +75,21 @@
           </div>
           <div class="form-group w-100">
             <span>Product category:&nbsp;</span>
-            <select formControlName="productCategory" class="w-100">
+            <select formControlName="productCategory" class="w-100" [ngClass]="{ 'is-invalid': submitted && f.productName.errors }">
               <option
                 *ngFor="let category of categories"
                 [ngValue]="(category | async)?.code"
                 >{{ (category | async)?.name }}</option
               >
             </select>
+            <div
+            *ngIf="submitted && f.productCategory.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.productCategory.errors.required">
+              Product category is required
+            </div>
+          </div>
           </div>
           <div class="form-group w-100">
             <span>Product price:&nbsp;</span>
@@ -89,9 +97,8 @@
               formControlName="productPrice"
               class="form-control"
               class="w-100"
-              type="price"
               [ngClass]="{
-                'is-invalid': submitted && f.productDescription.errors
+                'is-invalid': submitted && f.productPrice.errors
               }"
             />
             <div
@@ -100,6 +107,9 @@
             >
               <div *ngIf="f.productPrice.errors.required">
                 Product price is required
+              </div>
+              <div *ngIf="f.productPrice.errors.pattern">
+                Product price is in invalid format
               </div>
             </div>
           </div>

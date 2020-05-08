@@ -130,7 +130,7 @@ export class ManageProductComponent implements OnInit {
       productCategory: ["", [Validators.required]],
       productPrice: [
         "0.00",
-        [Validators.required, Validators.pattern("([0-9]+(.|,)[0-9])")],
+        [Validators.required, Validators.pattern("[0-9]+(.|,)[0-9]+")],
       ],
     });
   }
@@ -142,15 +142,24 @@ export class ManageProductComponent implements OnInit {
         this.filteredProducts = this.products;
         return;
       }
-      this.filteredProducts = this.products.filter(
-        (x) =>
-          x.value.code
-            .toString()
-            .toLowerCase()
-            .includes(searchText.toLowerCase()) ||
-          x.value.name.toLowerCase().includes(searchText.toLowerCase())
-      );
+      this.filterDisplayedProducts(searchText);
     });
+  }
+
+  forceFilterDisplayedProducts(){
+    const searchText = this.searchBar.nativeElement.value;
+    this.filterDisplayedProducts(searchText);
+  }
+
+  filterDisplayedProducts(searchText: string){
+    this.filteredProducts = this.products.filter(
+      (x) =>
+        x.value.code
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        x.value.name.toLowerCase().includes(searchText.toLowerCase())
+    );
   }
 
   chooseProduct(product: BehaviorSubject<Product>) {
@@ -166,7 +175,7 @@ export class ManageProductComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (!this.productCreationForm.valid) {
+    if (this.productCreationForm.valid) {
       const form = this.productCreationForm.value;
       const product: Product | any = {
         name: form.productName,
@@ -175,8 +184,8 @@ export class ManageProductComponent implements OnInit {
         price: form.productPrice,
         quantity: 0,
       };
-      console.log(form.productCategory);
       this.productService.post(product).subscribe(()=>{
+        this.loadProducts();
         alert("Success");
       })
     }
@@ -205,7 +214,9 @@ export class ManageProductComponent implements OnInit {
 
     if(confirm("Do you want to delete this product?")){
       this.productService.delete(code.toString()).subscribe(() => {
-        this.products.filter((x)=> {return x.value.code !== code});
+        this.products = this.products.filter((x)=> {return x.value.code !== code});
+        this.forceFilterDisplayedProducts();
+        this.goBack();
       })
     }
 
