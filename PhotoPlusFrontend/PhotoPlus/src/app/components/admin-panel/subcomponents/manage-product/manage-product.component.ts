@@ -19,10 +19,10 @@ import { ImageCarouselComponent } from './image-carousel/image-carousel.componen
 
 @Component({
   selector: "app-create-new-product",
-  templateUrl: "./create-product.component.html",
-  styleUrls: ["./create-product.component.scss"],
+  templateUrl: "./manage-product.component.html",
+  styleUrls: ["./manage-product.component.scss"],
 })
-export class CreateProductComponent implements OnInit {
+export class ManageProductComponent implements OnInit {
 
   @ViewChild("searchBar",{static: true})
   searchBar: ElementRef;
