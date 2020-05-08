@@ -162,6 +162,16 @@ export class ManageProductComponent implements OnInit {
     e.click();
   }
 
+  deletePhoto(code: string){
+    this.imageService.delete(code).subscribe(() => {
+      this.productService.getSingle(parseInt(code)).subscribe(newProductData => {
+        this.selectedProduct.next(newProductData); 
+        /* // TODO SPRAWDZIĆ CZY ZDJĘCIA PO USUNIĘCIU SIĘ PRZŁADUJĄ 
+        /  // TODO PO ZMERGOWANIU BRANCHA KRZYŚKA - PR (71) */
+      })
+    })
+  }
+
   sendFile(){
     const elem = this.imageInputDialog.nativeElement;
     let imageCodes = []

@@ -125,6 +125,7 @@
           [selectedProduct]="selectedProduct"
           (onAddPhoto)="addPhoto()"
           (onBack)="goBack()"
+          (onDeletePhoto)="deletePhoto($event)"
           [hidden]="!selectedProduct.value"
           class="container"
         >
