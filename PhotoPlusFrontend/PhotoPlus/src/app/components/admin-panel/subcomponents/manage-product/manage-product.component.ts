@@ -215,11 +215,17 @@ export class ManageProductComponent implements OnInit {
   deletePhoto(code: string) {
     this.imageService.delete(code).subscribe(() => {
       this.productService
-        .getSingle(parseInt(code))
-        .subscribe((newProductData) => {
-          this.selectedProduct.next(newProductData);
-          /* // TODO SPRAWDZIĆ CZY ZDJĘCIA PO USUNIĘCIU SIĘ PRZŁADUJĄ 
-        /  // TODO PO ZMERGOWANIU BRANCHA KRZYŚKA - PR (71) */
+        .getSingle(this.selectedProduct.value.code)
+        .subscribe(() => {
+          this.loadProducts(() => {
+            const newProductSelection = this.products.find(
+              (x) => x.value.code === this.selectedProduct.value.code
+            );
+            if (!newProductSelection) {
+              return;
+            }
+            this.selectedProduct.next(newProductSelection.value);
+          });
         });
     });
   }
@@ -249,40 +255,38 @@ export class ManageProductComponent implements OnInit {
 
     this.productService
       .getSingle(this.selectedProduct.value.code)
-      .subscribe((currentimageCodes) => {
-        if (currentimageCodes.imageCodes) {
-          imageCodes = currentimageCodes.imageCodes;
+      .subscribe((currentProduct) => {
+        if (currentProduct.imageCodes) {
+          imageCodes = currentProduct.imageCodes;
         }
         for (let photoFile of photoPicutresToUpload.files) {
           this.imageService.post(photoFile).subscribe((photoResponse) => {
-            const newImageCode = photoResponse.headers.get("Entity-Code");            
+            const newImageCode = photoResponse.headers.get("Entity-Code");
             imageCodes.push(newImageCode);
             currentAmount++;
-            console.log("currentAmount", currentAmount);
-            console.log("pictures array len:", photoPicutresToUpload.files.length);
-            if(currentAmount === photoPicutresToUpload.files.length){
-              this.update(imageCodes);
+            if (currentAmount === photoPicutresToUpload.files.length) {
+              this.patchImageCodes(imageCodes);
             }
           });
         }
       });
   }
 
-  update(imageCodeArray: string[]) {
+  patchImageCodes(imageCodeArray: string[]) {
     this.productService
       .patch(this.selectedProduct.value.code, {
         imageCodes: imageCodeArray,
       } as Product)
       .subscribe(() => {
         this.loadProducts(() => {
-          const newSelect = this.products.find(
+          const newProductSelection = this.products.find(
             (x) => x.value.code === this.selectedProduct.value.code
           );
-          console.log(newSelect);
-          if (!newSelect) {
+          console.log(newProductSelection);
+          if (!newProductSelection) {
             return;
           }
-          this.selectedProduct.next(newSelect.value);
+          this.selectedProduct.next(newProductSelection.value);
         });
       });
   }
