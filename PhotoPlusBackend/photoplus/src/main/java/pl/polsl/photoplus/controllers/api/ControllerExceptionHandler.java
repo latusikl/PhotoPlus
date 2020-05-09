@@ -47,7 +47,7 @@ public class ControllerExceptionHandler
 
         e.getBindingResult().getAllErrors().forEach(errorConsumer);
 
-        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDtos,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 
