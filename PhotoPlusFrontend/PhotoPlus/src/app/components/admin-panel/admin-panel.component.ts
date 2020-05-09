@@ -45,8 +45,8 @@ export class AdminPanelComponent implements OnInit {
           break;
         }
       }
-      case 'newProduct':{
-        this.mountNewProductComponent();
+      case 'manageProducts':{
+        this.mountManageProductsComponent();
         break;
       }
       case 'delivery':{
@@ -78,7 +78,7 @@ export class AdminPanelComponent implements OnInit {
     this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountNewProductComponent(){
+  mountManageProductsComponent(){
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageProductComponent);
     this.displayElement.createComponent(componentFactory, 0);
   }

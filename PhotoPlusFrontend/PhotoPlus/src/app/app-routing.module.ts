@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'manage', component: AdminPanelComponent },
   { path: 'manage/orders', component: AdminPanelComponent },
   { path: 'manage/orders/:orderCode', component: AdminPanelComponent },
-  { path: 'manage/newProduct', component: AdminPanelComponent},
+  { path: 'manage/manageProducts', component: AdminPanelComponent},
   { path: 'manage/delivery', component: AdminPanelComponent},
   { path: 'manage/changePrivileges', component: AdminPanelComponent},
   { path: 'manage/deleteUser', component: AdminPanelComponent},
