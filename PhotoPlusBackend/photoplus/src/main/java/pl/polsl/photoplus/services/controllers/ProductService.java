@@ -40,13 +40,13 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         modelObject.getImages().forEach(image -> imageCodes.add(image.getCode()));
         return new ProductModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getPrice(),
                 modelObject.getDescription(), modelObject.getCategory().getCode(), modelObject.getStoreQuantity(),
-                imageCodes);
+                imageCodes, modelObject.getDataLinks());
     }
 
     @Override
     protected Product getModelFromDto(final ProductModelDto dtoObject) {
         return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(),
-                dtoObject.getStoreQuantity());
+                dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
     }
 
     private Product insertDependenciesAndParseToModel(final ProductModelDto dto) {
