@@ -74,7 +74,7 @@ public class ControllerExceptionHandler
     @ExceptionHandler(DocumentException.class)
     protected ResponseEntity<ErrorDto> handleDocumentException(final DocumentException e)
     {
-        log.info("IOException handled: {}.", e.getMessage());
+        log.info("DocumentException handled: {}.", e.getMessage());
 
         final ErrorDto error = new ErrorDto(DocumentException.class.getSimpleName(), null, e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
