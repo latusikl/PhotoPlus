@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderModelDtoWithOrderItems extends OrderModelDto {
 
     public OrderModelDtoWithOrderItems(final String code, final String userCode, final String addressCode, final String orderStatus,
-                                       final String paymentMethod, final Integer price, final LocalDate date) {
+                                       final String paymentMethod, final Double price, final LocalDate date) {
         super(code, userCode, addressCode, orderStatus, paymentMethod, price, date);
     }
 

@@ -1,6 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
-import org.springframework.hateoas.Link;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 /**
  * Basic controller for model object responsible for handling standard operations on objects.
@@ -39,17 +38,16 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
 {
     protected final String authorizationPrefix;
 
-    protected String DELETE_RELATION_NAME = "delete";
-
     protected final PermissionEvaluatorService permissionEvaluatorService;
+
+    protected String DELETE_RELATION_NAME = "delete";
 
     /**
      * Service needs to be injected manually by calling super class constructor
      */
     protected S dtoService;
 
-    public BaseModelController(final S dtoService, final String authorizationPrefix,
-                               final PermissionEvaluatorService permissionEvaluatorService)
+    public BaseModelController(final S dtoService, final String authorizationPrefix, final PermissionEvaluatorService permissionEvaluatorService)
     {
         this.dtoService = dtoService;
         this.authorizationPrefix = authorizationPrefix;
@@ -84,6 +82,13 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
         addLinks(dtos);
 
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "all/page/count", produces = "application/json")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<ObjectNode> getAmountOfPages()
+    {
+        return new ResponseEntity<>(dtoService.getPageCount(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{code}", produces = {"application/json"})
