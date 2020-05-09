@@ -1,1 +1,104 @@
-<p>add-delivery works!</p>
+<div class="container">
+  <div class="selected-product mt-2 text-center">
+    Selected product name: {{ (selectedProduct | async)?.name }}<br/>
+    <img src="{{(selectedProduct | async)?.imagesUrl[0]}}">
+  </div>
+  <mat-card class="mt-2">
+    <span
+      >Search by product name or code:&nbsp;<input
+        class="w-100 my-1"
+        #searchBar
+        type="text"
+    /></span>
+    <div class="row product-search justify-content-around">
+      <mat-card
+        *ngFor="let product of filteredProducts"
+        class="product col-3 text-center"
+        (click)="selectProduct(product.value.code)"
+      >
+        <img
+          class="product-photo mt-3"
+          src="{{ ((product | async)?.imagesUrl)[0] }}"
+        /><br >
+        {{ (product | async)?.name }}
+      </mat-card>
+    </div>
+  </mat-card>
+  <form class="w-100 mt-2" [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+    <!-- Purchase price -->
+    <div class="form-group w-100">
+      <span>Purchase price:&nbsp;</span>
+      <input
+        formControlName="purchasePrice"
+        class="form-control w-100"
+        type="text"
+        [ngClass]="{ 'is-invalid': submitted && f.purchasePrice.errors }"
+      />
+      <div *ngIf="submitted && f.purchasePrice.errors" class="invalid-feedback">
+        <div *ngIf="f.purchasePrice.errors.required">
+          Purchase price is required
+        </div>
+        <div *ngIf="f.purchasePrice.errors.pattern">
+          Purchase price does not match the pattern
+        </div>
+      </div>
+    </div>
+    <!-- Purchase date -->
+    <div class="form-group w-100">
+      <span>Purchase date:&nbsp;</span>
+      <input
+        formControlName="date"
+        class="form-control w-100"
+        type="date"
+        [ngClass]="{ 'is-invalid': submitted && f.date.errors }"
+      />
+      <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+        <div *ngIf="f.date.errors.required">
+          Purchase date is required
+        </div>
+      </div>
+    </div>
+    <!-- Supply quantity -->
+    <div class="form-group w-100">
+      <span>Supply quantity:&nbsp;</span>
+      <input
+        formControlName="supplyQuantity"
+        class="form-control w-100"
+        type="text"
+        [ngClass]="{ 'is-invalid': submitted && f.supplyQuantity.errors }"
+      />
+      <div
+        *ngIf="submitted && f.supplyQuantity.errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f.supplyQuantity.errors.required">
+          Supply quantity is required
+        </div>
+        <div *ngIf="f.supplyQuantity.errors.pattern">
+          Supply quantity does not match the pattern
+        </div>
+      </div>
+    </div>
+    <!-- Store quantity -->
+    <div class="form-group w-100">
+      <span>Store quantity:&nbsp;</span>
+      <input
+        formControlName="storeQuantity"
+        class="form-control w-100"
+        type="text"
+        [ngClass]="{ 'is-invalid': submitted && f.storeQuantity.errors }"
+      />
+      <div *ngIf="submitted && f.storeQuantity.errors" class="invalid-feedback">
+        <div *ngIf="f.storeQuantity.errors.pattern">
+          Store quantity does not match the pattern
+        </div>
+      </div>
+    </div>
+    <!-- Submit button -->
+    <div class="form-group w-100">
+      <button type="submit" class="btn btn-primary w-100">
+        Add product
+      </button>
+    </div>
+  </form>
+</div>

@@ -17,6 +17,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -52,8 +53,13 @@ public class ProductModelDto
     @Patchable(method = "imagePatch")
     private List<String> images;
 
+    @JsonProperty("dataLinks")
+    @Patchable
+    private Map<String, String> dataLinks;
+
     public ProductModelDto(final String code, final String name, final Double price, final String description,
-                           final String category, final Integer storeQuantity, final List<String> images)
+                           final String category, final Integer storeQuantity, final List<String> images,
+                           final Map<String, String> dataLinks)
     {
         super(code);
         this.name = name;
@@ -62,6 +68,7 @@ public class ProductModelDto
         this.category = category;
         this.images = images;
         this.storeQuantity = storeQuantity;
+        this.dataLinks = dataLinks;
     }
 
     @JsonIgnore

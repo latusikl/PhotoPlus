@@ -24,7 +24,7 @@ export class ChangePrivilegesComponent implements OnInit {
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getAll().subscribe((data) => {
       for (let user of data) {
-        if(user.name === "admin"){
+        if(user.login === "admin"){
           continue;
         }
         this.users.push(new BehaviorSubject(user));
