@@ -69,10 +69,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         break;
       }
       case 422: {
-        console.log("dddd")
-        console.log(error.error)
-        console.log("dddd")
-
         if (Array.isArray(error.error)) {
           console.log(Array.isArray(error.error))
           const errorArray = error.error as Array<ErrorModel>;
