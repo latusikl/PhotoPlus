@@ -28,10 +28,10 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping(path = "/profit", produces = {"application/pdf"})
+    @GetMapping(path = "/profit", produces = "application/pdf")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'report', 'single' )")
-    public ResponseEntity<ByteArrayResource> getProfitReport(@RequestParam @Date final String beginDate,
-                                                             @RequestParam @Date final String endDate) throws DocumentException {
+    public ResponseEntity<ByteArrayResource> getProfitReport(@RequestParam @Date(fieldName = "Begin date") final String beginDate,
+                                                             @RequestParam @Date(fieldName = "End date") final String endDate) throws DocumentException {
         final LocalDate beginDateAsLocalDate = LocalDate.parse(beginDate);
         final LocalDate endDateAsLocalDate = LocalDate.parse(endDate);
         final ByteArrayResource resource = reportService.generateProfitReport(beginDateAsLocalDate, endDateAsLocalDate);
@@ -41,8 +41,8 @@ public class ReportController {
     @GetMapping(path = "/product", produces = {"application/pdf"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'report', 'single' )")
     public ResponseEntity<ByteArrayResource> getProductReport(@RequestParam @NotNull final String code,
-                                                              @RequestParam @Date final String beginDate,
-                                                              @RequestParam @Date final String endDate) throws DocumentException {
+                                                              @RequestParam @Date(fieldName = "Begin date") final String beginDate,
+                                                              @RequestParam @Date(fieldName = "End date") final String endDate) throws DocumentException {
         final LocalDate beginDateAsLocalDate = LocalDate.parse(beginDate);
         final LocalDate endDateAsLocalDate = LocalDate.parse(endDate);
         final ByteArrayResource resource = reportService.generateProductReport(code, beginDateAsLocalDate, endDateAsLocalDate);

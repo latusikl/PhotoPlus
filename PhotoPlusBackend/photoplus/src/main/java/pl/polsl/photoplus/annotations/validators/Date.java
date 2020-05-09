@@ -12,9 +12,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Date
 {
-    String message() default "Date is not valid.";
+    String message() default "{fieldName} not valid.";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    String fieldName();
 }
