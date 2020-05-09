@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.controllers.api;
 
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,11 +46,11 @@ public class ImageController {
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'post' )")
     public ResponseEntity postImage(@Image(service = ImageService.class) final MultipartFile file) throws IOException {
         final String entityCode = imageService.save(new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()));
-        final HashMap<String,String> response = new HashMap<>(2);
-        response.put("code", entityCode);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add("Entity-Code", entityCode);
         final URI uri = linkTo(methodOn(this.getClass()).getSingle(entityCode)).toUri();
-        response.put("self", uri.toASCIIString());
-        return new ResponseEntity(response, HttpStatus.CREATED);
+        headers.add("Location", uri.toASCIIString());
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{code}")
