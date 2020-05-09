@@ -31,8 +31,8 @@ export class RegistrationComponent implements OnInit {
     mail: ['', [Validators.required, Validators.email ]],
     password: ['', [ Validators.required, Validators.minLength(5) ]],
     confirmPass : ['', [Validators.required]],
-    name: ['', [Validators.required]],
-    surname: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.pattern("\\p{IsAlphabetic}+")]],
+    surname: ['', [Validators.required, Validators.pattern("\\p{IsAlphabetic}+")]],
     phoneNumber: ['',  Validators.pattern(new RegExp("[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}"))]
    }, {
      validator: [MustMatch('password', 'confirmPass')]
