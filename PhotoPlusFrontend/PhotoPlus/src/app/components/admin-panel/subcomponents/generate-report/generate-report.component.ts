@@ -47,8 +47,8 @@ export class GenerateReportComponent implements OnInit {
         this.filteredProducts = this.products;
         return;
       }
-      this.filteredProducts = this.products.filter((x) =>
-        x.value.code.toString().toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
+      this.filteredProducts = this.products.filter((x) => 
+        x.value.code.toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
       );
     })
   }

@@ -14,23 +14,24 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  param: number;
+  param: string;
 
-product:Product;
+  product:Product;
   constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.route.paramMap.forEach(({params}:Params)=>{
+    this.route.paramMap.forEach(({params}:Params) => {
       this.param = params['productCode']})
       this.productService.getSingle(this.param).subscribe((data: Product) => {
         this.product = data;
         this.productService.getDataFromLinks(this.product);
-  })
-}
-addToCart(product: Product) {
-  this.cartService.addToCart(this.product);
-  const modalRef = this.modalService.open(SuccessModalComponent);
-  modalRef.componentInstance.message = "Please go to checkout to place an order.";
-  modalRef.componentInstance.title = "Added " + product.name + " to card.";
-}
+    });
+  }
+
+  addToCart(product: Product) {
+    this.cartService.addToCart(this.product);
+    const modalRef = this.modalService.open(SuccessModalComponent);
+    modalRef.componentInstance.message = "Please go to checkout to place an order.";
+    modalRef.componentInstance.title = "Added " + product.name + " to card.";
+  }
 }

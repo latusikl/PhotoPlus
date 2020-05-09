@@ -27,7 +27,7 @@ export class TopicHeaderComponent implements OnInit {
    ngOnInit():void {
     this.canModify = new BehaviorSubject(false);
     this.topicOwner = new BehaviorSubject({});
-    this.userService.getSingle(parseInt(this.topic.userCode)).subscribe(data=> {
+    this.userService.getSingle(this.topic.userCode).subscribe(data=> {
       this.topicOwner.next(data);
       this.canModify.next(!this.disableControls && (data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator));
     });

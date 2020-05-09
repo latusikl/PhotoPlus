@@ -24,7 +24,7 @@ export class ChangePrivilegesComponent implements OnInit {
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getAll().subscribe((data) => {
       for (let user of data) {
-        if(user.name === "admin"){
+        if(user.login === "admin"){
           continue;
         }
         this.users.push(new BehaviorSubject(user));
@@ -47,7 +47,7 @@ export class ChangePrivilegesComponent implements OnInit {
     console.log("updateRole", userCode, this.users.find((x)=> x.value.code === userCode).value.role);
     const idx = this.users.findIndex((x)=> x.value.code === userCode);
     const patchMsg = {role: this.users[idx].value.role} as User|any;
-    this.userService.patch(parseInt(userCode), patchMsg).subscribe(()=> {
+    this.userService.patch(userCode, patchMsg).subscribe(()=> {
       alert("Change successful");
     })
   }

@@ -31,7 +31,7 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.duringModification = false;
     this.postOwner = new BehaviorSubject({});
-    this.userService.getSingle(parseInt(this.post.value.userCode)).subscribe(userData => {
+    this.userService.getSingle(this.post.value.userCode).subscribe(userData => {
       this.postOwner.next(userData);
     })
   }
