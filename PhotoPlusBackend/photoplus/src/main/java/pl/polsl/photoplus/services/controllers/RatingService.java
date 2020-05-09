@@ -31,7 +31,8 @@ public class RatingService extends AbstractModelService<Rating, RatingModelDto, 
     @Override
     protected RatingModelDto getDtoFromModel(final Rating modelObject) {
         return new RatingModelDto(modelObject.getCode(), modelObject.getUser().getCode(),
-                modelObject.getProduct().getCode(), modelObject.getRate(), modelObject.getContent());
+                modelObject.getProduct().getCode(), modelObject.getRate(), modelObject.getContent(),
+                modelObject.getUser().getLogin());
     }
 
     @Override

@@ -32,12 +32,20 @@ public class PostController extends BaseModelController<PostModelDto,PostService
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @PatchMapping("/editPost/{code}")
+    @PatchMapping("/patchOwn/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
-    public ResponseEntity patch(@RequestBody final PostModelDto dtoPatch, @PathVariable("code") final String code)
+    public ResponseEntity patchOwn(@RequestBody final PostModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
+
+    @DeleteMapping("/deleteOwn/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
+    public ResponseEntity deleteOwn(@PathVariable("code") final String code)
+    {
+        return new ResponseEntity(dtoService.delete(code));
+    }
+
 
     @Override
     public void addLinks(final PostModelDto dto) {
