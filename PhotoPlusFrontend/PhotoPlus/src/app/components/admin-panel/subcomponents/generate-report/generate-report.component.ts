@@ -42,7 +42,7 @@ export class GenerateReportComponent implements OnInit {
         return;
       }
       this.filteredProducts = this.products.filter((x) => 
-        x.value.code.toString().toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
+        x.value.code.toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
       );
     })
   }

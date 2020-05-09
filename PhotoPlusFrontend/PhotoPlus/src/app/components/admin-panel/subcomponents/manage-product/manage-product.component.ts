@@ -106,7 +106,7 @@ export class ManageProductComponent implements OnInit {
     if (categoryNewName) {
       const patchCategory: Category = { code: code, name: categoryNewName };
       this.categoryService
-        .patch(parseInt(code), patchCategory)
+        .patch(code, patchCategory)
         .subscribe(() => {
           category.next(patchCategory);
         });
@@ -166,7 +166,6 @@ export class ManageProductComponent implements OnInit {
     this.filteredProducts = this.products.filter(
       (x) =>
         x.value.code
-          .toString()
           .toLowerCase()
           .includes(searchText.toLowerCase()) ||
         x.value.name.toLowerCase().includes(searchText.toLowerCase())
@@ -230,9 +229,9 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  deleteProduct(code: number) {
+  deleteProduct(code: string) {
     if (confirm("Do you want to delete this product?")) {
-      this.productService.delete(code.toString()).subscribe(() => {
+      this.productService.delete(code).subscribe(() => {
         this.products = this.products.filter((x) => {
           return x.value.code !== code;
         });
@@ -242,7 +241,7 @@ export class ManageProductComponent implements OnInit {
     }
   }
 
-  findProduct(code: number): BehaviorSubject<Product> {
+  findProduct(code: string): BehaviorSubject<Product> {
     return this.products.filter((x) => {
       return x.value.code !== code;
     })[0];

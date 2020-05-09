@@ -41,7 +41,7 @@ export class TopicEditComponent implements OnInit {
       return;
     }
     const form = this.topicForm.value;
-    this.topicService.patch(parseInt(this.topic.code),{...this.topic, name: form.title }).subscribe(()=>{
+    this.topicService.patch(this.topic.code,{...this.topic, name: form.title }).subscribe(()=>{
       this.router.navigate(["/forum/section", this.topic.sectionCode]);
     });
   }

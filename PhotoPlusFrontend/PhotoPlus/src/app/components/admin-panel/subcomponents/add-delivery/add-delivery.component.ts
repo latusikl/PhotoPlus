@@ -75,13 +75,13 @@ export class AddDeliveryComponent implements OnInit {
         this.filteredProducts = this.products;
       } else{
         this.filteredProducts = this.products.filter((x) => {
-          return x.value.code.toString().includes(searchText) || x.value.name.toLowerCase().includes(searchText.toLowerCase());
+          return x.value.code.includes(searchText) || x.value.name.toLowerCase().includes(searchText.toLowerCase());
         });
       }
     });
   }
 
-  selectProduct(code: number) {
+  selectProduct(code: string) {
     const selectedProduct = this.products.filter((x) => {
       return x.value.code === code;
     })[0];
@@ -100,7 +100,7 @@ export class AddDeliveryComponent implements OnInit {
     }
     const form = this.batchForm.value;
     const newBatch: Batch = {
-      productCode: this.selectedProduct.value.code.toString(),
+      productCode: this.selectedProduct.value.code,
       date: form.date,
       purchasePrice: form.purchasePrice,
       supplyQuantity: form.supplyQuantity,

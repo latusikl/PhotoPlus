@@ -29,7 +29,7 @@ export class ImageCarouselComponent implements OnInit {
   onDeletePhoto = new EventEmitter<string>();
 
   @Output("onDeleteProduct")
-  onDeleteProduct = new EventEmitter<number>();
+  onDeleteProduct = new EventEmitter<string>();
 
   constructor(private router:Router) { }
 
@@ -48,7 +48,7 @@ export class ImageCarouselComponent implements OnInit {
     this.onDeletePhoto.emit(code);
   }
 
-  deleteProduct(code: number){
+  deleteProduct(code: string){
     this.onDeleteProduct.emit(code);
   }
 

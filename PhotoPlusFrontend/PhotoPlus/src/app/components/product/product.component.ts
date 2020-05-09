@@ -14,7 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  param: number;
+  param: string;
 
   product:Product;
   constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
