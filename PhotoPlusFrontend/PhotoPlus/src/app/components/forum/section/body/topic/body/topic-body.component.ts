@@ -78,6 +78,7 @@ export class TopicBodyComponent implements OnInit {
       topicCode: this.topic.value.code,
       userCode: this.loginService.getLoggedUser().code,
       content: newPostContent.trim(),
+      code: null
     };
     this.postService.post(post).subscribe(() => {
       this.reloadTopic(this.topic.value.code);
