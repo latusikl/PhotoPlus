@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { ImageResponse } from "../../models/image/imageResponse";
+import { HttpClient, HttpResponse,  } from '@angular/common/http';
 
 
 @Injectable({
@@ -16,7 +15,7 @@ export class ImageService {
   post(file: File){
     let formData = new FormData();
     formData.append('file',file,file.name);
-    return this.httpClient.request<ImageResponse>('POST',this.hostAddress + "image",{body: formData});
+    return this.httpClient.request<HttpResponse<any>>('POST',this.hostAddress + "image",{body: formData, observe: 'response'});
   };
 
   delete(code: string){

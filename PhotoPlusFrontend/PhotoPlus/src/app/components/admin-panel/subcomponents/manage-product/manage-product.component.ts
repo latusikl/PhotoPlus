@@ -243,29 +243,32 @@ export class ManageProductComponent implements OnInit {
   }
 
   sendFile() {
-    const elem = this.imageInputDialog.nativeElement;
+    const photoPicutresToUpload = this.imageInputDialog.nativeElement;
     let imageCodes = [];
-    let currentAmount = elem.files.length;
+    let currentAmount = 0;
+
     this.productService
       .getSingle(this.selectedProduct.value.code)
-      .subscribe((productData) => {
-        if (productData.imageCodes) {
-          imageCodes = productData.imageCodes;
+      .subscribe((currentimageCodes) => {
+        if (currentimageCodes.imageCodes) {
+          imageCodes = currentimageCodes.imageCodes;
         }
-        for (let file of elem.files) {
-          this.imageService.post(file).subscribe((imageResponse) => {
-            imageCodes.push(imageResponse.code);
+        for (let photoFile of photoPicutresToUpload.files) {
+          this.imageService.post(photoFile).subscribe((photoResponse) => {
+            const newImageCode = photoResponse.headers.get("Entity-Code");            
+            imageCodes.push(newImageCode);
             currentAmount++;
-            this.updateOrCheckIfCanUpdate(
-              currentAmount === elem.files.length,
-              imageCodes
-            );
+            console.log("currentAmount", currentAmount);
+            console.log("pictures array len:", photoPicutresToUpload.files.length);
+            if(currentAmount === photoPicutresToUpload.files.length){
+              this.update(imageCodes);
+            }
           });
         }
       });
   }
 
-  updateOrCheckIfCanUpdate(shouldUpdate: boolean, imageCodeArray: string[]) {
+  update(imageCodeArray: string[]) {
     this.productService
       .patch(this.selectedProduct.value.code, {
         imageCodes: imageCodeArray,
