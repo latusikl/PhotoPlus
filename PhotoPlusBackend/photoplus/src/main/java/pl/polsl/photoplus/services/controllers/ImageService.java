@@ -25,7 +25,7 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
     @Override
     public HttpStatus delete(final String code)
     {
-        final Image image = findByCodeOrThrowError(code, "DELETE");
+        final Image image = findByCodeOrThrowError(code, "IMAGE DELETE");
         final List<Product> products = image.getProducts();
         if (products != null && !products.isEmpty()) {
             
