@@ -39,8 +39,14 @@ public class ReportController {
 
     @GetMapping(path = "/product", produces = {"application/pdf"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'report', 'single' )")
-    public ResponseEntity<ByteArrayResource> getProductReport(@RequestParam("code") final String code) throws DocumentException {
-        final ByteArrayResource resource = reportService.generateProductReport(code);
+    public ResponseEntity<ByteArrayResource> getProductReport(@RequestParam("code") final String code,
+                                                              @RequestParam("beginDate")
+                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                final LocalDate beginDate,
+                                                              @RequestParam("endDate")
+                                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                  final LocalDate endDate) throws DocumentException {
+        final ByteArrayResource resource = reportService.generateProductReport(code, beginDate, endDate);
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
