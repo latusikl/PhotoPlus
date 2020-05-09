@@ -8,6 +8,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
 
 import {AppComponent} from './app.component';
+import {ProductsComponent} from './components/products/products.component';
 import {HomeComponent} from './components/home/home.component';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {LoginComponent} from './components/login/login.component';
@@ -46,6 +47,7 @@ import { ManageSingleOrderComponent } from './components/admin-panel/subcomponen
     declarations: [
         AppComponent,
         HomeComponent,
+        ProductsComponent,
         RegistrationComponent,
         LoginComponent,
         CartComponent,

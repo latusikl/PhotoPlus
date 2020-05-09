@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './components/home/home.component';
+import { ProductsComponent } from './components/products/products.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -18,9 +18,11 @@ import { TopicAddComponent } from './components/forum/section/body/topic/add/top
 import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'products', component: ProductsComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: 'cart', component: CartComponent},
