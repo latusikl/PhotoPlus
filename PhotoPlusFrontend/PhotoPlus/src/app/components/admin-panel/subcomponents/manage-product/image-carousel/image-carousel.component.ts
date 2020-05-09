@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from 'src/app/models/product/product';
+import { Router } from '@angular/router';
 
 interface Tuple{
   first: any,
@@ -30,7 +31,7 @@ export class ImageCarouselComponent implements OnInit {
   @Output("onDeleteProduct")
   onDeleteProduct = new EventEmitter<number>();
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -49,6 +50,10 @@ export class ImageCarouselComponent implements OnInit {
 
   deleteProduct(code: number){
     this.onDeleteProduct.emit(code);
+  }
+
+  navigate(code: string){
+    this.router.navigate(["imageDisplay", code]);
   }
 
 

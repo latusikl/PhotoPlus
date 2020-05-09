@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpResponse,  } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -9,8 +9,13 @@ import { HttpClient, HttpResponse,  } from '@angular/common/http';
 export class ImageService {
 
   protected hostAddress = environment.hostAddress;
+  protected endpointUrl = "image";
 
   constructor(private httpClient: HttpClient) { }
+
+  getLink(code: string){
+    return `${this.hostAddress}${this.endpointUrl}/${code}`;
+  }
 
   post(file: File){
     let formData = new FormData();
