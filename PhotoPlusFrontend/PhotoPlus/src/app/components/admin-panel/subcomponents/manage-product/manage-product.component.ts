@@ -175,8 +175,10 @@ export class ManageProductComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.productCreationForm.valid) {
-      const form = this.productCreationForm.value;
+    if (!this.productCreationForm.valid) {
+      return;
+    }
+    const form = this.productCreationForm.value;
       const product: Product | any = {
         name: form.productName,
         description: form.productDescription,
@@ -188,7 +190,6 @@ export class ManageProductComponent implements OnInit {
         this.loadProducts();
         alert("Success");
       })
-    }
   }
 
   goBack() {
