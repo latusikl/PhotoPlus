@@ -70,7 +70,6 @@ export class ErrorInterceptor implements HttpInterceptor {
       }
       case 422: {
         if (Array.isArray(error.error)) {
-          console.log(Array.isArray(error.error))
           const errorArray = error.error as Array<ErrorModel>;
           errorArray.forEach(el => {
             const modalRef = this.modalService.open(ErrorModalComponent);
