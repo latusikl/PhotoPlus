@@ -14,13 +14,11 @@ export class ReportService {
 
   getProfitReport(fromDate: Date, toDate: Date): Observable<Blob>{
     return this.http.get<Blob>(this.hostAddress + "report" + "/profit" + `?beginDate=${fromDate}&endDate=${toDate}`, {
-      headers: new HttpHeaders().set('Accept', 'application/pdf'),
       responseType: 'blob' as "json"
     });
   }
-  getProductReport(productCode: string): Observable<Blob>{
-    return this.http.get<Blob>(this.hostAddress + "report" + "/product" + `?code=${productCode}`,  {
-      headers: new HttpHeaders().set('Accept', 'application/pdf'),
+  getProductReport(productCode: string, fromDate: Date, toDate: Date): Observable<Blob>{
+    return this.http.get<Blob>(this.hostAddress + "report" + "/product" + `?code=${productCode}&beginDate=${fromDate}&endDate=${toDate}`,  {
       responseType: 'blob' as "json"
     });
   }

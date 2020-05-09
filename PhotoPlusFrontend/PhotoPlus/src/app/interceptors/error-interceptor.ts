@@ -14,9 +14,36 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private modalService: NgbModal) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-    return next.handle(req).pipe(catchError(err => this.handleError(err)))
-  };
+  isBlobError(err: any) {
+    return err instanceof HttpErrorResponse && err.error instanceof Blob && err.error.type === 'application/json';
+  }
+
+  parseErrorBlob(err: HttpErrorResponse): Observable<any> {
+    const reader: FileReader = new FileReader();
+    const obs = new Observable((observer: any) => {
+      reader.onloadend = (e) => {
+        const newError = new HttpErrorResponse({
+          ...err,
+          error: JSON.parse(reader.result as string),
+        });
+        this.handleError(newError);
+        observer.error(newError);
+        observer.complete();
+      };
+    });
+    reader.readAsText(err.error);
+    return obs;
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any>{
+    return next.handle(req).pipe(catchError(err => {
+      if (!this.isBlobError(err)) {
+        return this.handleError(err);
+      } else {
+        return this.parseErrorBlob(err);
+      }
+    }));
+  }
 
   handleError(error: HttpErrorResponse) {
     switch(error.status) {

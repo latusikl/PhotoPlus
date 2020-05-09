@@ -8,6 +8,7 @@ import pl.polsl.photoplus.annotations.Patchable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity(name = "ratings")
 @Table(name = "ratings")
@@ -16,9 +17,10 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Rating extends AbstractEntityModel {
 
-    public Rating(final Integer rate, final String content) {
+    public Rating(final Integer rate, final String content, final LocalDate date) {
         this.rate = rate;
         this.content = content;
+        this.date = date;
     }
 
     @ManyToOne
@@ -32,4 +34,7 @@ public class Rating extends AbstractEntityModel {
 
     @Patchable
     private String content;
+
+    @Patchable
+    private LocalDate date;
 }
