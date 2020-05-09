@@ -8,4 +8,5 @@ export class Product {
   links: Link[]
   category: string;
   imagesUrl: string[];
+  dataLinks: Map<string, string>;
 }
