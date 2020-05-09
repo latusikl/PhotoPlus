@@ -17,6 +17,7 @@ import pl.polsl.photoplus.services.controllers.UserService;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @JsonPropertyOrder({"login", "password", "name", "surname", "email"})
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -41,12 +42,14 @@ public class UserModelDto
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
     @OnlyLetters(message = "Invalid name. Only letters are allowed.")
+    @Size(min = 3, max = 15)
     @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
-    @OnlyLetters(message = "Invalid surname. Only letters are allowed.")
+    @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Invalid surname.")
+    @Size(min = 3, max = 30)
     @Patchable
     private String surname;
 
