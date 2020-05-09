@@ -20,6 +20,9 @@ public class RatingModelDto
     @JsonProperty("userCode")
     private String userCode;
 
+    @JsonProperty("userLogin")
+    private String userLogin;
+
     @NotBlank(message = "Product code is mandatory.")
     @JsonProperty("productCode")
     private String productCode;
@@ -35,13 +38,15 @@ public class RatingModelDto
     @Patchable
     private String content;
 
-    public RatingModelDto(final String code, final String userCode, final String productCode, final Integer rate, final String content)
+    public RatingModelDto(final String code, final String userCode, final String productCode, final Integer rate,
+                          final String content, final String userLogin)
     {
         super(code);
         this.userCode = userCode;
         this.productCode = productCode;
         this.rate = rate;
         this.content = content;
+        this.userLogin = userLogin;
     }
 
 }

@@ -3,6 +3,8 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.Entity;
@@ -23,6 +25,7 @@ public class Post extends AbstractEntityModel {
     }
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Topic topic;
 
     private LocalDate date;

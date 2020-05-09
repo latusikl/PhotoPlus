@@ -3,12 +3,12 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import pl.polsl.photoplus.annotations.Patchable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "images")
 @Table(name = "images")
@@ -30,5 +30,7 @@ public class Image extends AbstractEntityModel {
     @Lob
     private byte[] bytes;
 
+    @ManyToMany(mappedBy = "images", targetEntity = Product.class)
+    private List<Product> products;
 
 }

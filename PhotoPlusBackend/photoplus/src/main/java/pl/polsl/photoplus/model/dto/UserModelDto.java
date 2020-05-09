@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -28,14 +29,12 @@ public class UserModelDto
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
     @Length(min = 5, message = "Login should be longer than 5 signs.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "login", fieldNameToBeDisplayed = "Login")
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     private String email;
 
@@ -78,6 +77,7 @@ public class UserModelDto
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
 
+    @JsonIgnore
     public UserRole userRolePatch()
     {
         return UserRole.getUserRoleFromString(this.userRole);
