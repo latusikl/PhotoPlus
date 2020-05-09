@@ -105,7 +105,7 @@ public class ReportService {
 
         document.open();
         Font font = FontFactory.getFont(FontFactory.COURIER, 20, BaseColor.BLACK);
-        Chunk chunk = new Chunk("PRODUCT REPORT FROM " + beginDate + " TO " + endDate, font);
+        Chunk chunk = new Chunk("PRODUCT REPORT \n FROM " + beginDate + " TO " + endDate, font);
         Paragraph para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_CENTER);
         para.setSpacingAfter(50);
@@ -245,6 +245,9 @@ public class ReportService {
             profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * product.getPrice();
             soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
         }
+        if (soldItems == 0) {
+            return 0.0;
+        }
         return profit / soldItems;
     }
 
@@ -253,8 +256,7 @@ public class ReportService {
                 .filter(batch ->
                     batch.getProductCode().equals(code) &&
                             batch.getDate().compareTo(beginDate) >= 0 &&
-                            batch.getDate().compareTo(endDate) <= 0
-                )
+                            batch.getDate().compareTo(endDate) <= 0)
                 .collect(Collectors.toList());
         Integer soldItems = 0;
         for (final BatchModelDto batch : batchList) {
