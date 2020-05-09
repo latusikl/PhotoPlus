@@ -11,8 +11,8 @@ import { Category } from "src/app/models/category/category";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
-import { BehaviorSubject } from 'rxjs';
-import { ImageService } from 'src/app/services/image/image.service';
+import { BehaviorSubject } from "rxjs";
+import { ImageService } from "src/app/services/image/image.service";
 
 @Component({
   selector: "app-create-new-product",
@@ -20,8 +20,7 @@ import { ImageService } from 'src/app/services/image/image.service';
   styleUrls: ["./manage-product.component.scss"],
 })
 export class ManageProductComponent implements OnInit {
-
-  @ViewChild("searchBar",{static: true})
+  @ViewChild("searchBar", { static: true })
   searchBar: ElementRef;
 
   @ViewChild("inputDialog")
@@ -45,7 +44,7 @@ export class ManageProductComponent implements OnInit {
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private renderer: Renderer2,
-    private imageService: ImageService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +55,7 @@ export class ManageProductComponent implements OnInit {
     this.setupSearchBarListener();
   }
 
-  loadProducts(completionHandler?: Function){
+  loadProducts(completionHandler?: Function) {
     this.products = new Array<BehaviorSubject<Product>>();
     this.filteredProducts = new Array<BehaviorSubject<Product>>();
     this.productService.getAll().subscribe((products) => {
@@ -65,13 +64,13 @@ export class ManageProductComponent implements OnInit {
         this.products.push(new BehaviorSubject(product));
       }
       this.filteredProducts = this.products;
-      if(completionHandler){
+      if (completionHandler) {
         completionHandler();
       }
     });
   }
 
-  loadCategories(){
+  loadCategories() {
     this.categories = new Array<BehaviorSubject<Category>>();
     this.categoryService.getAll().subscribe((categories) => {
       for (let category of categories) {
@@ -80,50 +79,62 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  addCategory(){
+  addCategory() {
     const newCategoryName = prompt("Type created category name:");
-    
-    if(newCategoryName){
-      this.categoryService.post({code: null, name: newCategoryName}).subscribe(() => {
-        this.categoryService.getAll().subscribe(categories=> {
-          this.categories = new Array<BehaviorSubject<Category>>();
-          for(const category of categories){
-            this.categories.push(new BehaviorSubject(category));
-          }
-        })
-      })
+
+    if (newCategoryName) {
+      this.categoryService
+        .post({ code: null, name: newCategoryName })
+        .subscribe(() => {
+          this.categoryService.getAll().subscribe((categories) => {
+            this.categories = new Array<BehaviorSubject<Category>>();
+            for (const category of categories) {
+              this.categories.push(new BehaviorSubject(category));
+            }
+          });
+        });
     }
   }
 
-  editCategory(code: string){
+  editCategory(code: string) {
     const category = this.findCategory(code);
-    const categoryNewName = prompt("Type category new name", category.value.name );
-    
-    if(categoryNewName){
-      const patchCategory: Category = {code: code,name: categoryNewName};
-      this.categoryService.patch(parseInt(code), patchCategory ).subscribe(() =>{
-        category.next(patchCategory);
-      })
+    const categoryNewName = prompt(
+      "Type category new name",
+      category.value.name
+    );
+
+    if (categoryNewName) {
+      const patchCategory: Category = { code: code, name: categoryNewName };
+      this.categoryService
+        .patch(parseInt(code), patchCategory)
+        .subscribe(() => {
+          category.next(patchCategory);
+        });
     }
   }
 
-  findCategory(code: string): BehaviorSubject<Category>{
-    return this.categories.find((x) => {return x.value.code === code});
+  findCategory(code: string): BehaviorSubject<Category> {
+    return this.categories.find((x) => {
+      return x.value.code === code;
+    });
   }
 
-  deleteCategory(code: string){
+  deleteCategory(code: string) {
     const category = this.findCategory(code);
-    const isDeleted = confirm(`Should this category be deleted?\n Code:${category.value.code} Name:${category.value.name}`);
+    const isDeleted = confirm(
+      `Should this category be deleted?\n Code:${category.value.code} Name:${category.value.name}`
+    );
 
-    if(isDeleted){
-      this.categoryService.delete(category.value.code).subscribe(()=>{
-        this.categories = this.categories.filter((x) => { return x.value.code !== code});
-      })
+    if (isDeleted) {
+      this.categoryService.delete(category.value.code).subscribe(() => {
+        this.categories = this.categories.filter((x) => {
+          return x.value.code !== code;
+        });
+      });
     }
-    
   }
 
-  createForm(){
+  createForm() {
     this.productCreationForm = this.formBuilder.group({
       productName: ["", [Validators.required]],
       productDescription: ["", []],
@@ -135,7 +146,7 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  setupSearchBarListener(){ 
+  setupSearchBarListener() {
     this.renderer.listen(this.searchBar.nativeElement, "input", () => {
       const searchText = this.searchBar.nativeElement.value;
       if (searchText == "") {
@@ -146,12 +157,12 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  forceFilterDisplayedProducts(){
+  forceFilterDisplayedProducts() {
     const searchText = this.searchBar.nativeElement.value;
     this.filterDisplayedProducts(searchText);
   }
 
-  filterDisplayedProducts(searchText: string){
+  filterDisplayedProducts(searchText: string) {
     this.filteredProducts = this.products.filter(
       (x) =>
         x.value.code
@@ -179,17 +190,17 @@ export class ManageProductComponent implements OnInit {
       return;
     }
     const form = this.productCreationForm.value;
-      const product: Product | any = {
-        name: form.productName,
-        description: form.productDescription,
-        category: form.productCategory,
-        price: form.productPrice,
-        quantity: 0,
-      };
-      this.productService.post(product).subscribe(()=>{
-        this.loadProducts();
-        alert("Success");
-      })
+    const product: Product | any = {
+      name: form.productName,
+      description: form.productDescription,
+      category: form.productCategory,
+      price: form.productPrice,
+      quantity: 0,
+    };
+    this.productService.post(product).subscribe(() => {
+      this.loadProducts();
+      alert("Success");
+    });
   }
 
   goBack() {
@@ -201,61 +212,76 @@ export class ManageProductComponent implements OnInit {
     e.click();
   }
 
-  deletePhoto(code: string){
+  deletePhoto(code: string) {
     this.imageService.delete(code).subscribe(() => {
-      this.productService.getSingle(parseInt(code)).subscribe(newProductData => {
-        this.selectedProduct.next(newProductData); 
-        /* // TODO SPRAWDZIĆ CZY ZDJĘCIA PO USUNIĘCIU SIĘ PRZŁADUJĄ 
+      this.productService
+        .getSingle(parseInt(code))
+        .subscribe((newProductData) => {
+          this.selectedProduct.next(newProductData);
+          /* // TODO SPRAWDZIĆ CZY ZDJĘCIA PO USUNIĘCIU SIĘ PRZŁADUJĄ 
         /  // TODO PO ZMERGOWANIU BRANCHA KRZYŚKA - PR (71) */
-      })
-    })
+        });
+    });
   }
 
-  deleteProduct(code: number){
-
-    if(confirm("Do you want to delete this product?")){
+  deleteProduct(code: number) {
+    if (confirm("Do you want to delete this product?")) {
       this.productService.delete(code.toString()).subscribe(() => {
-        this.products = this.products.filter((x)=> {return x.value.code !== code});
+        this.products = this.products.filter((x) => {
+          return x.value.code !== code;
+        });
         this.forceFilterDisplayedProducts();
         this.goBack();
-      })
-    }
-
-  }
-
-  findProduct(code: number): BehaviorSubject<Product>{
-    return this.products.filter((x)=> {return x.value.code !== code})[0];
-  }
-
-  sendFile(){
-    const elem = this.imageInputDialog.nativeElement;
-    let imageCodes = []
-    let currentAmount = elem.files.length;
-    this.productService.getSingle(this.selectedProduct.value.code).subscribe(productData => {
-      if(productData.imageCodes){
-        imageCodes = productData.imageCodes;
-      }
-      for(let file of elem.files){
-        this.imageService.post(file).subscribe(imageResponse => {
-          imageCodes.push(imageResponse.code);
-          currentAmount++;
-          this.updateOrCheckIfCanUpdate(currentAmount === elem.files.length, imageCodes);
-        })
-      }
-    })
-  }
-
-  updateOrCheckIfCanUpdate(shouldUpdate: boolean, imageCodeArray: string[]){
-    this.productService.patch(this.selectedProduct.value.code, {imageCodes: imageCodeArray} as Product).subscribe(() => {
-      this.loadProducts(()=>{
-        const newSelect = this.products.find((x)=> x.value.code === this.selectedProduct.value.code);
-        console.log(newSelect);
-        if(!newSelect){
-          return;
-        }
-        this.selectedProduct.next(newSelect.value);
       });
-    })
+    }
+  }
+
+  findProduct(code: number): BehaviorSubject<Product> {
+    return this.products.filter((x) => {
+      return x.value.code !== code;
+    })[0];
+  }
+
+  sendFile() {
+    const elem = this.imageInputDialog.nativeElement;
+    let imageCodes = [];
+    let currentAmount = elem.files.length;
+    this.productService
+      .getSingle(this.selectedProduct.value.code)
+      .subscribe((productData) => {
+        if (productData.imageCodes) {
+          imageCodes = productData.imageCodes;
+        }
+        for (let file of elem.files) {
+          this.imageService.post(file).subscribe((imageResponse) => {
+            imageCodes.push(imageResponse.code);
+            currentAmount++;
+            this.updateOrCheckIfCanUpdate(
+              currentAmount === elem.files.length,
+              imageCodes
+            );
+          });
+        }
+      });
+  }
+
+  updateOrCheckIfCanUpdate(shouldUpdate: boolean, imageCodeArray: string[]) {
+    this.productService
+      .patch(this.selectedProduct.value.code, {
+        imageCodes: imageCodeArray,
+      } as Product)
+      .subscribe(() => {
+        this.loadProducts(() => {
+          const newSelect = this.products.find(
+            (x) => x.value.code === this.selectedProduct.value.code
+          );
+          console.log(newSelect);
+          if (!newSelect) {
+            return;
+          }
+          this.selectedProduct.next(newSelect.value);
+        });
+      });
   }
 
   get f() {
