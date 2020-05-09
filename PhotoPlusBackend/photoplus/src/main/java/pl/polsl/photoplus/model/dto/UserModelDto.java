@@ -42,14 +42,14 @@ public class UserModelDto
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
     @OnlyLetters(message = "Invalid name. Only letters are allowed.")
-    @Size(min = 3, max = 15)
+    @Size(min = 2, max = 15)
     @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
     @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Invalid surname.")
-    @Size(min = 3, max = 30)
+    @Size(min = 2, max = 30)
     @Patchable
     private String surname;
 

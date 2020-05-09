@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
     confirmPass : ['', [Validators.required]],
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15),
       Validators.pattern("\\p{IsAlphabetic}+")]],
-    surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15),
+    surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30),
       Validators.pattern("^[\\p{L} .'-]+$")]],
     phoneNumber: ['',  Validators.pattern(new RegExp("[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}"))]
    }, {
