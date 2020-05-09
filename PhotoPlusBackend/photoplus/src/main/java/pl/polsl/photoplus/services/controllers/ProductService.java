@@ -53,7 +53,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
                 "SAVE PRODUCT");
         final List<Image> imagesToAdd = new ArrayList<>();
-        dto.getImageCodes().forEach(imageCode -> {
+        dto.getImages().forEach(imageCode -> {
             final Image imageToAdd = imageService.findByCodeOrThrowError(imageCode,
                     "SAVE PRODUCT");
             imagesToAdd.add(imageToAdd);

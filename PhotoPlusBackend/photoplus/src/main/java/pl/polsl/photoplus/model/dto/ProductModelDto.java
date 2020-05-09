@@ -6,12 +6,15 @@ import lombok.Setter;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.components.ContextProvider;
 import pl.polsl.photoplus.model.entities.Category;
+import pl.polsl.photoplus.model.entities.Image;
 import pl.polsl.photoplus.services.controllers.CategoryService;
+import pl.polsl.photoplus.services.controllers.ImageService;
 
 import javax.persistence.ElementCollection;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -45,19 +48,18 @@ public class ProductModelDto
     private Integer storeQuantity;
 
     @JsonProperty("imageCodes")
-    @Patchable
-    @ElementCollection
-    private List<String> imageCodes;
+    @Patchable(method = "imagePatch")
+    private List<String> images;
 
     public ProductModelDto(final String code, final String name, final Double price, final String description,
-                           final String category, final Integer storeQuantity, final List<String> imageCodes)
+                           final String category, final Integer storeQuantity, final List<String> images)
     {
         super(code);
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
-        this.imageCodes = imageCodes;
+        this.images = images;
         this.storeQuantity = storeQuantity;
     }
 
@@ -65,5 +67,15 @@ public class ProductModelDto
     {
         final CategoryService categoryService = ContextProvider.getBean(CategoryService.class);
         return categoryService.findByCodeOrThrowError(category, "CategoryPatchSection");
+    }
+
+    public List<Image> imagePatch()
+    {
+        final ImageService imageService = ContextProvider.getBean(ImageService.class);
+        final List<Image> imageList = new ArrayList<>();
+        for (final String imageCode : this.images) {
+            imageList.add(imageService.findByCodeOrThrowError(imageCode, "ImagesPatch"));
+        }
+        return imageList;
     }
 }

@@ -30,7 +30,7 @@ public class Image extends AbstractEntityModel {
     @Lob
     private byte[] bytes;
 
-    @ManyToMany(mappedBy = "images")
+    @ManyToMany(mappedBy = "images", targetEntity = Product.class)
     private List<Product> products;
 
 }

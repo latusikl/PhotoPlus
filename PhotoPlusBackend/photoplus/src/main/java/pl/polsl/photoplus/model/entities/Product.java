@@ -44,7 +44,7 @@ public class Product extends AbstractEntityModel {
     private Integer storeQuantity;
 
     @Patchable
-    @ManyToMany
+    @ManyToMany(targetEntity = Image.class)
     private List<Image> images;
 
 }
