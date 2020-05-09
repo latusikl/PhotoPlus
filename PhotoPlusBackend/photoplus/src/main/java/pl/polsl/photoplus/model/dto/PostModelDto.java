@@ -28,18 +28,22 @@ public class PostModelDto
     @JsonProperty("userCode")
     private String userCode;
 
+    @JsonProperty("userLogin")
+    private String userLogin;
+
     @NotBlank(message = "Content is mandatory.")
     @JsonProperty("content")
     @Patchable
     private String content;
 
     public PostModelDto(final String code, final LocalDate date, final String topicCode, final String content,
-                        final String userCode)
+                        final String userCode, final String userLogin)
     {
         super(code);
         this.date = date;
         this.topicCode = topicCode;
         this.content = content;
         this.userCode = userCode;
+        this.userLogin = userLogin;
     }
 }

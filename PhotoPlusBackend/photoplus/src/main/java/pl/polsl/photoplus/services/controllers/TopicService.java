@@ -28,7 +28,7 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
     @Override
     protected TopicModelDto getDtoFromModel(final Topic modelObject) {
         return new TopicModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getSection().getCode(), modelObject.getDate(),
-                modelObject.getCreator().getCode());
+                modelObject.getCreator().getCode(), modelObject.getCreator().getLogin());
     }
 
     @Override
