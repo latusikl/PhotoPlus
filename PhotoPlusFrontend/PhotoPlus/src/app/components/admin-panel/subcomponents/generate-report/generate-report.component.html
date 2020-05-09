@@ -8,12 +8,11 @@
       </mat-expansion-panel-header>
       <mat-panel-description>
         <div class="form-group">
-          <span>From: <input #fromDate type="date" /></span>
-          <span>&nbsp;To: <input #toDate type="date" /></span>
+          <span>From: <input #fromDateProfit type="date" /></span>
+          <span>&nbsp;To: <input #toDateProfit type="date" /></span>
           &nbsp;<button
             (click)="generateProfitReport()"
-            class="btn btn-primary"
-          >
+            class="btn btn-primary">
             Generate profit report
           </button>
         </div>
@@ -31,13 +30,12 @@
         <div class="container">
           <div class="row-12">
             <div class="form-group">
-              <span
-                >&nbsp;Product code or name: <input #productCode type="text"
-              /></span>
+              <span>&nbsp;Product code or name: <input #productCode type="text"/></span>
+              <span>From: <input #fromDateProduct type="date" /></span>
+              <span>&nbsp;To: <input #toDateProduct type="date" /></span>
               &nbsp;<button
                 (click)="generateProductReport()"
-                class="btn btn-primary"
-              >
+                class="btn btn-primary">
                 Generate product report
               </button>
             </div>
@@ -47,13 +45,12 @@
             <div
               class="col-3 mt-1 text-center"
               *ngFor="let product of filteredProducts"
-              (click)="insertCodeToSearchBar(product)"
-            >
+              (click)="insertCodeToSearchBar(product)">
               <mat-card class="item-card">
                 <img
                   src="{{ ((product | async)?.imagesUrl)[0] }}"
-                  class="item-card-photo"
-                /><br />
+                  class="item-card-photo"/>
+                  <br/>
                 {{ (product | async)?.name }}
               </mat-card>
             </div>
