@@ -13,7 +13,7 @@ export class PostService extends AbstractService<Post> {
     super(http, "post");
   }
 
-  getAllFromTopic(topicCode: number): Observable<Post[]>{
+  getAllFromTopic(topicCode: string): Observable<Post[]>{
     return this._http.get<Post[]>(this.hostAddress + this.endpointUrl + "/byTopic/" + topicCode);
   }
 }

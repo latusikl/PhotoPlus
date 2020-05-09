@@ -18,7 +18,7 @@ export class TopicRemoveComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       let topicCode = params["topicCode"];
-      this.topicService.getSingle(parseInt(topicCode)).subscribe(topicData => {
+      this.topicService.getSingle(topicCode).subscribe(topicData => {
         this.topic = topicData;
       })
     })

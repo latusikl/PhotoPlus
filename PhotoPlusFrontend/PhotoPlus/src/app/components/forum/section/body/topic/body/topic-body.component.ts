@@ -50,7 +50,7 @@ export class TopicBodyComponent implements OnInit {
 
   checkPermission(){
     let userCode = this.topic.value.userCode;    
-    this.userService.getSingle(parseInt(userCode)).subscribe(data=> {
+    this.userService.getSingle(userCode).subscribe(data=> {
       const isAuthorizedToEdit = (data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator);
       this.canModify.next(isAuthorizedToEdit);
     });
@@ -74,7 +74,7 @@ export class TopicBodyComponent implements OnInit {
     })
   }
 
-  reloadTopic(topicCode: number){
+  reloadTopic(topicCode: string){
     this.postService.getAllFromTopic(topicCode).subscribe(postsData => {
       this.posts = new Array<BehaviorSubject<Post>>();
       for(let post of postsData){          
@@ -99,8 +99,8 @@ export class TopicBodyComponent implements OnInit {
     const editTitleSnapshot = this.titleTextarea.nativeElement;
     const newTitle = editTitleSnapshot.value;
     
-    this.topicService.patch(parseInt(this.topic.getValue().code), {...this.topic.value, name: newTitle}).subscribe(() =>{
-      this.topicService.getSingle(parseInt(this.topic.value.code)).subscribe(newTopicData => {
+    this.topicService.patch(this.topic.getValue().code, {...this.topic.value, name: newTitle}).subscribe(() =>{
+      this.topicService.getSingle(this.topic.value.code).subscribe(newTopicData => {
         this.topic.next(newTopicData);
       })
     })

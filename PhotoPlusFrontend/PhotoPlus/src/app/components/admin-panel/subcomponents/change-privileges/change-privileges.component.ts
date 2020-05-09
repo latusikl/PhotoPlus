@@ -47,7 +47,7 @@ export class ChangePrivilegesComponent implements OnInit {
     console.log("updateRole", userCode, this.users.find((x)=> x.value.code === userCode).value.role);
     const idx = this.users.findIndex((x)=> x.value.code === userCode);
     const patchMsg = {role: this.users[idx].value.role} as User|any;
-    this.userService.patch(parseInt(userCode), patchMsg).subscribe(()=> {
+    this.userService.patch(userCode, patchMsg).subscribe(()=> {
       alert("Change successful");
     })
   }

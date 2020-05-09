@@ -41,7 +41,7 @@ export class SectionEditComponent implements OnInit {
       return;
     }
     const form = this.sectionForm.value;
-    this.sectionService.patch(parseInt(this.section.code), {
+    this.sectionService.patch(this.section.code, {
       ...this.section,
       ...form
     }).subscribe((data) => {
