@@ -44,7 +44,6 @@
           <input formControlName="name" type="text" class="form-control fadeIn second" id="name" name="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
           <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
             <div *ngIf="f.name.errors.required">Name is required.</div>
-            <div *ngIf="f.name.errors.pattern">Only letters allowed.</div>
             <div *ngIf="f.name.errors.minlength">Name must contain at least 2 characters.</div>
             <div *ngIf="f.name.errors.maxlength">Name must be shorter than 15 characters.</div>
           </div>
@@ -54,7 +53,6 @@
           <input formControlName="surname" type="text" class="form-control fadeIn second" id="surname" name="surname" placeholder="Surname" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }">
           <div *ngIf="submitted && f.surname.errors" class="invalid-feedback">
             <div *ngIf="f.surname.errors.required">Surname is required.</div>
-            <div *ngIf="f.surname.errors.pattern">Invalid surname</div>
             <div *ngIf="f.surname.errors.minlength">Surname must contain at least 2 characters.</div>
             <div *ngIf="f.surname.errors.maxlength">Surname must be shorter than 30 characters.</div>
           </div>
