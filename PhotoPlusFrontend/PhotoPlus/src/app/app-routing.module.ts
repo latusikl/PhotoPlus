@@ -18,7 +18,7 @@ import { TopicAddComponent } from './components/forum/section/body/topic/add/top
 import { ProductComponent } from './components/product/product.component';
 import { OrderComponent } from './components/order/order.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import { ImageDisplayComponent } from './components/image-display/image-display/image-display.component';
+import { ImageDisplayComponent } from './components/image-display/image-display.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

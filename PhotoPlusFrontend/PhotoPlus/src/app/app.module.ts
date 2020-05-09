@@ -42,7 +42,7 @@ import { ChangePrivilegesComponent } from './components/admin-panel/subcomponent
 import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add-delivery/add-delivery.component';
 import { ManageSingleOrderComponent } from './components/admin-panel/subcomponents/manage-single-order/manage-single-order.component';
 import { ImageCarouselComponent } from './components/admin-panel/subcomponents/manage-product/image-carousel/image-carousel.component';
-import { ImageDisplayComponent } from './components/image-display/image-display/image-display.component';
+import { ImageDisplayComponent } from './components/image-display/image-display.component';
 
 @NgModule({
     declarations: [
