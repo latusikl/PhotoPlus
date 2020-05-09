@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Topic } from 'src/app/models/topic/topic';
 import { TopicService } from 'src/app/services/topic/topic.service';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-remove',
@@ -13,7 +14,7 @@ export class TopicRemoveComponent implements OnInit {
 
   topic: Topic;
 
-  constructor(private activatedRoute:ActivatedRoute, private topicService:TopicService, private router:Router, private location:Location) { }
+  constructor(private activatedRoute:ActivatedRoute, private topicService:TopicService, private router:Router, private location:Location, private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -25,12 +26,16 @@ export class TopicRemoveComponent implements OnInit {
   }
 
   deleteTopic(){
-    this.topicService.delete(this.topic.code).subscribe((data:Topic)=>{
+    this.topicService[this.auth.isModerator ? 'delete':'deleteOwn'](this.topic.code).subscribe((data:Topic)=>{
       this.router.navigate(['/forum/section', this.topic.sectionCode]);
     })
   }
 
   takeMeBack(){
     this.location.back();
+  }
+
+  get auth(): LoginService{
+    return this.loginService;
   }
 }
