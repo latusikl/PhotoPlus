@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -76,6 +77,7 @@ public class UserModelDto
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
 
+    @JsonIgnore
     public UserRole userRolePatch()
     {
         return UserRole.getUserRoleFromString(this.userRole);

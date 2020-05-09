@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,11 +61,13 @@ public class OrderModelDto
         this.date = date;
     }
 
+    @JsonIgnore
     public PaymentMethod paymentMethodPatch()
     {
        return PaymentMethod.getPaymentMethodFromString(this.paymentMethod);
     }
 
+    @JsonIgnore
     public OrderStatus orderStatusPatch()
     {
         return OrderStatus.getOrderStatusFromString(this.orderStatus);

@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,12 +64,14 @@ public class ProductModelDto
         this.storeQuantity = storeQuantity;
     }
 
+    @JsonIgnore
     public Category categoryPatch()
     {
         final CategoryService categoryService = ContextProvider.getBean(CategoryService.class);
         return categoryService.findByCodeOrThrowError(category, "CategoryPatchSection");
     }
 
+    @JsonIgnore
     public List<Image> imagePatch()
     {
         final ImageService imageService = ContextProvider.getBean(ImageService.class);
