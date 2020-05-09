@@ -100,7 +100,7 @@ export class AddDeliveryComponent implements OnInit {
     }
     const form = this.batchForm.value;
     const newBatch: Batch = {
-      productCode: parseInt(this.selectedProduct.value.code),
+      productCode: this.selectedProduct.value.code.toString(),
       date: form.date,
       purchasePrice: form.purchasePrice,
       supplyQuantity: form.supplyQuantity,
