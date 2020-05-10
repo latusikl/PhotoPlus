@@ -12,6 +12,11 @@
   margin: 0 auto;
 }
 
+.address{
+  display: flex;
+  justify-content: center;
+}
+
 .error{
   display:none;
   color: red;
