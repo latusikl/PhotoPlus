@@ -72,6 +72,10 @@ Proper file format example:
                 <access>/category/patch</access>
                 <access>/category/delete</access>
                 <access>/category/post</access>
+
+                <access>/image/post</access>
+                <access>/image/delete</access>
+                <access>/image/patch</access>
         </role>
         <role name="admin">
         <!--        Should be able to access all application endpoints-->
