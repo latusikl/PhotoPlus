@@ -7,10 +7,7 @@ import { DatePipe } from '@angular/common';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
-import { Link } from 'src/app/models/link/link';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 
 @Component({
@@ -108,8 +105,6 @@ export class OrderComponent implements OnInit {
           i++
         });
         this.addreses = data
-        console.log("Adres")
-        console.log(this.addreses)
       })
     }
 
@@ -166,12 +161,7 @@ export class OrderComponent implements OnInit {
           ).subscribe()
         })
       })
-
-
     this.order.paymentMethod = this.paymentMethod
-
-    console.log(this.order)
-
   }
 
   buy() {
@@ -196,8 +186,6 @@ export class OrderComponent implements OnInit {
     }
 
     this.order.paymentMethod = this.paymentMethod
-    console.log(this.order)
-
     this.http.post<HttpResponse<Order[]>>(environment.hostAddress + 'order/buy',
       this.order
     ).subscribe()
