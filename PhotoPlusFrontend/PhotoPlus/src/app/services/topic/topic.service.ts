@@ -16,4 +16,9 @@ export class TopicService extends AbstractService<Topic> {
   getAllFromSectionCode(sectionCode: string): Observable<Topic[]>{
     return this._http.get<Topic[]>(this.hostAddress + this.endpointUrl + "/bySection/" + sectionCode);
   }
+
+  deleteOwn(topicCode: string): Observable<Topic>{
+    return this._http.delete<Topic>(this.hostAddress + this.endpointUrl + "/deleteOwn/"+ topicCode);
+  }
+
 }

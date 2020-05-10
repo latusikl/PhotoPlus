@@ -52,8 +52,9 @@ export class TopicAddComponent implements OnInit {
 
     this.topicService.post(topic).subscribe(resp => {
       const link = resp.headers.get("Location");
-      this.topicService.getFromLink(link).subscribe(newTopic =>{
-        const post:Post = {
+      this.topicService.getFromLink(link).subscribe(newTopic => {
+        const post : Post = {
+          code: null,
           topicCode: newTopic.code as any,
           userCode: this.loginService.getLoggedUser().code,
           date: new Date(),
