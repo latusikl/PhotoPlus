@@ -67,7 +67,6 @@ export class GenerateReportComponent implements OnInit {
     const fromDate = this.fromDateElProduct.nativeElement.value as Date;
     const toDate = this.toDateElProduct.nativeElement.value as Date;
     const productCode = this.productEl.nativeElement.value as string;
-    console.log(productCode);
     this.reportService.getProductReport(productCode, fromDate, toDate).subscribe(pdfObject => {
       this.createAndDownloadData(pdfObject, `${new Date()}_${productCode}_product_report.pdf`)
     })

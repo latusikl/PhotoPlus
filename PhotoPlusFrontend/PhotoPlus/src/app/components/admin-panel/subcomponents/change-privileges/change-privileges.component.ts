@@ -44,7 +44,6 @@ export class ChangePrivilegesComponent implements OnInit {
   }
 
   sendUpdateRole(userCode: string){
-    console.log("updateRole", userCode, this.users.find((x)=> x.value.code === userCode).value.role);
     const idx = this.users.findIndex((x)=> x.value.code === userCode);
     const patchMsg = {role: this.users[idx].value.role} as User|any;
     this.userService.patch(userCode, patchMsg).subscribe(()=> {

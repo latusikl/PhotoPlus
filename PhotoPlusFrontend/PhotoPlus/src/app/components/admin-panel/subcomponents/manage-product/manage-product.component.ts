@@ -284,7 +284,6 @@ export class ManageProductComponent implements OnInit {
           const newProductSelection = this.products.find(
             (x) => x.value.code === this.selectedProduct.value.code
           );
-          console.log(newProductSelection);
           if (!newProductSelection) {
             return;
           }

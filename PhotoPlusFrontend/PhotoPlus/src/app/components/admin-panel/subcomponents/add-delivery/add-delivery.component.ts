@@ -90,7 +90,6 @@ export class AddDeliveryComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.batchForm);
     if (!this.batchForm.valid) {
       return;
     }
