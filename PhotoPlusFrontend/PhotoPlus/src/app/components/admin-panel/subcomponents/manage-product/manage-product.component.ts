@@ -189,12 +189,15 @@ export class ManageProductComponent implements OnInit {
       return;
     }
     const form = this.productCreationForm.value;
-    const product: Product | any = {
+   
+    const product: Product = {
       name: form.productName,
       description: form.productDescription,
       category: form.productCategory,
       price: form.productPrice,
-      quantity: 0,
+      imageCodes: [],
+      storeQuantity: 0,
+      code: null
     };
     this.productService.post(product).subscribe(() => {
       this.loadProducts();
@@ -281,7 +284,6 @@ export class ManageProductComponent implements OnInit {
           const newProductSelection = this.products.find(
             (x) => x.value.code === this.selectedProduct.value.code
           );
-          console.log(newProductSelection);
           if (!newProductSelection) {
             return;
           }

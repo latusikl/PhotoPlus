@@ -42,7 +42,6 @@ export class RegistrationComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit(){
-    console.log(this.registerForm.controls)
     this.submitted = true;
     if(this.registerForm.invalid){
       return;
