@@ -6,7 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
-import {MatPaginatorModule} from '@angular/material/paginator'; 
+import {MatPaginatorModule, MatPaginatorIntl} from '@angular/material/paginator'; 
 
 
 import {AppComponent} from './app.component';
@@ -47,6 +47,7 @@ import { ManageSingleOrderComponent } from './components/admin-panel/subcomponen
 import { ImageCarouselComponent } from './components/admin-panel/subcomponents/manage-product/image-carousel/image-carousel.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
 import { PageSelectComponent } from './components/page-select/page-select.component';
+import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 
 @NgModule({
     declarations: [
@@ -107,6 +108,10 @@ import { PageSelectComponent } from './components/page-select/page-select.compon
           provide: HTTP_INTERCEPTORS,
           useClass: ErrorInterceptor,
           multi: true
+      },
+      {
+        provide: MatPaginatorIntl,
+        useClass: CustomMatPaginatorIntl
       }
     ],
     bootstrap: [AppComponent]
