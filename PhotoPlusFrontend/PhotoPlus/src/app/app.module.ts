@@ -6,6 +6,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
+import {MatPaginatorModule} from '@angular/material/paginator'; 
+
 
 import {AppComponent} from './app.component';
 import {ProductsComponent} from './components/products/products.component';
@@ -92,6 +94,7 @@ import { PageSelectComponent } from './components/page-select/page-select.compon
         MatCardModule,
         MatDividerModule,
         MatExpansionModule,
+        MatPaginatorModule,
         NgbModule
     ],
     providers: [
