@@ -12,7 +12,7 @@ export abstract class AbstractService<T> {
     return this._http.get<T[]>(this.hostAddress + this.endpointUrl + "/all");
   }
 
-  public getSingle(code: number): Observable<T>  {
+  public getSingle(code: string): Observable<T>  {
     return this._http.get<T>(this.hostAddress + this.endpointUrl + "/" + code);
   }
 
@@ -24,7 +24,7 @@ export abstract class AbstractService<T> {
     return this._http.post<T>(this.hostAddress + this.endpointUrl, item, { observe: 'response' });
   }
 
-  public patch(code: number, item: T): Observable<T> {
+  public patch(code: string, item: T): Observable<T> {
     return this._http.patch<T>(this.hostAddress + this.endpointUrl + "/" + code, item);
   }
 

@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,6 +17,7 @@ import pl.polsl.photoplus.services.controllers.UserService;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @JsonPropertyOrder({"login", "password", "name", "surname", "email"})
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,26 +30,26 @@ public class UserModelDto
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
     @Length(min = 5, message = "Login should be longer than 5 signs.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "login", fieldNameToBeDisplayed = "Login")
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
-    @Patchable
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     private String email;
 
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
     @OnlyLetters(message = "Invalid name. Only letters are allowed.")
+    @Size(min = 2, max = 15)
     @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
-    @OnlyLetters(message = "Invalid surname. Only letters are allowed.")
+    @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Invalid surname.")
+    @Size(min = 2, max = 30)
     @Patchable
     private String surname;
 
@@ -78,6 +80,7 @@ public class UserModelDto
         this.userRole = userRole != null ? userRole : "CLIENT";
     }
 
+    @JsonIgnore
     public UserRole userRolePatch()
     {
         return UserRole.getUserRoleFromString(this.userRole);

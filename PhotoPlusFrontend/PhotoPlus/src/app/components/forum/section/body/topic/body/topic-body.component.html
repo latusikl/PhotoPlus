@@ -2,7 +2,7 @@
   <div class="row topic-title">
   <mat-card class="w-100 topic-bg-color">
       <div
-        *ngIf="((topic | async) && (topic | async).name) || ''"
+        *ngIf="(topic | async) || ''"
         class="col-10 justify-content-center"
       >
         <div *ngIf="!modifyingTopic">
@@ -18,7 +18,7 @@
       </div>
       <div
         class="col-2 justify-content-center topic-moderation-buttons"
-        *ngIf="topic && (canModify | async)"
+        *ngIf="topic && (canModify | async) || (canDelete | async)"
       >
         <div *ngIf="modifyingTopic">
           <div class="center">
@@ -33,12 +33,12 @@
           </div>
         </div>
         <div *ngIf="!modifyingTopic">
-          <div class="center">
+          <div *ngIf="(canModify | async)" class="center">
             <button class="btn btn-warning button" (click)="editTopic()">
               Edit
             </button>
           </div>
-          <div class="center">
+          <div *ngIf="(canDelete | async)" class="center">
             <button class="btn btn-danger button" (click)="deleteTopic()">
               Remove
             </button>

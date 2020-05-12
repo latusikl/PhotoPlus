@@ -33,7 +33,6 @@ export class CategoryComponent implements OnInit {
   filterProducts(categoryName: String) {
       this.productsToShow = [];
       this.products.forEach(product => {
-        console.log(categoryName, product);
         if (categoryName == product.category) {
           this.productsToShow.push(product);
         }

@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,13 +45,12 @@ public class OrderModelDto
     @Patchable
     private LocalDate date;
 
-    @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
     @Patchable
-    private Integer price;
+    private Double price;
 
     public OrderModelDto(final String code, final String userCode, final String addressCode, final String orderStatus, final String paymentMethod,
-                         final Integer price, final LocalDate date)
+                         final Double price, final LocalDate date)
     {
         super(code);
         this.userCode = userCode;
@@ -61,11 +61,13 @@ public class OrderModelDto
         this.date = date;
     }
 
+    @JsonIgnore
     public PaymentMethod paymentMethodPatch()
     {
        return PaymentMethod.getPaymentMethodFromString(this.paymentMethod);
     }
 
+    @JsonIgnore
     public OrderStatus orderStatusPatch()
     {
         return OrderStatus.getOrderStatusFromString(this.orderStatus);

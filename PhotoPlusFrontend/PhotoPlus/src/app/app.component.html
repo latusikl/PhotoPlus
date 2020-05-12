@@ -23,6 +23,7 @@
 
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
         <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
+        <li class="darkenDiv" href="#" routerLink="/products" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Products</a></li>
         <div *ngIf="!auth.getLoggedUser()">
           <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         </div>

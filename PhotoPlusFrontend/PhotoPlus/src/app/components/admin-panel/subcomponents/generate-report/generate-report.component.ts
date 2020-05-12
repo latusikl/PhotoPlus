@@ -11,11 +11,17 @@ import { ProductService } from 'src/app/services/product/product.service';
 })
 export class GenerateReportComponent implements OnInit {
 
-  @ViewChild("fromDate",{static: true})
-  fromDateEl: ElementRef;
+  @ViewChild("fromDateProfit",{static: true})
+  fromDateElProfit: ElementRef;
 
-  @ViewChild("toDate",{static: true})
-  toDateEl: ElementRef;
+  @ViewChild("toDateProfit",{static: true})
+  toDateElProfit: ElementRef;
+
+  @ViewChild("fromDateProduct",{static: true})
+  fromDateElProduct: ElementRef;
+
+  @ViewChild("toDateProduct",{static: true})
+  toDateElProduct: ElementRef;
 
   @ViewChild("productCode", {static: true})
   productEl: ElementRef;
@@ -42,14 +48,13 @@ export class GenerateReportComponent implements OnInit {
         return;
       }
       this.filteredProducts = this.products.filter((x) => 
-        x.value.code.toString().toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
+        x.value.code.toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
       );
     })
   }
   generateProfitReport(){
-    const fromDate = this.fromDateEl.nativeElement.value as Date;
-    const toDate = this.toDateEl.nativeElement.value as Date;
-    console.log(fromDate, toDate, fromDate > toDate);
+    const fromDate = this.fromDateElProfit.nativeElement.value as Date;
+    const toDate = this.toDateElProfit.nativeElement.value as Date;
     if(fromDate > toDate){
       alert("Starting date should not be greater than ending date");
       return;
@@ -59,12 +64,13 @@ export class GenerateReportComponent implements OnInit {
     })
   }
   generateProductReport(){
+    const fromDate = this.fromDateElProduct.nativeElement.value as Date;
+    const toDate = this.toDateElProduct.nativeElement.value as Date;
     const productCode = this.productEl.nativeElement.value as string;
-    console.log(productCode);
-    this.reportService.getProductReport(productCode).subscribe(pdfObject => {
-      this.createAndDownloadData(pdfObject, `${new Date()}_${productCode}_product_report.pdf`)
+    this.reportService.getProductReport(productCode, fromDate, toDate).subscribe(pdfObject => {
+      this.createAndDownloadData(pdfObject, `from_${fromDate}_to_${toDate}_${productCode}_product_report.pdf`)
     })
-    
+
   }
 
   insertCodeToSearchBar(product: BehaviorSubject<Product>){

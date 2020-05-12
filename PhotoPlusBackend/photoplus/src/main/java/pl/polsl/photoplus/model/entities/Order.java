@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Order extends AbstractEntityModel {
 
-    public Order(final OrderStatus orderStatus, final PaymentMethod paymentMethod, final Integer price,
+    public Order(final OrderStatus orderStatus, final PaymentMethod paymentMethod, final Double price,
                  final LocalDate date) {
         this.orderStatus = orderStatus;
         this.paymentMethod = paymentMethod;
@@ -40,7 +40,7 @@ public class Order extends AbstractEntityModel {
     private PaymentMethod paymentMethod;
 
     @Patchable
-    private Integer price;
+    private Double price;
 
     @Patchable
     private LocalDate date;

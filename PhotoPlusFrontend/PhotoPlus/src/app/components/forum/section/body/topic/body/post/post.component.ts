@@ -17,7 +17,7 @@ export class PostComponent implements OnInit {
   postEditTextarea: ElementRef;
 
   @Input("post")
-  post: BehaviorSubject<Post|any>;
+  post: BehaviorSubject<Post>;
 
   @Output("reloadParentFunction")
   onDeleted:EventEmitter<any> = new EventEmitter();
@@ -30,15 +30,11 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     this.duringModification = false;
-    this.postOwner = new BehaviorSubject({});
-    this.userService.getSingle(parseInt(this.post.value.userCode)).subscribe(userData => {
-      this.postOwner.next(userData);
-    })
   }
 
   savePost(){
     const newPostContent = this.postEditTextarea.nativeElement.value;
-    this.postService.patch(this.post.value.code, {...this.post.value, content: newPostContent}).subscribe(() => {
+    this.postService[this.auth.isModerator ? "patch":"patchOwn"](this.post.value.code, {...this.post.value, content: newPostContent}).subscribe(() => {
       this.postService.getSingle(this.post.value.code).subscribe(data => {
         this.post.next(data);
       })
@@ -52,7 +48,7 @@ export class PostComponent implements OnInit {
 
   removePost(){
     if(confirm("Are you sure that you want to remove post with content\n" + this.post.value.content)){
-      this.postService.delete(this.post.value.code).subscribe(()=>{
+      this.postService[this.auth.isModerator? 'delete': "deleteOwn"](this.post.value.code).subscribe(()=>{
         this.onDeleted.next();
       })
     } else {
@@ -62,8 +58,11 @@ export class PostComponent implements OnInit {
   }
 
   get canModify():boolean {
-    const owner: User = this.postOwner.value || null;
-    return (owner.code === this.loginService.getLoggedUser().code || this.loginService.isModerator);
+    return (this.post.value.userCode === this.loginService.getLoggedUser().code || this.loginService.isModerator);
+  }
+
+  get auth(): LoginService{
+    return this.loginService;
   }
 
 }

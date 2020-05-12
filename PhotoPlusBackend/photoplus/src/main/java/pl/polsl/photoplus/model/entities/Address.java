@@ -3,6 +3,8 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.polsl.photoplus.annotations.Patchable;
 import pl.polsl.photoplus.annotations.validators.CountryCode;
 
@@ -37,6 +39,7 @@ public class Address
     private String countryCode;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User addressOwner;
 
     public Address(final String street, final String number, final String zipCode, final String city, final String countryCode)

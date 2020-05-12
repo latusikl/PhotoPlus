@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver, ViewContainerRe
 import { LoginService } from 'src/app/services/login/login.service';
 import { ActivatedRoute, UrlSegment, Router } from '@angular/router';
 import { ManageMultipleOrdersComponent } from './subcomponents/manage-multiple-orders/manage-multiple-orders.component';
-import { CreateProductComponent } from './subcomponents/create-product/create-product.component';
+import { ManageProductComponent } from './subcomponents/manage-product/manage-product.component';
 import { GenerateReportComponent } from './subcomponents/generate-report/generate-report.component';
 import { AddDeliveryComponent } from './subcomponents/add-delivery/add-delivery.component';
 import { ChangePrivilegesComponent } from './subcomponents/change-privileges/change-privileges.component';
@@ -45,8 +45,8 @@ export class AdminPanelComponent implements OnInit {
           break;
         }
       }
-      case 'newProduct':{
-        this.mountNewProductComponent();
+      case 'manageProducts':{
+        this.mountManageProductsComponent();
         break;
       }
       case 'delivery':{
@@ -57,8 +57,8 @@ export class AdminPanelComponent implements OnInit {
         this.mountGenerateReportsComponent();
         break;
       }
-      case 'newEmployee':{
-        this.mountNewEmployeeComponent();
+      case 'changePrivileges':{
+        this.mountChangePrivilegesComponent();
         break;
       }
       case 'deleteUser':{
@@ -78,8 +78,8 @@ export class AdminPanelComponent implements OnInit {
     this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountNewProductComponent(){
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(CreateProductComponent);
+  mountManageProductsComponent(){
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageProductComponent);
     this.displayElement.createComponent(componentFactory, 0);
   }
 
@@ -88,7 +88,7 @@ export class AdminPanelComponent implements OnInit {
     this.displayElement.createComponent(componentFactory,0);
   }
 
-  mountNewEmployeeComponent(){
+  mountChangePrivilegesComponent(){
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChangePrivilegesComponent);
     this.displayElement.createComponent(componentFactory,0);
   }

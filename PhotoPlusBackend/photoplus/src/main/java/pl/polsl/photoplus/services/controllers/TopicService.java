@@ -28,7 +28,7 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
     @Override
     protected TopicModelDto getDtoFromModel(final Topic modelObject) {
         return new TopicModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getSection().getCode(), modelObject.getDate(),
-                modelObject.getCreator().getCode());
+                modelObject.getCreator().getCode(), modelObject.getCreator().getLogin());
     }
 
     @Override
@@ -55,5 +55,10 @@ public class TopicService extends AbstractModelService<Topic, TopicModelDto, Top
 
     public List<TopicModelDto> getTopicsBySection(final String sectionCode) {
         return getDtoListFromModels(this.entityRepository.findAllBySection_Code(sectionCode));
+    }
+
+    public String getTopicCreatorCode(final String postCode) {
+        final Topic topic = findByCodeOrThrowError(postCode, "Find topic creator");
+        return topic.getCreator().getCode();
     }
 }
