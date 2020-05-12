@@ -59,7 +59,7 @@ export class AddDeliveryComponent implements OnInit {
     this.batchForm = this.formBuilder.group({
       purchasePrice: [
         "",
-        [Validators.required, Validators.pattern("([0-9]+(.|,)[0-9]+)")],
+        [Validators.required, Validators.pattern(/^[0-9]+([.][0-9]{0,2})?$/)],
       ],
       date: ["", [Validators.required]],
       supplyQuantity: ["", [Validators.required, Validators.pattern("[0-9]+")]],
