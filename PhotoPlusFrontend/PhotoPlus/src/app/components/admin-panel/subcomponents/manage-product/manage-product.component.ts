@@ -141,7 +141,7 @@ export class ManageProductComponent implements OnInit {
       productCategory: ["", [Validators.required]],
       productPrice: [
         "0.00",
-        [Validators.required, Validators.pattern("[0-9]+(.|,)[0-9]+")],
+        [Validators.required, Validators.pattern(/^[0-9]+([.][0-9]{0,2})?$/)],
       ],
     });
   }
@@ -189,7 +189,7 @@ export class ManageProductComponent implements OnInit {
       return;
     }
     const form = this.productCreationForm.value;
-   
+
     const product: Product = {
       name: form.productName,
       description: form.productDescription,
