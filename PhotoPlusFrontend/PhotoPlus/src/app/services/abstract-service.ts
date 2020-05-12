@@ -37,4 +37,7 @@ export abstract class AbstractService<T> {
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/all/page/count");
   }
 
+  public getPage(page:number): Observable<T[]>{
+    return this._http.get<T[]>(this.hostAddress + this.endpointUrl + "/all/" + page);
+  }
 }
