@@ -1,5 +1,5 @@
 <div class="container max-width">
-    <mat-card class="mt-1">
+    <mat-card class="mt-1 section-bg-color">
     <div class="row">
         <div class="col">
             <a [routerLink]="['/forum/section', section.code]">
@@ -11,8 +11,8 @@
         </div>
         <div class="col-3 text-align-left" *ngIf="auth.isModerator && shouldModeratorButtonsBeRenedered">
             <a [routerLink]="['/forum/edit/section', section.code]">
-                <button class="btn btn-primary button-edit"  >Edit</button>
-            </a>
+                <button class="btn btn-primary"  >Edit</button>
+            </a>&nbsp;
             <a [routerLink]="['/forum/remove/section', section.code]">
                 <button class="btn btn-danger">Remove</button>
             </a>

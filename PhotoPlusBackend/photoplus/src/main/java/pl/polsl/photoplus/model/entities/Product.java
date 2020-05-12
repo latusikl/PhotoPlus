@@ -8,6 +8,7 @@ import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Entity(name = "products")
 @Table(name = "products")
@@ -17,12 +18,12 @@ import java.util.List;
 public class Product extends AbstractEntityModel {
 
     public Product(final String name, final Double price, final String description, final Integer storeQuantity,
-                   final List<String> imageCodes) {
+                   final Map<String, String> dataLinks) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imageCodes = imageCodes;
         this.storeQuantity = storeQuantity;
+        this.dataLinks = dataLinks;
     }
 
     @Patchable
@@ -44,7 +45,11 @@ public class Product extends AbstractEntityModel {
     private Integer storeQuantity;
 
     @Patchable
+    @ManyToMany(targetEntity = Image.class)
+    private List<Image> images;
+
+    @Patchable
     @ElementCollection
-    private List<String> imageCodes;
+    private Map<String, String> dataLinks;
 
 }

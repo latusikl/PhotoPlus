@@ -16,7 +16,7 @@ import pl.polsl.photoplus.services.controllers.ImageService;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
+import java.util.HashMap;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -47,6 +47,7 @@ public class ImageController {
     public ResponseEntity postImage(@Image(service = ImageService.class) final MultipartFile file) throws IOException {
         final String entityCode = imageService.save(new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()));
         final HttpHeaders headers = new HttpHeaders();
+        headers.add("Entity-Code", entityCode);
         final URI uri = linkTo(methodOn(this.getClass()).getSingle(entityCode)).toUri();
         headers.add("Location", uri.toASCIIString());
         return new ResponseEntity(headers, HttpStatus.CREATED);

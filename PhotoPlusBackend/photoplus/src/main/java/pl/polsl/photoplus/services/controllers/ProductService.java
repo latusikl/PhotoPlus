@@ -5,20 +5,28 @@ import org.springframework.stereotype.Service;
 
 import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Category;
+import pl.polsl.photoplus.model.entities.Image;
 import pl.polsl.photoplus.model.entities.Product;
+import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ProductService extends AbstractModelService<Product, ProductModelDto, ProductRepository> {
 
     private final CategoryService categoryService;
+    private final ImageService imageService;
+    private final ImageRepository imageRepository;
 
-    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService) {
+    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService, final ImageService imageService, final ImageRepository imageRepository) {
         super(entityRepository);
         this.categoryService = categoryService;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -28,34 +36,61 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     @Override
     protected ProductModelDto getDtoFromModel(final Product modelObject) {
+        final List<String> imageCodes = new ArrayList<>();
+        modelObject.getImages().forEach(image -> imageCodes.add(image.getCode()));
         return new ProductModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getPrice(),
                 modelObject.getDescription(), modelObject.getCategory().getCode(), modelObject.getStoreQuantity(),
-                modelObject.getImageCodes());
+                imageCodes, modelObject.getDataLinks());
     }
 
     @Override
     protected Product getModelFromDto(final ProductModelDto dtoObject) {
-        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(), dtoObject.getStoreQuantity(),
-                dtoObject.getImageCodes());
+        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(),
+                dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
     }
 
-    private Product insertCategoryDependencyAndParseToModel(final ProductModelDto dto) {
+    private Product insertDependenciesAndParseToModel(final ProductModelDto dto) {
         final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
                 "SAVE PRODUCT");
+        final List<Image> imagesToAdd = new ArrayList<>();
+        dto.getImages().forEach(imageCode -> {
+            final Image imageToAdd = imageService.findByCodeOrThrowError(imageCode,
+                    "SAVE PRODUCT");
+            imagesToAdd.add(imageToAdd);
+        });
         final Product productToAdd = getModelFromDto(dto);
         productToAdd.setCategory(categoryToAdd);
+        productToAdd.setImages(imagesToAdd);
         return productToAdd;
     }
 
     @Override
     public String save(final ProductModelDto dto) {
-        final String entityCode = entityRepository.save(insertCategoryDependencyAndParseToModel(dto)).getCode();
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
         return entityCode;
     }
 
     @Override
+    public HttpStatus delete(final String code)
+    {
+        final Product product = findByCodeOrThrowError(code, "PRODUCT DELETE");
+        final List<Image> images = product.getImages();
+        if (images != null && !images.isEmpty()) {
+
+            for (final Image image : images) {
+                image.getProducts().remove(product);
+                imageRepository.save(image);
+            }
+            product.setImages(Collections.emptyList());
+            entityRepository.save(product);
+        }
+        entityRepository.delete(product);
+        return HttpStatus.NO_CONTENT;
+    }
+
+    @Override
     public HttpStatus saveAll(final List<ProductModelDto> dtoSet) {
-        dtoSet.stream().map(this::insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
+        dtoSet.stream().map(this::insertDependenciesAndParseToModel).forEach(this.entityRepository::save);
         return HttpStatus.CREATED;
     }
 

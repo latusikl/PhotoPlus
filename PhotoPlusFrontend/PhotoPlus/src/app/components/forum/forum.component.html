@@ -2,7 +2,7 @@
     <div class="row-12" *ngFor="let singular of sections">
         <app-section [section]="singular" [shouldModeratorButtonsBeRenedered]="true"></app-section>
     </div>
-    <div *ngIf="auth.isAdmin" >
+    <div *ngIf="auth.isModerator" >
       <a [routerLink]="['/forum/add/section']" >
           <div class="center">
             <button class="btn btn-primary" >Add Section</button>

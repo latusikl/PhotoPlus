@@ -1,36 +1,33 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Topic } from 'src/app/models/topic/topic';
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from 'src/app/models/user/user';
-import { LoginService } from 'src/app/services/login/login.service';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, Input } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Topic } from "src/app/models/topic/topic";
+import { UserService } from "src/app/services/user/user.service";
+import { User } from "src/app/models/user/user";
+import { LoginService } from "src/app/services/login/login.service";
+import { Subject, BehaviorSubject } from "rxjs";
 
 @Component({
-  selector: 'app-topic-header',
-  templateUrl: './topic-header.component.html',
-  styleUrls: ['./topic-header.component.scss']
+  selector: "app-topic-header",
+  templateUrl: "./topic-header.component.html",
+  styleUrls: ["./topic-header.component.scss"],
 })
 export class TopicHeaderComponent implements OnInit {
-
   @Input("topic")
   topic: Topic;
 
   @Input("disableControls")
-  disableControls:boolean;
+  disableControls: boolean;
 
   canModify: Subject<boolean>;
-  topicOwner: Subject<User|any>;
-  
-  constructor(private userService:UserService, private loginService: LoginService, private activatedRoute:ActivatedRoute, private router:Router) { }
+  canDelete: Subject<boolean>;
 
-   ngOnInit():void {
-    this.canModify = new BehaviorSubject(false);
-    this.topicOwner = new BehaviorSubject({});
-    this.userService.getSingle(parseInt(this.topic.userCode)).subscribe(data=> {
-      this.topicOwner.next(data);
-      this.canModify.next(!this.disableControls && (data.name === this.loginService.getLoggedUser().login || this.loginService.isModerator));
-    });
+  constructor(private loginService: LoginService) {}
 
+  ngOnInit(): void {
+    this.canModify = new BehaviorSubject(this.loginService.isModerator);
+    this.canDelete = new BehaviorSubject(
+      !this.disableControls && 
+      (this.loginService.getLoggedUser().code === this.topic.userCode ||
+      this.loginService.isModerator));
   }
 }

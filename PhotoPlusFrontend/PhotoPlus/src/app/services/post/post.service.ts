@@ -13,7 +13,17 @@ export class PostService extends AbstractService<Post> {
     super(http, "post");
   }
 
-  getAllFromTopic(topicCode: number): Observable<Post[]>{
+  getAllFromTopic(topicCode: string): Observable<Post[]>{
     return this._http.get<Post[]>(this.hostAddress + this.endpointUrl + "/byTopic/" + topicCode);
   }
+
+  patchOwn(postCode: string, body: Post): Observable<Post>{
+    return this._http.patch<Post>(this.hostAddress + this.endpointUrl + "/patchOwn/" + postCode, body);
+  }
+
+  deleteOwn(postCode: string): Observable<Post>{
+    return this._http.delete<Post>(this.hostAddress + this.endpointUrl + "/deleteOwn/" + postCode);
+  }
+
+
 }

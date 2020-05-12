@@ -2,12 +2,12 @@
     <div class="row">
         <div class="col-2 user-info-box">
             <mat-card class="user-profile">
-              {{(postOwner|async) && (postOwner | async).name ||  '' }}
+              {{(post | async)?.userLogin || '' }}
             </mat-card>
         </div>
         <div class="col-7 post-content">
             <div *ngIf="!duringModification" class="d-inline-block">
-                {{(post |async) && (post | async).content || ''}}
+                {{(post | async)?.content || ''}}
             </div>
             <div *ngIf="duringModification" class="d-inline-block w-100">
                 <textarea class="dynamic-textarea" #postEdit value="{{(post | async).content}}"></textarea>
@@ -15,12 +15,11 @@
         </div>
         <div *ngIf="canModify" class="col-3">
             <div *ngIf="!duringModification" class="d-inline-block">
-                <button class="btn btn-primary button-edit" (click)="editPost()">Edit</button>
+                <button class="btn btn-primary" (click)="editPost()">Edit</button>&nbsp;
             </div>
             <div *ngIf="duringModification" class="d-inline-block">
-                <button class="btn btn-success button-edit" (click)="savePost()">Save</button>
+                <button class="btn btn-success" (click)="savePost()">Save</button>&nbsp;
             </div>
-
             <button class="btn btn-danger" (click)="removePost()">Remove</button>
         </div>
     </div>

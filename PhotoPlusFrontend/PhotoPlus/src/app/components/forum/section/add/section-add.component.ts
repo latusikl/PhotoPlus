@@ -40,8 +40,6 @@ export class SectionAddComponent implements OnInit {
       const keys = resp.headers.keys();
       let headers = keys.map(key =>
         `${key}: ${resp.headers.get(key)}`);
-
-      console.log(headers)
       this.router.navigate(['/forum']);
     });
   }

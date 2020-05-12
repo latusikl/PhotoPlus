@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class ControllerExceptionHandler
 
         e.getBindingResult().getAllErrors().forEach(errorConsumer);
 
-        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDtos,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 
@@ -66,6 +67,16 @@ public class ControllerExceptionHandler
         log.info("IOException handled: {}.", e.getMessage());
 
         final ErrorDto error = new ErrorDto(IOException.class.getSimpleName(), null, e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(DocumentException.class)
+    protected ResponseEntity<ErrorDto> handleDocumentException(final DocumentException e)
+    {
+        log.info("DocumentException handled: {}.", e.getMessage());
+
+        final ErrorDto error = new ErrorDto(DocumentException.class.getSimpleName(), null, e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 

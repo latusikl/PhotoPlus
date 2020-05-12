@@ -30,7 +30,7 @@ public class PostService extends AbstractModelService<Post, PostModelDto, PostRe
     @Override
     protected PostModelDto getDtoFromModel(final Post modelObject) {
         return new PostModelDto(modelObject.getCode(), modelObject.getDate(), modelObject.getTopic().getCode(),
-                modelObject.getContent(), modelObject.getUser().getCode());
+                modelObject.getContent(), modelObject.getUser().getCode(), modelObject.getUser().getLogin());
     }
 
     @Override
