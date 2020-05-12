@@ -11,6 +11,7 @@ import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +72,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     @Override
+    @Transactional
     public HttpStatus delete(final String code)
     {
         final Product product = findByCodeOrThrowError(code, "PRODUCT DELETE");
