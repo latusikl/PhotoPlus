@@ -82,7 +82,7 @@ public class ControllerExceptionHandler
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<ErrorDto>> handleConstraintViolationException(final ConstraintViolationException e)
+    protected ResponseEntity<List<ErrorDto>> handleConstraintViolationException(final ConstraintViolationException e)
     {
         log.info("Validation exception handled: {}", e.getMessage());
         final List<ErrorDto> errorDtos = new ArrayList<>();
@@ -126,7 +126,7 @@ public class ControllerExceptionHandler
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorDto> handleDataIntegrityViolationException(final DataIntegrityViolationException  e)
+    protected ResponseEntity<ErrorDto> handleDataIntegrityViolationException(final DataIntegrityViolationException  e)
     {
         log.info("DataIntegrityViolationException handled: {}.", e.getMessage());
         final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),

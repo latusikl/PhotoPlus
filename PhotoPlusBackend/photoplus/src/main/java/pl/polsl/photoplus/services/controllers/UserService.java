@@ -7,7 +7,6 @@ import pl.polsl.photoplus.model.enums.UserRole;
 import pl.polsl.photoplus.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService
