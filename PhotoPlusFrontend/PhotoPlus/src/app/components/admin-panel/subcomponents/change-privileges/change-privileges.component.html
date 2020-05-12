@@ -5,7 +5,9 @@
         #searchInput
         class="w-100"
         type="text"
-    /></span>
+    /></span><br>
+    <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+    </app-page-select>
   </div>
   <div class="row">
     <div class="col-4 mt-1" *ngFor="let user of filteredUsers">

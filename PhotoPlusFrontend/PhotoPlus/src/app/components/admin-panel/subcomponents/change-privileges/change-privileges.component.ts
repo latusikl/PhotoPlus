@@ -17,20 +17,24 @@ export class ChangePrivilegesComponent implements OnInit {
   users: BehaviorSubject<User>[];
   filteredUsers: BehaviorSubject<User>[];
 
+  selectedPage: BehaviorSubject<number>;
+  amountOfPages: BehaviorSubject<number>;
+
   constructor(private userService: UserService, private renderer: Renderer2) {}
 
-  ngOnInit(): void {
-    this.users = new Array<BehaviorSubject<User>>();
-    this.filteredUsers = new Array<BehaviorSubject<User>>();
-    this.userService.getAll().subscribe((data) => {
-      for (let user of data) {
-        if(user.login === "admin"){
-          continue;
-        }
-        this.users.push(new BehaviorSubject(user));
-      }
-      this.filteredUsers = this.users;
-    });
+  async ngOnInit() {
+    this.selectedPage = new BehaviorSubject(0);
+    this.amountOfPages = new BehaviorSubject(0);
+    let pageInfo = this.userService.getPageCount().toPromise();
+    this.loadUsers();
+    this.setupSearchBarListener();
+    let info = await pageInfo;
+    this.amountOfPages.next((await pageInfo).pageAmount);
+    console.log(info);
+    
+  }
+
+  setupSearchBarListener(){
     this.renderer.listen(this.el.nativeElement,"input",() => {
       const searchText = this.el.nativeElement.value;
       if(searchText == ''){
@@ -41,6 +45,22 @@ export class ChangePrivilegesComponent implements OnInit {
         x.value.login.includes(searchText) || x.value.code.includes(searchText)
       );
     });
+  }
+
+  loadUsers(){
+    this.users = new Array<BehaviorSubject<User>>();
+    this.filteredUsers = new Array<BehaviorSubject<User>>();
+    this.userService.getPage(this.selectedPage.value).subscribe((data) => {
+      for (let user of data) {
+        this.users.push(new BehaviorSubject(user));
+      }
+      this.filteredUsers = this.users;
+    });
+  }
+
+  changePage(page:number){
+    this.selectedPage.next(page);
+    this.loadUsers();
   }
 
   sendUpdateRole(userCode: string){
