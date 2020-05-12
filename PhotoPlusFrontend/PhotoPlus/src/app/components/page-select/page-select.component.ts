@@ -17,6 +17,9 @@ export class PageSelectComponent implements OnInit {
   @Input("amountOfPages")
   amountOfPages: BehaviorSubject<number>;
 
+  @Input("selectedPage")
+  selectedPage: BehaviorSubject<number>;
+
   @Output("onPageSelect")
   onPageSelect= new EventEmitter<number>();
 
@@ -25,20 +28,11 @@ export class PageSelectComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get generateRange(){
-    const captureAmount = this.amountOfPages.value;
-    return Array.from(
-      (function*(){
-          let i = 1;
-          while(i <= captureAmount) 
-            yield i++;
-        }()
-      )
-    );
-  }
-
-  pageSelect(pageNumber: number){
-    this.onPageSelect.next(pageNumber);
+  pageSelect(pageNumber: any){
+    if(this.selectedPage.value === pageNumber){
+      return;
+    }
+    this.onPageSelect.next(pageNumber.pageIndex as number);
   }
 
 }
