@@ -6,6 +6,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatDividerModule } from "@angular/material/divider";
+import {MatPaginatorModule, MatPaginatorIntl} from '@angular/material/paginator'; 
+
 
 import {AppComponent} from './app.component';
 import {ProductsComponent} from './components/products/products.component';
@@ -44,6 +46,8 @@ import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add
 import { ManageSingleOrderComponent } from './components/admin-panel/subcomponents/manage-single-order/manage-single-order.component';
 import { ImageCarouselComponent } from './components/admin-panel/subcomponents/manage-product/image-carousel/image-carousel.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
+import { PageSelectComponent } from './components/page-select/page-select.component';
+import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 
 @NgModule({
     declarations: [
@@ -79,7 +83,8 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
         AddDeliveryComponent,
         ManageSingleOrderComponent,
         ImageCarouselComponent,
-        ImageDisplayComponent
+        ImageDisplayComponent,
+        PageSelectComponent
     ],
     imports: [
         BrowserModule,
@@ -90,6 +95,7 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
         MatCardModule,
         MatDividerModule,
         MatExpansionModule,
+        MatPaginatorModule,
         NgbModule
     ],
     providers: [
@@ -102,6 +108,10 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
           provide: HTTP_INTERCEPTORS,
           useClass: ErrorInterceptor,
           multi: true
+      },
+      {
+        provide: MatPaginatorIntl,
+        useClass: CustomMatPaginatorIntl
       }
     ],
     bootstrap: [AppComponent]

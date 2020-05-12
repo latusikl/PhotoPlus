@@ -16,22 +16,40 @@ export class DeleteUsersComponent implements OnInit {
   users: BehaviorSubject<User>[];
   filteredUsers: BehaviorSubject<User>[];
 
+  amountOfPages: BehaviorSubject<number>;
+  seletedPage: BehaviorSubject<number>;
+
   constructor(private userService: UserService, private renderer: Renderer2) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.amountOfPages = new BehaviorSubject(0);
+    this.seletedPage = new BehaviorSubject(0);
+    let pageCount = this.userService.getPageCount().toPromise();
+    this.amountOfPages.next((await pageCount).pageAmount); 
+    this.loadUsers();
+    this.setupSearchBarListener()
+   
+  }
+
+  changePage(event: number){
+    this.seletedPage.next(event);
+    this.loadUsers();
+  }
+
+  loadUsers(){
     this.users = new Array<BehaviorSubject<User>>();
     this.filteredUsers = new Array<BehaviorSubject<User>>();
-    this.userService.getAll().subscribe((data) => {
+    this.userService.getPage(this.seletedPage.value).subscribe((data) => {
       for (let user of data) {
-        if(user.login === "admin"){
-          continue;
-        }
         this.users.push(new BehaviorSubject(user));
       }
       this.filteredUsers = this.users;
     });
+  }
+
+  setupSearchBarListener(){
     this.renderer.listen(this.el.nativeElement,"input",() => {
-      const searchText = this.el.nativeElement.value;
+      const searchText:string = this.el.nativeElement.value;
       if(searchText == ''){
         this.filteredUsers = this.users;
         return;
@@ -41,6 +59,7 @@ export class DeleteUsersComponent implements OnInit {
       );
     });
   }
+
   deleteUser(user: BehaviorSubject<User>){
     if(confirm("Do you want to delete user: \n\n" + user.value.name + " " + user.value.surname)){
       this.userService.delete(user.value.code).subscribe(()=>{
