@@ -70,7 +70,7 @@ export class AddDeliveryComponent implements OnInit {
   setupSearchBar() {
     this.renderer.listen(this.searchBarEl.nativeElement, "input", () => {
       const searchText:string = this.searchBarEl.nativeElement.value;
-      
+
       if(searchText === ''){
         this.filteredProducts = this.products;
       } else{
