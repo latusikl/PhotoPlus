@@ -13,7 +13,7 @@ import { TopicService } from 'src/app/services/topic/topic.service';
 })
 export class SectionBodyComponent implements OnInit {
 
-  sectionCode: number;
+  sectionCode: string;
   topics: Topic[];
 
   constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private topicService: TopicService) { }

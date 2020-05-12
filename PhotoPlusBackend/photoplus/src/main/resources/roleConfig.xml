@@ -22,6 +22,9 @@ Proper file format example:
                 <access>/product/all</access>
                 <access>/product/single</access>
 
+                <access>/rating/all</access>
+                <access>/rating/single</access>
+
                 <access>/category/all</access>
                 <access>/category/single</access>
 
@@ -30,10 +33,55 @@ Proper file format example:
                 <access>/user/post</access>
         </role>
         <role name="client">
-                <access>/product/all</access>
+                <access>/rating/post</access>
+
+                <access>/section/all</access>
+                <access>/section/single</access>
+
+                <access>/post/all</access>
+                <access>/post/single</access>
+                <access>/post/post</access>
+
+                <access>/topic/all</access>
+                <access>/topic/single</access>
+                <access>/topic/post</access>
         </role>
         <role name="employee">
-                <access>/product/all</access>
+                <access>/section/all</access>
+                <access>/section/single</access>
+                <access>/section/patch</access>
+                <access>/section/delete</access>
+                <access>/section/post</access>
+
+                <access>/topic/all</access>
+                <access>/topic/single</access>
+                <access>/topic/post</access>
+                <access>/topic/patch</access>
+                <access>/topic/delete</access>
+
+                <access>/post/all</access>
+                <access>/post/single</access>
+                <access>/post/patch</access>
+                <access>/post/delete</access>
+                <access>/post/post</access>
+
+                <access>/batch/all</access>
+                <access>/batch/single</access>
+                <access>/batch/patch</access>
+                <access>/batch/delete</access>
+                <access>/batch/post</access>
+
+                <access>/product/patch</access>
+                <access>/product/delete</access>
+                <access>/product/post</access>
+
+                <access>/category/patch</access>
+                <access>/category/delete</access>
+                <access>/category/post</access>
+
+                <access>/image/post</access>
+                <access>/image/delete</access>
+                <access>/image/patch</access>
         </role>
         <role name="admin">
         <!--        Should be able to access all application endpoints-->
@@ -41,7 +89,6 @@ Proper file format example:
                 <access>/user/single</access>
                 <access>/user/patch</access>
                 <access>/user/delete</access>
-                <access>/user/post</access>
 
                 <access>/batch/all</access>
                 <access>/batch/single</access>
@@ -85,10 +132,6 @@ Proper file format example:
                 <access>/product/delete</access>
                 <access>/product/post</access>
 
-                <access>/picture/patch</access>
-                <access>/picture/delete</access>
-                <access>/picture/post</access>
-
                 <access>/rating/all</access>
                 <access>/rating/single</access>
                 <access>/rating/patch</access>
@@ -103,9 +146,9 @@ Proper file format example:
 
                 <access>/topic/all</access>
                 <access>/topic/single</access>
+                <access>/topic/post</access>
                 <access>/topic/patch</access>
                 <access>/topic/delete</access>
-                <access>/topic/post</access>
 
                 <access>/user/all</access>
                 <access>/user/single</access>
