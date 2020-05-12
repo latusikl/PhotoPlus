@@ -117,4 +117,8 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         product.setStoreQuantity(newQuantity);
         this.entityRepository.save(product);
     }
+
+    public List<ProductModelDto> getByNameContainingStr(final String str) {
+        return getDtoListFromModels(entityRepository.findByNameContainingIgnoreCase(str));
+    }
 }
