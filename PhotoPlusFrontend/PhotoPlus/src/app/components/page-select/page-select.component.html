@@ -1,0 +1,9 @@
+<div class="row justify-content-center mt-2">
+  <div *ngFor="let number of generateRange">
+    <a (click)="pageSelect(number)">
+      <mat-card class="p-1 button" style="margin: 1px;">
+        {{ number }}
+      </mat-card>
+    </a>
+  </div>
+</div>

@@ -1,8 +1,11 @@
 <div class="container">
     <div class="form-group mt-3">
-        <span>Search by login or usercode:<input #searchInput class="w-100" type="text" /></span>
+        <span>Search by login or usercode:<input #searchInput class="w-100" type="text" /></span><br>
+        <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+        </app-page-select>
     </div>
     <div class="row">
+
         <div class="col-4 mt-1" *ngFor="let user of filteredUsers">
             <div class="form-group">
                 <mat-card>

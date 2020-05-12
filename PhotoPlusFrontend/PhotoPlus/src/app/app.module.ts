@@ -44,6 +44,7 @@ import { AddDeliveryComponent } from './components/admin-panel/subcomponents/add
 import { ManageSingleOrderComponent } from './components/admin-panel/subcomponents/manage-single-order/manage-single-order.component';
 import { ImageCarouselComponent } from './components/admin-panel/subcomponents/manage-product/image-carousel/image-carousel.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
+import { PageSelectComponent } from './components/page-select/page-select.component';
 
 @NgModule({
     declarations: [
@@ -79,7 +80,8 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
         AddDeliveryComponent,
         ManageSingleOrderComponent,
         ImageCarouselComponent,
-        ImageDisplayComponent
+        ImageDisplayComponent,
+        PageSelectComponent
     ],
     imports: [
         BrowserModule,
