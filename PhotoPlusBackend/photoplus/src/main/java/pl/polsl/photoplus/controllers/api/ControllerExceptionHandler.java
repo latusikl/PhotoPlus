@@ -2,6 +2,7 @@ package pl.polsl.photoplus.controllers.api;
 
 import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -122,6 +123,15 @@ public class ControllerExceptionHandler
 
         final ErrorDto error = new ErrorDto(NotEnoughProductsException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorDto> handleDataIntegrityViolationException(final DataIntegrityViolationException  e)
+    {
+        log.info("DataIntegrityViolationException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),
+                e.getLocalizedMessage(), "Cannot execute statement.");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }

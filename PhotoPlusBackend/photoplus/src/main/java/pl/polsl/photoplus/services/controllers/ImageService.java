@@ -8,6 +8,7 @@ import pl.polsl.photoplus.model.entities.Product;
 import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
     }
 
     @Override
+    @Transactional
     public HttpStatus delete(final String code)
     {
         final Image image = findByCodeOrThrowError(code, "IMAGE DELETE");
