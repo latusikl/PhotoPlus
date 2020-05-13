@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,13 +27,21 @@ public class ProductController
         super(dtoService, "product", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/json"})
+    @GetMapping(path = "{page}", produces = {"application/json"}, params = "categoryCode")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity<List<ProductModelDto>> getAllFromCategory(@RequestParam final String categoryCode)
+    public ResponseEntity<List<ProductModelDto>> getAllFromCategory(@PathVariable("page") final Integer page,
+                                                                    @RequestParam final String categoryCode)
     {
-        final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(categoryCode);
+        final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(page, categoryCode);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "page/count", produces = "application/json", params = "categoryCode")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<ObjectNode> getAmountOfPages(@RequestParam final String categoryCode)
+    {
+        return new ResponseEntity<>(dtoService.getPageCountOfProductFromCategory(categoryCode), HttpStatus.OK);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -111,9 +112,27 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return HttpStatus.CREATED;
     }
 
-    public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
+    public List<ProductModelDto> getProductsFromCategory(final Integer pageNumber, final String categoryCode)
     {
-        return getDtoListFromModels(this.entityRepository.findAllByCategory_CodeOrderByName(categoryCode));
+        return getDtoListFromModels(this.getPageOfProductFromCategory(pageNumber, categoryCode));
+    }
+
+    private Page<Product> getPageOfProductFromCategory(final Integer pageNumber, final String categoryCode) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Product> foundModels = entityRepository.findAllByCategory_CodeOrderByName(modelPage, categoryCode);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCountOfProductFromCategory(final String categoryCode)
+    {
+        final Page<Product> firstPage = getPageOfProductFromCategory(0, categoryCode);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 
     public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
