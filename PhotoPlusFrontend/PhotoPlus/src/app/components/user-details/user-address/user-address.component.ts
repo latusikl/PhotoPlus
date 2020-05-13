@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Address} from "../../../models/address/address";
+import {AddressDto} from "../../../models/address/address-dto";
 
 @Component({
     selector: 'app-user-address',
@@ -14,7 +14,7 @@ export class UserAddressComponent implements OnInit {
     }
 
     @Input("userAddress")
-    userAddress: Address;
+    userAddress: AddressDto;
 
     @Input("newAddress")
     newAddress: boolean = false;
@@ -68,6 +68,10 @@ export class UserAddressComponent implements OnInit {
             return;
         }
         console.log("Valid data")
+    }
+
+    postAddress(){
+        // const newAddressToPost =
     }
 
     disable() {

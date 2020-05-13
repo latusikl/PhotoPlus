@@ -5,7 +5,7 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {LoggedUser} from "../../models/login/logged-user.model";
 import {UserModel} from "../../models/user/user-model";
-import {Address} from "../../models/address/address";
+import {AddressDto} from "../../models/address/address-dto";
 
 @Component({
     selector: 'app-user-details',
@@ -19,7 +19,7 @@ export class UserDetailsComponent implements OnInit {
 
     loggedUserWithDetails: UserModel;
     loggedUser: LoggedUser;
-    addresses: Address[];
+    addresses: AddressDto[];
     hostAddress = environment.hostAddress;
 
     ngOnInit(): void {
@@ -36,11 +36,11 @@ export class UserDetailsComponent implements OnInit {
     }
 
     getUserAddresses(): void {
-        this.http.get<Address[]>(environment.hostAddress + "address/byUser/" + this.loggedUser.code).subscribe((res: Address[]) => this.addresses = res);
+        this.http.get<AddressDto[]>(environment.hostAddress + "address/byUser/" + this.loggedUser.code).subscribe((res: AddressDto[]) => this.addresses = res);
     }
 
     public getLoggedUser(): Observable<UserModel> {
-        return this.http.get<UserModel>(this.hostAddress + "user/" + this.loggedUser.code);
+        return this.http.get<UserModel>(this.hostAddress + "user/editAccount/" + this.loggedUser.code);
     }
 
     get a() {

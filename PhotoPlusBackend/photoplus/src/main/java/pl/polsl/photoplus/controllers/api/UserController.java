@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +41,14 @@ public class UserController extends BaseModelController<UserModelDto,UserService
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
+
+    @GetMapping("/editAccount/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    public ResponseEntity<UserModelDto> getOwnAccount(@PathVariable("code") final String code)
+    {
+        return new ResponseEntity<>(dtoService.getSingleObject(code), HttpStatus.OK);
+    }
+
+
 
 }

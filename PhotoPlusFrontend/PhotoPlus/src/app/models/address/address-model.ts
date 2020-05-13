@@ -1,11 +1,6 @@
-import {Link} from "../link/link";
 import {CountryEnum} from "./country.enum";
 
-export class Address {
-
-    code : string;
-    userCode: string;
-    links : Link[];
+export interface AddressModel {
 
     street: string;
     number: string;
