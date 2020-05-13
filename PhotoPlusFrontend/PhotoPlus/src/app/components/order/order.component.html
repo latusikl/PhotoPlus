@@ -54,7 +54,7 @@
       </div>
     </div>
     <p class="text"><br></p>
-    <p class="error" id="error">Check payment method!</p>
+
     <select class="buy fadeIn third" (change)="selectOption($event.target.value)">
       <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
         &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>

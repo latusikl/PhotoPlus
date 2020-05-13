@@ -31,8 +31,6 @@ export class OrderComponent implements OnInit {
   myDate = new Date();
   addreses: any[];
   selectedOption: any;
-  hostAddress = environment.hostAddress;
-  address: any;
   street: any;
   number: any;
   city: any;
@@ -129,16 +127,14 @@ export class OrderComponent implements OnInit {
     this.order.address.zipCode = this.zipCode.value;
     this.order.address.userCode = this.user.code
     this.order.address.countryCode = this.country.value;
+
     if (this.isChecked == false) {
-      this.error = document.getElementById("error")
-      this.error.style.display = "block"
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please check payment method!.";
       return
     }
 
-    if (this.isChecked == true) {
-      this.error = document.getElementById("error")
-      this.error.style.display = "none"
-    }
 
     this.addressService.post({
       "links": [],
@@ -171,15 +167,12 @@ export class OrderComponent implements OnInit {
     }
 
     if (this.isChecked == false) {
-      this.error = document.getElementById("error")
-      this.error.style.display = "block"
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please check payment method!.";
       return
     }
 
-    if (this.isChecked == true) {
-      this.error = document.getElementById("error")
-      this.error.style.display = "none"
-    }
     this.order.paymentMethod = this.paymentMethod
     this.orderSerivce.post(this.order).subscribe()
   }
