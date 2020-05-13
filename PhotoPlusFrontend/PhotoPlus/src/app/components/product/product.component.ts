@@ -24,8 +24,9 @@ export class ProductComponent implements OnInit {
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.route.paramMap.forEach(({params}:Params) => {
-      this.param = params['productCode']})
+    this.route.paramMap.forEach(({params}: Params) => {
+      this.param = params.productCode;
+    });
     this.productService.getSingle(this.param).subscribe((data: Product) => {
         this.product = data;
         this.productService.getDataFromLinks(this.product);
