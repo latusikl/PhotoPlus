@@ -9,7 +9,7 @@ export class Order {
   addressCode: number;
   orderItems: [{
     orderCode: string;
-    productCode: number;
+    productCode: string;
     quantity: number;
   }]
   address: {

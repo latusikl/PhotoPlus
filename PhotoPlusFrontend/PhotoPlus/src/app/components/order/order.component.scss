@@ -7,14 +7,25 @@
     justify-content: center;
 }
 
-.btn{
+.buyBtn{
+  width:20%;
+  margin: 0 auto;
+}
+
+.buy{
   width:50%;
   margin: 0 auto;
 }
 
 .address{
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
+}
+
+.addressPanel{
+  background-color: #56baed;
+ 
+  width:50%;
+  margin: 0 auto;
 }
 
 .error{

@@ -55,37 +55,46 @@
     </div>
     <p class="text"><br></p>
     <p class="error" id="error">Check payment method!</p>
-
-
-    <div class="address" id="address">
-      <label>Street:
-        <input type="text" name="input" id="street">
-      </label>
-      <br>
-      <label>Number:
-        <input type="text" name="input" id="number">
-      </label>
-      <br>
-      <label>Zip code:
-        <input type="text" name="input" id="zipCode">
-      </label>
-      <br>
-      <label>City:
-        <input type="text" name="input" id="city">
-      </label>
-      <br>
-      <label>Country:
-        <input type="text" name="input" id="country">
-      </label>
-
-    </div>
-    <br>
-    <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
-    <p class="text"><br></p>
-    <select (change)="selectOption($event.target.value)">
+    <select class="buy fadeIn third" (change)="selectOption($event.target.value)">
       <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
         &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
     </select>
-    <button (click)="buy()" class="btn btn-success" href="#" id="cart-link">Buy</button>
+    <button (click)="buy()" class="buyBtn btn-success" href="#" id="cart-link">Buy</button>
+    <p class="text"><br></p>
+    <mat-expansion-panel class="addressPanel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Add address
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="address" id="address">
+          <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="form-control fadeIn third" type="text" name="input" id="street">
+          </label>
+          <br>
+          <label>Number:&nbsp;
+            <input class="form-control fadeIn third" type="text" name="input" id="number">
+          </label>
+          <br>
+          <label>Zip code:
+            <input class="form-control fadeIn third" type="text" name="input" id="zipCode">
+          </label>
+          <br>
+          <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="form-control fadeIn third" type="text" name="input" id="city">
+          </label>
+          <br>
+          <label>Country:&nbsp;&nbsp;
+            <input class="form-control fadeIn third" type="text" name="input" id="country" placeholder="PL">
+          </label>
+          <br>
+
+          <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+        </div>
+
+      </mat-panel-description>
+    </mat-expansion-panel>
+    <p class="text"><br></p>
   </div>
 </div>

@@ -32,7 +32,7 @@ export class CartComponent implements OnInit {
     if (value > 0 && value <= item[0].storeQuantity && Number.isInteger(+value)) {
       this.cartService.changeQuantity(value, item);
     } else {
-      (document.querySelector(("#input"+item[0].code).toString()) as HTMLInputElement).value = item[1].toString();
+      (document.querySelector(("#input" + item[0].code).toString()) as HTMLInputElement).value = item[1].toString();
     }
   }
   buy() {
@@ -40,7 +40,6 @@ export class CartComponent implements OnInit {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
       modalRef.componentInstance.message = "Please login!.";
-      console.log("dziala")
       return;
     }
     this.router.navigate(['/order']);

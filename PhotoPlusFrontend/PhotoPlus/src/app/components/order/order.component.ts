@@ -8,6 +8,7 @@ import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
 import { environment } from 'src/environments/environment';
+import { OrderService } from 'src/app/services/order/order.service';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class OrderComponent implements OnInit {
   getAddress: any;
 
 
-  constructor(private cartService: CartService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
+  constructor(private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
 
     this.order = {
@@ -50,7 +51,7 @@ export class OrderComponent implements OnInit {
       price: 0,
       date: "2020-01-30",
       addressCode: 0,
-      orderItems: [{ productCode: 0, quantity: 0, orderCode: 'orderCode' }],
+      orderItems: [{ productCode: '0', quantity: 0, orderCode: 'orderCode' }],
       address: {
         street: "street",
         number: 0,
@@ -142,6 +143,7 @@ export class OrderComponent implements OnInit {
       this.error = document.getElementById("error")
       this.error.style.display = "none"
     }
+
     this.http.post<HttpResponse<any>>(environment.hostAddress + 'address',
       {
         "code": 0,
@@ -156,16 +158,13 @@ export class OrderComponent implements OnInit {
         this.http.get<HttpResponse<any>>(this.addresLink).subscribe(data => {
           this.getAddress = data;
           this.order.addressCode = this.getAddress.code
-          this.http.post<HttpResponse<Order[]>>(environment.hostAddress + 'order/buy',
-            this.order
-          ).subscribe()
+          this.orderSerivce.post(this.order).subscribe()
         })
       })
     this.order.paymentMethod = this.paymentMethod
   }
 
   buy() {
-
 
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
@@ -184,12 +183,8 @@ export class OrderComponent implements OnInit {
       this.error = document.getElementById("error")
       this.error.style.display = "none"
     }
-
     this.order.paymentMethod = this.paymentMethod
-    this.http.post<HttpResponse<Order[]>>(environment.hostAddress + 'order/buy',
-      this.order
-    ).subscribe()
-
+    this.orderSerivce.post(this.order).subscribe()
   }
 
 }
