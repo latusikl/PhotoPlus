@@ -159,7 +159,6 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     public List<ProductModelDto> getTopEight() {
-        return getDtoListFromModels(this.entityRepository.findTop8By());
-
+        return getDtoListFromModels(this.entityRepository.findTop8ByStoreQuantityGreaterThan(0));
     }
 }

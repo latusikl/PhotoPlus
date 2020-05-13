@@ -12,7 +12,7 @@ public interface ProductRepository extends EntityRepository<Product, Long> {
     List<Product> getAllByCategory_Code(final String code);
     List<Product> findByNameContainingIgnoreCase(String str);
     List<Product> findAllByOrderByName();
-    List<Product> findTop8By();
+    List<Product> findTop8ByStoreQuantityGreaterThan(Integer storeQuantity);
     Page<Product> findAllByOrderByName(Pageable page);
     Page<Product> findAllByOrderByPriceAsc(Pageable page);
     Page<Product> findAllByOrderByPriceDesc(Pageable page);
