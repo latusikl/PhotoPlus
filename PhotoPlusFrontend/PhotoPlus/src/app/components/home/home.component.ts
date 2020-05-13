@@ -15,13 +15,13 @@ export class HomeComponent implements OnInit {
 
   products: Product[];
 
-  constructor( private productService: ProductService, private cartService: CartService, private modalService: NgbModal ) { }
+  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-              this.productService.getAllFromLink(environment.hostAddress + 'product/top').subscribe((data: Product[]) => {
-                this.products = data;
-                this.products.forEach(element => { this.productService.getDataFromLinks(element); });
-              });
+    this.productService.getAllFromLink(environment.hostAddress + 'product/top').subscribe((data: Product[]) => {
+      this.products = data;
+      this.products.forEach(element => { this.productService.getDataFromLinks(element); });
+    });
   }
 
   addToCart(product: Product) {
