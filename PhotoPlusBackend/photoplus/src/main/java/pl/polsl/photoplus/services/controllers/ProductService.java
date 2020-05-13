@@ -157,4 +157,9 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
+
+    public List<ProductModelDto> getTopEight() {
+        return getDtoListFromModels(this.entityRepository.findTop8By());
+
+    }
 }

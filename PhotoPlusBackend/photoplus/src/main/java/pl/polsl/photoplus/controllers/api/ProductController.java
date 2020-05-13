@@ -45,6 +45,15 @@ public class ProductController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = "top", produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<List<ProductModelDto>> getTop()
+    {
+        final List<ProductModelDto> dtos = dtoService.getTopEight();
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping(path = {"/all/{page}"}, produces = {"application/json"}, params = "sortedBy")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getAll(@PathVariable final Integer page,
