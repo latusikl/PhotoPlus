@@ -119,7 +119,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     private Page<Product> getPageOfProductFromCategory(final Integer pageNumber, final String categoryCode) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<Product> foundModels = entityRepository.findAllByCategory_CodeOrderByName(modelPage, categoryCode);
+        final Page<Product> foundModels = entityRepository.findAllByCategory_CodeAndStoreQuantityGreaterThanOrderByName(modelPage, categoryCode, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
@@ -153,26 +153,26 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     public List<ProductModelDto> getByNameContainingStr(final String str) {
-        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseOrderByName(str));
+        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThanOrderByName(str, 0));
     }
 
     private Page<Product> getPageSortByName(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<Product> foundModels = entityRepository.findAllByOrderByName(modelPage);
+        final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThanOrderByName(modelPage, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
 
     private Page<Product> getPageSortByPriceAsc(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<Product> foundModels = entityRepository.findAllByOrderByPriceAsc(modelPage);
+        final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThanOrderByPriceAsc(modelPage, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
 
     private Page<Product> getPageSortByPriceDesc(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<Product> foundModels = entityRepository.findAllByOrderByPriceDesc(modelPage);
+        final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThanOrderByPriceDesc(modelPage, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
