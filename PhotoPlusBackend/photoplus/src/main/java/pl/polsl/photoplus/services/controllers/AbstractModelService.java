@@ -151,7 +151,7 @@ public abstract class AbstractModelService<M extends AbstractEntityModel, T exte
         return foundModels;
     }
 
-    private void throwNotFoundErrorIfIterableEmpty(final String methodName, final Iterable<?> iterable)
+    void throwNotFoundErrorIfIterableEmpty(final String methodName, final Iterable<?> iterable)
     {
         if (IterableUtils.size(iterable) == 0) {
             throwNotFoundError(methodName);

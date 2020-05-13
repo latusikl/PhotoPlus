@@ -1,5 +1,8 @@
 package pl.polsl.photoplus.services.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.UserModelDto;
 import pl.polsl.photoplus.model.entities.User;
@@ -16,6 +19,27 @@ public class UserService
     public UserService(final UserRepository userRepository)
     {
         super(userRepository);
+    }
+
+    @Override
+    public List<UserModelDto> getAll() {
+        final List<User> foundModels = entityRepository.findAllByOrderByLogin();
+        return getDtoListFromModels(foundModels);
+    }
+
+    @Override
+    public List<UserModelDto> getPageFromAll(final Integer page) {
+        return getDtoListFromModels(getPage(page));
+    }
+
+
+    private Page<User> getPage(final Integer pageNumber)
+    {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<User> foundModels = entityRepository.findAllByOrderByLogin(modelPage);
+
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return foundModels;
     }
 
     @Override

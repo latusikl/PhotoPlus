@@ -36,6 +36,42 @@ public class ProductController
     }
 
     @Override
+    @GetMapping(path = "all/{page}", produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<List<ProductModelDto>> getAll(@PathVariable("page") final Integer page)
+    {
+        final List<ProductModelDto> dtos = dtoService.getPageFromAllSortedByName(page);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "top", produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<List<ProductModelDto>> getTop()
+    {
+        final List<ProductModelDto> dtos = dtoService.getTopEight();
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = {"/all/{page}"}, produces = {"application/json"}, params = "sortedBy")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<List<ProductModelDto>> getAll(@PathVariable final Integer page,
+                                                               @RequestParam final String sortedBy)
+    {
+        final List<ProductModelDto> dtos;
+        if (sortedBy.equals("priceAsc")) {
+            dtos = dtoService.getPageFromAllSortedPriceAsc(page);
+        } else if (sortedBy.equals("priceDesc")) {
+            dtos = dtoService.getPageFromAllSortedPriceDesc(page);
+        } else {
+            dtos = dtoService.getPageFromAllSortedByName(page);
+        }
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @Override
     public void addLinks(final ProductModelDto dto)
     {
         dto.add(linkTo(methodOn(ProductController.class).getSingle(dto.getCode())).withSelfRel());
