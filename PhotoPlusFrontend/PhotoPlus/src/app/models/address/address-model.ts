@@ -7,5 +7,6 @@ export interface AddressModel {
     zipCode: string;
     city: string;
     country: CountryEnum;
+    userCode: string;
 
 }

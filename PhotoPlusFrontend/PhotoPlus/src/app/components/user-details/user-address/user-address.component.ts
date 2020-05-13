@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AddressDto} from "../../../models/address/address-dto";
+import {AddressModel} from "../../../models/address/address-model";
+import {UserModel} from "../../../models/user/user-model";
 
 @Component({
     selector: 'app-user-address',
@@ -18,6 +20,9 @@ export class UserAddressComponent implements OnInit {
 
     @Input("newAddress")
     newAddress: boolean = false;
+
+    @Input("loggedUser")
+    currentUser: UserModel;
 
     addressForm: FormGroup
 
@@ -68,10 +73,13 @@ export class UserAddressComponent implements OnInit {
             return;
         }
         console.log("Valid data")
+        this.postAddress();
     }
 
     postAddress(){
-        // const newAddressToPost =
+        const newAddressToPost = <AddressModel> this.addressForm.value;
+        newAddressToPost.userCode = this.currentUser.code;
+        console.log(newAddressToPost);
     }
 
     disable() {
