@@ -46,4 +46,13 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
+
+    @PostMapping("/editAddress/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    public String post(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)
+    {
+        //Prevent form passing different code of user in dto than logged one
+        dto.setUserCode(code);
+        return dtoService.save(dto);
+    }
 }
