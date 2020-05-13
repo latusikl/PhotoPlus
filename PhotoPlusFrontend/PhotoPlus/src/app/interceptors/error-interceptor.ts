@@ -68,7 +68,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         modalRef.componentInstance.message = "Access denied.";
         break;
       }
-      case 422: {
+      case 422: case 400: {
         if (Array.isArray(error.error)) {
           const errorArray = error.error as Array<ErrorModel>;
           errorArray.forEach(el => {
