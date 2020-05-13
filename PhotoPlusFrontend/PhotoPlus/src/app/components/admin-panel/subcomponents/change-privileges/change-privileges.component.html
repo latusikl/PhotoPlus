@@ -6,8 +6,6 @@
         class="w-100"
         type="text"
     /></span><br>
-    <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-    </app-page-select>
   </div>
   <div class="row">
     <div class="col-4 mt-1" *ngFor="let user of filteredUsers">
@@ -25,7 +23,7 @@
             <select (change)="changeRoleInModel(user.value.code,$event.target.value)">
               <option
                 *ngFor="let role of roleClass"
-               
+
                 [selected]="user.value.role === role"
               >
                 {{ role }}
@@ -36,4 +34,6 @@
       </div>
     </div>
   </div>
+  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+  </app-page-select>
 </div>
