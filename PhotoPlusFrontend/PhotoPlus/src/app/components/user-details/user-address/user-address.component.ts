@@ -5,6 +5,9 @@ import {AddressDto} from "../../../models/address/address-dto";
 import {AddressModel} from "../../../models/address/address-model";
 import {UserModel} from "../../../models/user/user-model";
 import {CountryCode} from "../../../models/address/countryCode";
+import {environment} from "../../../../environments/environment";
+import {SuccessModalComponent} from "../../success-modal/success-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-user-address',
@@ -13,7 +16,7 @@ import {CountryCode} from "../../../models/address/countryCode";
 })
 export class UserAddressComponent implements OnInit {
 
-    constructor(private http: HttpClient, private  formBuilder: FormBuilder) {
+    constructor(private http: HttpClient, private  formBuilder: FormBuilder, private modalService: NgbModal) {
     }
 
     @Input("userAddress")
@@ -25,11 +28,16 @@ export class UserAddressComponent implements OnInit {
     @Input("loggedUser")
     currentUser: UserModel;
 
+    @Input("id")
+    id: string;
+
     addressForm: FormGroup
 
     submitted: boolean = false;
 
     formDisabled: boolean;
+
+    countryCodeSet = CountryCode.getCodes();
 
     ngOnInit(): void {
         this.createAddressForm();
@@ -37,10 +45,9 @@ export class UserAddressComponent implements OnInit {
         if (!this.newAddress) {
             this.addressForm.disable();
             this.fillForm();
-            this.formDisabled=true;
-        }
-        else{
-            this.formDisabled=false;
+            this.formDisabled = true;
+        } else {
+            this.formDisabled = false;
         }
     }
 
@@ -73,16 +80,21 @@ export class UserAddressComponent implements OnInit {
         if (this.addressForm.invalid) {
             return;
         }
-        console.log("Valid data")
         this.postAddress();
     }
 
-    postAddress(){
-        const newAddressToPost = <AddressModel> this.addressForm.value;
+    postAddress() {
+        const newAddressToPost = <AddressModel>this.addressForm.value;
         newAddressToPost.userCode = this.currentUser.code;
-
-
-        console.log(newAddressToPost);
+        this.http.post<String>(environment.hostAddress + "address/editAddress/" + this.currentUser.code, newAddressToPost).subscribe(res => {
+            const modalRef = this.modalService.open(SuccessModalComponent);
+            modalRef.componentInstance.title = "New address added!";
+            modalRef.result.then(() => {
+                location.reload();
+            }, () => {
+                location.reload();
+            })
+        });
     }
 
     disable() {
@@ -95,4 +107,15 @@ export class UserAddressComponent implements OnInit {
         this.formDisabled = false;
     }
 
+    onDelete() {
+        this.http.delete(environment.hostAddress + "address/editAddress/" + this.currentUser.code + "/" + this.userAddress.code).subscribe(res => {
+            const modalRef = this.modalService.open(SuccessModalComponent);
+            modalRef.componentInstance.title = "Address deleted!";
+            modalRef.result.then(() => {
+                location.reload();
+            }, () => {
+                location.reload();
+            })
+        });
+    }
 }

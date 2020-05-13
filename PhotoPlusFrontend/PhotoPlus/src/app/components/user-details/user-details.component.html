@@ -24,7 +24,7 @@
                     <span>{{"See or edit address no." + (i + 1)}}</span>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [loggedUser]="loggedUser"></app-user-address>
+            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [loggedUser]="loggedUser" [id]="i"></app-user-address>
         </mat-expansion-panel>
     </div>
     <mat-expansion-panel>
@@ -33,6 +33,6 @@
                 <span>Add new address.</span>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-user-address [newAddress]="true" [loggedUser]="loggedUser"></app-user-address>
+        <app-user-address [newAddress]="true" [loggedUser]="loggedUser" [id]="'new'"></app-user-address>
     </mat-expansion-panel>
 </mat-accordion>

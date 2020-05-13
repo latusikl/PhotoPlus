@@ -47,6 +47,13 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
 
+    @DeleteMapping("/editAddress/{code}/{addressCode}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    public ResponseEntity delete(@PathVariable("code") final String code, @PathVariable("addressCode") final String addressCode)
+    {
+        return new ResponseEntity(dtoService.delete(addressCode));
+    }
+
     @PostMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
     public String post(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)

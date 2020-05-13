@@ -1,9 +1,9 @@
 <div class="wrapper fadeInDown">
-<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="addressForm">
     <div id="formContent">
     <div>
-        <label for="street" class="form-label">Street:</label>
-        <input formControlName="street" type="text" class="form-control fadeIn second" id="street" name="street"
+        <label for="{{'street'+id}}" class="form-label">Street:</label>
+        <input formControlName="street" type="text" class="form-control fadeIn second" id="{{'street'+id}}" name="street"
                placeholder="Street" [ngClass]="{ 'is-invalid': submitted && f.street.errors }">
         <div *ngIf="submitted && !formDisabled && f.street.errors" class="invalid-feedback">
             <div *ngIf="f.street.errors.required">
@@ -19,8 +19,8 @@
     </div>
 
     <div>
-        <label for="number" class="form-label">Apartment number:</label>
-        <input formControlName="number" type="text" class="form-control fadeIn second" id="number" name="number"
+        <label for="{{'number'+ id}}" class="form-label">Apartment number:</label>
+        <input formControlName="number" type="text" class="form-control fadeIn second" id="{{'number'+ id}}" name="number"
                placeholder="Apartment number" [ngClass]="{ 'is-invalid': submitted && f.number.errors }">
         <div *ngIf="submitted && !formDisabled && f.number.errors" class="invalid-feedback">
             <div *ngIf="f.number.errors.required">
@@ -33,8 +33,8 @@
     </div>
 
     <div>
-        <label for="city" class="form-label">City:</label>
-        <input formControlName="city" type="text" class="form-control fadeIn second" id="city" name="city"
+        <label for="{{'city'+ id}}" class="form-label">City:</label>
+        <input formControlName="city" type="text" class="form-control fadeIn second" id="{{'city'+ id}}" name="city"
                placeholder="City" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
         <div *ngIf="submitted && f.city.errors && !formDisabled" class="invalid-feedback">
             <div *ngIf="f.city.errors.required">
@@ -47,8 +47,8 @@
     </div>
 
     <div>
-        <label for="zipCode" class="form-label">ZIP Code:</label>
-        <input formControlName="zipCode" type="text" class="form-control fadeIn second" id="zipCode" name="zipCode"
+        <label for="{{'zipCode'+ id}}" class="form-label">ZIP Code:</label>
+        <input formControlName="zipCode" type="text" class="form-control fadeIn second" id="{{'zipCode'+ id}}" name="zipCode"
                placeholder="ZIP Code" [ngClass]="{ 'is-invalid': submitted && f.zipCode.errors }">
         <div *ngIf="submitted && f.zipCode.errors && !formDisabled" class="invalid-feedback">
             <div *ngIf="f.zipCode.errors.required">
@@ -61,10 +61,12 @@
     </div>
 
     <div>
-        <label for="countryCode" class="form-label">Country:</label>
-        <input formControlName="countryCode" type="text" class="form-control fadeIn second" id="countryCode"
+        <label for="{{'countryCode'+ id}}" class="form-label">Country:</label>
+        <select formControlName="countryCode" type="text" list="codeList" class="form-control fadeIn second" id="{{'countryCode'+ id}}"
                name="countryCode"
-               placeholder="Country code" [ngClass]="{ 'is-invalid': submitted && f.countryCode.errors }">
+               placeholder="Country" [ngClass]="{ 'is-invalid': submitted && f.countryCode.errors }">
+            <option *ngFor="let country of countryCodeSet" [value]="country.key" [text]="country.value"></option>
+        </select>
         <div *ngIf="submitted && !formDisabled && f.countryCode.errors" class="invalid-feedback">
             <div *ngIf="f.countryCode.errors.required">
                 Country code is required.
@@ -73,10 +75,11 @@
     </div>
 
     <div [style.display]="!newAddress ? 'block' : 'none'">
-        <button class="btn btn-success" [disabled]="formDisabled" (click)="onSubmit()">Save changes</button>
+        <button class="btn btn-danger"  (click)="onDelete()">Delete</button>
         <button class="btn btn-success" (click)="formDisabled ? enable() : disable()">
             <span>{{formDisabled ? "Edit" : "Stop Editing" }}</span>
         </button>
+        <button class="btn btn-success" [disabled]="formDisabled" (click)="onSubmit()">Save changes</button>
     </div>
 
     <div [style.display]="newAddress ? 'block' : 'none'">
