@@ -10,9 +10,11 @@
     <div class="collapse navbar-collapse" id="navbarHeader">
 
       <div class="searchbar">
-        <input id="typeahead-focus" type="text" class="form-control search_input" [ngbTypeahead]="search"
-          (focus)="focus$.next($any($event).target.value)" (click)="click$.next($any($event).target.value)"
-          #instance="ngbTypeahead" placeholder="Search..." />
+        <input   id="typeahead-focus"
+                 type="text"
+                 class="form-control search_input"
+                 placeholder="Search..."
+        />
         <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
 

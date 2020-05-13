@@ -3,9 +3,9 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatCardModule } from "@angular/material/card";
-import { MatExpansionModule } from "@angular/material/expansion";
-import { MatDividerModule } from "@angular/material/divider";
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 import {MatPaginatorModule, MatPaginatorIntl} from '@angular/material/paginator';
 
 
@@ -16,7 +16,7 @@ import {RegistrationComponent} from './components/registration/registration.comp
 import {LoginComponent} from './components/login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {AuthInterceptor} from "./interceptors/auth-interceptor";
+import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {CartComponent} from './components/cart/cart.component';
 import {ErrorModalComponent} from './components/error-modal/error-modal.component';
 import {SuccessModalComponent} from './components/success-modal/success-modal.component';
