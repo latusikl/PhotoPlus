@@ -4,6 +4,9 @@ import { Product } from '../../models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { LoginService } from 'src/app/services/login/login.service';
 
 
 @Component({
@@ -15,13 +18,26 @@ export class ProductsComponent implements OnInit {
 
   products: Product[];
 
-  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
+  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal, private router: Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.productService.getAll().subscribe((data: Product[]) => {
       this.products = data;
       this.products.forEach(element => { this.productService.getDataFromLinks(element) });
     });
+  }
+
+  buy(product: Product) {
+    console.log("xd")
+    this.cartService.clearCart();
+    this.cartService.addToCart(product);
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!.";
+      return;
+    }
+    this.router.navigate(['/order']);
   }
 
   addToCart(product: Product) {
