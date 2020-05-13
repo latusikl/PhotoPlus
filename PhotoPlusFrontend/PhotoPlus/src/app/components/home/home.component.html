@@ -8,13 +8,6 @@
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="d-block w-100" src="https://www.publicdomainpictures.net/pictures/240000/velka/woman-photographer-countryside.jpg?auto=yes" alt="First slide">
-        <div class="carousel-caption">
-          <h1> C A M E R A </h1>
-          <p>for grild</p>
-        </div>
-      </div>
-      <div class="carousel-item">
         <img class="d-block w-100" src="https://c.pxhere.com/photos/01/85/photo-145733.jpg!d?auto=yes" alt="Second slide">
       </div>
       <div class="carousel-item">
@@ -22,6 +15,13 @@
       </div>
       <div class="carousel-item">
         <img class="d-block w-100" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Backstage_The_slide_projector.jpg?auto=yes" alt="Fourth slide">
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100" src="https://www.publicdomainpictures.net/pictures/240000/velka/woman-photographer-countryside.jpg?auto=yes" alt="First slide">
+        <div class="carousel-caption">
+          <h1> C A M E R A </h1>
+          <p>for grild</p>
+        </div>
       </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -32,5 +32,31 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Next</span>
     </a>
+  </div>
+</div>
+<div class="flex-container" *ngIf="products">
+  <div class="carousel-card card shadow-border fadeInDown" *ngFor="let product of products">
+    <div class="card-body fadeIn first">
+      <ngb-carousel class="home-carousel" wrap="true" [interval]="false" *ngIf="product.imagesUrl.length > 1; else noCarousel" #carousel>
+        <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+          <div class="picsum-img-wrapper">
+            <img class="carouselImage" src="{{image}}">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <ng-template #noCarousel >
+        <div class="noCarouselImgContainer">
+          <img class="noCarouselImage" src="{{product.imagesUrl[0]}}">
+        </div>
+      </ng-template>
+
+      <p routerLink="/product/{{product.code}}"  class="card-title fadeIn second" id="home-card-title"> {{ product.name }} </p>
+      <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ product.category }} </p>
+      <p class="price fadeIn third">$<span>{{ product.price }}</span></p>
+      <div class ="card-linkBox fadeIn fourth">
+        <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+        <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
+      </div>
+    </div>
   </div>
 </div>

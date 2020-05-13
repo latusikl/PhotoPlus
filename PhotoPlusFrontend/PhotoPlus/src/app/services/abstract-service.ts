@@ -21,6 +21,10 @@ export abstract class AbstractService<T> {
     return this._http.get<T>(link);
   }
 
+  public getAllFromLink(link: string): Observable<T[]>  {
+    return this._http.get<T[]>(link);
+  }
+
   public post(item: T): Observable<HttpResponse<T>> {
     return this._http.post<T>(this.hostAddress + this.endpointUrl, item, { observe: 'response' });
   }
