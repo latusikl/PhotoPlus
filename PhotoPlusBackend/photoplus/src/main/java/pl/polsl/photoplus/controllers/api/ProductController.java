@@ -80,9 +80,9 @@ public class ProductController
         dto.getImages().forEach(imageCode -> dto.add(linkTo(methodOn(ImageController.class).getSingle(imageCode)).withRel(IMAGE_RELATION_NAME)));
     }
 
-    @GetMapping("/search/{str}")
+    @GetMapping(path = {"/search"}, produces = {"application/json"}, params = "str")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity searchByLogin(@PathVariable("str") final String str)
+    public ResponseEntity searchByLogin(@RequestParam final String str)
     {
         return new ResponseEntity(dtoService.getByNameContainingStr(str), HttpStatus.OK);
     }

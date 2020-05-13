@@ -113,7 +113,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
     {
-        return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+        return getDtoListFromModels(this.entityRepository.findAllByCategory_CodeOrderByName(categoryCode));
     }
 
     public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
@@ -134,7 +134,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     public List<ProductModelDto> getByNameContainingStr(final String str) {
-        return getDtoListFromModels(entityRepository.findByNameContainingIgnoreCase(str));
+        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseOrderByName(str));
     }
 
     private Page<Product> getPageSortByName(final Integer pageNumber) {
@@ -159,7 +159,6 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     public List<ProductModelDto> getTopEight() {
-        return getDtoListFromModels(this.entityRepository.findTop8By());
-
+        return getDtoListFromModels(this.entityRepository.findTop8ByStoreQuantityGreaterThan(0));
     }
 }
