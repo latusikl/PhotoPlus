@@ -140,18 +140,21 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     private Page<Product> getPageSortByName(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
         final Page<Product> foundModels = entityRepository.findAllByOrderByName(modelPage);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
 
     private Page<Product> getPageSortByPriceAsc(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
         final Page<Product> foundModels = entityRepository.findAllByOrderByPriceAsc(modelPage);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
 
     private Page<Product> getPageSortByPriceDesc(final Integer pageNumber) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
         final Page<Product> foundModels = entityRepository.findAllByOrderByPriceDesc(modelPage);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;
     }
 }
