@@ -1,5 +1,8 @@
 package pl.polsl.photoplus.services.controllers;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +51,18 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     protected Product getModelFromDto(final ProductModelDto dtoObject) {
         return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(),
                 dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
+    }
+
+    public List<ProductModelDto> getPageFromAllSortedByName(final Integer page) {
+        return getDtoListFromModels(getPageSortByName(page));
+    }
+
+    public List<ProductModelDto> getPageFromAllSortedPriceAsc(final Integer page) {
+        return getDtoListFromModels(getPageSortByPriceAsc(page));
+    }
+
+    public List<ProductModelDto> getPageFromAllSortedPriceDesc(final Integer page) {
+        return getDtoListFromModels(getPageSortByPriceDesc(page));
     }
 
     private Product insertDependenciesAndParseToModel(final ProductModelDto dto) {
@@ -120,5 +135,23 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     public List<ProductModelDto> getByNameContainingStr(final String str) {
         return getDtoListFromModels(entityRepository.findByNameContainingIgnoreCase(str));
+    }
+
+    private Page<Product> getPageSortByName(final Integer pageNumber) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Product> foundModels = entityRepository.findAllByOrderByName(modelPage);
+        return foundModels;
+    }
+
+    private Page<Product> getPageSortByPriceAsc(final Integer pageNumber) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Product> foundModels = entityRepository.findAllByOrderByPriceAsc(modelPage);
+        return foundModels;
+    }
+
+    private Page<Product> getPageSortByPriceDesc(final Integer pageNumber) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Product> foundModels = entityRepository.findAllByOrderByPriceDesc(modelPage);
+        return foundModels;
     }
 }
