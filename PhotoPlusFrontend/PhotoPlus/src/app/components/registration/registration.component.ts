@@ -4,7 +4,7 @@ import {User} from '../../models/user/user';
 import {UserService} from "../../services/user/user.service";
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SuccessModalComponent} from '../success-modal/success-modal.component';
-import {UserFormService} from "../../services/userForm/user-form.service";
+import {UserFormService} from "../../services/user/user-form.service";
 
 
 @Component({

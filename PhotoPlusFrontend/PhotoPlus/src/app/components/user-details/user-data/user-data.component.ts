@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {UserModel} from "../../../models/user/user-model";
-import {UserFormService} from "../../../services/userForm/user-form.service";
+import {UserFormService} from "../../../services/user/user-form.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
