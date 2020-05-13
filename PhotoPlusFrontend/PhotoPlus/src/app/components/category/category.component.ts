@@ -29,7 +29,7 @@ export class CategoryComponent implements OnInit {
       });
       this.productService.getAll().subscribe((data: Product[]) => {
             this.products = data;
-            this.products.forEach(element => { this.productService.getDataFromLinks(element) });
+            this.products.forEach(element => { this.productService.getDataFromLinks(element); });
           });
   }
 
