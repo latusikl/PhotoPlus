@@ -12,8 +12,6 @@ import { Product } from './models/product/product';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'PhotoPlus';
-  products: Product[];
 
   constructor(private loginService: LoginService, private productService: ProductService) {
 
@@ -23,18 +21,20 @@ export class AppComponent {
       });
   }
 
-  logout() {
-    this.loginService.logout();
-    window.location.reload();
-  }
-
   get auth(): LoginService {
     return this.loginService;
   }
+  title = 'PhotoPlus';
+  products: Product[];
 
     @ViewChild('instance', {static: true}) instance: NgbTypeahead;
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
+
+  logout() {
+    this.loginService.logout();
+    window.location.reload();
+  }
 
     search = (text$: Observable<string>) => {
       const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
