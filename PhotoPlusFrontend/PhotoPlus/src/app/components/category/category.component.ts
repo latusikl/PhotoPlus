@@ -23,6 +23,8 @@ export class CategoryComponent implements OnInit {
   selectedPage: BehaviorSubject<number>;
   amountOfPages: BehaviorSubject<number>;
 
+  isProductListEmpty: boolean = true;
+
   constructor(private categoryService: CategoryService, private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -39,10 +41,10 @@ export class CategoryComponent implements OnInit {
   async loadProductsFromCategory(categoryCode: string) {
     this.products = new Array<BehaviorSubject<Product>>();
     let pageInfo = this.productService.getPageCountFromCategory(categoryCode).toPromise();
-    let info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
     this.currentCategoryCode = categoryCode;
     this.productService.getPageFromCategory(this.selectedPage.value, categoryCode).subscribe((data) => {
+      this.isProductListEmpty = !(data.length > 0);
       for (let product of data) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
@@ -57,8 +59,8 @@ export class CategoryComponent implements OnInit {
     modalRef.componentInstance.title = "Added " + product.name + " to card.";
   }
 
-  changePage(page:number){
+  async changePage(page:number){
     this.selectedPage.next(page);
-    this.loadProductsFromCategory(this.currentCategoryCode);
+    await this.loadProductsFromCategory(this.currentCategoryCode);
   }
 }

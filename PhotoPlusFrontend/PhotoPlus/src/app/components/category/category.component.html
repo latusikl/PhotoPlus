@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div *ngIf="products?.length > 0">
+<div [hidden] = "isProductListEmpty">
   <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages"></app-page-select>
 </div>
 
