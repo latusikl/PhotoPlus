@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AddressDto} from "../../../models/address/address-dto";
 import {AddressModel} from "../../../models/address/address-model";
 import {UserModel} from "../../../models/user/user-model";
+import {CountryCode} from "../../../models/address/countryCode";
 
 @Component({
     selector: 'app-user-address',
@@ -79,6 +80,8 @@ export class UserAddressComponent implements OnInit {
     postAddress(){
         const newAddressToPost = <AddressModel> this.addressForm.value;
         newAddressToPost.userCode = this.currentUser.code;
+
+
         console.log(newAddressToPost);
     }
 

@@ -1,4 +1,5 @@
-import {CountryEnum} from "./country.enum";
+import {CountryCode} from "./countryCode";
+
 
 export interface AddressModel {
 
@@ -6,7 +7,7 @@ export interface AddressModel {
     number: string;
     zipCode: string;
     city: string;
-    country: CountryEnum;
+    country: string;
     userCode: string;
 
 }
