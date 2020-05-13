@@ -144,7 +144,7 @@ header {
   transition: width 0.4s linear, padding 0.4s linear;
 }
 
-.search_input:focus + .search_icon {
+.search_input + .search_icon:hover {
   background: white;
   color: #e74c3c;
   transition: color 0.4s linear, background 0.4s linear;
@@ -160,6 +160,7 @@ header {
   border-radius: 50%;
   color:white;
   text-decoration:none;
+  cursor: pointer;
 }
 
 @media (min-width: 992px) {
