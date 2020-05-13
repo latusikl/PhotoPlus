@@ -1,8 +1,6 @@
-<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-</app-page-select>
-<div *ngFor="let product of products">
-  <div class="flex-container fadeInDown">
-    <div class="carousel-card card shadow-border">
+<div class="flex-container">
+  <div *ngFor="let product of products">
+    <div class="carousel-card card shadow-border fadeInDown">
       <div class="card-body fadeIn first">
         <ngb-carousel class="home-carousel" wrap="true" [interval]="false"
           *ngIf="(product | async)?.imagesUrl?.length > 1; else noCarousel" #carousel>
@@ -32,3 +30,5 @@
     </div>
   </div>
 </div>
+<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+</app-page-select>
