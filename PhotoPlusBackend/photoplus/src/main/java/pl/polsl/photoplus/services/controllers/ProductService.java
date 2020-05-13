@@ -135,6 +135,17 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return jsonNode;
     }
 
+    @Override
+    public ObjectNode getPageCount() {
+        final Page<Product> firstPage = getPageSortByName(0);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
     public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
         final Product product = this.findByCodeOrThrowError(productCode, "SUB STORE QUANTITY");
         final Integer newQuantity = product.getStoreQuantity() - quantityToSub;
