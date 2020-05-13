@@ -59,7 +59,7 @@ export class CategoryComponent implements OnInit {
     modalRef.componentInstance.title = "Added " + product.name + " to card.";
   }
 
-  async changePage(page:number){
+  async changePage(page: number) {
     this.selectedPage.next(page);
     await this.loadProductsFromCategory(this.currentCategoryCode);
   }
