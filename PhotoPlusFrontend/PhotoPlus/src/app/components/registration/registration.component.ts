@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
    this.registerForm = this.formBuilder.group({
-    login: ['',[Validators.required, Validators.minLength(5)]],
+    login: ['', [Validators.required, Validators.minLength(5)]],
     mail: ['', [Validators.required, Validators.email ]],
     password: ['', [ Validators.required, Validators.minLength(5) ]],
     confirmPass : ['', [Validators.required]],
@@ -40,9 +40,9 @@ export class RegistrationComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  onSubmit(){
+  onSubmit() {
     this.submitted = true;
-    if(this.registerForm.invalid){
+    if (this.registerForm.invalid) {
       return;
     }
 
