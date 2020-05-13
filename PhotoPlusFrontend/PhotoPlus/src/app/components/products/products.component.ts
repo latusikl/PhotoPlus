@@ -35,6 +35,7 @@ export class ProductsComponent implements OnInit {
     this.products = new Array<BehaviorSubject<Product>>();
     this.productService.getPage(this.selectedPage.value).subscribe((data) => {
       for (let product of data) {
+        this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
       }
     });
