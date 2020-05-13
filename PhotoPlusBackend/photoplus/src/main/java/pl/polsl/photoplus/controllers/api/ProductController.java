@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.controllers.api;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,26 +27,34 @@ public class ProductController
         super(dtoService, "product", permissionEvaluatorService);
     }
 
-    @GetMapping(produces = {"application/json"})
+    @GetMapping(path = "/{page}", produces = {"application/json"}, params = "categoryCode")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity<List<ProductModelDto>> getAllFromCategory(@RequestParam final String categoryCode)
+    public ResponseEntity<List<ProductModelDto>> getPageFromCategory(@PathVariable("page") final Integer page,
+                                                                    @RequestParam final String categoryCode)
     {
-        final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(categoryCode);
+        final List<ProductModelDto> dtos = this.dtoService.getProductsFromCategory(page, categoryCode);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/page/count", produces = "application/json", params = "categoryCode")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<ObjectNode> getAmountOfPages(@RequestParam final String categoryCode)
+    {
+        return new ResponseEntity<>(dtoService.getPageCountOfProductFromCategory(categoryCode), HttpStatus.OK);
     }
 
     @Override
-    @GetMapping(path = "all/{page}", produces = {"application/json"})
+    @GetMapping(path = "/all/{page}", produces = {"application/json"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getAll(@PathVariable("page") final Integer page)
     {
-        final List<ProductModelDto> dtos = dtoService.getPageFromAllSortedByName(page);
+        final List<ProductModelDto> dtos = dtoService.getPageFromAll(page, "name");
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping(path = "top", produces = {"application/json"})
+    @GetMapping(path = "/top", produces = {"application/json"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getTop()
     {
@@ -54,19 +63,13 @@ public class ProductController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @GetMapping(path = {"/all/{page}"}, produces = {"application/json"}, params = "sortedBy")
+    @GetMapping(path = "/all/{page}", produces = {"application/json"}, params = "sortedBy")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity<List<ProductModelDto>> getAll(@PathVariable final Integer page,
                                                                @RequestParam final String sortedBy)
     {
         final List<ProductModelDto> dtos;
-        if (sortedBy.equals("priceAsc")) {
-            dtos = dtoService.getPageFromAllSortedPriceAsc(page);
-        } else if (sortedBy.equals("priceDesc")) {
-            dtos = dtoService.getPageFromAllSortedPriceDesc(page);
-        } else {
-            dtos = dtoService.getPageFromAllSortedByName(page);
-        }
+        dtos = dtoService.getPageFromAll(page, sortedBy);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }

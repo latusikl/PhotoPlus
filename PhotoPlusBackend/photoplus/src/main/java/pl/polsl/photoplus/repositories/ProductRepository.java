@@ -9,12 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends EntityRepository<Product, Long> {
-    List<Product> findAllByCategory_CodeOrderByName(final String code);
-    Page<Product> findAllByCategory_CodeOrderByName(Pageable page, final String code);
-    List<Product> findAllByNameContainingIgnoreCaseOrderByName(final String str);
-    List<Product> findAllByOrderByName();
+    Page<Product> findAllByCategory_CodeAndStoreQuantityGreaterThan(Pageable page, final String code, Integer storeQuantity);
+    List<Product> findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThanOrderByName(final String str, Integer storeQuantity);
     List<Product> findTop8ByStoreQuantityGreaterThan(Integer storeQuantity);
-    Page<Product> findAllByOrderByName(Pageable page);
-    Page<Product> findAllByOrderByPriceAsc(Pageable page);
-    Page<Product> findAllByOrderByPriceDesc(Pageable page);
+    Page<Product> findAllByStoreQuantityGreaterThan(Pageable page, Integer storeQuantity);
 }
