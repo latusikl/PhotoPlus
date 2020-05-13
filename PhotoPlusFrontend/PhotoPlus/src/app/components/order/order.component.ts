@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
 import { environment } from 'src/environments/environment';
 import { OrderService } from 'src/app/services/order/order.service';
+import { AddressService } from 'src/app/services/address/address.service';
 
 
 @Component({
@@ -41,11 +42,11 @@ export class OrderComponent implements OnInit {
   getAddress: any;
 
 
-  constructor(private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
+  constructor(private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
 
     this.order = {
-      userCode: 0,
+      userCode: '0',
       orderStatus: 'PENDING',
       paymentMethod: 'PAYPAL',
       price: 0,
@@ -53,20 +54,17 @@ export class OrderComponent implements OnInit {
       addressCode: 0,
       orderItems: [{ productCode: '0', quantity: 0, orderCode: 'orderCode' }],
       address: {
+        code: '0',
+        links: [],
         street: "street",
-        number: 0,
+        number: '0',
         zipCode: "00000",
         city: "city",
-        countryCode: "code",
-        userCode: 0,
-
+        countryCode: 'code',
+        userCode: '0',
       }
     }
   }
-
-
-
-
 
   selectOption(id: any[]) {
     this.selectedOption = id;
@@ -95,17 +93,15 @@ export class OrderComponent implements OnInit {
     if (this.loginService.isLoggedIn() == true) {
       this.order.userCode = this.user.code
     }
-    console.log(environment.hostAddress + "address/byUser/" + this.user.code)
     if (this.loginService.isLoggedIn() == true) {
-      this.http.get<HttpResponse<[]>>(environment.hostAddress + "address/byUser/" + this.user.code,
-      ).subscribe((data: any) => {
+      this.addressService.getSingle('byUser/' + this.user.code).subscribe((data: any) => {
         console.log(data)
         let i = 0;
         data.forEach(element => {
           element.key = i;
           i++
         });
-        this.addreses = data
+        this.addreses = data;
       })
     }
 
@@ -144,23 +140,24 @@ export class OrderComponent implements OnInit {
       this.error.style.display = "none"
     }
 
-    this.http.post<HttpResponse<any>>(environment.hostAddress + 'address',
-      {
-        "code": 0,
-        "street": this.order.address.street,
-        "number": this.order.address.number,
-        "zipCode": this.order.address.zipCode,
-        "city": this.order.address.city,
-        "countryCode": this.order.address.countryCode,
-        "userCode": this.order.userCode
-      }, { observe: 'response' }).subscribe(res => {
-        this.addresLink = res.headers.get('location');
-        this.http.get<HttpResponse<any>>(this.addresLink).subscribe(data => {
-          this.getAddress = data;
-          this.order.addressCode = this.getAddress.code
-          this.orderSerivce.post(this.order).subscribe()
-        })
+    this.addressService.post({
+      "links": [],
+      "code": '0',
+      "street": this.order.address.street,
+      "number": this.order.address.number,
+      "zipCode": this.order.address.zipCode,
+      "city": this.order.address.city,
+      "countryCode": this.order.address.countryCode,
+      "userCode": this.order.userCode
+    }).subscribe(res => {
+      this.addresLink = res.headers.get('location');
+      this.addressService.getSingle(this.addresLink).subscribe(data => {
+        this.getAddress = data;
+        this.order.addressCode = this.getAddress.code
+        this.orderSerivce.post(this.order).subscribe()
       })
+
+    })
     this.order.paymentMethod = this.paymentMethod
   }
 
