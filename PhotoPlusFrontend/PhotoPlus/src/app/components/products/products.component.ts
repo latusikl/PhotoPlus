@@ -28,7 +28,6 @@ export class ProductsComponent implements OnInit {
   }
 
   buy(product: Product) {
-    console.log("xd")
     this.cartService.clearCart();
     this.cartService.addToCart(product);
     if (this.loginService.isLoggedIn() == false) {
