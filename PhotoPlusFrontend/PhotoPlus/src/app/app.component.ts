@@ -3,7 +3,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { LoginService } from './services/login/login.service';
-import { ProductService } from "./services/product/product.service";
+import { ProductService } from './services/product/product.service';
 import { Product } from './models/product/product';
 
 @Component({
