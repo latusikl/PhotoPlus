@@ -42,8 +42,8 @@ export class AppComponent {
       const inputFocus$ = this.focus$;
 
       return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-        map(term => (term === '' ? this.products.map(p=>p.name)
-          : this.products.map(p=>p.name).filter(n => n.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+        map(term => (term === '' ? this.products.map(p => p.name)
+          : this.products.map(p => p.name).filter(n => n.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
       );
     }
 }
