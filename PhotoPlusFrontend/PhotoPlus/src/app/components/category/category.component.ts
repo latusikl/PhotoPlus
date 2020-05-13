@@ -18,22 +18,25 @@ export class CategoryComponent implements OnInit {
   products: Product[];
   productsToShow: Product[];
 
-  constructor( private categoryService: CategoryService, private productService: ProductService, private cartService: CartService, private modalService: NgbModal ) { }
+  constructor( private categoryService: CategoryService,
+               private productService: ProductService,
+               private cartService: CartService,
+               private modalService: NgbModal ) { }
 
   ngOnInit(): void {
       this.categoryService.getAll().subscribe((data: Category[]) => {
         this.categories = data;
       });
-          this.productService.getAll().subscribe((data: Product[]) => {
+      this.productService.getAll().subscribe((data: Product[]) => {
             this.products = data;
             this.products.forEach(element => { this.productService.getDataFromLinks(element) });
           });
   }
 
-  filterProducts(categoryName: String) {
+  filterProducts(categoryName: string) {
       this.productsToShow = [];
       this.products.forEach(product => {
-        if (categoryName == product.category) {
+        if (categoryName === product.category) {
           this.productsToShow.push(product);
         }
       });
