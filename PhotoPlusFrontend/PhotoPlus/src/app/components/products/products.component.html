@@ -1,5 +1,20 @@
-<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-</app-page-select>
+<div class="flex-container container-centered">
+  <div class="container-centered">
+    <div class="col-sm">
+      <mat-form-field class="selectBox">
+        <mat-label class="text-muted">Sorting option</mat-label>
+        <mat-select class="dropdown-option" [(value)]="sortBy" (selectionChange)="onSortingChange()">
+          <mat-option class="select" value="name">Name</mat-option>
+          <mat-option class="select" value="priceAsc">Price ↑</mat-option>
+          <mat-option class="select" value="priceDesc">Price ↓</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+  </app-page-select>
+</div>
+
 <div class="flex-container">
   <div *ngFor="let product of products">
     <div class="carousel-card card shadow-border fadeInDown">
@@ -25,7 +40,8 @@
         <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ (product | async)?.category?.name }} </p>
         <p class="price fadeIn third">$<span>{{ (product | async)?.price }}</span></p>
         <div class="card-linkBox fadeIn fourth">
-          <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
+          <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">Add to
+            cart</button>
           <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
         </div>
       </div>

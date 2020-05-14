@@ -48,6 +48,8 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
 import { PageSelectComponent } from './components/page-select/page-select.component';
 import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 import { AboutComponent } from './components/about/about.component';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
@@ -98,7 +100,8 @@ import { AboutComponent } from './components/about/about.component';
     MatExpansionModule,
     MatPaginatorModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
   ],
   providers: [
     {
@@ -117,6 +120,7 @@ import { AboutComponent } from './components/about/about.component';
     }
   ],
   bootstrap: [AppComponent]
+
 })
 export class AppModule {
 }

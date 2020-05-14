@@ -14,6 +14,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ProductsComponent implements OnInit {
 
+  sortBy = "name";
+
   products: BehaviorSubject<Product>[];
 
   selectedPage: BehaviorSubject<number>;
@@ -33,7 +35,7 @@ export class ProductsComponent implements OnInit {
 
   loadProducts(){
     this.products = new Array<BehaviorSubject<Product>>();
-    this.productService.getPage(this.selectedPage.value).subscribe((data) => {
+    this.productService.getSortedPage(this.selectedPage.value, this.sortBy).subscribe((data) => {
       for (let product of data) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
@@ -51,6 +53,10 @@ export class ProductsComponent implements OnInit {
     const modalRef = this.modalService.open(SuccessModalComponent);
     modalRef.componentInstance.message = "Please go to checkout to place an order.";
     modalRef.componentInstance.title = "Added " + product.name + " to card.";
+  }
+
+  onSortingChange() {
+    this.loadProducts();
   }
 
 }

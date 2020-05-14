@@ -43,4 +43,10 @@ export class ProductService extends AbstractService<Product> {
     }
     return obj;
 }
+
+  public getSortedPage(page: number, sortedBy: string) {
+    let params = new HttpParams().set("sortedBy", sortedBy);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + "/all/" + page, {params: params});
+  }
+
 }
