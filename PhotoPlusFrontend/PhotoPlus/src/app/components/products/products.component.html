@@ -1,4 +1,14 @@
 <div class="flex-container">
+  <mat-form-field>
+    <mat-label class="text-muted">Sorting option</mat-label>
+    <mat-select class="dropdown-option" [(value)]="sortBy" (selectionChange)="onSortingChange()">
+      <mat-option class="select" value="name">Name</mat-option>
+      <mat-option class="select" value="priceAsc">Price ↑</mat-option>
+      <mat-option class="select" value="priceDesc">Price ↓</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="flex-container">
   <div *ngFor="let product of products">
     <div class="carousel-card card shadow-border fadeInDown">
       <div class="card-body fadeIn first">

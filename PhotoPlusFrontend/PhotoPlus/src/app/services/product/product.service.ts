@@ -35,4 +35,9 @@ export class ProductService extends AbstractService<Product> {
     let params = new HttpParams().set("categoryCode", categoryCode);
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count",  {params: params});
   }
+
+  public getSortedPage(page: number, sortedBy: string) {
+    let params = new HttpParams().set("sortedBy", sortedBy);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + "/all/" + page, {params: params});
+  }
 }
