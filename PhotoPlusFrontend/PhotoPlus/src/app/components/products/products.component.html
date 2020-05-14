@@ -10,6 +10,8 @@
     </mat-form-field>
   </div>
 </div>
+<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+</app-page-select>
 <div class="flex-container">
   <div *ngFor="let product of products">
     <div class="carousel-card card shadow-border fadeInDown">
@@ -43,5 +45,3 @@
     </div>
   </div>
 </div>
-<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-</app-page-select>

@@ -1,3 +1,6 @@
-<div class="row justify-content-center">
-  <mat-paginator class="well-rounded shadow-border" [hidePageSize]="true" [pageSize]="1" [length]="amountOfPages|async" (page)="pageSelect($event)"></mat-paginator>
+<div class="container">
+  <div class="row justify-content-center">
+    <mat-paginator class="well-rounded shadow-border" [hidePageSize]="true" [pageSize]="1"
+      [length]="amountOfPages|async" (page)="pageSelect($event)"></mat-paginator>
+  </div>
 </div>
