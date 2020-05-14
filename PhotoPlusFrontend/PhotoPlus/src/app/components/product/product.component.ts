@@ -7,6 +7,7 @@ import { SuccessModalComponent } from '../success-modal/success-modal.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
 import { BehaviorSubject } from 'rxjs';
+import { Category } from 'src/app/models/category/category';
 
 @Component({
   selector: 'app-product',
@@ -24,6 +25,8 @@ export class ProductComponent implements OnInit {
   @ViewChild("productPrice", { static: false })
   productPriceTextArea: ElementRef;
 
+  selectedCategory: Category;
+
   param: string;
   product: BehaviorSubject<Product>;
   isEditing: boolean = false;
@@ -39,8 +42,9 @@ export class ProductComponent implements OnInit {
     this.product = new BehaviorSubject<Product>({} as Product);
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
+      this.loadProduct();
+      this.selectedCategory = this.product.value.category;
     });
-    this.loadProduct();
   }
 
   addToCart(product: Product) {
