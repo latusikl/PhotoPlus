@@ -56,7 +56,7 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  selectOption(id: any[]) {
+  selectOption(id: any) {
     this.selectedOption = id;
     this.order.address.city = this.addreses[this.selectedOption].city
     this.order.address.countryCode = this.addreses[this.selectedOption].country
@@ -74,6 +74,7 @@ export class OrderComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.addressForm = this.formBuilder.group({
       code: ['0'],
       links: [[]],
@@ -94,6 +95,7 @@ export class OrderComponent implements OnInit {
           i++
         });
         this.addreses = data;
+        this.selectOption(1)
       })
     }
     this.items = this.cartService.getItems();

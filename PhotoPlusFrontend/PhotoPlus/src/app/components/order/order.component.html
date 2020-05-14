@@ -54,12 +54,15 @@
       </div>
     </div>
     <p class="text"><br></p>
-
-    <select class="buy fadeIn third" (change)="selectOption($event.target.value)">
-      <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
-        &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
-    </select>
-    <button (click)="buy()" class="buyBtn btn-success" href="#" id="cart-link">Buy</button>
+    <div class="form-group">
+      <select class="btn btn-secondary dropdown-toggle form-control" (change)="selectOption($event.target.value)">
+        <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
+          &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
+      </select>
+    </div>
+    <br>
+    <button (click)="buy()" class="btn btn-success" style="width: 20%; margin: 0 auto;" href="#"
+      id="cart-link">Buy</button>
     <p class="text"><br></p>
     <mat-expansion-panel class="addressPanel">
       <mat-expansion-panel-header>
