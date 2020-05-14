@@ -1,17 +1,20 @@
-<div class="containter">
-  <div class="col-sm">
-    <mat-form-field class="selectBox">
-      <mat-label class="text-muted">Sorting option</mat-label>
-      <mat-select class="dropdown-option" [(value)]="sortBy" (selectionChange)="onSortingChange()">
-        <mat-option class="select" value="name">Name</mat-option>
-        <mat-option class="select" value="priceAsc">Price ↑</mat-option>
-        <mat-option class="select" value="priceDesc">Price ↓</mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="flex-container container-centered">
+  <div class="container-centered">
+    <div class="col-sm">
+      <mat-form-field class="selectBox">
+        <mat-label class="text-muted">Sorting option</mat-label>
+        <mat-select class="dropdown-option" [(value)]="sortBy" (selectionChange)="onSortingChange()">
+          <mat-option class="select" value="name">Name</mat-option>
+          <mat-option class="select" value="priceAsc">Price ↑</mat-option>
+          <mat-option class="select" value="priceDesc">Price ↓</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
+  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+  </app-page-select>
 </div>
-<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-</app-page-select>
+
 <div class="flex-container">
   <div *ngFor="let product of products">
     <div class="carousel-card card shadow-border fadeInDown">
