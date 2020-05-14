@@ -27,6 +27,7 @@ export class DeleteUsersComponent implements OnInit {
   async ngOnInit() {
     this.amountOfPages = new BehaviorSubject(0);
     this.seletedPage = new BehaviorSubject(0);
+    this.searchbarInputTimer = null;
     let pageCount = this.userService.getPageCount().toPromise();
     this.amountOfPages.next((await pageCount).pageAmount); 
     this.loadUsers();
