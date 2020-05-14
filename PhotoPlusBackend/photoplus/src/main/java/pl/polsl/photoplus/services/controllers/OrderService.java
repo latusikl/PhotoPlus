@@ -1,5 +1,9 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
@@ -100,5 +104,29 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
         entityRepository.save(orderModel);
         orderItemService.saveAll(orderItems);
         return HttpStatus.CREATED;
+    }
+
+    public List<OrderModelDto> getPage(final Integer pageNumber, final OrderStatus orderStatus)
+    {
+        return getDtoListFromModels(this.getModelPage(pageNumber, orderStatus));
+    }
+
+    private Page<Order> getModelPage(final Integer pageNumber, final OrderStatus orderStatus)
+    {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Order> foundModels = entityRepository.findAllByOrOrderStatus(modelPage, orderStatus);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCount(final OrderStatus orderStatus)
+    {
+
+        final Page<Order> firstPage = getModelPage(0, orderStatus);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 }
