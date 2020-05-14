@@ -62,7 +62,9 @@
         </select>
       </div>
       <br>
-      <button (click)="buy()" class="btn btn-success" style="width: 20%;" href="#" id="cart-link">Buy</button>
+      <div class="button">
+        <button (click)="buy()" class="btn btn-success" style="width: 50%;" href="#" id="cart-link">Buy</button>
+      </div>
       <p class="text"><br></p>
     </div>
     <mat-expansion-panel class="addressPanel">
@@ -71,7 +73,7 @@
           Add address
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-panel-description style="margin: 0 auto;">
+      <mat-panel-description class="mat">
         <form id="addressForm" [formGroup]="addressForm">
           <div class="address" id="address">
             <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -81,14 +83,14 @@
                 <div *ngIf="f.street.errors.required">Street is required.</div>
                 <div *ngIf="f.street.errors.minlength">Street must contain at least 4 characters.</div>
               </div>
-            </label> &nbsp;
+            </label> <br>
             <label>Number:&nbsp;
               <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number"
                 [ngClass]="{ 'is-invalid':submitted && f.number.errors }">
               <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
                 <div *ngIf="f.number.errors.required">Number is required.</div>
               </div>
-            </label> &nbsp;
+            </label> <br>
 
             <label>Zip code:
               <input formControlName="zipCode" class="form-control fadeIn third" type="text" name="input" id="zipCode"
@@ -97,7 +99,7 @@
                 <div *ngIf="f.zipCode.errors.required">Zip code is required.</div>
                 <div *ngIf="f.zipCode.errors.pattern">Only numbers are allowed.</div>
               </div>
-            </label> &nbsp;
+            </label> <br>
 
             <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input formControlName="city" class="form-control fadeIn third" type="text" name="input" id="city"
@@ -105,7 +107,7 @@
               <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
                 <div *ngIf="f.city.errors.required">City is required.</div>
               </div>
-            </label> &nbsp;
+            </label> <br>
 
             <label>Country:&nbsp;&nbsp;
               <input formControlName="country" class="form-control fadeIn third" type="text" name="input" id="country"
@@ -114,8 +116,9 @@
                 <div *ngIf="f.country.errors.required">Country is required.</div>
               </div>
             </label><br>
-
-            <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+            <div class="buttonAddr">
+              <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+            </div>
           </div>
         </form>
       </mat-panel-description>
