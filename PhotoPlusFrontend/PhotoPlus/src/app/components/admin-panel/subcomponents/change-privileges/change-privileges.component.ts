@@ -47,7 +47,7 @@ export class ChangePrivilegesComponent implements OnInit {
       }
       this.searchbarInputTimer = setTimeout(()=>{
         this.getFilteredUsers(searchText);
-      },1000)
+      },1000);
     });
   }
 

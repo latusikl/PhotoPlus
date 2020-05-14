@@ -19,6 +19,9 @@ export class DeleteUsersComponent implements OnInit {
   amountOfPages: BehaviorSubject<number>;
   seletedPage: BehaviorSubject<number>;
 
+  howMuchMilisecBeforeFetch: number = 500; 
+  searchbarInputTimer: NodeJS.Timeout;
+
   constructor(private userService: UserService, private renderer: Renderer2) {}
 
   async ngOnInit() {
@@ -49,15 +52,25 @@ export class DeleteUsersComponent implements OnInit {
 
   setupSearchBarListener(){
     this.renderer.listen(this.el.nativeElement,"input",() => {
-      const searchText:string = this.el.nativeElement.value;
-      if(searchText == ''){
-        this.filteredUsers = this.users;
+      clearTimeout(this.searchbarInputTimer);
+      const searchText = this.el.nativeElement.value;
+      if(searchText === ''){
+        this.loadUsers();
         return;
       }
-      this.filteredUsers = this.users.filter((x) => 
-        x.value.login.includes(searchText) || x.value.code.includes(searchText)
-      );
+      this.searchbarInputTimer = setTimeout(()=>{
+        this.getFilteredUsers(searchText);
+      },1000);
     });
+  }
+
+  getFilteredUsers(searchText: string){
+    this.userService.getUsersSearchByLogin(searchText).subscribe(users =>{
+      this.filteredUsers = new Array();
+      for(const user of users){
+        this.filteredUsers.push(new BehaviorSubject(user));
+      }
+    })
   }
 
   deleteUser(user: BehaviorSubject<User>){
