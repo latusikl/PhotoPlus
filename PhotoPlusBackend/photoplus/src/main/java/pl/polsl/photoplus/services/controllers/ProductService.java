@@ -1,5 +1,10 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +16,7 @@ import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +55,11 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
                 dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
     }
 
+    public List<ProductModelDto> getPageFromAll(final Integer page, final String sortedBy) {
+        return getDtoListFromModels(getPage(page, sortedBy));
+    }
+
+
     private Product insertDependenciesAndParseToModel(final ProductModelDto dto) {
         final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
                 "SAVE PRODUCT");
@@ -71,6 +82,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
     @Override
+    @Transactional
     public HttpStatus delete(final String code)
     {
         final Product product = findByCodeOrThrowError(code, "PRODUCT DELETE");
@@ -94,9 +106,37 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return HttpStatus.CREATED;
     }
 
-    public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
+    public List<ProductModelDto> getProductsFromCategory(final Integer pageNumber, final String categoryCode)
     {
-        return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+        return getDtoListFromModels(this.getPageOfProductFromCategory(pageNumber, categoryCode));
+    }
+
+    private Page<Product> getPageOfProductFromCategory(final Integer pageNumber, final String categoryCode) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+        final Page<Product> foundModels = entityRepository.findAllByCategory_CodeAndStoreQuantityGreaterThan(modelPage, categoryCode, 0);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCountOfProductFromCategory(final String categoryCode)
+    {
+        final Page<Product> firstPage = getPageOfProductFromCategory(0, categoryCode);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
+    @Override
+    public ObjectNode getPageCount() {
+        final Page<Product> firstPage = getPage(0, "name");
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 
     public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
@@ -114,5 +154,27 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         final Integer newQuantity = product.getStoreQuantity() + quantityToAdd;
         product.setStoreQuantity(newQuantity);
         this.entityRepository.save(product);
+    }
+
+    public List<ProductModelDto> getByNameContainingStr(final String str) {
+        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThanOrderByName(str, 0));
+    }
+
+    private Page<Product> getPage(final Integer pageNumber, final String sortedBy) {
+        final Pageable modelPage;
+        if (sortedBy.equals("priceAsc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price"));
+        } else if (sortedBy.equals("priceDesc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price").descending());
+        } else {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+        }
+        final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThan(modelPage, 0);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return foundModels;
+    }
+
+    public List<ProductModelDto> getTopEight() {
+        return getDtoListFromModels(this.entityRepository.findTop8ByStoreQuantityGreaterThan(0));
     }
 }

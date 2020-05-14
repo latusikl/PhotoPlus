@@ -1,6 +1,7 @@
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PageInfo } from '../models/pageInfo/pageInfo';
 
 export abstract class AbstractService<T> {
 
@@ -20,6 +21,10 @@ export abstract class AbstractService<T> {
     return this._http.get<T>(link);
   }
 
+  public getAllFromLink(link: string): Observable<T[]>  {
+    return this._http.get<T[]>(link);
+  }
+
   public post(item: T): Observable<HttpResponse<T>> {
     return this._http.post<T>(this.hostAddress + this.endpointUrl, item, { observe: 'response' });
   }
@@ -32,4 +37,11 @@ export abstract class AbstractService<T> {
     return this._http.delete<T>(this.hostAddress + this.endpointUrl + "/delete/" + code);
   }
 
+  public getPageCount(): Observable<PageInfo>{
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/all/page/count");
+  }
+
+  public getPage(page:number): Observable<T[]>{
+    return this._http.get<T[]>(this.hostAddress + this.endpointUrl + "/all/" + page);
+  }
 }

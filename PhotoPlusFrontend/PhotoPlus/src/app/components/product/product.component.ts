@@ -16,9 +16,10 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  param: string;
 
+  param: string;
   product: Product;
+
   constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService, private modalService: NgbModal, private router: Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
@@ -46,7 +47,7 @@ export class ProductComponent implements OnInit {
   addToCart(product: Product) {
     this.cartService.addToCart(this.product);
     const modalRef = this.modalService.open(SuccessModalComponent);
-    modalRef.componentInstance.message = "Please go to checkout to place an order.";
-    modalRef.componentInstance.title = "Added " + product.name + " to card.";
+    modalRef.componentInstance.message = 'Please go to checkout to place an order.';
+    modalRef.componentInstance.title = 'Added ' + product.name + ' to card.';
   }
 }

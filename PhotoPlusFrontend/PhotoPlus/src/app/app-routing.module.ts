@@ -20,6 +20,7 @@ import { OrderComponent } from './components/order/order.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { HomeComponent } from './components/home/home.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -47,7 +48,8 @@ const routes: Routes = [
   { path: 'manage/changePrivileges', component: AdminPanelComponent},
   { path: 'manage/deleteUser', component: AdminPanelComponent},
   { path: 'manage/generateReports', component: AdminPanelComponent},
-  { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent}
+  { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent},
+  { path: 'about', component: AboutComponent}
 
 ];
 

@@ -72,12 +72,12 @@ export class LoginService {
     }
 
     get isModerator(): boolean{
-      const role = this.getLoggedUser().role;
+      const role = this.getLoggedUser()?.role;
       return role === Role.ADMIN || role === Role.EMPLOYEE;
     }
 
     get isAdmin(): boolean{
-      const role = this.getLoggedUser().role;
+      const role = this.getLoggedUser()?.role;
       return role === Role.ADMIN;
     }
 }

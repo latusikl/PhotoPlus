@@ -2,7 +2,8 @@
   <nav class="container-header navbar navbar-expand-lg navbar-light">
     <a href="#" routerLink="/" class="logo">PhotoPlus</a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+      aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -12,22 +13,20 @@
         <input   id="typeahead-focus"
                  type="text"
                  class="form-control search_input"
-                 [ngbTypeahead]="search"
-                 (focus)="focus$.next($any($event).target.value)"
-                 (click)="click$.next($any($event).target.value)"
-                 #instance="ngbTypeahead"
                  placeholder="Search..."
         />
         <a class="search_icon"><i class="fa fa-search"></i></a>
       </div>
 
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
-        <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Home</a></li>
-        <li class="darkenDiv" href="#" routerLink="/products" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Products</a></li>
+        <li class="darkenDiv" href="#" routerLink="/" data-toggle="collapse" data-target="#navbarHeader.show"><a
+            class="nav-link">Home</a></li>
         <div *ngIf="!auth.getLoggedUser()">
-          <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
+          <li class="darkenDiv" href="#" routerLink="/registration" data-toggle="collapse"
+            data-target="#navbarHeader.show"><a class="nav-link">Sign Up</a></li>
         </div>
-        <div *ngIf="auth.isLoggedIn() && auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
+        <div
+          *ngIf="auth.isLoggedIn() && auth.getLoggedUser() && auth.getLoggedUser().login; then showPersonLogin else showLoginLink">
         </div>
         <ng-template #showPersonLogin>
           <li class="darkenDiv" id="dropdown-toggle-hidden" ngbDropdown ngbDropdownToggle>
@@ -41,11 +40,10 @@
               <a class="dropdown-login-item" ngbDropdownItem href="#" (click)="logout()">Logout</a>
             </div>
           </li>
-          <li class="darkenDiv" href="#" routerLink="/forum"><a class="nav-link">Forum</a></li>
-          <li *ngIf="auth.isModerator" class="darkenDiv" href="#" routerLink="/manage"><a class="nav-link">Manage</a></li>
         </ng-template>
         <ng-template #showLoginLink>
-          <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a class="nav-link">Log In</a></li>
+          <li class="darkenDiv" href="#" routerLink="/login" data-toggle="collapse" data-target="#navbarHeader.show"><a
+              class="nav-link">Log In</a></li>
         </ng-template>
 
         <li class="darkenDiv" href="#" routerLink="/cart" data-toggle="collapse" data-target="#navbarHeader.show">
@@ -59,25 +57,26 @@
 </header>
 
 <nav class="navbar-expand-lg bg-light navbar-light container-centered">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarUnderHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarUnderHeader"
+    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse container-centered" id="navbarUnderHeader">
     <ul class="navbar-nav centered-list clickable-list" id="navbarUnderHeader-list">
-      <li class="nav-item active lightenDiv" href="#">
+      <li class="nav-item active lightenDiv" href="#" routerLink="/about">
         <a class="nav-link">About</a>
       </li>
-      <li class="nav-item active lightenDiv" href="#">
-        <a class="nav-link">Features</a>
-      </li>
-      <li class="nav-item active lightenDiv" href="#">
-        <a class="nav-link">Pricing</a>
-      </li>
-      <li class="nav-item active lightenDiv" href="#" routerLink="/category" >
+      <li class="nav-item active lightenDiv" href="#" routerLink="/category">
         <a class="nav-link">Categories</a>
       </li>
-      <li class="nav-item active lightenDiv" href="#">
-        <a class="nav-link">Contact</a>
+      <li class="nav-item active lightenDiv" href="#" routerLink="/products" data-toggle="collapse" data-target="#navbarHeader.show">
+        <a class="nav-link">Products</a>
+      </li>
+      <li class="nav-item active lightenDiv" href="#" routerLink="/forum">
+        <a class="nav-link">Forum</a>
+      </li>
+      <li *ngIf="auth.isModerator" class="nav-item active lightenDiv" href="#" routerLink="/manage">
+        <a class="nav-link">Manage</a>
       </li>
     </ul>
   </div>
