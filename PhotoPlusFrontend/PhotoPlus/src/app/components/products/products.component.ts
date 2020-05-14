@@ -55,6 +55,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
     this.router.navigate(['/order']);
+  }
 
   changePage(page:number){
     this.selectedPage.next(page);
