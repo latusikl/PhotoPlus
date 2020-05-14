@@ -94,8 +94,10 @@ export class OrderComponent implements OnInit {
           element.key = i;
           i++
         });
-        this.addreses = data;
+        this.addreses = data.reverse();
         this.selectOption(1)
+      }, err => {
+        this.router.navigate(['/cart']);
       })
     }
     this.items = this.cartService.getItems();
@@ -113,13 +115,13 @@ export class OrderComponent implements OnInit {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!.";
+      modalRef.componentInstance.message = "Please login!";
       return;
     }
     if (this.isChecked == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please check payment method!.";
+      modalRef.componentInstance.message = "Please check payment method!";
       return
     }
     const alias = this.addressForm.value
