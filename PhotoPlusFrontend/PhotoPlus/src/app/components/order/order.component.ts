@@ -11,7 +11,7 @@ import { OrderService } from 'src/app/services/order/order.service';
 import { AddressService } from 'src/app/services/address/address.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -32,6 +32,7 @@ export class OrderComponent implements OnInit {
   addreses: any[];
   selectedOption: any;
   addressForm: FormGroup;
+  submitted: boolean;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
@@ -79,11 +80,11 @@ export class OrderComponent implements OnInit {
       code: ['0'],
       links: [[]],
       userCode: [''],
-      street: [''],
-      number: [''],
-      city: [''],
-      zipCode: [''],
-      country: [''],
+      street: ['', [Validators.required, Validators.minLength(4)]],
+      number: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      zipCode: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      country: ['', [Validators.required]],
     })
     if (this.loginService.isLoggedIn() == true) {
       this.order.userCode = this.loginService.getLoggedUser().code
@@ -98,7 +99,7 @@ export class OrderComponent implements OnInit {
         if (this.addreses.length > 0) {
           let display = document.getElementById("display")
           display.style.display = "block"
-          this.selectOption(1)
+          this.selectOption(0)
         }
       })
     }
@@ -111,9 +112,13 @@ export class OrderComponent implements OnInit {
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
 
-
+  get f() { return this.addressForm.controls; }
 
   addresBuy() {
+    this.submitted = true;
+    if (this.addressForm.invalid) {
+      return;
+    }
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";

@@ -75,26 +75,47 @@
         <form id="addressForm" [formGroup]="addressForm">
           <div class="address" id="address">
             <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input formControlName="street" class="form-control fadeIn third" type="text" name="input" id="street">
-            </label>
-            <br>
+              <input formControlName="street" class="form-control fadeIn third" type="text" name="input" id="street"
+                [ngClass]="{ 'is-invalid':submitted && f.street.errors }">
+              <div *ngIf="submitted && f.street.errors" class="invalid-feedback">
+                <div *ngIf="f.street.errors.required">Street is required.</div>
+                <div *ngIf="f.street.errors.minlength">Street must contain at least 4 characters.</div>
+              </div>
+            </label> &nbsp;
+
             <label>Number:&nbsp;
-              <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number">
-            </label>
-            <br>
+              <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number"
+                [ngClass]="{ 'is-invalid':submitted && f.number.errors }">
+              <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
+                <div *ngIf="f.number.errors.required">Number is required.</div>
+              </div>
+            </label> &nbsp;
+
             <label>Zip code:
-              <input formControlName="zipCode" class="form-control fadeIn third" type="text" name="input" id="zipCode">
-            </label>
-            <br>
+              <input formControlName="zipCode" class="form-control fadeIn third" type="text" name="input" id="zipCode"
+                [ngClass]="{ 'is-invalid':submitted && f.zipCode.errors }">
+              <div *ngIf="submitted && f.zipCode.errors" class="invalid-feedback">
+                <div *ngIf="f.zipCode.errors.required">Zip code is required.</div>
+                <div *ngIf="f.zipCode.errors.pattern">Only numbers are allowed.</div>
+              </div>
+            </label> &nbsp;
+
             <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input formControlName="city" class="form-control fadeIn third" type="text" name="input" id="city">
-            </label>
-            <br>
+              <input formControlName="city" class="form-control fadeIn third" type="text" name="input" id="city"
+                [ngClass]="{ 'is-invalid':submitted && f.city.errors }">
+              <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                <div *ngIf="f.city.errors.required">City is required.</div>
+              </div>
+            </label> &nbsp;
+
             <label>Country:&nbsp;&nbsp;
               <input formControlName="country" class="form-control fadeIn third" type="text" name="input" id="country"
-                placeholder="PL">
-            </label>
-            <br>
+                [ngClass]="{ 'is-invalid':submitted && f.country.errors }" placeholder="PL">
+              <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                <div *ngIf="f.country.errors.required">Country is required.</div>
+              </div>
+            </label> &nbsp;
+
             <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
           </div>
         </form>
