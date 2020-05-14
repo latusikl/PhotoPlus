@@ -86,12 +86,32 @@ img {
   box-sizing: border-box;
 }
 
-.form-control {
-  margin: 18px;
+.links-form-control {
+  margin: 10px;
+  max-width: 35%;
+}
+
+.editing-label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.link-to-delete {
+  overflow: hidden;
+  max-width: 35ch;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.margin-button {
+  margin: 10px;
 }
 
 .row {
-  text-align: center;
+  margin-top: 2px;
+  vertical-align: middle;
 }
+
 
 

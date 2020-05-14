@@ -90,18 +90,11 @@
 <div *ngIf="isEditing" class="flex-container fadeInDown">
   <div class="card shadow-border">
     <div class="card-body fadeIn first">
-      <div *ngIf="(product | async)?.dataLinks && (product | async)?.dataLinks?.size > 0">
-        <label>Edit links</label>
-        <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
-          <input value="{{ dataLink.value }}">
-          <input value="{{ dataLink.key }}">
-        </div>
-      </div>
-      <label>Add new link</label>
+      <label class="editing-label">Add new link</label>
       <form [formGroup]="linksForm" (ngSubmit)="onLinksSubmit()">
-        <div class="row w-50">
-          <Label>Name:&nbsp;</Label>
-          <input formControlName="name" class="form-control w-50" type="text"
+        <label for="name">Name:</label>
+        <div class="row ">
+          <input formControlName="name" id="name" class="form-control w-50" type="text"
             [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
           <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
             <div *ngIf="f.name.errors.required">
@@ -109,8 +102,8 @@
             </div>
           </div>
         </div>
-        <div class="row w-50">
-          <span>Link:&nbsp;</span>
+        <span>Link:</span>
+        <div class="row">
           <input formControlName="link" class="form-control w-50" type="text"
             [ngClass]="{ 'is-invalid': submitted && f.link.errors }" />
           <div *ngIf="submitted && f.link.errors" class="invalid-feedback">
@@ -121,11 +114,24 @@
               Link is invalid.
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">
-            Submit new link
-          </button>
+          <div class="row w-100">
+            <button type="submit" class="btn btn-primary margin-button">
+              Submit new link
+            </button>
+          </div>
         </div>
       </form>
+      <div *ngIf="mapNotEmpty()">
+        <label class="editing-label">Delete links</label>
+        <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
+          <div class="row">
+            <a class="link-to-delete">{{ dataLink.key }}: {{ dataLink.value }}</a>
+            <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
