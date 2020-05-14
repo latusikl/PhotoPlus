@@ -94,8 +94,12 @@ export class OrderComponent implements OnInit {
           element.key = i;
           i++
         });
-        this.addreses = data;
-        this.selectOption(1)
+        this.addreses = data.reverse();
+        if (this.addreses.length > 0) {
+          let display = document.getElementById("display")
+          display.style.display = "block"
+          this.selectOption(1)
+        }
       })
     }
     this.items = this.cartService.getItems();
@@ -140,6 +144,8 @@ export class OrderComponent implements OnInit {
             modalRef.componentInstance.title = "Success";
             modalRef.componentInstance.message = "Your order completed.";
             this.router.navigate(['/products']);
+          }, error => {
+            this.router.navigate(['/cart'])
           })
         })
       })
