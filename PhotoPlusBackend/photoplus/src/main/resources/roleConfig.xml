@@ -31,12 +31,15 @@ Proper file format example:
                 <access>/image/single</access>
 
                 <access>/user/post</access>
+
         </role>
         <role name="client">
                 <access>/rating/post</access>
 
                 <access>/section/all</access>
                 <access>/section/single</access>
+
+                <access>/order/post</access>
 
                 <access>/post/all</access>
                 <access>/post/single</access>
