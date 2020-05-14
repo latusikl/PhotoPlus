@@ -87,22 +87,6 @@ img {
   color: white !important;
 }
 
-::ng-deep .mat-select-value-text {
-  color: lightslategrey !important;
-}
-
-::ng-deep .mat-select-arrow {
-  color: lightslategrey;
-}
-
-::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple  {
-  background-color: lightslategrey !important;
-}
-
-::ng-deep .mat-form-field.mat-focused .mat-select-arrow {
-  color: lightslategrey !important;
-}
-
 .selectBox {
   margin: 18px;
 }
