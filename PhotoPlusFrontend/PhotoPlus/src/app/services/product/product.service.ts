@@ -35,4 +35,12 @@ export class ProductService extends AbstractService<Product> {
     let params = new HttpParams().set("categoryCode", categoryCode);
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count",  {params: params});
   }
+
+  public mapToObj(strMap) {
+    let obj = Object.create(null);
+    for (let [k,v] of strMap) {
+        obj[k] = v; //look out! Key must be a string!
+    }
+    return obj;
+}
 }

@@ -27,7 +27,8 @@
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
             <ng-template #notEditingProductDetails>
-              <textarea #productName class="card-title dynamic-textarea" id="product-card-title" value="{{ (product | async)?.name }}"></textarea>
+              <textarea #productName class="card-title dynamic-textarea" id="product-card-title"
+                value="{{ (product | async)?.name }}"></textarea>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <div class="form-group">
                 <label for="sel1">Select category:</label>
@@ -35,7 +36,8 @@
                   <option value="{{cat.code}}" *ngFor="let cat of categories">{{ cat.name }}</option>
                 </select>
               </div>
-              <textarea #productDescription class="description dynamic-textarea" value="{{ (product | async)?.description }}"></textarea>
+              <textarea #productDescription class="description dynamic-textarea"
+                value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
           </div>
         </div>
@@ -59,7 +61,8 @@
             </ng-template>
           </div>
           <ng-template #notEditingPrice>
-            <textarea #productPrice class="price-textarea" id="product-price" value="{{ (product | async)?.price }}"></textarea>
+            <input #productPrice type="number" min="0" class="price-textarea" id="product-price"
+              value="{{ (product | async)?.price }}">
           </ng-template>
           <div *ngIf="canEdit()">
             <br />
@@ -87,7 +90,42 @@
 <div *ngIf="isEditing" class="flex-container fadeInDown">
   <div class="card shadow-border">
     <div class="card-body fadeIn first">
-      <label>Add links to product:</label>
+      <div *ngIf="(product | async)?.dataLinks && (product | async)?.dataLinks?.size > 0">
+        <label>Edit links</label>
+        <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
+          <input value="{{ dataLink.value }}">
+          <input value="{{ dataLink.key }}">
+        </div>
+      </div>
+      <label>Add new link</label>
+      <form [formGroup]="linksForm" (ngSubmit)="onLinksSubmit()">
+        <div class="row w-50">
+          <Label>Name:&nbsp;</Label>
+          <input formControlName="name" class="form-control w-50" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">
+              Name is required.
+            </div>
+          </div>
+        </div>
+        <div class="row w-50">
+          <span>Link:&nbsp;</span>
+          <input formControlName="link" class="form-control w-50" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.link.errors }" />
+          <div *ngIf="submitted && f.link.errors" class="invalid-feedback">
+            <div *ngIf="f.link.errors.required">
+              Link is required.
+            </div>
+            <div *ngIf="f.link.errors.pattern">
+              Link is invalid.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Submit new link
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
