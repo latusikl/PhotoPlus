@@ -15,15 +15,15 @@ export class ProductService extends AbstractService<Product> {
   }
 
   public getDataFromLinks(product: Product) {
-    this._http.get(product.links.find(x => x.rel == "category" ).href)
+    return this._http.get(product.links.find(x => x.rel == "category" ).href)
     .subscribe((cat: Category) => {
       product.category = cat;
+      product.imagesUrl = new Array();
+      product.links.filter(x => x.rel == "image" ).forEach(element => {
+        product.imagesUrl.push(element.href);
+      });
     });
 
-    product.imagesUrl = new Array();
-    product.links.filter(x => x.rel == "image" ).forEach(element => {
-      product.imagesUrl.push(element.href);
-    });
   }
 
   public getPageFromCategory(page: number, categoryCode: string) {

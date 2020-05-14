@@ -12,4 +12,5 @@ export class Product {
   imagesUrl?: string[];
   imageCodes: string[];
   dataLinks?: Map<string, string>;
+  categoryCode: string;
 }
