@@ -54,16 +54,17 @@
       </div>
     </div>
     <p class="text"><br></p>
-    <div class="form-group">
-      <select class="btn btn-secondary dropdown-toggle form-control" (change)="selectOption($event.target.value)">
-        <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
-          &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
-      </select>
+    <div class="display" id="display">
+      <div class="form-group">
+        <select class="btn btn-secondary dropdown-toggle form-control" (change)="selectOption($event.target.value)">
+          <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
+            &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
+        </select>
+      </div>
+      <br>
+      <button (click)="buy()" class="btn btn-success" style="width: 20%;" href="#" id="cart-link">Buy</button>
+      <p class="text"><br></p>
     </div>
-    <br>
-    <button (click)="buy()" class="btn btn-success" style="width: 20%; margin: 0 auto;" href="#"
-      id="cart-link">Buy</button>
-    <p class="text"><br></p>
     <mat-expansion-panel class="addressPanel">
       <mat-expansion-panel-header>
         <mat-panel-title>

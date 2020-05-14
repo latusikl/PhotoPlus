@@ -95,7 +95,11 @@ export class OrderComponent implements OnInit {
           i++
         });
         this.addreses = data;
-        this.selectOption(1)
+        if (this.addreses.length > 0) {
+          let display = document.getElementById("display")
+          display.style.display = "block"
+          this.selectOption(1)
+        }
       })
     }
     this.items = this.cartService.getItems();
