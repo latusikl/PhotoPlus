@@ -23,12 +23,18 @@
               <p class="card-title" id="product-card-title">
                 {{ (product | async)?.name }}
               </p>
-              <p class="category text-muted">{{ (product | async)?.category }}</p>
+              <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
             <ng-template #notEditingProductDetails>
               <textarea #productName class="card-title dynamic-textarea" id="product-card-title" value="{{ (product | async)?.name }}"></textarea>
-              <p class="category text-muted">{{ (product | async)?.category }}</p>
+              <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
+              <div class="form-group">
+                <label for="sel1">Select category:</label>
+                <select #productCategory [(ngModel)]="selectedCategoryCode" class="form-control">
+                  <option value="{{cat.code}}" *ngFor="let cat of categories">{{ cat.name }}</option>
+                </select>
+              </div>
               <textarea #productDescription class="description dynamic-textarea" value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
           </div>
@@ -75,6 +81,13 @@
           <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isEditing" class="flex-container fadeInDown">
+  <div class="card shadow-border">
+    <div class="card-body fadeIn first">
+      <label>Add links to product:</label>
     </div>
   </div>
 </div>

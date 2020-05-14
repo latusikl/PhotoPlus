@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
 import { BehaviorSubject } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
+import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
   selector: 'app-product',
@@ -19,14 +20,17 @@ export class ProductComponent implements OnInit {
   @ViewChild("productName", { static: false })
   productNameTextArea: ElementRef;
 
+  @ViewChild("productCategory", { static: false })
+  productCategoryList: ElementRef;
+
   @ViewChild("productDescription", { static: false })
   productDescriptionTextArea: ElementRef;
 
   @ViewChild("productPrice", { static: false })
   productPriceTextArea: ElementRef;
 
-  selectedCategory: Category;
-
+  selectedCategoryCode: string;
+  categories: Category[];
   param: string;
   product: BehaviorSubject<Product>;
   isEditing: boolean = false;
@@ -35,7 +39,8 @@ export class ProductComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private modalService: NgbModal,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit(): void {
@@ -43,8 +48,10 @@ export class ProductComponent implements OnInit {
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
       this.loadProduct();
-      this.selectedCategory = this.product.value.category;
     });
+    this.categoryService.getAll().subscribe(data => {
+      this.categories = data;
+    })
   }
 
   addToCart(product: Product) {
@@ -55,6 +62,8 @@ export class ProductComponent implements OnInit {
   }
 
   startEditing() {
+    this.selectedCategoryCode = this.product.value.category.code;
+    console.log(this.selectedCategoryCode);
     this.isEditing = true;
   }
 
@@ -63,16 +72,13 @@ export class ProductComponent implements OnInit {
   }
 
   patch() {
-    const patchedProduct: Product = {
+    console.log(this.productCategoryList.nativeElement.value);
+    this.productService.patch(this.product.value.code, {
       description: this.productDescriptionTextArea.nativeElement.value,
       name: this.productNameTextArea.nativeElement.value,
-      code: null,
-      storeQuantity: null,
-      category: null,
       price: this.productPriceTextArea.nativeElement.value,
-      imageCodes: null
-    };
-    this.productService.patch(this.product.value.code, patchedProduct).subscribe(res => {
+      categoryCode: this.productCategoryList.nativeElement.value
+     } as Product).subscribe(res => {
       this.loadProduct();
       this.isEditing = false;
     });
