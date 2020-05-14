@@ -65,11 +65,13 @@ export class ProductComponent implements OnInit {
       code: null,
       storeQuantity: null,
       category: null,
-      price: null,
+      price: this.productPriceTextArea.nativeElement.value,
       imageCodes: null
     };
-    this.isEditing = false;
-    this.productService.patch(this.product.value.code, patchedProduct).subscribe(res => this.loadProduct());
+    this.productService.patch(this.product.value.code, patchedProduct).subscribe(res => {
+      this.loadProduct();
+      this.isEditing = false;
+    });
   }
 
   loadProduct() {

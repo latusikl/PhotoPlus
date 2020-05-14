@@ -34,21 +34,26 @@
           </div>
         </div>
         <div class="column3 fadeIn fourth">
-          <p id="product-price">${{ (product | async)?.price }}</p>
-          <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
-            <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
-              Add to cart
-            </button>
-            <br />
-            <br />
-            <button class="btn btn-success" href="#" id="buy-link">
-              Buy now
-            </button>
-          </div>
-          <ng-template #notAvailable>
-            <div>
-              <p class="card-title">Out of stock</p>
+          <div *ngIf="!isEditing; else notEditingPrice;">
+            <p id="product-price">${{ (product | async)?.price }}</p>
+            <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
+              <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
+                Add to cart
+              </button>
+              <br />
+              <br />
+              <button class="btn btn-success" href="#" id="buy-link">
+                Buy now
+              </button>
             </div>
+            <ng-template #notAvailable>
+              <div>
+                <p class="card-title">Out of stock</p>
+              </div>
+            </ng-template>
+          </div>
+          <ng-template #notEditingPrice>
+            <textarea #productPrice id="product-price" value="{{ (product | async)?.price }}"></textarea>
           </ng-template>
           <div *ngIf="canEdit()">
             <br />
