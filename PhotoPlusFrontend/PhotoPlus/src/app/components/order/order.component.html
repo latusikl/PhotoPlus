@@ -71,7 +71,7 @@
           Add address
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-panel-description>
+      <mat-panel-description style="margin: 0 auto;">
         <form id="addressForm" [formGroup]="addressForm">
           <div class="address" id="address">
             <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -82,7 +82,6 @@
                 <div *ngIf="f.street.errors.minlength">Street must contain at least 4 characters.</div>
               </div>
             </label> &nbsp;
-
             <label>Number:&nbsp;
               <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number"
                 [ngClass]="{ 'is-invalid':submitted && f.number.errors }">
@@ -114,7 +113,7 @@
               <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
                 <div *ngIf="f.country.errors.required">Country is required.</div>
               </div>
-            </label> &nbsp;
+            </label><br>
 
             <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
           </div>
