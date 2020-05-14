@@ -11,7 +11,7 @@ import { Role } from 'src/app/models/role/role.enum';
 })
 export class ChangePrivilegesComponent implements OnInit {
 
-  @ViewChild("searchInput", {static: true})
+  @ViewChild("searchInput", { static: true })
   el: ElementRef;
 
   users: BehaviorSubject<User>[];
@@ -20,10 +20,10 @@ export class ChangePrivilegesComponent implements OnInit {
   selectedPage: BehaviorSubject<number>;
   amountOfPages: BehaviorSubject<number>;
 
-  howMuchMilisecBeforeFetch: number = 500; 
+  howMuchMilisecBeforeFetch: number = 500;
   searchbarInputTimer: NodeJS.Timeout;
 
-  constructor(private userService: UserService, private renderer: Renderer2) {}
+  constructor(private userService: UserService, private renderer: Renderer2) { }
 
   async ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
@@ -37,30 +37,32 @@ export class ChangePrivilegesComponent implements OnInit {
     console.log(info);
   }
 
-  setupSearchBarListener(){
-    this.renderer.listen(this.el.nativeElement,"input",() => {
+  setupSearchBarListener() {
+    this.renderer.listen(this.el.nativeElement, "input", () => {
       clearTimeout(this.searchbarInputTimer);
-      const searchText = this.el.nativeElement.value;
-      if(searchText === ''){
+      const searchText: string = this.el.nativeElement.value;
+      if (searchText === '') {
         this.loadUsers();
         return;
       }
-      this.searchbarInputTimer = setTimeout(()=>{
-        this.getFilteredUsers(searchText);
-      },1000);
+      if (searchText.length > 2) {
+        this.searchbarInputTimer = setTimeout(() => {
+          this.getFilteredUsers(searchText);
+        }, 1000);
+      }
     });
   }
 
-  getFilteredUsers(searchText: string){
-    this.userService.getUsersSearchByLogin(searchText).subscribe(users =>{
+  getFilteredUsers(searchText: string) {
+    this.userService.getUsersSearchByLogin(searchText).subscribe(users => {
       this.filteredUsers = new Array();
-      for(const user of users){
+      for (const user of users) {
         this.filteredUsers.push(new BehaviorSubject(user));
       }
     })
   }
 
-  loadUsers(){
+  loadUsers() {
     this.users = new Array<BehaviorSubject<User>>();
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getPage(this.selectedPage.value).subscribe((data) => {
@@ -71,25 +73,25 @@ export class ChangePrivilegesComponent implements OnInit {
     });
   }
 
-  changePage(page:number){
+  changePage(page: number) {
     this.selectedPage.next(page);
     this.loadUsers();
   }
 
-  sendUpdateRole(userCode: string){
-    const idx = this.users.findIndex((x)=> x.value.code === userCode);
-    const patchMsg = {role: this.users[idx].value.role} as User|any;
-    this.userService.patch(userCode, patchMsg).subscribe(()=> {
+  sendUpdateRole(userCode: string) {
+    const idx = this.users.findIndex((x) => x.value.code === userCode);
+    const patchMsg = { role: this.users[idx].value.role } as User | any;
+    this.userService.patch(userCode, patchMsg).subscribe(() => {
       alert("Change successful");
     })
   }
 
-  changeRoleInModel(userCode: string, role: Role){
-    const idx = this.users.findIndex((x)=> x.value.code === userCode);
-    this.users[idx].value.role = role;    
+  changeRoleInModel(userCode: string, role: Role) {
+    const idx = this.users.findIndex((x) => x.value.code === userCode);
+    this.users[idx].value.role = role;
   }
-  
-  get roleClass(): Role[]{
+
+  get roleClass(): Role[] {
     return Object.values(Role) as Role[];
   }
 }
