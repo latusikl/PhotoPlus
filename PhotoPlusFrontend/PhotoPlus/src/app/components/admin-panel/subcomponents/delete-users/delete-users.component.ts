@@ -19,7 +19,7 @@ export class DeleteUsersComponent implements OnInit {
   amountOfPages: BehaviorSubject<number>;
   seletedPage: BehaviorSubject<number>;
 
-  howMuchMilisecBeforeFetch: number = 500; 
+  howMuchMilisecBeforeFetch: number = 500;
   searchbarInputTimer: NodeJS.Timeout;
 
   constructor(private userService: UserService, private renderer: Renderer2) {}
@@ -29,10 +29,10 @@ export class DeleteUsersComponent implements OnInit {
     this.seletedPage = new BehaviorSubject(0);
     this.searchbarInputTimer = null;
     let pageCount = this.userService.getPageCount().toPromise();
-    this.amountOfPages.next((await pageCount).pageAmount); 
+    this.amountOfPages.next((await pageCount).pageAmount);
     this.loadUsers();
     this.setupSearchBarListener()
-   
+
   }
 
   changePage(event: number){
@@ -54,14 +54,16 @@ export class DeleteUsersComponent implements OnInit {
   setupSearchBarListener(){
     this.renderer.listen(this.el.nativeElement,"input",() => {
       clearTimeout(this.searchbarInputTimer);
-      const searchText = this.el.nativeElement.value;
+      const searchText:string = this.el.nativeElement.value;
       if(searchText === ''){
         this.loadUsers();
         return;
       }
+      if(searchText.length > 2) {
       this.searchbarInputTimer = setTimeout(()=>{
         this.getFilteredUsers(searchText);
       },1000);
+    }
     });
   }
 
@@ -77,7 +79,7 @@ export class DeleteUsersComponent implements OnInit {
   deleteUser(user: BehaviorSubject<User>){
     if(confirm("Do you want to delete user: \n\n" + user.value.name + " " + user.value.surname)){
       this.userService.delete(user.value.code).subscribe(()=>{
-        this.ngOnInit(); // reinicjalizcja        
+        this.ngOnInit(); // reinicjalizcja
       })
     }
   }
