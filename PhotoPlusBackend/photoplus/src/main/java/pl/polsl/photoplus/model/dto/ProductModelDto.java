@@ -12,6 +12,7 @@ import pl.polsl.photoplus.services.controllers.CategoryService;
 import pl.polsl.photoplus.services.controllers.ImageService;
 
 import javax.persistence.ElementCollection;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class ProductModelDto
 
     @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
+    @DecimalMin("0.01")
     @Patchable
     private Double price;
 
