@@ -62,7 +62,7 @@ export class DeleteUsersComponent implements OnInit {
       if(searchText.length > 2) {
       this.searchbarInputTimer = setTimeout(()=>{
         this.getFilteredUsers(searchText);
-      },1000);
+      }, this.howMuchMilisecBeforeFetch);
     }
     });
   }
