@@ -27,7 +27,7 @@
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
             <ng-template #notEditingProductDetails>
-              <textarea #productName class="card-title" id="product-card-title" value="{{ (product | async)?.name }}"></textarea>
+              <textarea #productName class="card-title dynamic-textarea" id="product-card-title" value="{{ (product | async)?.name }}"></textarea>
               <p class="category text-muted">{{ (product | async)?.category }}</p>
               <textarea #productDescription class="description dynamic-textarea" value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
@@ -53,7 +53,7 @@
             </ng-template>
           </div>
           <ng-template #notEditingPrice>
-            <textarea #productPrice id="product-price" value="{{ (product | async)?.price }}"></textarea>
+            <textarea #productPrice class="price-textarea" id="product-price" value="{{ (product | async)?.price }}"></textarea>
           </ng-template>
           <div *ngIf="canEdit()">
             <br />
