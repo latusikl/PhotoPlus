@@ -93,7 +93,7 @@ export class OrderComponent implements OnInit {
           element.key = i;
           i++
         });
-        this.addreses = data;
+        this.addreses = data.reverse();
       })
     }
     this.items = this.cartService.getItems();
@@ -138,6 +138,8 @@ export class OrderComponent implements OnInit {
             modalRef.componentInstance.title = "Success";
             modalRef.componentInstance.message = "Your order completed.";
             this.router.navigate(['/products']);
+          }, error => {
+            this.router.navigate(['/cart']);
           })
         })
       })
