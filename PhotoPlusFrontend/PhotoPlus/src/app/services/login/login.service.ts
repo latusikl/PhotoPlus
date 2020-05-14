@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { LoginModel } from "../../models/login/login-model.model";
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { LoginModel } from '../../models/login/login-model.model';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -19,11 +19,11 @@ export class LoginService {
     constructor(private http: HttpClient, private router: Router) {
 
       try {
-        this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-        const token = localStorage.getItem("token");
+        this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+        const token = localStorage.getItem('token');
         if (this.jwtHelper.isTokenExpired(token)) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("loggedUser");
+          localStorage.removeItem('token');
+          localStorage.removeItem('loggedUser');
         }
       } catch {
         this.loggedUser = null;
@@ -39,29 +39,29 @@ export class LoginService {
         }, {observe: 'response'}).subscribe(res => {
           this.loggedUser = res.body;
           this.readTokenFromResponse(res);
-          localStorage.setItem("loggedUser", JSON.stringify(this.loggedUser));
+          localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));
           this.router.navigate(['/']);
         });
     }
 
     public logout() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("loggedUser");
+        localStorage.removeItem('token')
+        localStorage.removeItem('loggedUser');
         this.http.get(this.hostAddress + 'logout');
     }
 
     readTokenFromResponse(res) {
-        const token = res.headers.get("Authorization");
-        localStorage.setItem("token", token);
+        const token = res.headers.get('Authorization');
+        localStorage.setItem('token', token);
     }
 
     public isLoggedIn() {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem('token')
         if (token == null) {
             return false;
         } else if (this.jwtHelper.isTokenExpired(token)) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("loggedUser");
+            localStorage.removeItem('token');
+            localStorage.removeItem('loggedUser');
             this.loggedUser = null;
             return false;
         }
