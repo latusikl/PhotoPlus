@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { LoginService } from 'src/app/services/login/login.service';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -16,16 +17,33 @@ import { LoginService } from 'src/app/services/login/login.service';
 })
 export class ProductsComponent implements OnInit {
 
-  products: Product[];
+  products: BehaviorSubject<Product>[];
+
+  selectedPage: BehaviorSubject<number>;
+  amountOfPages: BehaviorSubject<number>;
+
 
   constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal, private router: Router, private loginService: LoginService) { }
 
-  ngOnInit(): void {
-    this.productService.getAll().subscribe((data: Product[]) => {
-      this.products = data;
-      this.products.forEach(element => { this.productService.getDataFromLinks(element) });
+  async ngOnInit() {
+    this.selectedPage = new BehaviorSubject(0);
+    this.amountOfPages = new BehaviorSubject(0);
+    let pageInfo = this.productService.getPageCount().toPromise();
+    this.loadProducts();
+    let info = await pageInfo;
+    this.amountOfPages.next((await pageInfo).pageAmount);
+  }
+
+  loadProducts(){
+    this.products = new Array<BehaviorSubject<Product>>();
+    this.productService.getPage(this.selectedPage.value).subscribe((data) => {
+      for (let product of data) {
+        this.productService.getDataFromLinks(product);
+        this.products.push(new BehaviorSubject(product));
+      }
     });
   }
+
 
   buy(product: Product) {
     this.cartService.clearCart();
@@ -37,6 +55,11 @@ export class ProductsComponent implements OnInit {
       return;
     }
     this.router.navigate(['/order']);
+
+  changePage(page:number){
+    this.selectedPage.next(page);
+    this.loadProducts();
+
   }
 
   addToCart(product: Product) {

@@ -17,30 +17,63 @@ export class ChangePrivilegesComponent implements OnInit {
   users: BehaviorSubject<User>[];
   filteredUsers: BehaviorSubject<User>[];
 
+  selectedPage: BehaviorSubject<number>;
+  amountOfPages: BehaviorSubject<number>;
+
+  howMuchMilisecBeforeFetch: number = 500; 
+  searchbarInputTimer: NodeJS.Timeout;
+
   constructor(private userService: UserService, private renderer: Renderer2) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.selectedPage = new BehaviorSubject(0);
+    this.searchbarInputTimer = null;
+    this.amountOfPages = new BehaviorSubject(0);
+    let pageInfo = this.userService.getPageCount().toPromise();
+    this.loadUsers();
+    this.setupSearchBarListener();
+    let info = await pageInfo;
+    this.amountOfPages.next((await pageInfo).pageAmount);
+    console.log(info);
+  }
+
+  setupSearchBarListener(){
+    this.renderer.listen(this.el.nativeElement,"input",() => {
+      clearTimeout(this.searchbarInputTimer);
+      const searchText = this.el.nativeElement.value;
+      if(searchText === ''){
+        this.loadUsers();
+        return;
+      }
+      this.searchbarInputTimer = setTimeout(()=>{
+        this.getFilteredUsers(searchText);
+      },1000);
+    });
+  }
+
+  getFilteredUsers(searchText: string){
+    this.userService.getUsersSearchByLogin(searchText).subscribe(users =>{
+      this.filteredUsers = new Array();
+      for(const user of users){
+        this.filteredUsers.push(new BehaviorSubject(user));
+      }
+    })
+  }
+
+  loadUsers(){
     this.users = new Array<BehaviorSubject<User>>();
     this.filteredUsers = new Array<BehaviorSubject<User>>();
-    this.userService.getAll().subscribe((data) => {
+    this.userService.getPage(this.selectedPage.value).subscribe((data) => {
       for (let user of data) {
-        if(user.login === "admin"){
-          continue;
-        }
         this.users.push(new BehaviorSubject(user));
       }
       this.filteredUsers = this.users;
     });
-    this.renderer.listen(this.el.nativeElement,"input",() => {
-      const searchText = this.el.nativeElement.value;
-      if(searchText == ''){
-        this.filteredUsers = this.users;
-        return;
-      }
-      this.filteredUsers = this.users.filter((x) => 
-        x.value.login.includes(searchText) || x.value.code.includes(searchText)
-      );
-    });
+  }
+
+  changePage(page:number){
+    this.selectedPage.next(page);
+    this.loadUsers();
   }
 
   sendUpdateRole(userCode: string){
