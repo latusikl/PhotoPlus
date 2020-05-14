@@ -20,7 +20,7 @@ export class ChangePrivilegesComponent implements OnInit {
   selectedPage: BehaviorSubject<number>;
   amountOfPages: BehaviorSubject<number>;
 
-  howMuchMilisecBeforeFetch: number = 500;
+  howMuchMilisecBeforeFetch = 500;
   searchbarInputTimer: NodeJS.Timeout;
 
   constructor(private userService: UserService, private renderer: Renderer2) { }
@@ -29,16 +29,16 @@ export class ChangePrivilegesComponent implements OnInit {
     this.selectedPage = new BehaviorSubject(0);
     this.searchbarInputTimer = null;
     this.amountOfPages = new BehaviorSubject(0);
-    let pageInfo = this.userService.getPageCount().toPromise();
+    const pageInfo = this.userService.getPageCount().toPromise();
     this.loadUsers();
     this.setupSearchBarListener();
-    let info = await pageInfo;
+    const info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
     console.log(info);
   }
 
   setupSearchBarListener() {
-    this.renderer.listen(this.el.nativeElement, "input", () => {
+    this.renderer.listen(this.el.nativeElement, 'input', () => {
       clearTimeout(this.searchbarInputTimer);
       const searchText: string = this.el.nativeElement.value;
       if (searchText === '') {
@@ -66,7 +66,7 @@ export class ChangePrivilegesComponent implements OnInit {
     this.users = new Array<BehaviorSubject<User>>();
     this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getPage(this.selectedPage.value).subscribe((data) => {
-      for (let user of data) {
+      for (const user of data) {
         this.users.push(new BehaviorSubject(user));
       }
       this.filteredUsers = this.users;
@@ -82,7 +82,7 @@ export class ChangePrivilegesComponent implements OnInit {
     const idx = this.users.findIndex((x) => x.value.code === userCode);
     const patchMsg = { role: this.users[idx].value.role } as User | any;
     this.userService.patch(userCode, patchMsg).subscribe(() => {
-      alert("Change successful");
+      alert('Change successful');
     })
   }
 
