@@ -8,5 +8,5 @@ import pl.polsl.photoplus.model.enums.OrderStatus;
 
 @Repository
 public interface OrderRepository extends EntityRepository<Order, Long> {
-    Page<Order> findAllByOrOrderStatus(Pageable page, final OrderStatus orderStatus);
+    Page<Order> findAllByOrderStatus(Pageable page, final OrderStatus orderStatus);
 }

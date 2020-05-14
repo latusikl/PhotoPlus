@@ -114,7 +114,7 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     private Page<Order> getModelPage(final Integer pageNumber, final OrderStatus orderStatus)
     {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
-        final Page<Order> foundModels = entityRepository.findAllByOrOrderStatus(modelPage, orderStatus);
+        final Page<Order> foundModels = entityRepository.findAllByOrderStatus(modelPage, orderStatus);
         return foundModels;
     }
 
