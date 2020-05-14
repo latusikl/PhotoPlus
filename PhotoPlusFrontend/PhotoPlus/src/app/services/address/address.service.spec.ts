@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AddressService } from './address.service';
 
-describe('AddressserviceService', () => {
+describe('AddressService', () => {
   let service: AddressService;
 
   beforeEach(() => {
