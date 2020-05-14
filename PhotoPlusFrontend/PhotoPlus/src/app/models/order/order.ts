@@ -8,7 +8,7 @@ export class Order {
   paymentMethod: string;
   price: number;
   date: string;
-  addressCode: number;
+  addressCode: string;
   orderItems: OrderItem[]
   address: Address;
 }

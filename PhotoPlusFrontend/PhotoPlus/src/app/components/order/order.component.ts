@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { Product } from '../../models/product/product';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Order } from 'src/app/models/order/order';
 import { DatePipe } from '@angular/common';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/login/login.service';
-import { environment } from 'src/environments/environment';
 import { OrderService } from 'src/app/services/order/order.service';
 import { AddressService } from 'src/app/services/address/address.service';
+import { SuccessModalComponent } from '../success-modal/success-modal.component';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -24,32 +26,22 @@ export class OrderComponent implements OnInit {
   items: [Product, number][];
   price: number;
   order: Order;
-  user: any = [];
   paymentMethod: string;
   isChecked: boolean = false;
-  error: any;
   myDate = new Date();
   addreses: any[];
   selectedOption: any;
-  street: any;
-  number: any;
-  city: any;
-  zipCode: any;
-  country: any;
-  addresLink: any;
-  getAddress: any;
+  addressForm: FormGroup;
 
-
-  constructor(private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
-
     this.order = {
       userCode: '0',
       orderStatus: 'PENDING',
       paymentMethod: 'PAYPAL',
       price: 0,
       date: "2020-01-30",
-      addressCode: 0,
+      addressCode: '0',
       orderItems: [{ productCode: '0', quantity: 0, orderCode: 'orderCode' }],
       address: {
         code: '0',
@@ -66,7 +58,6 @@ export class OrderComponent implements OnInit {
 
   selectOption(id: any[]) {
     this.selectedOption = id;
-    console.log(this.selectedOption)
     this.order.address.city = this.addreses[this.selectedOption].city
     this.order.address.countryCode = this.addreses[this.selectedOption].country
     this.order.address.number = this.addreses[this.selectedOption].number
@@ -79,20 +70,23 @@ export class OrderComponent implements OnInit {
   FieldsChange(values: any) {
     this.isChecked = true;
     this.paymentMethod = values.target.value
-    console.log(this.paymentMethod)
   }
 
 
   ngOnInit(): void {
-
-
-    this.user = localStorage.getItem("loggedUser")
-    this.user = JSON.parse(this.user)
+    this.addressForm = this.formBuilder.group({
+      code: ['0'],
+      links: [[]],
+      userCode: [''],
+      street: [''],
+      number: [''],
+      city: [''],
+      zipCode: [''],
+      country: [''],
+    })
     if (this.loginService.isLoggedIn() == true) {
-      this.order.userCode = this.user.code
-    }
-    if (this.loginService.isLoggedIn() == true) {
-      this.addressService.getSingle('byUser/' + this.user.code).subscribe((data: any) => {
+      this.order.userCode = this.loginService.getLoggedUser().code
+      this.addressService.byUser(this.order.userCode).subscribe((data: any) => {
         console.log(data)
         let i = 0;
         data.forEach(element => {
@@ -102,7 +96,6 @@ export class OrderComponent implements OnInit {
         this.addreses = data;
       })
     }
-
     this.items = this.cartService.getItems();
     this.items.forEach(element => {
       this.order.orderItems.push({ productCode: element[0].code, quantity: element[1], orderCode: 'orderCode' })
@@ -115,50 +108,42 @@ export class OrderComponent implements OnInit {
 
 
   addresBuy() {
-
-    this.street = document.getElementById("street");
-    this.number = document.getElementById("number");
-    this.city = document.getElementById("city");
-    this.zipCode = document.getElementById("zipCode");
-    this.country = document.getElementById("country");
-    this.order.address.street = this.street.value;
-    this.order.address.number = this.number.value;
-    this.order.address.city = this.city.value;
-    this.order.address.zipCode = this.zipCode.value;
-    this.order.address.userCode = this.user.code
-    this.order.address.countryCode = this.country.value;
-
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!.";
+      return;
+    }
     if (this.isChecked == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
       modalRef.componentInstance.message = "Please check payment method!.";
       return
     }
-
-
-    this.addressService.post({
-      "links": [],
-      "code": '0',
-      "street": this.order.address.street,
-      "number": this.order.address.number,
-      "zipCode": this.order.address.zipCode,
-      "city": this.order.address.city,
-      "countryCode": this.order.address.countryCode,
-      "userCode": this.order.userCode
-    }).subscribe(res => {
-      this.addresLink = res.headers.get('location');
-      this.addressService.getSingle(this.addresLink).subscribe(data => {
-        this.getAddress = data;
-        this.order.addressCode = this.getAddress.code
-        this.orderSerivce.post(this.order).subscribe()
-      })
-
-    })
+    const alias = this.addressForm.value
+    this.order.address.street = alias.street
+    this.order.address.number = alias.number
+    this.order.address.city = alias.city
+    this.order.address.zipCode = alias.zipCode
+    this.order.address.countryCode = alias.country
     this.order.paymentMethod = this.paymentMethod
+    this.order.address.userCode = this.loginService.getLoggedUser().code
+    alias.userCode = this.order.address.userCode;
+    this.addressService.post(alias)
+      .subscribe(res => {
+        this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
+          this.order.addressCode = data.code
+          this.orderSerivce.buy(this.order).subscribe(data => {
+            const modalRef = this.modalService.open(SuccessModalComponent);
+            modalRef.componentInstance.title = "Success";
+            modalRef.componentInstance.message = "Your order completed.";
+            this.router.navigate(['/products']);
+          })
+        })
+      })
   }
 
   buy() {
-
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
@@ -174,7 +159,13 @@ export class OrderComponent implements OnInit {
     }
 
     this.order.paymentMethod = this.paymentMethod
-    this.orderSerivce.post(this.order).subscribe()
+    this.orderSerivce.buy(this.order).subscribe(data => {
+      const modalRef = this.modalService.open(SuccessModalComponent);
+      modalRef.componentInstance.title = "Success";
+      modalRef.componentInstance.message = "Your order completed.";
+      this.router.navigate(['/products']);
+    }
+    )
   }
 
 }

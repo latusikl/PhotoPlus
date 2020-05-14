@@ -68,31 +68,32 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
-        <div class="address" id="address">
-          <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="form-control fadeIn third" type="text" name="input" id="street">
-          </label>
-          <br>
-          <label>Number:&nbsp;
-            <input class="form-control fadeIn third" type="text" name="input" id="number">
-          </label>
-          <br>
-          <label>Zip code:
-            <input class="form-control fadeIn third" type="text" name="input" id="zipCode">
-          </label>
-          <br>
-          <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="form-control fadeIn third" type="text" name="input" id="city">
-          </label>
-          <br>
-          <label>Country:&nbsp;&nbsp;
-            <input class="form-control fadeIn third" type="text" name="input" id="country" placeholder="PL">
-          </label>
-          <br>
-
-          <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
-        </div>
-
+        <form id="addressForm" [formGroup]="addressForm">
+          <div class="address" id="address">
+            <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input formControlName="street" class="form-control fadeIn third" type="text" name="input" id="street">
+            </label>
+            <br>
+            <label>Number:&nbsp;
+              <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number">
+            </label>
+            <br>
+            <label>Zip code:
+              <input formControlName="zipCode" class="form-control fadeIn third" type="text" name="input" id="zipCode">
+            </label>
+            <br>
+            <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input formControlName="city" class="form-control fadeIn third" type="text" name="input" id="city">
+            </label>
+            <br>
+            <label>Country:&nbsp;&nbsp;
+              <input formControlName="country" class="form-control fadeIn third" type="text" name="input" id="country"
+                placeholder="PL">
+            </label>
+            <br>
+            <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+          </div>
+        </form>
       </mat-panel-description>
     </mat-expansion-panel>
     <p class="text"><br></p>
