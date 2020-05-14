@@ -20,10 +20,14 @@ export class ChangePrivilegesComponent implements OnInit {
   selectedPage: BehaviorSubject<number>;
   amountOfPages: BehaviorSubject<number>;
 
+  howMuchMilisecBeforeFetch: number = 500; 
+  searchbarInputTimer: NodeJS.Timeout;
+
   constructor(private userService: UserService, private renderer: Renderer2) {}
 
   async ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
+    this.searchbarInputTimer = null;
     this.amountOfPages = new BehaviorSubject(0);
     let pageInfo = this.userService.getPageCount().toPromise();
     this.loadUsers();
@@ -31,20 +35,29 @@ export class ChangePrivilegesComponent implements OnInit {
     let info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
     console.log(info);
-    
   }
 
   setupSearchBarListener(){
     this.renderer.listen(this.el.nativeElement,"input",() => {
+      clearTimeout(this.searchbarInputTimer);
       const searchText = this.el.nativeElement.value;
-      if(searchText == ''){
-        this.filteredUsers = this.users;
+      if(searchText === ''){
+        this.loadUsers();
         return;
       }
-      this.filteredUsers = this.users.filter((x) => 
-        x.value.login.includes(searchText) || x.value.code.includes(searchText)
-      );
+      this.searchbarInputTimer = setTimeout(()=>{
+        this.getFilteredUsers(searchText);
+      },1000);
     });
+  }
+
+  getFilteredUsers(searchText: string){
+    this.userService.getUsersSearchByLogin(searchText).subscribe(users =>{
+      this.filteredUsers = new Array();
+      for(const user of users){
+        this.filteredUsers.push(new BehaviorSubject(user));
+      }
+    })
   }
 
   loadUsers(){
