@@ -1,25 +1,24 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {ReactiveFormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatPaginatorModule, MatPaginatorIntl} from '@angular/material/paginator';
-
-
-import {AppComponent} from './app.component';
-import {ProductsComponent} from './components/products/products.component';
-import {HomeComponent} from './components/home/home.component';
-import {RegistrationComponent} from './components/registration/registration.component';
-import {LoginComponent} from './components/login/login.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {AuthInterceptor} from './interceptors/auth-interceptor';
-import {CartComponent} from './components/cart/cart.component';
-import {ErrorModalComponent} from './components/error-modal/error-modal.component';
-import {SuccessModalComponent} from './components/success-modal/success-modal.component';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { ProductsComponent } from './components/products/products.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { LoginComponent } from './components/login/login.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { CartComponent } from './components/cart/cart.component';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
+import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { CategoryComponent } from './components/category/category.component';
 import { ForumComponent } from './components/forum/forum.component';
@@ -51,72 +50,73 @@ import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        ProductsComponent,
-        RegistrationComponent,
-        LoginComponent,
-        CartComponent,
-        ErrorModalComponent,
-        SuccessModalComponent,
-        CategoryComponent,
-        ForumComponent,
-        SectionComponent,
-        SectionBodyComponent,
-        SectionEditComponent,
-        SectionRemoveComponent,
-        SectionAddComponent,
-        TopicBodyComponent,
-        TopicHeaderComponent,
-        TopicAddComponent,
-        TopicEditComponent,
-        TopicRemoveComponent,
-        PostComponent,
-        ProductComponent,
-        OrderComponent,
-        AdminPanelComponent,
-        ManageMultipleOrdersComponent,
-        ManageProductComponent,
-        DeleteUsersComponent,
-        GenerateReportComponent,
-        ChangePrivilegesComponent,
-        AddDeliveryComponent,
-        ManageSingleOrderComponent,
-        ImageCarouselComponent,
-        ImageDisplayComponent,
-        PageSelectComponent,
-        AboutComponent
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MatCardModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatPaginatorModule,
-        NgbModule
-    ],
-    providers: [
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true
-        },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: ErrorInterceptor,
-          multi: true
-      },
-      {
-        provide: MatPaginatorIntl,
-        useClass: CustomMatPaginatorIntl
-      }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    ProductsComponent,
+    RegistrationComponent,
+    LoginComponent,
+    CartComponent,
+    ErrorModalComponent,
+    SuccessModalComponent,
+    CategoryComponent,
+    ForumComponent,
+    SectionComponent,
+    SectionBodyComponent,
+    SectionEditComponent,
+    SectionRemoveComponent,
+    SectionAddComponent,
+    TopicBodyComponent,
+    TopicHeaderComponent,
+    TopicAddComponent,
+    TopicEditComponent,
+    TopicRemoveComponent,
+    PostComponent,
+    ProductComponent,
+    OrderComponent,
+    AdminPanelComponent,
+    ManageMultipleOrdersComponent,
+    ManageProductComponent,
+    DeleteUsersComponent,
+    GenerateReportComponent,
+    ChangePrivilegesComponent,
+    AddDeliveryComponent,
+    ManageSingleOrderComponent,
+    ImageCarouselComponent,
+    ImageDisplayComponent,
+    PageSelectComponent,
+    AboutComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatCardModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    NgbModule,
+    FormsModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: MatPaginatorIntl,
+      useClass: CustomMatPaginatorIntl
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
