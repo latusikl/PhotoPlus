@@ -12,9 +12,9 @@
             </ng-template>
           </ngb-carousel>
           <ng-template #noCarousel>
-            <ng-template *ngIf="(product | async)?.imagesUrl">
-              <img class="noCarouselImage" src="{{ ((product | async)?.imagesUrl)[0] }}" />
-            </ng-template>
+            <div *ngIf="(product | async)?.imagesUrl">
+              <img class="noCarouselImage" src="{{ (product | async)?.imagesUrl[0] }}" />
+            </div>
           </ng-template>
         </div>
         <div class="column2 fadeIn third">
