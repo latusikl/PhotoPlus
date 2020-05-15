@@ -2,6 +2,7 @@ package pl.polsl.photoplus.controllers.api;
 
 import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -114,6 +115,15 @@ public class ControllerExceptionHandler
 
         final ErrorDto error = new ErrorDto(EnumValueException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    protected ResponseEntity<ErrorDto> handleEnumValueException(final ConversionFailedException e)
+    {
+        log.info("ConversionFailedException handled.");
+
+        final ErrorDto error = new ErrorDto(EnumValueException.class.getSimpleName(), e.getValue().toString(), e.getCause().getMessage());
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotEnoughProductsException.class)

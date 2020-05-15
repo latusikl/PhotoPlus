@@ -77,3 +77,16 @@ img {
 :focus {
     outline: 0px;
 }
+
+.dropdown-option {
+  margin: 10px;
+  color: black;
+}
+
+.select.mat-selected {
+  color: white !important;
+}
+
+.selectBox {
+  margin-top: 1.25em;
+}

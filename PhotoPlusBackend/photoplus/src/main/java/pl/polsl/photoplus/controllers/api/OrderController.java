@@ -1,13 +1,13 @@
 package pl.polsl.photoplus.controllers.api;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
+import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.OrderService;
 
@@ -39,5 +39,23 @@ public class OrderController extends BaseModelController<OrderModelDto,OrderServ
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'post' )")
     public ResponseEntity saveOrderWithOrderItems(@RequestBody @Valid final OrderModelDtoWithOrderItems dto) {
         return new ResponseEntity(dtoService.saveWithItems(dto));
+    }
+
+
+    @GetMapping(path = "/{page}", produces = "application/json", params = "orderStatus")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<List<OrderModelDto>> getAll(@PathVariable("page") final Integer page,
+                                                      @RequestParam final OrderStatus orderStatus)
+    {
+        final List<OrderModelDto> dtos = dtoService.getPage(page, orderStatus);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/page/count", produces = "application/json", params = "orderStatus")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity<ObjectNode> getAmountOfPages(@RequestParam final OrderStatus orderStatus)
+    {
+        return new ResponseEntity<>(dtoService.getPageCount(orderStatus), HttpStatus.OK);
     }
 }
