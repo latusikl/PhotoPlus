@@ -61,7 +61,7 @@
             </ng-template>
           </div>
           <ng-template #notEditingPrice>
-            <input #productPrice type="number" min="0" class="price-textarea" id="product-price"
+            <input #productPrice type="number" min="0.01" class="price-textarea" id="product-price" step="0.01"
               value="{{ (product | async)?.price }}">
           </ng-template>
           <div *ngIf="canEdit()">
