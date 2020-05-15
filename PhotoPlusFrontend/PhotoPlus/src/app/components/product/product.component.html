@@ -20,14 +20,14 @@
         <div class="column2 fadeIn third">
           <div>
             <div *ngIf="!isEditing; else editingProductDetails;">
-              <p class="card-title" id="product-card-title">
+              <p class="card-title product-card-title">
                 {{ (product | async)?.name }}
               </p>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
             <ng-template #editingProductDetails>
-              <textarea #productName class="card-title dynamic-textarea" id="product-card-title"
+              <textarea #productName class="card-title dynamic-textarea product-card-title"
                 value="{{ (product | async)?.name }}"></textarea>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <div class="form-group">
