@@ -19,14 +19,14 @@
         </div>
         <div class="column2 fadeIn third">
           <div>
-            <div *ngIf="!isEditing; else notEditingProductDetails;">
+            <div *ngIf="!isEditing; else editingProductDetails;">
               <p class="card-title" id="product-card-title">
                 {{ (product | async)?.name }}
               </p>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
-            <ng-template #notEditingProductDetails>
+            <ng-template #editingProductDetails>
               <textarea #productName class="card-title dynamic-textarea" id="product-card-title"
                 value="{{ (product | async)?.name }}"></textarea>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="column3 fadeIn fourth">
-          <div *ngIf="!isEditing; else notEditingPrice;">
+          <div *ngIf="!isEditing; else editingPrice;">
             <p id="product-price">${{ (product | async)?.price }}</p>
             <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
               <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
@@ -60,7 +60,7 @@
               </div>
             </ng-template>
           </div>
-          <ng-template #notEditingPrice>
+          <ng-template #editingPrice>
             <input #productPrice type="number" min="0.01" class="price-textarea" id="product-price" step="0.01"
               value="{{ (product | async)?.price }}">
           </ng-template>
