@@ -124,8 +124,9 @@
       <div *ngIf="mapNotEmpty()">
         <label class="editing-label">Delete links</label>
         <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
-          <div class="row">
-            <a class="link-to-delete">{{ dataLink.key }}: {{ dataLink.value }}</a>
+          <div class="link-container">
+            <a>{{ dataLink.key }}: </a>
+            <a class="link-to-delete"> {{ dataLink.value }} </a>
             <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
               Delete
             </button>

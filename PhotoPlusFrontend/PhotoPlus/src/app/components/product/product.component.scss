@@ -99,18 +99,22 @@ img {
 
 .link-to-delete {
   overflow: hidden;
-  max-width: 35ch;
+  max-width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin: 0 5px;
 }
 
 .margin-button {
   margin: 10px;
 }
 
-.row {
-  margin-top: 2px;
-  vertical-align: middle;
+.link-container {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
 }
 
 .description {
