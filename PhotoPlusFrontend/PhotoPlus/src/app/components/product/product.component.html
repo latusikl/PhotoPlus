@@ -18,7 +18,6 @@
           </ng-template>
         </div>
         <div class="column2 fadeIn third">
-          <div>
             <div *ngIf="!isEditing; else editingProductDetails;">
               <p class="card-title product-card-title">
                 {{ (product | async)?.name }}
@@ -39,7 +38,6 @@
               <textarea #productDescription class="description dynamic-textarea"
                 value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
-          </div>
           <div class="links" *ngIf="(product | async)?.dataLinks">
             <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
               <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
