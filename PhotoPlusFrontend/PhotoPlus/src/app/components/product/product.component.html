@@ -73,12 +73,12 @@
           <div *ngIf="canEdit()">
             <br />
             <div *ngIf="!isEditing">
-              <button class="btn btn-warning" href="#" id="buy-link" (click)="startEditing()">
+              <button class="btn btn-warning" href="#" (click)="startEditing()">
                 Edit
               </button>
             </div>
             <div *ngIf="isEditing">
-              <button class="btn btn-success" href="#" id="buy-link" (click)="patch()">
+              <button class="btn btn-success" href="#" (click)="patch()">
                 Save
               </button>
             </div>
