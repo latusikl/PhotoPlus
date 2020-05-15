@@ -71,7 +71,6 @@ export class ProductComponent implements OnInit {
 
   startEditing() {
     this.selectedCategoryCode = this.product.value.category.code;
-    console.log(this.selectedCategoryCode);
     this.isEditing = true;
   }
 
