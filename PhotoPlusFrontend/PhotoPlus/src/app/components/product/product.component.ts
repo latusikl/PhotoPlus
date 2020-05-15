@@ -18,16 +18,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class ProductComponent implements OnInit {
 
-  @ViewChild("productName", { static: false })
+  @ViewChild('productName', { static: false })
   productNameTextArea: ElementRef;
 
-  @ViewChild("productCategory", { static: false })
+  @ViewChild('productCategory', { static: false })
   productCategoryList: ElementRef;
 
-  @ViewChild("productDescription", { static: false })
+  @ViewChild('productDescription', { static: false })
   productDescriptionTextArea: ElementRef;
 
-  @ViewChild("productPrice", { static: false })
+  @ViewChild('productPrice', { static: false })
   productPriceTextArea: ElementRef;
 
   selectedCategoryCode: string;
