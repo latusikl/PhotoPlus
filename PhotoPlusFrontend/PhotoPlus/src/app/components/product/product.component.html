@@ -4,48 +4,133 @@
       <div class="row">
         <div class="column1 fadeIn second">
           <ngb-carousel id="product-carousel" wrap="true" [interval]="false"
-            *ngIf="product?.imagesUrl.length > 1; else noCarousel" #carousel>
-            <ng-template ngbSlide *ngFor="let image of product.imagesUrl">
+            *ngIf="(product | async)?.imagesUrl?.length > 1; else noCarousel" #carousel>
+            <ng-template ngbSlide *ngFor="let image of (product | async)?.imagesUrl">
               <div>
                 <img class="carouselImage" src="{{ image }}" />
               </div>
             </ng-template>
           </ngb-carousel>
           <ng-template #noCarousel>
-            <img class="noCarouselImage" src="{{ (product?.imagesUrl)[0] }}" />
+            <div *ngIf="(product | async)?.imagesUrl">
+              <img class="noCarouselImage" src="{{ (product | async)?.imagesUrl[0] }}" />
+            </div>
           </ng-template>
         </div>
         <div class="column2 fadeIn third">
           <div>
-            <p class="card-title" id="product-card-title">
-              {{ product?.name }}
-            </p>
-            <p class="category text-muted">{{ product?.category }}</p>
-            <p class="description">{{ product?.description }}</p>
+            <div *ngIf="!isEditing; else editingProductDetails;">
+              <p class="card-title" id="product-card-title">
+                {{ (product | async)?.name }}
+              </p>
+              <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
+              <p class="description">{{ (product | async)?.description }}</p>
+            </div>
+            <ng-template #editingProductDetails>
+              <textarea #productName class="card-title dynamic-textarea" id="product-card-title"
+                value="{{ (product | async)?.name }}"></textarea>
+              <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
+              <div class="form-group">
+                <label for="sel1">Select category:</label>
+                <select #productCategory [(ngModel)]="selectedCategoryCode" class="form-control">
+                  <option value="{{cat.code}}" *ngFor="let cat of categories">{{ cat.name }}</option>
+                </select>
+              </div>
+              <textarea #productDescription class="description dynamic-textarea"
+                value="{{ (product | async)?.description }}"></textarea>
+            </ng-template>
+          </div>
+          <div class="links" *ngIf="(product | async)?.dataLinks">
+            <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
+              <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
+            </div>
           </div>
         </div>
         <div class="column3 fadeIn fourth">
-          <p id="product-price">${{ product?.price }}</p>
-          <div *ngIf="product?.storeQuantity > 0; else notAvailable">
-            <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">
-              Add to cart
-            </button>
-            <br />
-            <br />
-            <button class="btn btn-success" href="#" id="buy-link">
-              Buy now
-            </button>
-          </div>
-          <ng-template #notAvailable>
-            <div>
-              <p class="card-title">Out of stock</p>
+          <div *ngIf="!isEditing; else editingPrice;">
+            <p id="product-price">${{ (product | async)?.price }}</p>
+            <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
+              <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
+                Add to cart
+              </button>
+              <br />
+              <br />
+              <button class="btn btn-success" href="#" id="buy-link">
+                Buy now
+              </button>
             </div>
+            <ng-template #notAvailable>
+              <div>
+                <p class="card-title">Out of stock</p>
+              </div>
+            </ng-template>
+          </div>
+          <ng-template #editingPrice>
+            <input #productPrice type="number" min="0.01" class="price-textarea" id="product-price" step="0.01"
+              value="{{ (product | async)?.price }}">
           </ng-template>
+          <div *ngIf="canEdit()">
+            <br />
+            <div *ngIf="!isEditing">
+              <button class="btn btn-warning" href="#" id="buy-link" (click)="startEditing()">
+                Edit
+              </button>
+            </div>
+            <div *ngIf="isEditing">
+              <button class="btn btn-danger" href="#" id="buy-link" (click)="patch()">
+                Save
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="links" *ngIf="product?.dataLinks">
-        <div *ngFor="let dataLink of product.dataLinks | keyvalue">
-          <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
+    </div>
+  </div>
+</div>
+<div *ngIf="isEditing" class="flex-container fadeInDown">
+  <div class="card shadow-border">
+    <div class="card-body fadeIn first">
+      <label class="editing-label">Add new link</label>
+      <form [formGroup]="linksForm" (ngSubmit)="onLinksSubmit()">
+        <label for="name">Name:</label>
+        <div class="row ">
+          <input formControlName="name" id="name" class="form-control w-50" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">
+              Name is required.
+            </div>
+          </div>
+        </div>
+        <span>Link:</span>
+        <div class="row">
+          <input formControlName="link" class="form-control w-50" type="text"
+            [ngClass]="{ 'is-invalid': submitted && f.link.errors }" />
+          <div *ngIf="submitted && f.link.errors" class="invalid-feedback">
+            <div *ngIf="f.link.errors.required">
+              Link is required.
+            </div>
+            <div *ngIf="f.link.errors.pattern">
+              Link is invalid.
+            </div>
+          </div>
+          <div class="row w-100">
+            <button type="submit" class="btn btn-primary margin-button">
+              Submit new link
+            </button>
+          </div>
+        </div>
+      </form>
+      <div *ngIf="mapNotEmpty()">
+        <label class="editing-label">Delete links</label>
+        <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
+          <div class="link-container">
+            <a>{{ dataLink.key }}: </a>
+            <a class="link-to-delete"> {{ dataLink.value }} </a>
+            <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

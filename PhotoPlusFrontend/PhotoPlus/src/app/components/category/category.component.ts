@@ -16,12 +16,13 @@ import { BehaviorSubject } from 'rxjs';
 export class CategoryComponent implements OnInit {
 
   categories: BehaviorSubject<Category>[];
-  products: BehaviorSubject<Product>[];
 
+  products: BehaviorSubject<Product>[];
 
   currentCategoryCode: string;
 
   selectedPage: BehaviorSubject<number>;
+
   amountOfPages: BehaviorSubject<number>;
 
   isProductListEmpty: boolean = true;
@@ -30,7 +31,7 @@ export class CategoryComponent implements OnInit {
                private productService: ProductService,
                private cartService: CartService,
                private modalService: NgbModal ) { }
-  
+
   ngOnInit(): void {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
@@ -55,7 +56,7 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
-  
+
   addToCart(product: Product) {
     this.cartService.addToCart(product);
     const modalRef = this.modalService.open(SuccessModalComponent);
