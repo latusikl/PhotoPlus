@@ -51,12 +51,12 @@
           <div *ngIf="!isEditing; else editingPrice;">
             <p id="product-price">${{ (product | async)?.price }}</p>
             <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
-              <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
+              <button (click)="addToCart(product.value)" class="btn btn-success" href="#">
                 Add to cart
               </button>
               <br />
               <br />
-              <button class="btn btn-success" href="#" id="buy-link">
+              <button class="btn btn-success" href="#">
                 Buy now
               </button>
             </div>
@@ -128,7 +128,7 @@
           <div class="link-container">
             <a>{{ dataLink.key }}: </a>
             <a class="link-to-delete" href="{{ dataLink.value }}"> {{ dataLink.value }} </a>
-            <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
+            <button class="btn btn-danger" href="#" (click)="deleteLink(dataLink.key)">
               Delete
             </button>
           </div>
