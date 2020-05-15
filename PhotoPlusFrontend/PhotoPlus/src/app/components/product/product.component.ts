@@ -39,12 +39,12 @@ export class ProductComponent implements OnInit {
   submitted = false;
 
   constructor(private route: ActivatedRoute,
-    private productService: ProductService,
-    private cartService: CartService,
-    private modalService: NgbModal,
-    private loginService: LoginService,
-    private categoryService: CategoryService,
-    private formBuilder: FormBuilder
+              private productService: ProductService,
+              private cartService: CartService,
+              private modalService: NgbModal,
+              private loginService: LoginService,
+              private categoryService: CategoryService,
+              private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -57,8 +57,8 @@ export class ProductComponent implements OnInit {
       this.categories = data;
     })
     this.linksForm = this.formBuilder.group({
-      name: ["", [Validators.required]],
-      link: ["", [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
+      name: ['', [Validators.required]],
+      link: ['', [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
     });
   }
 
