@@ -124,10 +124,8 @@ export class ProductComponent implements OnInit {
     return this.product.value.dataLinks && Object.keys(this.product.value.dataLinks).length > 0;
   }
 
-  deleteLink(key) {
-    console.log(key)
+  deleteLink(key: string) {
     delete this.product.value.dataLinks[key];
-    console.log(this.product.value.dataLinks);
     this.productService.patch(this.product.value.code, {
       dataLinks: this.product.value.dataLinks
     } as Product).subscribe(res => {
