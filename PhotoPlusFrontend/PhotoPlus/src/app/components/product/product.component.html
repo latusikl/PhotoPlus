@@ -127,7 +127,7 @@
         <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
           <div class="link-container">
             <a>{{ dataLink.key }}: </a>
-            <a class="link-to-delete"> {{ dataLink.value }} </a>
+            <a class="link-to-delete" href="{{ dataLink.value }}"> {{ dataLink.value }} </a>
             <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
               Delete
             </button>
