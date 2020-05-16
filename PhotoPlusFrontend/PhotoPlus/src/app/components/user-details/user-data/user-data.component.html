@@ -72,10 +72,11 @@
             <div *ngIf="f.confirmPass.errors.mustMatch">Passwords must match</div>
         </div>
     </div>
-
-    <button class="btn btn-success" [disabled]="formDisabled" (click)="onSubmit()">Save changes</button>
+    <mat-divider></mat-divider>
+    <br/>
     <button class="btn btn-success" (click)="formDisabled ? enable() : disable()">
         <span>{{formDisabled ? "Edit" : "Stop Editing" }}</span>
     </button>
+    <button class="btn btn-success" [disabled]="formDisabled" (click)="onSubmit()">Save changes</button>
 
 </div>

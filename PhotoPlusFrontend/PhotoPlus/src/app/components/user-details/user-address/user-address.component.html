@@ -88,7 +88,8 @@
                     </div>
                 </div>
             </div>
-
+            <mat-divider></mat-divider>
+            <br/>
             <div [style.display]="!newAddress ? 'block' : 'none'">
                 <button class="btn btn-danger" (click)="onDelete()">Delete</button>
                 <button class="btn btn-success" (click)="isFormDisabled ? enable() : disable()">
