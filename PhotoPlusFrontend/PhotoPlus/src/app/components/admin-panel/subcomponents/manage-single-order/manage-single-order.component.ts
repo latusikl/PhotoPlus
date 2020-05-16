@@ -78,13 +78,14 @@ export class ManageSingleOrderComponent implements OnInit {
       .toPromise();
     this.orderedProducts = new Array();
     for (const item of await orderItems) {
-      const product = this.productService
+      const product = await this.productService
         .getSingle(item.productCode)
         .toPromise();
+      this.productService.getDataFromLinks(product);
       this.orderedProducts.push(
         new BehaviorSubject({
           first: item,
-          second: await product,
+          second: product
         })
       );
     }
