@@ -1,57 +1,21 @@
 <div class="container">
-  <mat-expansion-panel class="mt-2 pending_bg_color">
+  <mat-expansion-panel *ngFor="let orderStatus of orderStatuses" class="mt-2" [class]="toCssClass(orderStatus)" >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ orderStatuses[0] }}
+        <div class="col-10 p-0 mt-1">
+          {{ humanReadable(orderStatus) }}
+        </div>
+        <div class="col-2">
+          <mat-card class="p-1 page-count">
+            Pages: {{ orderStatusPageInfo[orderStatus].pageAmount }}
+          </mat-card>
+        </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-panel-description>
       <mat-card >
 
       </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 paid_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[1] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 ready_to_ship_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[2] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 shipped_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[3] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-  <mat-expansion-panel class="mt-2 delivered_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[4] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
     </mat-panel-description>
   </mat-expansion-panel>
 </div>

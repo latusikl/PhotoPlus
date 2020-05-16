@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/services/order/order.service';
 import { OrderStatus } from 'src/app/models/order-status/order-status';
-import { Tuple } from 'src/app/helpers/tuple';
-import { PageInfo } from 'src/app/models/page-info/pageInfo';
+import { PageInfo } from 'src/app/models/page-info/page-info';
 
 @Component({
   selector: 'app-manage-orders',
@@ -11,27 +10,35 @@ import { PageInfo } from 'src/app/models/page-info/pageInfo';
 })
 export class ManageMultipleOrdersComponent implements OnInit {
 
-  orderStatuses: string[] = [
-    'Pending',
-    'Paid',
-    'Ready to ship',
-    'Shipped',
-    'Delivered'
-  ]
-
   // Obiekt który ma jako klucze wartości enuma OrderStatus 
   // a wartości kluczy to wielkości stron poszczególnych OrderStatusów
-  // klucze są opcjonalne żeby można było je dodawać pojedynczo 
+  // klucze są opcjonalne aby wartości można było dodawać pojedynczo 
   orderStatusPageInfo: {[key in OrderStatus]?:PageInfo };
 
   constructor(private orderService: OrderService) { }
 
   async ngOnInit() {
+    this.loadOrderStatusPagesInfo();
+  }
+
+  async loadOrderStatusPagesInfo(){
     this.orderStatusPageInfo = {};
     for(const orderStatus in OrderStatus){
       const response = this.orderService.getPageCountForOrdersOfStatus(orderStatus).toPromise();
       this.orderStatusPageInfo[orderStatus] = await response;
     }
-    setTimeout(()=>{console.log(this.orderStatusPageInfo)},1000);
+  }
+
+  humanReadable(text: string): string{
+    const noUnderscores = text.replace(/\_/g, " ")
+    return noUnderscores.charAt(0) + noUnderscores.slice(1).toLowerCase();
+  }
+
+  toCssClass(orderStatus: string): string{
+    return orderStatus.toLowerCase() + '_bg_color';
+  }
+
+  get orderStatuses(): Array<string>{
+    return Object.keys(this.orderStatusPageInfo);
   }
 }
