@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.polsl.photoplus.annotations.Patchable;
+import pl.polsl.photoplus.annotations.validators.Price;
 import pl.polsl.photoplus.annotations.validators.ValueOfEnum;
 import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.model.enums.PaymentMethod;
@@ -46,6 +47,7 @@ public class OrderModelDto
     private LocalDate date;
 
     @JsonProperty("price")
+    @Price
     @Patchable
     private Double price;
 

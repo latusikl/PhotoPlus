@@ -33,7 +33,7 @@ public class AddressModelDto
     private String number;
 
     @NotBlank
-    @Pattern(regexp = "\\p{Digit}+", message = "Code should be more than 1 number.")
+    @Pattern(regexp = "\\d{2,5}-?\\d{2,5}", message = "Bad zipcode.")
     @JsonProperty("zipCode")
     @Patchable
     private String zipCode;
