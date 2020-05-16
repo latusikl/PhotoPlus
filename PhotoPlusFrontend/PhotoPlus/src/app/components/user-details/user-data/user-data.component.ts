@@ -3,9 +3,8 @@ import {FormGroup} from "@angular/forms";
 import {UserModel} from "../../../models/user/user-model";
 import {UserFormService} from "../../../services/user/user-form.service";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {SuccessModalComponent} from "../../success-modal/success-modal.component";
+import {PatchFieldChangeService} from "../../../services/patch-field-change.service";
 
 @Component({
     selector: 'app-user-data',
@@ -14,14 +13,14 @@ import {SuccessModalComponent} from "../../success-modal/success-modal.component
 })
 export class UserDataComponent implements OnInit {
 
-    constructor(private userFormService: UserFormService, private  http: HttpClient, private modalService: NgbModal) {
+    constructor(private userFormService: UserFormService, private  http: HttpClient, private modalService: NgbModal, private patchFieldChangeService: PatchFieldChangeService) {
     }
 
     userForm: FormGroup;
-    formDisabled : boolean = true;
+    formDisabled: boolean = true;
     submitted: boolean = false;
     fillerLength: number = 10;
-    changedFields: Map<string, string> = new Map<string, string>();
+    changedFields = this.patchFieldChangeService.getNewFieldChange();
 
     @Input("loggedUser")
     currentUser: UserModel;
@@ -51,43 +50,22 @@ export class UserDataComponent implements OnInit {
         if (this.userForm.invalid) {
             return;
         }
-        this.sendPatchRequest();
+        this.patchFieldChangeService.sendPatchRequest('user/editAccount/' + this.currentUser.code, this.changedFields);
         this.userForm.disable();
     }
 
     registerChange(key: string, value: string): void {
-        if (this.changedFields.has(key)) {
-            this.changedFields.delete(key);
-        }
-        this.changedFields.set(key, value);
+        this.changedFields.registerChange(key, value);
     }
-
-    sendPatchRequest(): void {
-        if (this.changedFields.size != 0) {
-            this.http.patch(environment.hostAddress + 'user/editAccount/' + this.currentUser.code, JSON.parse(this.getJsonString())).subscribe(res => {
-                const modalRef = this.modalService.open(SuccessModalComponent);
-                modalRef.componentInstance.message = "Your's data chas been changed.";
-            });
-            this.changedFields.clear();
-        }
-    }
-
-    getJsonString(): string {
-        let jsonObject = {};
-        this.changedFields.forEach((value, key) => {
-            jsonObject[key] = value
-        });
-        return JSON.stringify(jsonObject);
-    }
-
-    disable(){
+    
+    disable() {
         this.userForm.disable();
-        this.formDisabled=true;
+        this.formDisabled = true;
     }
 
-    enable(){
+    enable() {
         this.userForm.enable();
-        this.formDisabled=false;
+        this.formDisabled = false;
     }
 
     get f() {
