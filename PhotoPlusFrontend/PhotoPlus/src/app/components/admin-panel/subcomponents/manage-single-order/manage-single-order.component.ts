@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
 import { BehaviorSubject } from "rxjs";
 import { User } from 'src/app/models/user/user';
 import { UserService } from 'src/app/services/user/user.service';
+import { Address } from 'src/app/models/address/address';
+import { AddressService } from 'src/app/services/address/address.service';
 
 @Component({
   selector: "app-manage-single-order",
@@ -15,19 +17,19 @@ export class ManageSingleOrderComponent implements OnInit {
 
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
-//address: BehaviorSubject<Address>;
+  address: BehaviorSubject<Address>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private orderService: OrderService,
     private userService: UserService,
-    // private addressService: AddressService // TODO wait for someone xD
+    private addressService: AddressService
   ) {}
 
   ngOnInit() {
     this.order = new BehaviorSubject({} as Order);
     this.user = new BehaviorSubject({} as User);
-  //this.address = new BehaviorSubject({} as Address);  
+    this.address = new BehaviorSubject({} as Address);  
     this.loadOrder();
   }
 
@@ -46,8 +48,8 @@ export class ManageSingleOrderComponent implements OnInit {
   }
 
   async loadAddress(){
-  //const address = this.addressService.getSingle(this.order.value.addressCode).toPromise;
-  //this.address.next(address);
+    const address = await this.addressService.getSingle(this.order.value.addressCode).toPromise();
+    this.address.next(address);
   }
   
   beatutifyEnum(paymentMethod:string){
