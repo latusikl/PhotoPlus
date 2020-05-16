@@ -23,12 +23,8 @@
 }
 
 .order{
+    max-width: unset;
     cursor: pointer;
     overflow: auto;
-}
-
-/* override mat expansion panel behaviour */
-// Suchar320 can i use ng-deep it here ?
-::ng-deep .mat-expansion-panel-body{
-    padding: 1px 28px 10px 10px !important;
+    margin: 1px;
 }

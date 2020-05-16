@@ -11,19 +11,30 @@
         </div>
         <div class="col-2">
           <mat-card class="p-1 page-count">
-            Pages:&nbsp;{{ orderStatusPageInfo[orderStatus].pageAmount }}
+            Pages:&nbsp;{{ (orderStatusAmountPages[orderStatus] |async) }}
           </mat-card>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-panel-description>
-      <mat-card
-        class="col-3 m-1 order"
-        *ngFor="let order of currentStatusesOrders[orderStatus] | async"
-        (click)="goToSingleOrder(order.code)"
-      >
-        {{ order.paymentMethod }}
-      </mat-card>
+      <div class="container">
+        <div class="row justify-content-center">
+          <app-page-select [amountOfPages]="orderStatusAmountPages[orderStatus]" (onPageSelect)="changePage(orderStatus, $event)">
+          </app-page-select><br>
+        </div>
+        <div class="row">
+          <mat-card
+            class="col-3 order"
+            *ngFor="let order of currentStatusesOrders[orderStatus] | async"
+            (click)="goToSingleOrder(order.code)"
+          >
+            Code: {{ order.code }}<br>
+            Price: {{ order.price/100 }}<br> <!-- TODO check if correct -->
+            Date: {{ order.date }}<br>
+          </mat-card>
+          
+          </div>
+        </div>
     </mat-panel-description>
   </mat-expansion-panel>
 </div>

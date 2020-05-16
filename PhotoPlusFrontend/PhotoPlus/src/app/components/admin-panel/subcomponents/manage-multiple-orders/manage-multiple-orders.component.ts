@@ -15,8 +15,8 @@ export class ManageMultipleOrdersComponent implements OnInit {
   // Obiekt który ma jako klucze wartości enuma OrderStatus 
   // a wartości kluczy to wielkości stron poszczególnych OrderStatusów
   // klucze są opcjonalne aby wartości można było dodawać pojedynczo 
-  orderStatusPageInfo: {[key in OrderStatus]?:PageInfo };
-  selectedPagesNumbers: {[key in OrderStatus]?: number}
+  orderStatusAmountPages: {[key in OrderStatus]?:PageInfo };
+  selectedPagesNumbers: {[key in OrderStatus]?: BehaviorSubject<number>}
   currentStatusesOrders: {[key in OrderStatus]?: BehaviorSubject<Order[]>}
 
 
@@ -29,10 +29,10 @@ export class ManageMultipleOrdersComponent implements OnInit {
   }
 
   async loadOrderStatusPagesInfo(){
-    this.orderStatusPageInfo = {};
+    this.orderStatusAmountPages = {};
     for(const orderStatus in OrderStatus){
       const response = this.orderService.getPageCountForOrdersOfStatus(orderStatus).toPromise();
-      this.orderStatusPageInfo[orderStatus] = await response;
+      this.orderStatusAmountPages[orderStatus] = new BehaviorSubject((await response).pageAmount);
     }
   }
 
@@ -71,6 +71,6 @@ export class ManageMultipleOrdersComponent implements OnInit {
   }
 
   get orderStatuses(): Array<string>{
-    return Object.keys(this.orderStatusPageInfo);
+    return Object.keys(this.orderStatusAmountPages);
   }
 }
