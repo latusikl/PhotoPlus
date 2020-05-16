@@ -2,11 +2,9 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from 'src/app/models/product/product';
 import { Router } from '@angular/router';
+import { Tuple } from "../../../../../helpers/tuple";
 
-interface Tuple{
-  first: any,
-  second: any,
-}
+
 
 
 @Component({
