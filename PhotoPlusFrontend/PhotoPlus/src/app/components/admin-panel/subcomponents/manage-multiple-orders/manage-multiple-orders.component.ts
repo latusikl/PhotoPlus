@@ -4,6 +4,7 @@ import { OrderStatus } from 'src/app/models/order-status/order-status';
 import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Order } from 'src/app/models/order/order';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-orders',
@@ -20,7 +21,7 @@ export class ManageMultipleOrdersComponent implements OnInit {
   currentStatusesOrders: {[key in OrderStatus]?: BehaviorSubject<Order[]>}
 
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService, private router: Router) { }
 
   async ngOnInit() {
     this.loadOrderStatusPagesInfo();
@@ -53,8 +54,7 @@ export class ManageMultipleOrdersComponent implements OnInit {
   }
 
   goToSingleOrder(orderCode:string){
-    console.log(orderCode);
-    
+    this.router.navigate(["manage/orders", orderCode]);
   }
 
   humanReadable(text: string): string{
@@ -66,8 +66,9 @@ export class ManageMultipleOrdersComponent implements OnInit {
     return orderStatus.toLowerCase() + '_bg_color';
   }
 
-  changePage(orderStatus: OrderStatus, page: string){
-    console.log("change page", orderStatus, page);
+  async changePage(orderStatus: OrderStatus, page: number){
+    const nextPage = this.orderService.getPageByOrderStatus(page, orderStatus).toPromise();
+    this.currentStatusesOrders[orderStatus].next(await nextPage);
   }
 
   get orderStatuses(): Array<string>{
