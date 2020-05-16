@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { OrderService } from 'src/app/services/order/order.service';
+import { OrderStatus } from 'src/app/models/order-status/order-status';
+import { Tuple } from 'src/app/helpers/tuple';
+import { PageInfo } from 'src/app/models/page-info/pageInfo';
 
 @Component({
   selector: 'app-manage-orders',
@@ -16,10 +19,19 @@ export class ManageMultipleOrdersComponent implements OnInit {
     'Delivered'
   ]
 
+  // Obiekt który ma jako klucze wartości enuma OrderStatus 
+  // a wartości kluczy to wielkości stron poszczególnych OrderStatusów
+  // klucze są opcjonalne żeby można było je dodawać pojedynczo 
+  orderStatusPageInfo: {[key in OrderStatus]?:PageInfo };
 
-  constructor() { }
+  constructor(private orderService: OrderService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.orderStatusPageInfo = {};
+    for(const orderStatus in OrderStatus){
+      const response = this.orderService.getPageCountForOrdersOfStatus(orderStatus).toPromise();
+      this.orderStatusPageInfo[orderStatus] = await response;
+    }
+    setTimeout(()=>{console.log(this.orderStatusPageInfo)},1000);
   }
-
 }
