@@ -18,7 +18,7 @@ export class OrderItemService extends AbstractService<OrderItem> {
     return this._http.get<OrderItem[]>(this.hostAddress + this.endpointUrl + "/" + pageNubmer + "?orderCode=" + orderCode);
   }
 
-  getPageCountOfOrderItemsByOrder(orderCode: string){
+  getPageInfoOfOrderItemsByOrder(orderCode: string): Observable<PageInfo>{
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count?orderCode=" + orderCode);
   }
 
