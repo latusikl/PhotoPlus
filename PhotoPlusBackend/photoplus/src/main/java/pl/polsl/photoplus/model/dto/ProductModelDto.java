@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.NumberFormat;
 import pl.polsl.photoplus.annotations.Patchable;
+import pl.polsl.photoplus.annotations.validators.Price;
 import pl.polsl.photoplus.components.ContextProvider;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.model.entities.Image;
@@ -38,7 +40,7 @@ public class ProductModelDto
 
     @NotNull(message = "Price is mandatory.")
     @JsonProperty("price")
-    @DecimalMin("0.01")
+    @Price
     @Patchable
     private Double price;
 
