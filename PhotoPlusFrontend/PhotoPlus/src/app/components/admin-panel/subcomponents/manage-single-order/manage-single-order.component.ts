@@ -37,7 +37,9 @@ export class ManageSingleOrderComponent implements OnInit {
     this.order = new BehaviorSubject({} as Order);
     this.user = new BehaviorSubject({} as User);
     this.address = new BehaviorSubject({} as Address);
+    this.orderItems = new Array();
     this.selectedOrderItemsPage = new BehaviorSubject(0);
+    this.pageAmount = new BehaviorSubject(0);
     this.loadOrder();
   }
 
@@ -62,7 +64,7 @@ export class ManageSingleOrderComponent implements OnInit {
   }
 
   async loadOrderItems(){
-    if(this.order.value?.code){
+    if(!this.order.value?.code){
       return;
     }
     const orderItems = this.orderItemService.getPageOfOrderItemsByOrder(this.selectedOrderItemsPage.value,this.order.value.code).toPromise();
@@ -70,7 +72,6 @@ export class ManageSingleOrderComponent implements OnInit {
     for(const item of await orderItems){
       this.orderItems.push(new BehaviorSubject(item));
     }
-    console.log(this.orderItems);
     
   }
 
