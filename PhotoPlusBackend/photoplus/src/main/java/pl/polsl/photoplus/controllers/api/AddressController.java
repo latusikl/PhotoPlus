@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.AddressModelDto;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
+import pl.polsl.photoplus.services.controllers.PostService;
 
 import java.util.List;
 
@@ -41,25 +42,33 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
     }
 
     @PatchMapping("/editAddress/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
     public ResponseEntity patch(@RequestBody final AddressModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
 
     @DeleteMapping("/editAddress/{code}/{addressCode}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
     public ResponseEntity delete(@PathVariable("code") final String code, @PathVariable("addressCode") final String addressCode)
     {
         return new ResponseEntity(dtoService.delete(addressCode));
     }
 
     @PostMapping("/editAddress/{code}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getPostOwnerCode(#code))")
     public String post(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)
     {
         //Prevent form passing different code of user in dto than logged one
         dto.setUserCode(code);
         return dtoService.save(dto);
+    }
+
+    /**
+     *
+     * You need to use getter to use service in @PreAuthorize because SpEL cannot use inherited field.
+     */
+    public AddressService getService() {
+        return this.dtoService;
     }
 }

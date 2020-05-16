@@ -21,6 +21,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { HomeComponent } from './components/home/home.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
 import { AboutComponent } from './components/about/about.component';
+import {UserDetailsComponent} from "./components/user-details/user-details.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -49,7 +50,8 @@ const routes: Routes = [
   { path: 'manage/deleteUser', component: AdminPanelComponent},
   { path: 'manage/generateReports', component: AdminPanelComponent},
   { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent},
-  { path: 'about', component: AboutComponent}
+  { path: 'about', component: AboutComponent},
+  { path: 'user/details', component: UserDetailsComponent}
 
 ];
 
