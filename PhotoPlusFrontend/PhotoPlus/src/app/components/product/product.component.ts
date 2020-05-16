@@ -103,7 +103,7 @@ export class ProductComponent implements OnInit {
       return;
     }
     const form = this.linksForm.value;
-    let map: Map<string, string> = new Map<string, string>();
+    const map: Map<string, string> = new Map<string, string>();
     Object.keys(this.product.value.dataLinks).forEach(key => {
       map.set(key, this.product.value.dataLinks[key]);
     });
