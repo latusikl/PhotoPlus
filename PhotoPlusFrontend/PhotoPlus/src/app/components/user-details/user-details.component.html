@@ -1,12 +1,12 @@
 <div class="welcome">
-    <h1><u>Welcome {{loggedUserWithDetails.name}} {{loggedUserWithDetails.surname}}!</u></h1>
+    <h1>Welcome {{loggedUserWithDetails.name}} {{loggedUserWithDetails.surname}}!</h1>
 </div>
 
 <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Your's data
+                Your's data.
             </mat-panel-title>
             <mat-panel-description>
                 See or edit your personal data.
@@ -21,18 +21,22 @@
                     <span>{{"Address no." + (i + 1)}}</span>
                 </mat-panel-title>
                 <mat-panel-description>
-                    <span>{{"See or edit address no." + (i + 1)}}</span>
+                    <span>{{"See or edit address no. " + (i + 1) + "."}}</span>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [loggedUser]="loggedUser" [id]="i"></app-user-address>
+            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [ownerCode]="loggedUser.code"
+                              [componentId]="i"></app-user-address>
         </mat-expansion-panel>
     </div>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <span>Add new address.</span>
+                <span>Address form.</span>
             </mat-panel-title>
+            <mat-panel-description>
+                Add new address to Your's account.
+            </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-user-address [newAddress]="true" [loggedUser]="loggedUser" [id]="'new'"></app-user-address>
+        <app-user-address [newAddress]="true" [ownerCode]="loggedUser.code" componentId="new"></app-user-address>
     </mat-expansion-panel>
 </mat-accordion>

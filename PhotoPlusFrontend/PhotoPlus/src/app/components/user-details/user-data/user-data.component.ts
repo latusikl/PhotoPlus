@@ -21,6 +21,7 @@ export class UserDataComponent implements OnInit {
     submitted: boolean = false;
     fillerLength: number = 10;
     changedFields = this.patchFieldChangeService.getNewFieldChange();
+    USER_PATCH_ENDPOINT = "user/editAccount/";
 
     @Input("loggedUser")
     currentUser: UserModel;
@@ -50,7 +51,7 @@ export class UserDataComponent implements OnInit {
         if (this.userForm.invalid) {
             return;
         }
-        this.patchFieldChangeService.sendPatchRequest('user/editAccount/' + this.currentUser.code, this.changedFields);
+        this.patchFieldChangeService.sendPatchRequest(this.USER_PATCH_ENDPOINT + this.currentUser.code, this.changedFields);
         this.userForm.disable();
     }
 

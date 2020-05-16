@@ -1,13 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AddressDto} from "../../../models/address/address-dto";
-import {AddressModel} from "../../../models/address/address-model";
-import {UserModel} from "../../../models/user/user-model";
 import {CountryCode} from "../../../models/address/countryCode";
-import {environment} from "../../../../environments/environment";
-import {SuccessModalComponent} from "../../success-modal/success-modal.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {UserAddressService} from "../../../services/user/user-address.service";
+import {PatchFieldChangeService} from "../../../services/patch/patch-field-change.service";
 
 @Component({
     selector: 'app-user-address',
@@ -16,38 +12,42 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class UserAddressComponent implements OnInit {
 
-    constructor(private http: HttpClient, private  formBuilder: FormBuilder, private modalService: NgbModal) {
+    constructor(private  formBuilder: FormBuilder, private userAddressService: UserAddressService, private patchFieldChangeService: PatchFieldChangeService) {
     }
-
-    @Input("userAddress")
-    userAddress: AddressDto;
 
     @Input("newAddress")
     newAddress: boolean = false;
 
-    @Input("loggedUser")
-    currentUser: UserModel;
+    @Input("userAddress")
+    userAddress: AddressDto;
 
-    @Input("id")
-    id: string;
+    @Input("ownerCode")
+    ownerCode: string;
+
+    //To remove warning about same ID when multiple addresses
+    @Input("componentId")
+    componentId: string;
 
     addressForm: FormGroup
 
-    submitted: boolean = false;
+    isSubmitted: boolean = false;
 
-    formDisabled: boolean;
+    isFormDisabled: boolean;
+
+    ADDRESS_PATCH_ENDPOINT = "address/editAddress/";
 
     countryCodeSet = CountryCode.getCodes();
 
+    changedFields = this.patchFieldChangeService.getNewFieldChange();
+
     ngOnInit(): void {
         this.createAddressForm();
-
         if (!this.newAddress) {
             this.addressForm.disable();
             this.fillForm();
-            this.formDisabled = true;
+            this.isFormDisabled = true;
         } else {
-            this.formDisabled = false;
+            this.isFormDisabled = false;
         }
     }
 
@@ -74,48 +74,45 @@ export class UserAddressComponent implements OnInit {
         return this.addressForm.controls;
     }
 
-
-    onSubmit() {
-        this.submitted = true;
-        if (this.addressForm.invalid) {
-            return;
+    onSaveNew() {
+        this.isSubmitted = true;
+        if (this.isValid()) {
+            this.userAddressService.post(this.addressForm.value, this.ownerCode);
         }
-        this.postAddress();
+        return;
     }
 
-    postAddress() {
-        const newAddressToPost = <AddressModel>this.addressForm.value;
-        newAddressToPost.userCode = this.currentUser.code;
-        this.http.post<String>(environment.hostAddress + "address/editAddress/" + this.currentUser.code, newAddressToPost).subscribe(res => {
-            const modalRef = this.modalService.open(SuccessModalComponent);
-            modalRef.componentInstance.title = "New address added!";
-            modalRef.result.then(() => {
-                location.reload();
-            }, () => {
-                location.reload();
-            })
-        });
+    onSaveExisting() {
+        this.isSubmitted = true;
+        if (this.isValid()) {
+            this.patchFieldChangeService.sendPatchRequest(this.ADDRESS_PATCH_ENDPOINT + this.userAddress.code, this.changedFields);
+        }
+        return;
+    }
+
+    isValid(): boolean {
+        if (this.addressForm.invalid) {
+            return false;
+        }
+        return true;
+    }
+
+    registerChange(key: string, value: string): void {
+        this.changedFields.registerChange(key, value);
+    }
+
+    onDelete() {
+        this.userAddressService.delete(this.ownerCode, this.userAddress.code);
     }
 
     disable() {
         this.addressForm.disable();
-        this.formDisabled = true;
+        this.isFormDisabled = true;
     }
 
     enable() {
         this.addressForm.enable();
-        this.formDisabled = false;
+        this.isFormDisabled = false;
     }
 
-    onDelete() {
-        this.http.delete(environment.hostAddress + "address/editAddress/" + this.currentUser.code + "/" + this.userAddress.code).subscribe(res => {
-            const modalRef = this.modalService.open(SuccessModalComponent);
-            modalRef.componentInstance.title = "Address deleted!";
-            modalRef.result.then(() => {
-                location.reload();
-            }, () => {
-                location.reload();
-            })
-        });
-    }
 }
