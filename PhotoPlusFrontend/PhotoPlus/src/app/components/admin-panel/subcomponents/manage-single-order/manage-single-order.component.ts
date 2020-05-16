@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
 import { BehaviorSubject } from "rxjs";
@@ -28,6 +28,7 @@ export class ManageSingleOrderComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private orderService: OrderService,
     private userService: UserService,
     private addressService: AddressService,
@@ -112,6 +113,13 @@ export class ManageSingleOrderComponent implements OnInit {
     return (
       noUnderscore.charAt(0).toUpperCase() + noUnderscore.slice(1).toLowerCase()
     );
+  }
+
+  goToImage(imageCode:string){
+    if(!imageCode){
+      return;
+    }
+    this.router.navigate(["imageDisplay", imageCode]);
   }
 
   selectPage(pageNumber: number) {
