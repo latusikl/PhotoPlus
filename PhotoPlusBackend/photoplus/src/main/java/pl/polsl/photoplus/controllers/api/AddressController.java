@@ -33,7 +33,7 @@ public class AddressController extends  BaseModelController<AddressModelDto,Addr
 
     @GetMapping(path = "/byUser/{code}", produces = {"application/json"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
-    public ResponseEntity<List<AddressModelDto>> getAllFromCategory(@PathVariable("code") final String code)
+    public ResponseEntity<List<AddressModelDto>> getAllByUserCode(@PathVariable("code") final String code)
     {
         final List<AddressModelDto> dtos = this.dtoService.getUserAddresses(code);
         addLinks(dtos);
