@@ -141,8 +141,9 @@
               (click)="chooseProduct(product)"
             >
               <mat-card class="item-card">
-                <img
-                  src="{{ ((product | async)?.imagesUrl)[0] }}"
+                <img 
+                  *ngIf="((product | async)?.imagesUrl)?.indexOf(0)!==-1"
+                  src="{{ ((product | async)?.imagesUrl)?.indexOf(0) }}"
                   class="item-card-photo"
                 /><br />
                 {{ (product | async)?.name }}
