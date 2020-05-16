@@ -1,4 +1,4 @@
-export interface Tuple{
-  first: any,
-  second: any,
+export interface Tuple<First, Second>{
+  first: First,
+  second: Second,
 }
