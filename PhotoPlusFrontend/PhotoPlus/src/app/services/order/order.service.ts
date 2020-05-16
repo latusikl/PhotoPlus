@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class OrderService extends AbstractService<Order> {
 
-  constructor(private http:HttpClient) { 
+  constructor(http:HttpClient) { 
     super(http,"order");
   }
 
