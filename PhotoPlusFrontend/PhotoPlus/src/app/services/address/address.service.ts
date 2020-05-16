@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AbstractService } from '../abstract-service';
-import { Address } from 'cluster';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Address } from 'src/app/models/address/address';
 
 @Injectable({
   providedIn: 'root'
