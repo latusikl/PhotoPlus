@@ -4,7 +4,7 @@ import {UserModel} from "../../../models/user/user-model";
 import {UserFormService} from "../../../services/user/user-form.service";
 import {HttpClient} from "@angular/common/http";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PatchFieldChangeService} from "../../../services/patch-field-change.service";
+import {PatchFieldChangeService} from "../../../services/patch/patch-field-change.service";
 
 @Component({
     selector: 'app-user-data',
@@ -57,7 +57,7 @@ export class UserDataComponent implements OnInit {
     registerChange(key: string, value: string): void {
         this.changedFields.registerChange(key, value);
     }
-    
+
     disable() {
         this.userForm.disable();
         this.formDisabled = true;
