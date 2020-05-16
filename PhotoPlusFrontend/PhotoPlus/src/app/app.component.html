@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse" id="navbarHeader">
 
       <div class="searchbar">
-        <input id="typeahead-focus" type="text" class="form-control search_input" placeholder="Search..."
+        <input (keyup.enter)="navigateToSearch()" id="typeahead-focus" type="text" class="form-control search_input" placeholder="Search..."
           [(ngModel)]="searchedText" />
         <a [class.disabled]="canSearch() ? null : true" [routerLink]="['/search', searchedText]" id="search_icon">
           <i [class.disabled]="canSearch() ? null : true" class="fa fa-search"></i>

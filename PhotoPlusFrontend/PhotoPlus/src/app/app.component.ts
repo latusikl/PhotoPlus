@@ -1,5 +1,6 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LoginService } from './services/login/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { LoginService } from './services/login/login.service';
 })
 export class AppComponent {
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private router: Router) {
   }
 
   get auth(): LoginService {
@@ -25,5 +26,11 @@ export class AppComponent {
 
   canSearch() {
     return this.searchedText.length > 2;
+  }
+
+  navigateToSearch() {
+    if (this.canSearch()) {
+      this.router.navigate(['/search', this.searchedText]);
+    }
   }
 }
