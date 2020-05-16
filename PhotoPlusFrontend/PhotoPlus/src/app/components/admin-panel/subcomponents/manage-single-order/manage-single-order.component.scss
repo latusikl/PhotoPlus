@@ -16,3 +16,7 @@ $single-order-bg-color: #424242;
 .products-details{
   background-color: lighten($single-order-bg-color, 15%);
 }
+
+.single-product{
+  background-color: lighten($single-order-bg-color, 20%);
+}

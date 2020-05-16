@@ -3,13 +3,15 @@ import { ActivatedRoute } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
 import { BehaviorSubject } from "rxjs";
-import { User } from 'src/app/models/user/user';
-import { UserService } from 'src/app/services/user/user.service';
-import { Address } from 'src/app/models/address/address';
-import { AddressService } from 'src/app/services/address/address.service';
-import { OrderItemService } from 'src/app/services/order-item/order-item.service';
-import { OrderItem } from 'src/app/models/order-item/order-item';
-import { retry } from 'rxjs/operators';
+import { User } from "src/app/models/user/user";
+import { UserService } from "src/app/services/user/user.service";
+import { Address } from "src/app/models/address/address";
+import { AddressService } from "src/app/services/address/address.service";
+import { OrderItemService } from "src/app/services/order-item/order-item.service";
+import { OrderItem } from "src/app/models/order-item/order-item";
+import { Tuple } from "src/app/helpers/tuple";
+import { Product } from "src/app/models/product/product";
+import { ProductService } from "src/app/services/product/product.service";
 
 @Component({
   selector: "app-manage-single-order",
@@ -17,11 +19,10 @@ import { retry } from 'rxjs/operators';
   styleUrls: ["./manage-single-order.component.scss"],
 })
 export class ManageSingleOrderComponent implements OnInit {
-
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
   address: BehaviorSubject<Address>;
-  orderItems: BehaviorSubject<OrderItem>[];
+  orderedProducts: BehaviorSubject<Tuple<OrderItem, Product>>[];
   selectedOrderItemsPage: BehaviorSubject<number>;
   pageAmount: BehaviorSubject<number>;
 
@@ -30,14 +31,15 @@ export class ManageSingleOrderComponent implements OnInit {
     private orderService: OrderService,
     private userService: UserService,
     private addressService: AddressService,
-    private orderItemService: OrderItemService
-  ) {}
+    private orderItemService: OrderItemService,
+    private productService: ProductService
+  ) { }
 
   ngOnInit() {
     this.order = new BehaviorSubject({} as Order);
     this.user = new BehaviorSubject({} as User);
     this.address = new BehaviorSubject({} as Address);
-    this.orderItems = new Array();
+    this.orderedProducts = new Array();
     this.selectedOrderItemsPage = new BehaviorSubject(0);
     this.pageAmount = new BehaviorSubject(0);
     this.loadOrder();
@@ -54,46 +56,64 @@ export class ManageSingleOrderComponent implements OnInit {
     });
   }
 
-  async loadOrderItemsPageInfo(){
-    const pageInfo = this.orderItemService.getPageInfoOfOrderItemsByOrder(this.order.value.code).toPromise();
-    if((await pageInfo).pageAmount === 0){
+  async loadOrderItemsPageInfo() {
+    const pageInfo = this.orderItemService
+      .getPageInfoOfOrderItemsByOrder(this.order.value.code)
+      .toPromise();
+    if ((await pageInfo).pageAmount === 0) {
       return;
     }
     this.pageAmount.next((await pageInfo).pageAmount);
     this.loadOrderItems();
   }
 
-  async loadOrderItems(){
-    if(!this.order.value?.code){
+  async loadOrderItems() {
+    if (!this.order.value?.code) {
       return;
     }
-    const orderItems = this.orderItemService.getPageOfOrderItemsByOrder(this.selectedOrderItemsPage.value,this.order.value.code).toPromise();
-    this.orderItems = new Array();
-    for(const item of await orderItems){
-      this.orderItems.push(new BehaviorSubject(item));
+    const orderItems = this.orderItemService.getPageOfOrderItemsByOrder(
+      this.selectedOrderItemsPage.value,
+      this.order.value.code
+    )
+      .toPromise();
+    this.orderedProducts = new Array();
+    for (const item of await orderItems) {
+      const product = this.productService
+        .getSingle(item.productCode)
+        .toPromise();
+      this.orderedProducts.push(
+        new BehaviorSubject({
+          first: item,
+          second: await product,
+        })
+      );
     }
-    
   }
 
-  async loadUser(){
-    this.user.next(await this.userService.getSingle(this.order.value.userCode).toPromise());
+  async loadUser() {
+    this.user.next(
+      await this.userService.getSingle(this.order.value.userCode).toPromise()
+    );
   }
 
-  async loadAddress(){
-    const address = await this.addressService.getSingle(this.order.value.addressCode).toPromise();
+  async loadAddress() {
+    const address = await this.addressService
+      .getSingle(this.order.value.addressCode)
+      .toPromise();
     this.address.next(address);
   }
-  
-  beatutifyEnum(paymentMethod:string){
-    if(!paymentMethod){
+
+  beatutifyEnum(paymentMethod: string) {
+    if (!paymentMethod) {
       return;
     }
     const noUnderscore = paymentMethod.replace(/\_/g, " ");
-    return noUnderscore.charAt(0).toUpperCase() + noUnderscore.slice(1).toLowerCase();
+    return (
+      noUnderscore.charAt(0).toUpperCase() + noUnderscore.slice(1).toLowerCase()
+    );
   }
 
-  selectPage(pageNumber:number){
+  selectPage(pageNumber: number) {
     console.log(pageNumber);
   }
-
 }

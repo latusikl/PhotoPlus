@@ -25,9 +25,13 @@
         <mat-card *ngIf="!((pageAmount |async) === 0)" class="mt-2 products-details">
           <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
           </app-page-select>
-          <div *ngFor="let item of orderItems">
-            {{(item|async)?.productCode}}
-          </div>
+          <mat-card *ngFor="let item of orderedProducts" class="single-product container">
+            <div class="row">
+              <div class="col">
+                {{(item|async)?.first.productCode}}
+              </div>
+            </div>  
+          </mat-card>
         </mat-card>
         <mat-card *ngIf="((pageAmount |async) === 0)" class="mt-2 products-details text-center">
           <h2>Order is empty</h2>
