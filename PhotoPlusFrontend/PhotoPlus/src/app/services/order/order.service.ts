@@ -3,7 +3,7 @@ import { AbstractService } from '../abstract-service';
 import { Order } from 'src/app/models/order/order';
 import { HttpClient } from '@angular/common/http';
 import { OrderStatus } from 'src/app/models/order-status/order-status';
-import { PageInfo } from 'src/app/models/page-info/pageInfo';
+import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Observable } from 'rxjs';
 
 @Injectable({
