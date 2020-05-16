@@ -23,8 +23,8 @@ export class OrderService extends AbstractService<Order> {
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count?orderStatus=" + status);
   }
 
-  getPageByOrderStatus(pageNumber: number, status: OrderStatus | string){
-    return this._http.get(this.hostAddress + this.endpointUrl + "/" + pageNumber + "?orderStatus=" + status);
+  getPageByOrderStatus(pageNumber: number, status: OrderStatus | string): Observable<Order[]>{
+    return this._http.get<Order[]>(this.hostAddress + this.endpointUrl + "/" + pageNumber + "?orderStatus=" + status);
   }
 
 }
