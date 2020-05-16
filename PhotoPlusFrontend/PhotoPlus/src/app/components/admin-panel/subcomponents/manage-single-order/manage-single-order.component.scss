@@ -12,3 +12,7 @@ $single-order-bg-color: #424242;
 .address-details{
   background-color: lighten($single-order-bg-color, 10%);
 }
+
+.products-details{
+  background-color: lighten($single-order-bg-color, 15%);
+}
