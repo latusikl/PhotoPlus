@@ -24,15 +24,15 @@
         </div>
         <div class="row">
           <mat-card
-            class="col-3 order"
+            class="col-3 m-1 order"
             *ngFor="let order of currentStatusesOrders[orderStatus] | async"
             (click)="goToSingleOrder(order.code)"
           >
             Code: {{ order.code }}<br>
             Price: {{ order.price/100 }}<br> <!-- TODO check if correct -->
+            Payment: {{ order.paymentMethod}}<br>
             Date: {{ order.date }}<br>
           </mat-card>
-          
           </div>
         </div>
     </mat-panel-description>
