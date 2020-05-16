@@ -49,6 +49,7 @@ import { PageSelectComponent } from './components/page-select/page-select.compon
 import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 import { AboutComponent } from './components/about/about.component';
 import { MatSelectModule } from '@angular/material/select';
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { MatSelectModule } from '@angular/material/select';
     ImageCarouselComponent,
     ImageDisplayComponent,
     PageSelectComponent,
-    AboutComponent
+    AboutComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
