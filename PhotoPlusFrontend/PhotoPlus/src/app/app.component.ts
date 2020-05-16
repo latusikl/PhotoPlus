@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   title = 'PhotoPlus';
-
+  public searchedText: string;
 
   logout() {
     this.loginService.logout();

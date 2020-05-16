@@ -14,8 +14,9 @@
                  type="text"
                  class="form-control search_input"
                  placeholder="Search..."
+                 [(ngModel)]="searchedText"
         />
-        <a class="search_icon"><i class="fa fa-search"></i></a>
+        <a [routerLink]="['/search', searchedText]" class="search_icon"><i class="fa fa-search"></i></a>
       </div>
 
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
