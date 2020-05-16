@@ -22,8 +22,15 @@
           {{ (address|async)?.zipCode }}&nbsp;
           {{ (address|async)?.country }}
         </mat-card>
-        <mat-card class="mt-2 products-details">
-          
+        <mat-card *ngIf="(pageAmount |async) === 0" class="mt-2 products-details">
+          <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
+          </app-page-select>
+          <div *ngFor="let item of orderItems">
+            {{(item|async)?.productCode}}
+          </div>
+        </mat-card>
+        <mat-card *ngIf="!((pageAmount |async) === 0)" class="mt-2 products-details text-center">
+          <h2>Order is empty</h2>
         </mat-card>
       </mat-card>
     </div>
