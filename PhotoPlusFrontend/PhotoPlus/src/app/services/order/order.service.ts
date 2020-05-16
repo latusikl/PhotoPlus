@@ -19,11 +19,11 @@ export class OrderService extends AbstractService<Order> {
     return this._http.post(this.hostAddress + this.endpointUrl + "/buy", order);
   }
 
-  getPageCountForOrdersOfStatus(status: OrderStatus): Observable<PageInfo>{
+  getPageCountForOrdersOfStatus(status: OrderStatus | string): Observable<PageInfo>{
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count?orderStatus=" + status);
   }
 
-  getPageByOrderStatus(pageNumber: number, status: OrderStatus){
+  getPageByOrderStatus(pageNumber: number, status: OrderStatus | string){
     return this._http.get(this.hostAddress + this.endpointUrl + "/" + pageNumber + "?orderStatus=" + status);
   }
 
