@@ -4,4 +4,5 @@ export class Topic {
     sectionCode: string;
     date: Date;
     userCode: string;
+    userLogin?: string;
 }

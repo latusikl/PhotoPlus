@@ -39,13 +39,18 @@ public class TopicModelDto
     @JsonProperty("userCode")
     private String userCode;
 
-    public TopicModelDto(final String code, final String name, final String section, final LocalDate date, final String userCode)
+    @JsonProperty("userLogin")
+    private String userLogin;
+
+    public TopicModelDto(final String code, final String name, final String section, final LocalDate date,
+                         final String userCode, final String userLogin)
     {
         super(code);
         this.section = section;
         this.date = date;
         this.userCode = userCode;
         this.name = name;
+        this.userLogin = userLogin;
     }
 
     @JsonIgnore

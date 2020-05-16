@@ -1,24 +1,38 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Category;
+import pl.polsl.photoplus.model.entities.Image;
 import pl.polsl.photoplus.model.entities.Product;
+import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ProductService extends AbstractModelService<Product, ProductModelDto, ProductRepository> {
 
     private final CategoryService categoryService;
+    private final ImageService imageService;
+    private final ImageRepository imageRepository;
 
-    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService) {
+    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService, final ImageService imageService, final ImageRepository imageRepository) {
         super(entityRepository);
         this.categoryService = categoryService;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -28,40 +42,101 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     @Override
     protected ProductModelDto getDtoFromModel(final Product modelObject) {
+        final List<String> imageCodes = new ArrayList<>();
+        modelObject.getImages().forEach(image -> imageCodes.add(image.getCode()));
         return new ProductModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getPrice(),
                 modelObject.getDescription(), modelObject.getCategory().getCode(), modelObject.getStoreQuantity(),
-                modelObject.getImageCodes());
+                imageCodes, modelObject.getDataLinks());
     }
 
     @Override
     protected Product getModelFromDto(final ProductModelDto dtoObject) {
-        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(), dtoObject.getStoreQuantity(),
-                dtoObject.getImageCodes());
+        return new Product(dtoObject.getName(), dtoObject.getPrice(), dtoObject.getDescription(),
+                dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
     }
 
-    private Product insertCategoryDependencyAndParseToModel(final ProductModelDto dto) {
+    public List<ProductModelDto> getPageFromAll(final Integer page, final String sortedBy) {
+        return getDtoListFromModels(getPage(page, sortedBy));
+    }
+
+
+    private Product insertDependenciesAndParseToModel(final ProductModelDto dto) {
         final Category categoryToAdd = categoryService.findByCodeOrThrowError(dto.getCategory(),
                 "SAVE PRODUCT");
+        final List<Image> imagesToAdd = new ArrayList<>();
+        dto.getImages().forEach(imageCode -> {
+            final Image imageToAdd = imageService.findByCodeOrThrowError(imageCode,
+                    "SAVE PRODUCT");
+            imagesToAdd.add(imageToAdd);
+        });
         final Product productToAdd = getModelFromDto(dto);
         productToAdd.setCategory(categoryToAdd);
+        productToAdd.setImages(imagesToAdd);
         return productToAdd;
     }
 
     @Override
     public String save(final ProductModelDto dto) {
-        final String entityCode = entityRepository.save(insertCategoryDependencyAndParseToModel(dto)).getCode();
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
         return entityCode;
     }
 
     @Override
+    @Transactional
+    public HttpStatus delete(final String code)
+    {
+        final Product product = findByCodeOrThrowError(code, "PRODUCT DELETE");
+        final List<Image> images = product.getImages();
+        if (images != null && !images.isEmpty()) {
+
+            for (final Image image : images) {
+                image.getProducts().remove(product);
+                imageRepository.save(image);
+            }
+            product.setImages(Collections.emptyList());
+            entityRepository.save(product);
+        }
+        entityRepository.delete(product);
+        return HttpStatus.NO_CONTENT;
+    }
+
+    @Override
     public HttpStatus saveAll(final List<ProductModelDto> dtoSet) {
-        dtoSet.stream().map(this::insertCategoryDependencyAndParseToModel).forEach(this.entityRepository::save);
+        dtoSet.stream().map(this::insertDependenciesAndParseToModel).forEach(this.entityRepository::save);
         return HttpStatus.CREATED;
     }
 
-    public List<ProductModelDto> getProductsFromCategory(final String categoryCode)
+    public List<ProductModelDto> getProductsFromCategory(final Integer pageNumber, final String categoryCode)
     {
-        return getDtoListFromModels(this.entityRepository.getAllByCategory_Code(categoryCode));
+        return getDtoListFromModels(this.getPageOfProductFromCategory(pageNumber, categoryCode));
+    }
+
+    private Page<Product> getPageOfProductFromCategory(final Integer pageNumber, final String categoryCode) {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+        final Page<Product> foundModels = entityRepository.findAllByCategory_CodeAndStoreQuantityGreaterThan(modelPage, categoryCode, 0);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCountOfProductFromCategory(final String categoryCode)
+    {
+        final Page<Product> firstPage = getPageOfProductFromCategory(0, categoryCode);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
+    @Override
+    public ObjectNode getPageCount() {
+        final Page<Product> firstPage = getPage(0, "name");
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 
     public void subStoreQuantity(final String productCode, final Integer quantityToSub) {
@@ -79,5 +154,27 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         final Integer newQuantity = product.getStoreQuantity() + quantityToAdd;
         product.setStoreQuantity(newQuantity);
         this.entityRepository.save(product);
+    }
+
+    public List<ProductModelDto> getByNameContainingStr(final String str) {
+        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThanOrderByName(str, 0));
+    }
+
+    private Page<Product> getPage(final Integer pageNumber, final String sortedBy) {
+        final Pageable modelPage;
+        if (sortedBy.equals("priceAsc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price"));
+        } else if (sortedBy.equals("priceDesc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price").descending());
+        } else {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+        }
+        final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThan(modelPage, 0);
+        throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
+        return foundModels;
+    }
+
+    public List<ProductModelDto> getTopEight() {
+        return getDtoListFromModels(this.entityRepository.findTop8ByStoreQuantityGreaterThan(0));
     }
 }

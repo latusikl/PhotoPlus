@@ -10,12 +10,12 @@
 
       <!-- Login Form -->
       <div>
-        <input type="text" class="form-control fadeIn second" id="login" name="login" placeholder="login" formControlName="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
+        <input type="text" class="form-control fadeIn second" id="login" name="login" placeholder="Login" formControlName="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
         <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
           <div *ngIf="f.login.errors.required">Login is required</div>
         </div>
 
-        <input type="password" id="password" class="form-control fadeIn third"  name="login" placeholder="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <input type="password" id="password" class="form-control fadeIn third"  name="login" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">Password is required</div>
         </div>
@@ -23,9 +23,8 @@
         <input type="submit" class="fadeIn fourth" value="Log In">
       </div>
 
-      <!-- Remind Passowrd -->
       <div id="formFooter">
-        <a class="underlineHover" href="#">Forgot Password?</a>
+        <a class="underlineHover" href="#" routerLink="/registration">Not registered? Sign up!</a>
       </div>
 
     </div>

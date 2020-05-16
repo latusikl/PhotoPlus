@@ -1,0 +1,175 @@
+<div class="container mt-2">
+  <div class="row">
+    <mat-expansion-panel class="w-100 mt-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Edit categories
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div class="container">
+          <button class="btn btn-success w-100" (click)="addCategory()">Add category</button> 
+        <mat-card class="row py-2 mt-2 brighten-background" *ngFor="let category of categories">
+          <div class="col-9 d-inline-block">
+            {{ (category | async)?.name}}
+          </div>
+          <div class="col-3 d-inline-block">
+            <button class="btn btn-danger" (click)="deleteCategory(category.value.code)">Delete</button>&nbsp;
+            <button class="btn btn-primary" (click)="editCategory(category.value.code)">Edit</button>
+          </div>
+        </mat-card>
+      </div>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+  <div class="row">
+    <mat-expansion-panel class="w-100 mt-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Create new product
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <form
+          class="w-100"
+          [formGroup]="productCreationForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="form-group w-100">
+            <span>Product name:&nbsp;</span>
+            <input
+              formControlName="productName"
+              class="form-control w-100"
+              type="text"
+              [ngClass]="{ 'is-invalid': submitted && f.productName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.productName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productName.errors.required">
+                Product name is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <span>Product description:&nbsp;</span>
+            <textarea
+              formControlName="productDescription"
+              class="form-control w-100"
+              type="text"
+              [ngClass]="{
+                'is-invalid': submitted && f.productDescription.errors
+              }"
+            ></textarea>
+            <div
+              *ngIf="submitted && f.productDescription.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productDescription.errors.required">
+                Product description is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <span>Product category:&nbsp;</span>
+            <select formControlName="productCategory" class="w-100" [ngClass]="{ 'is-invalid': submitted && f.productName.errors }">
+              <option
+                *ngFor="let category of categories"
+                [ngValue]="(category | async)?.code"
+                >{{ (category | async)?.name }}</option
+              >
+            </select>
+            <div
+            *ngIf="submitted && f.productCategory.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.productCategory.errors.required">
+              Product category is required
+            </div>
+          </div>
+          </div>
+          <div class="form-group w-100">
+            <span>Product price:&nbsp;</span>
+            <input
+              formControlName="productPrice"
+              class="form-control w-100"
+              [ngClass]="{
+                'is-invalid': submitted && f.productPrice.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && f.productPrice.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.productPrice.errors.required">
+                Product price is required
+              </div>
+              <div *ngIf="f.productPrice.errors.pattern">
+                Product price is in invalid format
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <button type="submit" class="btn btn-primary w-100">
+              Add product
+            </button>
+          </div>
+        </form>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+  <div class="row">
+    <mat-expansion-panel class="w-100 my-2">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Edit products
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-panel-description>
+        <div [hidden]="selectedProduct.value" class="container">
+          <div class="row-12">
+            <div class="form-group w-100">
+              <span>Search products by code or name:&nbsp;</span>
+              <input #searchBar class="form-control mt-2 w-100" />
+            </div>
+          </div>
+          <div class="row">
+            <div
+              class="col-3 mt-1 text-center"
+              *ngFor="let product of filteredProducts"
+              (click)="chooseProduct(product)"
+            >
+              <mat-card class="item-card">
+                <img
+                  src="{{ ((product | async)?.imagesUrl)[0] }}"
+                  class="item-card-photo"
+                /><br />
+                {{ (product | async)?.name }}
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <app-image-carousel
+          #photoDisplay
+          [selectedProduct]="selectedProduct"
+          (onAddPhoto)="addPhoto()"
+          (onBack)="goBack()"
+          (onDeletePhoto)="deletePhoto($event)"
+          (onDeleteProduct)="deleteProduct($event)"
+          [hidden]="!selectedProduct.value"
+          class="container"
+        >
+        </app-image-carousel>
+      </mat-panel-description>
+    </mat-expansion-panel>
+  </div>
+</div>
+<input
+  style="visibility: hidden;"
+  #inputDialog
+  type="file"
+  accept="image/*"
+  (change)="sendFile()"
+  multiple
+/>

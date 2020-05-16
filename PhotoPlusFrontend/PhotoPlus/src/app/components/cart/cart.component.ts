@@ -25,10 +25,9 @@ export class CartComponent implements OnInit {
   }
 
   onValueChange(value: number, item: [Product, number]) {
-    if (value > 0 && value < 100 && Number.isInteger(+value)) {
+    if (value > 0 && value <= item[0].storeQuantity && Number.isInteger(+value)) {
       this.cartService.changeQuantity(value, item);
     } else {
-    console.log(item[0].code);
       (document.querySelector(("#input"+item[0].code).toString()) as HTMLInputElement).value = item[1].toString();
     }
   }

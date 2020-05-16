@@ -1,10 +1,15 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
+import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Address;
 import pl.polsl.photoplus.model.entities.Order;
 import pl.polsl.photoplus.model.entities.User;
@@ -83,14 +88,45 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
         final Order orderModel = insertDependenciesAndParseToModel(dto);
         entityRepository.save(orderModel);
         final List<OrderItemModelDto> orderItems = dto.getOrderItemModelDtos();
+        Double orderPrice = 0.0;
 
-        orderItems.forEach(orderItem -> {
+        for (final OrderItemModelDto orderItem : orderItems) {
             productService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
             batchService.subStoreQuantity(orderItem.getProductCode(), orderItem.getQuantity());
-            orderItem.setOrderCode(orderModel.getCode());
-        });
 
+            final ProductModelDto productDto = productService.getSingleObject(orderItem.getProductCode());
+            orderPrice += productDto.getPrice() * orderItem.getQuantity();
+            orderItem.setOrderCode(orderModel.getCode());
+        }
+
+        orderModel.setPrice(orderPrice);
+        //set price of order
+        entityRepository.save(orderModel);
         orderItemService.saveAll(orderItems);
         return HttpStatus.CREATED;
+    }
+
+    public List<OrderModelDto> getPage(final Integer pageNumber, final OrderStatus orderStatus)
+    {
+        return getDtoListFromModels(this.getModelPage(pageNumber, orderStatus));
+    }
+
+    private Page<Order> getModelPage(final Integer pageNumber, final OrderStatus orderStatus)
+    {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize());
+        final Page<Order> foundModels = entityRepository.findAllByOrderStatus(modelPage, orderStatus);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCount(final OrderStatus orderStatus)
+    {
+
+        final Page<Order> firstPage = getModelPage(0, orderStatus);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 }

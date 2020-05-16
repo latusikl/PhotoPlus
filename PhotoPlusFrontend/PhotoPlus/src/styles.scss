@@ -103,8 +103,8 @@ body {
   filter: invert(1);
 }
 
- .carousel-control-next,
- .carousel-control-prev {
+.carousel-control-next,
+.carousel-control-prev {
   cursor: pointer;
 }
 
@@ -123,4 +123,20 @@ body {
 .center {
   text-align: center;
   margin-top: 10px;
+}
+
+.mat-select-value-text {
+  color: lightslategrey !important;
+}
+
+.mat-select-arrow {
+  color: lightslategrey;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple  {
+  background-color: lightslategrey !important;
+}
+
+.mat-form-field.mat-focused .mat-select-arrow {
+  color: lightslategrey !important;
 }

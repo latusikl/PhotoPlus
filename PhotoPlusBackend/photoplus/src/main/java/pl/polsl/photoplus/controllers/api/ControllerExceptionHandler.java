@@ -1,6 +1,9 @@
 package pl.polsl.photoplus.controllers.api;
 
+import com.itextpdf.text.DocumentException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -47,7 +50,7 @@ public class ControllerExceptionHandler
 
         e.getBindingResult().getAllErrors().forEach(errorConsumer);
 
-        return new ResponseEntity<>(errorDtos,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDtos,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 
@@ -66,6 +69,16 @@ public class ControllerExceptionHandler
         log.info("IOException handled: {}.", e.getMessage());
 
         final ErrorDto error = new ErrorDto(IOException.class.getSimpleName(), null, e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(DocumentException.class)
+    protected ResponseEntity<ErrorDto> handleDocumentException(final DocumentException e)
+    {
+        log.info("DocumentException handled: {}.", e.getMessage());
+
+        final ErrorDto error = new ErrorDto(DocumentException.class.getSimpleName(), null, e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
@@ -104,6 +117,15 @@ public class ControllerExceptionHandler
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ExceptionHandler(ConversionFailedException.class)
+    protected ResponseEntity<ErrorDto> handleEnumValueException(final ConversionFailedException e)
+    {
+        log.info("ConversionFailedException handled.");
+
+        final ErrorDto error = new ErrorDto(EnumValueException.class.getSimpleName(), e.getValue().toString(), e.getCause().getMessage());
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(NotEnoughProductsException.class)
     protected ResponseEntity<ErrorDto> handleNotEnoughProductsException(final NotEnoughProductsException e)
     {
@@ -111,6 +133,15 @@ public class ControllerExceptionHandler
 
         final ErrorDto error = new ErrorDto(NotEnoughProductsException.class.getSimpleName(),e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error,HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorDto> handleDataIntegrityViolationException(final DataIntegrityViolationException  e)
+    {
+        log.info("DataIntegrityViolationException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),
+                e.getLocalizedMessage(), "Cannot execute statement.");
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }

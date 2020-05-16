@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-manage-orders',
@@ -6,6 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-multiple-orders.component.scss']
 })
 export class ManageMultipleOrdersComponent implements OnInit {
+
+  orderStatuses: string[] = [
+    'Pending',
+    'Paid',
+    'Ready to ship',
+    'Shipped',
+    'Delivered'
+  ]
+
 
   constructor() { }
 

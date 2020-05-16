@@ -5,11 +5,18 @@ import pl.polsl.photoplus.model.dto.SectionModelDto;
 import pl.polsl.photoplus.model.entities.Section;
 import pl.polsl.photoplus.repositories.SectionRepository;
 
+import java.util.List;
+
 @Service
 public class SectionService extends AbstractModelService<Section, SectionModelDto, SectionRepository> {
 
     public SectionService(final SectionRepository entityRepository) {
         super(entityRepository);
+    }
+
+    @Override
+    public List<SectionModelDto> getAll() {
+        return getDtoListFromModels(entityRepository.findAllByOrderByName());
     }
 
     @Override
