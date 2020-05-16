@@ -18,11 +18,7 @@ export class FieldChange {
     get map(): Map<string, string> {
         return this.changedFields;
     }
-
-    has(key: string) {
-        return this.changedFields.has(key);
-    }
-
+    
 }
 
 @Injectable({
@@ -42,9 +38,13 @@ export class PatchFieldChangeService {
         if (changedFields.size != 0) {
             this.http.patch(environment.hostAddress + endpoint, JSON.parse(this.getJsonString(changedFields))).subscribe(res => {
                 const modalRef = this.modalService.open(SuccessModalComponent);
-                modalRef.componentInstance.message = "Data chas been changed.";
+                modalRef.componentInstance.title = "Your's data has been changed!";
+                modalRef.result.then(() => {
+                    location.reload();
+                }, () => {
+                    location.reload();
+                })
             });
-            changedFields.clear();
         }
     }
 
