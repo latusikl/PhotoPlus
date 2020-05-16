@@ -27,8 +27,12 @@
           </app-page-select>
           <mat-card *ngFor="let item of orderedProducts" class="single-product container">
             <div class="row">
-              <div class="col">
-                {{(item|async)?.first.productCode}}
+              <div class="col-2">
+                <img class="product-image" *ngIf="(item|async)?.second.imagesUrl?.length > 0" src="{{(item|async)?.second.imagesUrl[0]}}" >
+              </div>
+              <div class="col-10">
+                {{(item|async)?.second.name}}<br>
+                {{(item|async)?.second.code}}
               </div>
             </div>  
           </mat-card>

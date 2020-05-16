@@ -20,3 +20,8 @@ $single-order-bg-color: #424242;
 .single-product{
   background-color: lighten($single-order-bg-color, 20%);
 }
+
+.product-image{
+  width: inherit;
+  height: inherit;
+}
