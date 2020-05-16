@@ -1,5 +1,23 @@
 <div class="container">
   <div class="row">
-    {{(order | async)?.code}}
+    <div class="col">
+      <mat-card class="mt-2 order-details">
+        Order code: {{(order | async)?.code}}<br>
+        Payment method: {{beatutifyEnum((order | async)?.paymentMethod)}}<br>
+        Order status: {{beatutifyEnum((order |async)?.orderStatus)}}<br>
+        Order price: {{(order|async)?.price / 100}}<br>
+        Order date: {{(order |async)?.date}}<br>
+        <mat-card class="mt-2 user-details">
+          User : {{(user |async)?.code}}<br>
+          User mail: {{(user |async)?.email}}<br>
+          User login: {{(user |async)?.login}}<br>
+          User name: {{(user |async)?.name}}<br>
+          User surname: {{(user |async)?.surname}}<br>
+        </mat-card>
+        <mat-card class="mt-2 address-details">
+
+        </mat-card>
+      </mat-card>
+    </div>
   </div>
 </div>

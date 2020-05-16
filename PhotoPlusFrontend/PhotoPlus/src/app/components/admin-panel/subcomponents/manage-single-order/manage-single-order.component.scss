@@ -1,0 +1,14 @@
+
+$single-order-bg-color: #424242;
+
+.order-details{
+  background-color: $single-order-bg-color;
+}
+
+.user-details{
+  background-color: lighten($single-order-bg-color, 5%);
+}
+
+.address-details{
+  background-color: lighten($single-order-bg-color, 10%);
+}
