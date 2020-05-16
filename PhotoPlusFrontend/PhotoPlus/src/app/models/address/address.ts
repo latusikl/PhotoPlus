@@ -1,9 +1,9 @@
 export class Address{
   code: string;
   street:string;
-  nubmer: string;
+  number: string;
   zipCode: string;
   city: string;
-  countryCode: string;
+  country: string;
   userCode: string;
 }
