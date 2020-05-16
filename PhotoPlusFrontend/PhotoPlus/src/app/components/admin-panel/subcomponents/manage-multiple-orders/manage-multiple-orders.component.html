@@ -1,5 +1,9 @@
 <div class="container">
-  <mat-expansion-panel *ngFor="let orderStatus of orderStatuses" class="mt-2" [class]="toCssClass(orderStatus)" >
+  <mat-expansion-panel
+    *ngFor="let orderStatus of orderStatuses"
+    class="mt-2"
+    [class]="toCssClass(orderStatus)"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div class="col-10 p-0 mt-1">
@@ -7,14 +11,18 @@
         </div>
         <div class="col-2">
           <mat-card class="p-1 page-count">
-            Pages: {{ orderStatusPageInfo[orderStatus].pageAmount }}
+            Pages:&nbsp;{{ orderStatusPageInfo[orderStatus].pageAmount }}
           </mat-card>
         </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-panel-description>
-      <mat-card >
-
+      <mat-card
+        class="col-3 m-1 order"
+        *ngFor="let order of currentStatusesOrders[orderStatus] | async"
+        (click)="goToSingleOrder(order.code)"
+      >
+        {{ order.paymentMethod }}
       </mat-card>
     </mat-panel-description>
   </mat-expansion-panel>

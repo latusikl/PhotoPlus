@@ -1,5 +1,4 @@
 
-
 .pending_bg_color{
     background-color: #8ddf00;
 }
@@ -21,4 +20,15 @@
     background-color: white;
     color: black;
     overflow-y: auto;
+}
+
+.order{
+    cursor: pointer;
+    overflow: auto;
+}
+
+/* override mat expansion panel behaviour */
+// Suchar320 can i use ng-deep it here ?
+::ng-deep .mat-expansion-panel-body{
+    padding: 1px 28px 10px 10px !important;
 }
