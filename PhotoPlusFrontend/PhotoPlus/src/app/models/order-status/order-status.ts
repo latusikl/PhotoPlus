@@ -5,3 +5,5 @@ export enum OrderStatus{
   SHIPPED = 'shipped',
   DELIVERED = 'delivered'
 }
+
+export type SingleOrderStatus = keyof typeof OrderStatus;
