@@ -68,7 +68,7 @@ public class AddressService
         return getDtoListFromModels(this.entityRepository.getAllByAddressOwner_Code(userCode));
     }
 
-    public String getPostOwnerCode(final String code){
-        return findByCodeOrThrowError(code,"getPostOwnerCode").getOwnerCode();
+    public String getOwnerCode(final String code){
+        return findByCodeOrThrowError(code,"getOwnerCode").getOwnerCode();
     }
 }
