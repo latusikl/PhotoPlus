@@ -55,7 +55,7 @@ export class ImageCarouselComponent implements OnInit {
   }
 
 
-  get urlAndCode():Tuple[]{
+  get urlAndCode():Tuple<string,string>[]{
     const product = this.selectedProduct.value
     let array:Tuple<string,string>[] = [];
     for(let [url, code] of [product.imagesUrl, product.imageCodes]){
