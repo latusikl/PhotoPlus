@@ -10,8 +10,8 @@
           {{ humanReadable(orderStatus) }}
         </div>
         <div class="col-2">
-          <mat-card class="p-1 page-count">
-            Pages:&nbsp;{{ (orderStatusAmountPages[orderStatus] |async) }}
+          <mat-card *ngIf="orderStatus === 'PENDING'" class="p-1 page-count text-center">
+            !
           </mat-card>
         </div>
       </mat-panel-title>
