@@ -16,10 +16,14 @@ export class AppComponent {
   }
 
   title = 'PhotoPlus';
-  public searchedText: string;
+  searchedText = '';
 
   logout() {
     this.loginService.logout();
     window.location.reload();
+  }
+
+  canSearch() {
+    return this.searchedText.length > 2;
   }
 }

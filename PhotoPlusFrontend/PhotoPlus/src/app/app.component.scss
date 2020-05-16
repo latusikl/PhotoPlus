@@ -175,3 +175,8 @@ header {
   animation-name: fadeIn;
   animation-duration: 0.6s;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
