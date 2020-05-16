@@ -15,6 +15,10 @@ export class OrderService extends AbstractService<Order> {
     super(http,"order");
   }
 
+  postOrder(order: Order){
+    return this._http.post(this.hostAddress + this.endpointUrl + "/buy", order);
+  }
+
   getPageCountForOrdersOfStatus(status: OrderStatus): Observable<PageInfo>{
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/page/count?orderStatus=" + status);
   }
