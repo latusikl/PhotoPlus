@@ -18,7 +18,7 @@ export class FieldChange {
     get map(): Map<string, string> {
         return this.changedFields;
     }
-    
+
 }
 
 @Injectable({
