@@ -1,15 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-4">
-      <mat-card class="mt-2 order-details">
+    <mat-card class="mt-2 order-details">
         Order code: {{(order | async)?.code}}<br>
         Payment method: {{beatutifyEnum((order | async)?.paymentMethod)}}<br>
         Status: {{beatutifyEnum((order |async)?.orderStatus)}}<br>
         Price: ${{(order|async)?.price / 100}}<br>
         Creation date: {{(order |async)?.date}}<br>
-      </mat-card>
-    </div>
-    <div class="col-4">
       <mat-card class="mt-2 user-details">
         Recipient:<br>
         First name: {{(user |async)?.name}}<br>
@@ -17,8 +13,6 @@
         Login: {{(user |async)?.login}}<br>
         Mail: {{(user |async)?.email}}<br>
       </mat-card>
-    </div>
-    <div class="col-4">
       <mat-card class="mt-2 address-details">
         Address:<br>
         {{ (address|async)?.street }}&nbsp;
@@ -27,7 +21,6 @@
         {{ (address|async)?.zipCode }}&nbsp;
         {{ (address|async)?.country }}
       </mat-card>
-    </div>
     <mat-card *ngIf="!((pageAmount |async) === 0)" class="mt-2 products-details">
       <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
       </app-page-select>
@@ -54,5 +47,6 @@
     <mat-card *ngIf="((pageAmount |async) === 0)" class="mt-2 products-details text-center">
       <h2>Order is empty</h2>
     </mat-card>
+  </mat-card>
   </div>
 </div>
