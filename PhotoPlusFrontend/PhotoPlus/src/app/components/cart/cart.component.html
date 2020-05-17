@@ -14,33 +14,35 @@
           </tr>
         </thead>
         <tbody class="fadeIn second">
-        <tr *ngFor="let item of items">
-          <td class="align-middle row-number d-none d-lg-table-cell"></td>
-          <td class="align-middle d-none d-lg-table-cell">
-            <div *ngIf="item?.value?.product?.imagesUrl">
-              <img class="image" [src]="item?.value?.product?.imagesUrl[0]">
-            </div>
-          </td>
-          <td class="align-middle">
-            <a id="product-name">{{ item?.value?.product?.name }}</a>
-          </td>
-          <td class="align-middle d-none d-lg-table-cell">
-            <b id="price">${{ item?.value?.product?.price }}</b>
-          </td>
-          <td class="align-middle">
-            <input id="input{{ item?.value?.product?.code }}" [(value)]="item.value.quantity" (change)="onValueChange($event.target.value, item)" required type="number" min="1" max="{{item?.value?.product?.storeQuantity}}"/>
-          </td>
-          <td class="align-middle d-none d-md-table-cell">
-          <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>
-        </td>
-          <td class="align-middle d-md-none">
-            <button type="button" (click)="removeItem(item)" class="btn btn-danger">Rm</button>
-          </td>
-        </tr>
+          <tr *ngFor="let item of items">
+            <td class="align-middle row-number d-none d-lg-table-cell"></td>
+            <td class="align-middle d-none d-lg-table-cell">
+              <img class="image" *ngIf="(item | async)?.product?.imagesUrl"
+                src="{{(item | async)?.product?.imagesUrl[0]}}">
+            </td>
+            <td class="align-middle">
+              <a id="product-name">{{ (item | async)?.product?.name }}</a>
+            </td>
+            <td class="align-middle d-none d-lg-table-cell">
+              <b id="price">${{ (item | async)?.product?.price }}</b>
+            </td>
+            <td class="align-middle">
+              <input id="input{{ (item | async)?.product?.code }}" [(value)]="item.value.quantity"
+                (change)="onValueChange($event.target.value, item)" required type="number" min="1"
+                max="{{(item | async)?.product?.storeQuantity}}" />
+            </td>
+            <td class="align-middle d-none d-md-table-cell">
+              <button type="button" (click)="removeItem(item.value)" class="btn btn-danger">Remove</button>
+            </td>
+            <td class="align-middle d-md-none">
+              <button type="button" (click)="removeItem(item.value)" class="btn btn-danger">Rm</button>
+            </td>
+          </tr>
         </tbody>
       </table>
       <h1 id="checkout" class="fadeIn third">Total: <b>${{ price }}</b></h1>
-      <button [hidden]="!(items && items.length > 0)" (click)="buy()" class="btn btn-success fadeIn fourth" href="#" id="cart-link">Buy now</button>
+      <button [hidden]="!(items && items.length > 0)" (click)="buy()" class="btn btn-success fadeIn fourth" href="#"
+        id="cart-link">Buy now</button>
     </div>
 
   </div>

@@ -15,18 +15,17 @@
           <tr *ngFor="let item of items">
             <td class="align-middle row-number d-none d-lg-table-cell"></td>
             <td class="align-middle">
-              <div *ngIf="item?.value?.product?.imagesUrl">
-                <img class="image" [src]="item?.value?.product?.imagesUrl[0]">
-              </div>
+              <img class="image" *ngIf="(item | async)?.product?.imagesUrl"
+                src="{{(item | async)?.product?.imagesUrl[0]}}">
             </td>
             <td class="align-middle">
-              <a id="product-name">{{ item?.value?.product?.name }}</a>
+              <a id="product-name">{{ (item | async)?.product?.name }}</a>
             </td>
             <td class="align-middle d-none d-lg-table-cell">
-              <b id="price">${{ item?.value?.product?.price }}</b>
+              <b id="price">${{ (item | async)?.product?.price }}</b>
 
             </td>
-            <td class="align-middle">{{item?.value?.quantity}}</td>
+            <td class="align-middle">{{(item | async)?.quantity}}</td>
           </tr>
         </tbody>
       </table>
@@ -45,7 +44,8 @@
         </label>
         <br>
         <label>
-          <input class="custom-control-input" id="cash" formControlName="paymentMethod" type="radio" value="CASH_ON_DELIVERY">
+          <input class="custom-control-input" id="cash" formControlName="paymentMethod" type="radio"
+            value="CASH_ON_DELIVERY">
           <label class="custom-control-label" for="cash">Cash on delivery</label>
         </label>
         <br>
@@ -56,8 +56,8 @@
         <br>
         <div *ngIf="paymentMethodSubmitted && paymentMethodForm.invalid">
           <p>Please select either value</p>
-       </div>
-     </form>
+        </div>
+      </form>
     </div>
     <br>
     <div class="display" [hidden]="!(addresses?.length > 0)">

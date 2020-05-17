@@ -89,6 +89,7 @@ export class CartService {
   updateCartAndBuy() {
     this.items.forEach(it => {
       this.productService.getSingle(it.value.productCode).subscribe(product => {
+        this.productService.getDataFromLinks(product);
         it.value.product = product;
         if (it.value.product.storeQuantity === 0) {
           const modalRef = this.modalService.open(ErrorModalComponent);
