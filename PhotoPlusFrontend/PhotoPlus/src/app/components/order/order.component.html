@@ -68,7 +68,7 @@
         </select>
       </div>
       <br>
-      <div class="button">
+      <div class="button-container">
         <button (click)="buy()" class="btn btn-success" style="width: 50%;" href="#" id="cart-link">Buy</button>
       </div>
       <p class="text"><br></p>
@@ -122,7 +122,7 @@
                 <div *ngIf="f.country.errors.required">Country is required.</div>
               </div>
             </div><br>
-            <div class="buttonAddr">
+            <div class="button-container">
               <button type="submit" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
             </div>
           </div>
