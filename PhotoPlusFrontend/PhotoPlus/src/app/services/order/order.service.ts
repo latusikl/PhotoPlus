@@ -27,4 +27,8 @@ export class OrderService extends AbstractService<Order> {
     return this._http.get<Order[]>(this.hostAddress + this.endpointUrl + "/" + pageNumber + "?orderStatus=" + status);
   }
 
+  // TODO delete unnecessary/duplicated endpoints
+  buy(order: Order): Observable<Order> {
+    return this._http.post<Order>(this.hostAddress + this.endpointUrl + "/buy/", order);
+  }
 }

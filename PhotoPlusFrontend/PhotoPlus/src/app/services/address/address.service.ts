@@ -20,4 +20,10 @@ export class AddressService extends AbstractService<Address> {
   patchOwnAddress(addressCode: string, changedAddress:Address){
     return this._http.patch(this.hostAddress + this.endpointUrl + "/editAddress/" + addressCode, changedAddress);
   }
+
+  // TODO unify methods for calling 
+  byUser(code: string): Observable<Address[]> {
+    return this._http.get<Address[]>(this.hostAddress + this.endpointUrl + "/byUser/" + code);
+  }
+
 }

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { CategoryService } from './category.service';
 
 describe('CategoryService', () => {
-  let service: ProductService;
+  let service: CategoryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

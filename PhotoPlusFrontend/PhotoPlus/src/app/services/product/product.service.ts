@@ -39,7 +39,7 @@ export class ProductService extends AbstractService<Product> {
   public mapToObj(strMap) {
     let obj = Object.create(null);
     for (let [k,v] of strMap) {
-        obj[k] = v; //look out! Key must be a string!
+        obj[k] = v;
     }
     return obj;
 }
@@ -49,4 +49,8 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + "/all/" + page, {params: params});
   }
 
+  getProductsSearchByName(searchedText: string) {
+    const params = new HttpParams().set('str', searchedText);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search', {params: params});
+  }
 }
