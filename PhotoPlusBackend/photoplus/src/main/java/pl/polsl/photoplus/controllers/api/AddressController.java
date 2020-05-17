@@ -41,14 +41,14 @@ public class AddressController
 
     @DeleteMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#code))")
-    public ResponseEntity delete(@PathVariable("code") final String code)
+    public ResponseEntity deleteForUser(@PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.delete(code));
     }
 
     @PatchMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#code))")
-    public ResponseEntity patch(@RequestBody final AddressModelDto dtoPatch, @PathVariable("code") final String code)
+    public ResponseEntity patchForUser(@RequestBody final AddressModelDto dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }
@@ -64,7 +64,7 @@ public class AddressController
 
     @PostMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
-    public String post(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)
+    public String postForUser(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)
     {
         //Prevent form passing different code of user in dto than logged one
         dto.setUserCode(code);
