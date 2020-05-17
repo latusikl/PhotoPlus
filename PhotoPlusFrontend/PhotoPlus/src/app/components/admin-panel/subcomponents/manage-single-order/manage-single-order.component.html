@@ -13,7 +13,9 @@
           Change order status:
           <br>
           <select #selectedStatus>
-            <option *ngFor="let status of orderStatuses()" [value]="status" [selected]="status.toLowerCase() === this.order.value.orderStatus.toLowerCase()">{{beatutifyEnum(status)}}</option>
+            <option *ngFor="let status of orderStatuses()" [value]="status"
+              [selected]="status?.toLowerCase() === this.order.value.orderStatus?.toLowerCase()">
+              {{beatutifyEnum(status)}}</option>
           </select>
           <br>
           <button class="btn btn-primary mt-2" (click)="updateOrderStatus()">Update order status</button>&nbsp;&nbsp;
@@ -34,26 +36,15 @@
         {{ (address | async)?.zipCode }}&nbsp;
         {{ (address | async)?.country }}
       </mat-card>
-      <mat-card
-        *ngIf="!((pageAmount | async) === 0)"
-        class="mt-2 products-details"
-      >
-        <app-page-select
-          [amountOfPages]="pageAmount"
-          (onPageSelect)="selectPage($event)"
-        >
+      <mat-card *ngIf="!((pageAmount | async) === 0)" class="mt-2 products-details">
+        <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
         </app-page-select>
-        <mat-card
-          *ngFor="let item of orderedProducts"
-          class="single-product container"
-        >
+        <mat-card *ngFor="let item of orderedProducts" class="single-product container">
           <div class="d-flex justify-content-between">
             <div class="product-image">
-              <img
-                (click)="goToImage(item.value.second.imageCodes[0])"
+              <img (click)="goToImage(item.value.second.imageCodes[0])"
                 *ngIf="(item | async)?.second.imagesUrl?.length > 0"
-                src="{{ ((item | async)?.second.imagesUrl)[0] }}"
-              />
+                src="{{ ((item | async)?.second.imagesUrl)[0] }}" />
             </div>
             <div>
               {{ (item | async)?.second.name }}<br />
@@ -70,10 +61,7 @@
           </div>
         </mat-card>
       </mat-card>
-      <mat-card
-        *ngIf="(pageAmount | async) === 0"
-        class="mt-2 products-details text-center"
-      >
+      <mat-card *ngIf="(pageAmount | async) === 0" class="mt-2 products-details text-center">
         <h2>Order is empty</h2>
       </mat-card>
     </mat-card>
