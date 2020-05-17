@@ -4,7 +4,7 @@
         Order code: {{(order | async)?.code}}<br>
         Payment method: {{beatutifyEnum((order | async)?.paymentMethod)}}<br>
         Status: {{beatutifyEnum((order |async)?.orderStatus)}}<br>
-        Price: ${{(order|async)?.price / 100}}<br>
+        Price: ${{(order|async)?.price}}<br>
         Creation date: {{(order |async)?.date}}<br>
       <mat-card class="mt-2 user-details">
         Recipient:<br>

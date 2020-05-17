@@ -29,7 +29,7 @@
             (click)="goToSingleOrder(order.code)"
           >
             Code: {{ order.code }}<br>
-            Price: {{ order.price/100 }}<br> <!-- TODO check if correct -->
+            Price:&nbsp;${{ order.price }}<br>
             Payment: {{ order.paymentMethod}}<br>
             Date: {{ order.date }}<br>
           </mat-card>
