@@ -10,12 +10,11 @@
     <div class="collapse navbar-collapse" id="navbarHeader">
 
       <div class="searchbar">
-        <input   id="typeahead-focus"
-                 type="text"
-                 class="form-control search_input"
-                 placeholder="Search..."
-        />
-        <a class="search_icon"><i class="fa fa-search"></i></a>
+        <input (keyup.enter)="navigateToSearch()" id="typeahead-focus" type="text" class="form-control search_input" placeholder="Search..."
+          [(ngModel)]="searchedText" />
+        <a [class.disabled]="canSearch() ? null : true" [routerLink]="['/search', searchedText]" id="search_icon">
+          <i [class.disabled]="canSearch() ? null : true" class="fa fa-search"></i>
+        </a>
       </div>
 
       <ul class="centered-list navbar-nav clickable-list" id="navbarHeader-list">
@@ -69,7 +68,8 @@
       <li class="nav-item active lightenDiv" href="#" routerLink="/category">
         <a class="nav-link">Categories</a>
       </li>
-      <li class="nav-item active lightenDiv" href="#" routerLink="/products" data-toggle="collapse" data-target="#navbarHeader.show">
+      <li class="nav-item active lightenDiv" href="#" routerLink="/products" data-toggle="collapse"
+        data-target="#navbarHeader.show">
         <a class="nav-link">Products</a>
       </li>
       <li class="nav-item active lightenDiv" href="#" routerLink="/forum">

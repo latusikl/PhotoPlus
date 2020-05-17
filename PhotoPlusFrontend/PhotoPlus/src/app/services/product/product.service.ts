@@ -4,6 +4,7 @@ import { Product } from '../../models/product/product';
 import { Category } from '../../models/category/category';
 import { AbstractService } from '../abstract-service';
 import { PageInfo } from 'src/app/models/pageInfo/pageInfo';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,4 +50,8 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + "/all/" + page, {params: params});
   }
 
+  getProductsSearchByName(searchedText: string) {
+    const params = new HttpParams().set('str', searchedText);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search', {params: params});
+  }
 }

@@ -85,7 +85,7 @@ public class ProductController
 
     @GetMapping(path = {"/search"}, produces = {"application/json"}, params = "str")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity searchByLogin(@RequestParam final String str)
+    public ResponseEntity searchByName(@RequestParam final String str)
     {
         return new ResponseEntity(dtoService.getByNameContainingStr(str), HttpStatus.OK);
     }
