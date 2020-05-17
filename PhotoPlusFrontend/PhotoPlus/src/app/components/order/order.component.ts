@@ -114,6 +114,7 @@ export class OrderComponent implements OnInit {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = "Success!";
             modalRef.componentInstance.message = "Your order is being carried.";
+            this.cartService.clearCart();
             this.router.navigate(['/products']);
           }, error => {
             this.router.navigate(['/cart']);
@@ -140,6 +141,7 @@ export class OrderComponent implements OnInit {
       const modalRef = this.modalService.open(SuccessModalComponent);
       modalRef.componentInstance.title = "Success!";
       modalRef.componentInstance.message = "Your order is being carried.";
+      this.cartService.clearCart();
       this.router.navigate(['/products']);
     });
   }
