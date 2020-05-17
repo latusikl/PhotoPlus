@@ -16,7 +16,7 @@ export class ManageMultipleOrdersComponent implements OnInit {
   // Obiekt który ma jako klucze wartości enuma OrderStatus 
   // a wartości kluczy to wielkości stron poszczególnych OrderStatusów
   // klucze są opcjonalne aby wartości można było dodawać pojedynczo 
-  orderStatusAmountPages: {[key in OrderStatus]?:PageInfo };
+  orderStatusAmountPages: {[key in OrderStatus]?: BehaviorSubject<number> };
   selectedPagesNumbers: {[key in OrderStatus]?: BehaviorSubject<number>}
   currentStatusesOrders: {[key in OrderStatus]?: BehaviorSubject<Order[]>}
 
