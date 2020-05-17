@@ -159,8 +159,8 @@
 <div>
 
   <mat-card class="container post-bg-color">
-    <div class=" post-border my-1">
-      <tr *ngFor="let rating of ratings">
+    <div class="post-border my-1">
+      <tr class="border_bottom" *ngFor="let rating of ratings">
         <td class="align-middle">
           <mat-card class="user-profile">
             {{rating.userLogin}}
@@ -175,9 +175,8 @@
               {{rating.content}}
             </div>
           </div>
-          <mat-divider [inset]="true"></mat-divider>
         </td>
-
+        <br>
       </tr>
     </div>
   </mat-card>

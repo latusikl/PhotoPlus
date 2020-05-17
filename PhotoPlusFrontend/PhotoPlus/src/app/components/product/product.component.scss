@@ -221,3 +221,11 @@ text-align: justify;
   flex-wrap: wrap;
   justify-content: center;
 }
+
+tr.border_bottom td {
+  border-bottom:2pt solid darken($color: $mat-card-color, $amount: 10%);
+}
+
+.select.mat-selected {
+  color: white !important;
+}

@@ -63,15 +63,7 @@ export class ProductComponent implements OnInit {
     private datePipe: DatePipe,
     private ratingSerivce: RatingService
   ) {
-    this.rating = {
-      code: '0',
-      userCode: '0',
-      productCode: '0',
-      rate: '0',
-      content: '',
-      userLogin: '',
-      date: ''
-    }
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -200,6 +192,7 @@ export class ProductComponent implements OnInit {
       modalRef.componentInstance.message = "Please select stars!.";
       return;
     }
+    this.rating = new Rating;
     this.content = document.getElementById("area")
     this.rating.rate = this.stars;
     this.rating.productCode = this.param
