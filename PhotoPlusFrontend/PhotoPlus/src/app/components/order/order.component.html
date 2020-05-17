@@ -64,7 +64,7 @@
       <div class="form-group">
         <select class="dropdown-toggle form-control" (change)="selectOption($event.target.value)">
           <option *ngFor="let address of addreses" [value]="address.code">{{address.street}}
-            &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
+            &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}} &nbsp; {{address.country}}</option>
         </select>
       </div>
       <br>
