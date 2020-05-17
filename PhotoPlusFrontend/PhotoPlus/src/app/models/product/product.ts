@@ -1,9 +1,10 @@
 import { Link } from '../link/link';
+import { Category } from '../category/category';
 
 export class Product {
   code: string;
   name: string;
-  category: string;
+  category: Category;
   price: number;
   description: string;
   storeQuantity: number;
@@ -11,4 +12,5 @@ export class Product {
   imagesUrl?: string[];
   imageCodes: string[];
   dataLinks?: Map<string, string>;
+  categoryCode: string;
 }

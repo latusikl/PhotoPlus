@@ -193,11 +193,12 @@ export class ManageProductComponent implements OnInit {
     const product: Product = {
       name: form.productName,
       description: form.productDescription,
-      category: form.productCategory,
+      categoryCode: form.productCategory,
       price: form.productPrice,
       imageCodes: [],
       storeQuantity: 0,
-      code: null
+      code: null,
+      category: null
     };
     this.productService.post(product).subscribe(() => {
       this.loadProducts();
