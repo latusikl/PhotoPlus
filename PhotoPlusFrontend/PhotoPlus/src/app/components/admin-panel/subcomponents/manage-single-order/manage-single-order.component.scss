@@ -22,7 +22,12 @@ $single-order-bg-color: #424242;
 }
 
 .product-image{
-  width: inherit;
-  height: inherit;
+  max-width: fit-content;
+  max-height: fit-content;
   cursor: pointer;
+}
+
+.product-image > img {
+  max-width: 75px;
+  max-height: 75px;
 }

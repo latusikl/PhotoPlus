@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <mat-card class="mt-2 order-details">
+    <mat-card class="mt-2 w-100 order-details">
         Order code: {{(order | async)?.code}}<br>
         Payment method: {{beatutifyEnum((order | async)?.paymentMethod)}}<br>
         Status: {{beatutifyEnum((order |async)?.orderStatus)}}<br>
@@ -25,17 +25,17 @@
       <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
       </app-page-select>
       <mat-card *ngFor="let item of orderedProducts" class="single-product container">
-        <div class="row">
-          <div class="col-2">
-            <img class="product-image" (click)="goToImage(item.value.second.imageCodes[0])"
+        <div class="row justify-content-between">
+          <div class="col product-image">
+            <img (click)="goToImage(item.value.second.imageCodes[0])"
               *ngIf="(item|async)?.second.imagesUrl?.length > 0" src="{{(item|async)?.second.imagesUrl[0]}}">
           </div>
-          <div class="col-8">
+          <div class="col w-90">
             {{(item|async)?.second.name}}<br>
             {{(item|async)?.second.category.name}}<br>
             ${{(item|async)?.second.price}}&nbsp;<br>
           </div>
-          <div class="col-2">
+          <div class="col">
             Qty:&nbsp;{{(item|async)?.first.quantity}}<br>
             ${{(item|async)?.second.price}}&nbsp;*
             {{(item|async)?.first.quantity}}=<br>
