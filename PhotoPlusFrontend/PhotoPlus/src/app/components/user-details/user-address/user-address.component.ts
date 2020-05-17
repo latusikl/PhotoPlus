@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CountryCode} from '../../../models/address/countryCode';
-import {AddressService} from '../../../services/address/address.service';
-import {Address} from '../../../models/address/address';
-import {FieldChange} from "../../../services/patch/field-change";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CountryCode } from '../../../models/address/countryCode';
+import { AddressService } from '../../../services/address/address.service';
+import { Address } from '../../../models/address/address';
+import { FieldChange } from "../../../services/patch/field-change";
 
 @Component({
     selector: 'app-user-address',
@@ -12,7 +12,7 @@ import {FieldChange} from "../../../services/patch/field-change";
 })
 export class UserAddressComponent implements OnInit {
 
-    constructor(private  formBuilder: FormBuilder, private addressService: AddressService) {
+    constructor(private formBuilder: FormBuilder, private addressService: AddressService) {
     }
 
     @Input('newAddress')

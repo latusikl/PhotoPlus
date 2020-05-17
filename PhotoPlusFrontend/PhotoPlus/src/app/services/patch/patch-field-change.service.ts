@@ -1,9 +1,9 @@
-import {environment} from "../../../environments/environment";
-import {SuccessModalComponent} from "../../components/success-modal/success-modal.component";
-import {HttpClient} from "@angular/common/http";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Injectable} from "@angular/core";
-import {FieldChange} from "./field-change";
+import { environment } from "../../../environments/environment";
+import { SuccessModalComponent } from "../../components/success-modal/success-modal.component";
+import { HttpClient } from "@angular/common/http";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Injectable } from "@angular/core";
+import { FieldChange } from "./field-change";
 
 @Injectable({
     providedIn: 'root'

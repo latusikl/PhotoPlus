@@ -1,4 +1,4 @@
-import {Link} from '../link/link';
+import { Link } from '../link/link';
 
 export interface Address {
 

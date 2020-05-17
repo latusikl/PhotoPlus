@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {User} from '../../models/user/user';
-import {AbstractService} from '../abstract-service';
-import {Observable} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {LoginService} from '../login/login.service';
-import {Address} from '../../models/address/address';
-import {FieldChange} from '../patch/field-change';
-import {PatchFieldChangeService} from '../patch/patch-field-change.service';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../../models/user/user';
+import { AbstractService } from '../abstract-service';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { LoginService } from '../login/login.service';
+import { Address } from '../../models/address/address';
+import { FieldChange } from '../patch/field-change';
+import { PatchFieldChangeService } from '../patch/patch-field-change.service';
 
 @Injectable({
     providedIn: 'root'

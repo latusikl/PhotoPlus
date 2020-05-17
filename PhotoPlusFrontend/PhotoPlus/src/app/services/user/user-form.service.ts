@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MustMatch} from "../../helpers/must-match";
-import {User} from "../../models/user/user";
-import {Role} from "../../models/role/role.enum";
+import { Injectable } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MustMatch } from "../../helpers/must-match";
+import { User } from "../../models/user/user";
+import { Role } from "../../models/role/role.enum";
 
 @Injectable({
     providedIn: 'root'

@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {UserFormService} from '../../../services/user/user-form.service';
-import {LoginService} from '../../../services/login/login.service';
-import {UserService} from '../../../services/user/user.service';
-import {User} from '../../../models/user/user';
-import {FieldChange} from '../../../services/patch/field-change';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { UserFormService } from '../../../services/user/user-form.service';
+import { LoginService } from '../../../services/login/login.service';
+import { UserService } from '../../../services/user/user.service';
+import { User } from '../../../models/user/user';
+import { FieldChange } from '../../../services/patch/field-change';
 
 @Component({
     selector: 'app-user-data',

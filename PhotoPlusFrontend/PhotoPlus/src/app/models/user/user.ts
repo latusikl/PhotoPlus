@@ -1,5 +1,5 @@
-import {Role} from '../role/role.enum';
-import {Link} from '../link/link';
+import { Role } from '../role/role.enum';
+import { Link } from '../link/link';
 
 export class User {
     login: string;

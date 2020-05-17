@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Address} from '../../models/address/address';
-import {environment} from '../../../environments/environment';
-import {SuccessModalComponent} from '../../components/success-modal/success-modal.component';
-import {HttpClient} from '@angular/common/http';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {LoginService} from '../login/login.service';
-import {AbstractService} from '../abstract-service';
-import {FieldChange} from '../patch/field-change';
-import {PatchFieldChangeService} from '../patch/patch-field-change.service';
+import { Injectable } from '@angular/core';
+import { Address } from '../../models/address/address';
+import { environment } from '../../../environments/environment';
+import { SuccessModalComponent } from '../../components/success-modal/success-modal.component';
+import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginService } from '../login/login.service';
+import { AbstractService } from '../abstract-service';
+import { FieldChange } from '../patch/field-change';
+import { PatchFieldChangeService } from '../patch/patch-field-change.service';
 
 @Injectable({
     providedIn: 'root'

@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {LoginModel} from '../../models/login/login-model.model';
-import {Router} from '@angular/router';
-import {environment} from '../../../environments/environment';
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {LoggedUser} from 'src/app/models/login/logged-user.model';
-import {Role} from 'src/app/models/role/role.enum';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { LoginModel } from '../../models/login/login-model.model';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoggedUser } from 'src/app/models/login/logged-user.model';
+import { Role } from 'src/app/models/role/role.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -31,12 +31,12 @@ export class LoginService {
     }
 
     login(login: string, password: string) {
-        const loginModel: LoginModel = {login: login, password: password};
+        const loginModel: LoginModel = { login: login, password: password };
 
         this.http.post<HttpResponse<LoginModel>>(this.hostAddress + 'login', {
             login: login,
             password: password
-        }, {observe: 'response'}).subscribe(res => {
+        }, { observe: 'response' }).subscribe(res => {
             this.loggedUser = res.body;
             this.readTokenFromResponse(res);
             localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));

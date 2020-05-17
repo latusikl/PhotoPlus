@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {environment} from '../../../environments/environment';
-import {LoggedUser} from '../../models/login/logged-user.model';
-import {LoginService} from '../../services/login/login.service';
-import {UserService} from '../../services/user/user.service';
-import {User} from '../../models/user/user';
-import {Address} from '../../models/address/address';
+import { environment } from '../../../environments/environment';
+import { LoggedUser } from '../../models/login/logged-user.model';
+import { LoginService } from '../../services/login/login.service';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../models/user/user';
+import { Address } from '../../models/address/address';
 
 @Component({
     selector: 'app-user-details',
