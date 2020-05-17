@@ -16,35 +16,6 @@
 </div>
 
 <div class="flex-container">
-  <div *ngFor="let product of products">
-    <div class="carousel-card card shadow-border fadeInDown">
-      <div class="card-body fadeIn first">
-        <ngb-carousel class="home-carousel" wrap="true" [interval]="false"
-          *ngIf="(product | async)?.imagesUrl?.length > 1; else noCarousel" #carousel>
-          <ng-template ngbSlide *ngFor="let image of (product | async)?.imagesUrl">
-            <div class="picsum-img-wrapper">
-              <img class="carouselImage" src="{{image}}">
-            </div>
-          </ng-template>
-        </ngb-carousel>
-        <ng-template #noCarousel>
-          <div class="noCarouselImgContainer">
-            <div *ngIf="(product | async)?.imagesUrl">
-              <img class="noCarouselImage" src="{{(product | async)?.imagesUrl[0]}}">
-            </div>
-          </div>
-        </ng-template>
-
-        <p routerLink="/product/{{(product | async)?.code}}" class="card-title fadeIn second" id="home-card-title">
-          {{ (product | async)?.name }} </p>
-        <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ (product | async)?.category?.name }} </p>
-        <p class="price fadeIn third">$<span>{{ (product | async)?.price }}</span></p>
-        <div class="card-linkBox fadeIn fourth">
-          <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">Add to
-            cart</button>
-          <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-product-card *ngFor="let product of products" [product]="product">
+  </app-product-card>
 </div>

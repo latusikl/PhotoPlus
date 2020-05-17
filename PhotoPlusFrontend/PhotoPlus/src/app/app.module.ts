@@ -50,7 +50,7 @@ import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 import { AboutComponent } from './components/about/about.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchComponent } from './components/search/search.component';
-import { ProductsCardsComponent } from './components/products-cards/products-cards.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 
 @NgModule({
@@ -91,7 +91,7 @@ import { ProductsCardsComponent } from './components/products-cards/products-car
     PageSelectComponent,
     AboutComponent,
     SearchComponent,
-    ProductsCardsComponent
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,
