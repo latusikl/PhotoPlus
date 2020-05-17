@@ -11,7 +11,6 @@ import { AddressService } from 'src/app/services/address/address.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { OrderItem } from 'src/app/models/orderItem/order-item';
 import { Address } from 'src/app/models/address/address';
 
 
@@ -24,32 +23,31 @@ import { Address } from 'src/app/models/address/address';
 
 
 export class OrderComponent implements OnInit {
-  items: OrderItem[];
   price: number;
   order: Order;
   myDate = new Date();
-  addresses: Address[] = new Array();
+  addresses: Address[];
   addressForm: FormGroup;
   paymentMethodForm: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   paymentMethodSubmitted = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
-    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
-    this.order = new Order();
-    this.order.orderStatus = "PENDING";
-    this.order.orderItems = new Array();
-    this.order.address = new Address();
   }
 
   selectOption(addressCode: string) {
     let chosenAddress = this.addresses.find(el => el.code == addressCode);
     this.order.address = chosenAddress;
     this.order.addressCode = addressCode;
-    console.log("chose option")
   }
 
   ngOnInit(): void {
+    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
+    this.order = new Order();
+    this.order.orderStatus = "PENDING";
+    console.log(this.cartService.getItems());
+    this.order.orderItems = this.cartService.getItems();
+    this.order.address = new Address();
     this.addressForm = this.formBuilder.group({
       street: ['', [Validators.required, Validators.minLength(4)]],
       number: ['', [Validators.required]],
@@ -67,14 +65,8 @@ export class OrderComponent implements OnInit {
       this.addressService.byUser(this.order.userCode).subscribe(data => {
         this.addresses = data.reverse();
         this.selectOption(this.addresses[0].code);
-        console.log(this.addresses)
       })
     }
-    this.items = this.cartService.getItems();
-    this.items.forEach(element => {
-      this.order.orderItems.push(element);
-    });
-    this.order.orderItems.splice(0, 1)
     this.order.price = this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
@@ -82,14 +74,11 @@ export class OrderComponent implements OnInit {
   get f() { return this.addressForm.controls; }
 
   addressBuy() {
-    console.log(this.addresses)
+    console.log(this.order);
     this.submitted = true;
     if (this.addressForm.invalid) {
       return;
     }
-    console.log(this.addressForm.value);
-    console.log(this.addressForm.invalid);
-    
 
     this.paymentMethodSubmitted = true;
     if (this.paymentMethodForm.invalid) {
@@ -117,14 +106,14 @@ export class OrderComponent implements OnInit {
     this.addressService.post(address)
       .subscribe(res => {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
-          console.log(data.code)
           this.order.addressCode = data.code;
+          this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
           this.orderSerivce.buy(this.order).subscribe(data => {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = "Success!";
             modalRef.componentInstance.message = "Your order is being carried.";
             this.cartService.clearCart();
-            this.router.navigate(['/home']);
+            this.router.navigate(['/']);
           }, error => {
             this.router.navigate(['/cart']);
           })
@@ -133,6 +122,7 @@ export class OrderComponent implements OnInit {
   }
 
   buy() {
+    console.log(this.order);
     this.paymentMethodSubmitted = true;
     if (this.paymentMethodForm.invalid) {
       return;

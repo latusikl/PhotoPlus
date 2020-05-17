@@ -18,11 +18,11 @@ export class CartComponent implements OnInit {
   price: number;
 
   constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router, private productService: ProductService) {
-    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
   ngOnInit(): void {
     this.items = this.cartService.getItems();
+    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
   removeItem(item: OrderItem) {

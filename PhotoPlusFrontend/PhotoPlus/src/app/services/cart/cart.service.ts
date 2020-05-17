@@ -78,7 +78,7 @@ export class CartService {
     this.items.forEach(it => {
       this.productService.getSingle(it.productCode).subscribe(product => {
         it.product = product;
-        if (it.product.storeQuantity == 0) {
+        if (it.product.storeQuantity === 0) {
           const modalRef = this.modalService.open(ErrorModalComponent);
           modalRef.componentInstance.title = "Error occured!";
           modalRef.componentInstance.message = "Product is no longer available.";

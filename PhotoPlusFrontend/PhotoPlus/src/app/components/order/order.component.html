@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody class="fadeIn second">
-          <tr *ngFor="let item of items">
+          <tr *ngFor="let item of order?.orderItems">
             <td class="align-middle row-number d-none d-lg-table-cell"></td>
             <td class="align-middle">
               <div *ngIf="item?.product?.imagesUrl">
