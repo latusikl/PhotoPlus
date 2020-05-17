@@ -1,52 +1,68 @@
 <div class="container">
   <div class="row">
     <mat-card class="mt-2 w-100 order-details">
-        Order code: {{(order | async)?.code}}<br>
-        Payment method: {{beatutifyEnum((order | async)?.paymentMethod)}}<br>
-        Status: {{beatutifyEnum((order |async)?.orderStatus)}}<br>
-        Price: ${{(order|async)?.price}}<br>
-        Creation date: {{(order |async)?.date}}<br>
+      Order code: {{ (order | async)?.code }}<br />
+      Payment method: {{ beatutifyEnum((order | async)?.paymentMethod) }}<br />
+      Status: {{ beatutifyEnum((order | async)?.orderStatus) }}<br />
+      Price: ${{ (order | async)?.price }}<br />
+      Creation date: {{ (order | async)?.date }}<br />
       <mat-card class="mt-2 user-details">
-        Recipient:<br>
-        First name: {{(user |async)?.name}}<br>
-        Last name: {{(user |async)?.surname}}<br><br>
-        Login: {{(user |async)?.login}}<br>
-        Mail: {{(user |async)?.email}}<br>
+        Recipient:<br />
+        First name: {{ (user | async)?.name }}<br />
+        Last name: {{ (user | async)?.surname }}<br /><br />
+        Login: {{ (user | async)?.login }}<br />
+        Mail: {{ (user | async)?.email }}<br />
       </mat-card>
       <mat-card class="mt-2 address-details">
-        Address:<br>
-        {{ (address|async)?.street }}&nbsp;
-        {{ (address|async)?.number }}<br>
-        {{ (address|async)?.city }},&nbsp;
-        {{ (address|async)?.zipCode }}&nbsp;
-        {{ (address|async)?.country }}
+        Address:<br />
+        {{ (address | async)?.street }}&nbsp; {{ (address | async)?.number
+        }}<br />
+        {{ (address | async)?.city }},&nbsp;
+        {{ (address | async)?.zipCode }}&nbsp;
+        {{ (address | async)?.country }}
       </mat-card>
-    <mat-card *ngIf="!((pageAmount |async) === 0)" class="mt-2 products-details">
-      <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
-      </app-page-select>
-      <mat-card *ngFor="let item of orderedProducts" class="single-product container">
-        <div class="d-flex justify-content-between">
-          <div class="product-image">
-            <img (click)="goToImage(item.value.second.imageCodes[0])"
-              *ngIf="(item|async)?.second.imagesUrl?.length > 0" src="{{(item|async)?.second.imagesUrl[0]}}">
+      <mat-card
+        *ngIf="!((pageAmount | async) === 0)"
+        class="mt-2 products-details"
+      >
+        <app-page-select
+          [amountOfPages]="pageAmount"
+          (onPageSelect)="selectPage($event)"
+        >
+        </app-page-select>
+        <mat-card
+          *ngFor="let item of orderedProducts"
+          class="single-product container"
+        >
+          <div class="d-flex justify-content-between">
+            <div class="product-image">
+              <img
+                (click)="goToImage(item.value.second.imageCodes[0])"
+                *ngIf="(item | async)?.second.imagesUrl?.length > 0"
+                src="{{ ((item | async)?.second.imagesUrl)[0] }}"
+              />
+            </div>
+            <div>
+              {{ (item | async)?.second.name }}<br />
+              {{ (item | async)?.second.category?.name }}<br />
+              ${{ (item | async)?.second.price }}&nbsp;<br />
+            </div>
+            <div>
+              Qty:&nbsp;{{ (item | async)?.first.quantity }}<br />
+              ${{ (item | async)?.second.price }}&nbsp;*
+              {{ (item | async)?.first.quantity }}&nbsp;= ${{
+                (item | async)?.first.quantity * (item | async)?.second.price
+              }}
+            </div>
           </div>
-          <div>
-            {{(item|async)?.second.name}}<br>
-            {{(item|async)?.second.category.name}}<br>
-            ${{(item|async)?.second.price}}&nbsp;<br>
-          </div>
-          <div>
-            Qty:&nbsp;{{(item|async)?.first.quantity}}<br>
-            ${{(item|async)?.second.price}}&nbsp;*
-            {{(item|async)?.first.quantity}}&nbsp;=
-            ${{(item|async)?.first.quantity * (item|async)?.second.price}}
-          </div>
-        </div>
+        </mat-card>
+      </mat-card>
+      <mat-card
+        *ngIf="(pageAmount | async) === 0"
+        class="mt-2 products-details text-center"
+      >
+        <h2>Order is empty</h2>
       </mat-card>
     </mat-card>
-    <mat-card *ngIf="((pageAmount |async) === 0)" class="mt-2 products-details text-center">
-      <h2>Order is empty</h2>
-    </mat-card>
-  </mat-card>
   </div>
 </div>
