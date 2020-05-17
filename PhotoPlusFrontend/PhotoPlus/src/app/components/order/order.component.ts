@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart/cart.service';
-import { Product } from '../../models/product/product';
 import { HttpClient } from '@angular/common/http';
 import { Order } from 'src/app/models/order/order';
 import { DatePipe } from '@angular/common';
@@ -12,6 +11,8 @@ import { AddressService } from 'src/app/services/address/address.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OrderItem } from 'src/app/models/orderItem/order-item';
+import { Address } from 'src/app/models/address/address';
 
 
 @Component({
@@ -23,38 +24,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 export class OrderComponent implements OnInit {
-  items: [Product, number][];
+  items: OrderItem[];
   price: number;
-  order: Order;
+  order: Order = new Order();
   paymentMethod: string;
   isChecked: boolean = false;
   myDate = new Date();
-  addreses: any[];
+  addreses: any[] = new Array();
   selectedOption: any;
   addressForm: FormGroup;
   submitted: boolean;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
-    this.order = {
-      userCode: '0',
-      orderStatus: 'PENDING',
-      paymentMethod: 'PAYPAL',
-      price: 0,
-      date: "2020-01-30",
-      addressCode: '0',
-      orderItems: [{ productCode: '0', quantity: 0, orderCode: 'orderCode' }],
-      address: {
-        code: '0',
-        links: [],
-        street: "street",
-        number: '0',
-        zipCode: "00000",
-        city: "city",
-        countryCode: 'code',
-        userCode: '0',
-      }
-    }
+    this.order.orderItems = new Array();
+    this.order.address = new Address();
   }
 
   selectOption(id: any) {
@@ -97,15 +81,15 @@ export class OrderComponent implements OnInit {
         });
         this.addreses = data.reverse();
         if (this.addreses.length > 0) {
-          let display = document.getElementById("display")
-          display.style.display = "block"
-          this.selectOption(0)
+          let display = document.getElementById("display");
+          display.style.display = "block";
+          this.selectOption(0);
         }
       })
     }
     this.items = this.cartService.getItems();
     this.items.forEach(element => {
-      this.order.orderItems.push({ productCode: element[0].code, quantity: element[1], orderCode: 'orderCode' })
+      this.order.orderItems.push(element);
     });
     this.order.orderItems.splice(0, 1)
     this.order.price = this.price;
@@ -167,7 +151,7 @@ export class OrderComponent implements OnInit {
     if (this.isChecked == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please check payment method!.";
+      modalRef.componentInstance.message = "Please choose your payment method.";
       return
     }
 

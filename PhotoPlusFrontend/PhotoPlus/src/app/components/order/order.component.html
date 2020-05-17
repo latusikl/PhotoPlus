@@ -15,16 +15,18 @@
           <tr *ngFor="let item of items">
             <td class="align-middle row-number d-none d-lg-table-cell"></td>
             <td class="align-middle">
-              <img class="image" [src]="item[0].imagesUrl[0]">
+              <div *ngIf="item?.product?.imagesUrl">
+                <img class="image" [src]="item?.product?.imagesUrl[0]">
+              </div>
             </td>
             <td class="align-middle">
-              <a id="product-name">{{ item[0].name }}</a>
+              <a id="product-name">{{ item?.product?.name }}</a>
             </td>
             <td class="align-middle d-none d-lg-table-cell">
-              <b id="price">${{ item[0].price }}</b>
+              <b id="price">${{ item?.product?.price }}</b>
 
             </td>
-            <td class="align-middle">{{item[1]}}</td>
+            <td class="align-middle">{{item?.quantity}}</td>
           </tr>
         </tbody>
       </table>

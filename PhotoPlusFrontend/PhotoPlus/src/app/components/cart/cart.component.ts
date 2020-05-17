@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart/cart.service';
-import { Product } from '../../models/product/product';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { OrderItem } from 'src/app/models/orderItem/order-item';
+import { ProductService } from 'src/app/services/product/product.service';
 
 @Component({
   selector: 'app-cart',
@@ -13,10 +14,10 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
-  items: [Product, number][];
+  items: OrderItem[];
   price: number;
 
-  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router) {
+  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router, private productService: ProductService) {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
@@ -24,25 +25,24 @@ export class CartComponent implements OnInit {
     this.items = this.cartService.getItems();
   }
 
-  removeItem(item: [Product, number]) {
-    this.cartService.deleteFromCart(item[0]);
+  removeItem(item: OrderItem) {
+    this.cartService.deleteFromCart(item);
   }
 
-  onValueChange(value: number, item: [Product, number]) {
-    if (value > 0 && value <= item[0].storeQuantity && Number.isInteger(+value)) {
-      this.cartService.changeQuantity(value, item);
-    } else {
-      (document.querySelector(("#input" + item[0].code).toString()) as HTMLInputElement).value = item[1].toString();
-    }
-  }
+  onValueChange(value: number, item: OrderItem) {
+    this.cartService.changeQuantity(value, item);
+    (document.querySelector(("#input" + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
+  };
+
   buy() {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!.";
+      modalRef.componentInstance.message = "Please login!";
       return;
     }
-    this.router.navigate(['/order']);
+    //check if store quantity didn't change, update products
+    this.cartService.updateCartAndBuy();
   }
 
 }

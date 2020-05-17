@@ -4,6 +4,7 @@ import { Product } from '../../models/product/product';
 import { Category } from '../../models/category/category';
 import { AbstractService } from '../abstract-service';
 import { PageInfo } from 'src/app/models/pageInfo/pageInfo';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class ProductService extends AbstractService<Product> {
   public mapToObj(strMap) {
     let obj = Object.create(null);
     for (let [k,v] of strMap) {
-        obj[k] = v; //look out! Key must be a string!
+        obj[k] = v;
     }
     return obj;
 }
