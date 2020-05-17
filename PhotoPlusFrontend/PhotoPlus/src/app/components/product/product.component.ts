@@ -10,11 +10,16 @@ import { BehaviorSubject } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Rating } from 'src/app/models/rating/rating';
+import { DatePipe } from '@angular/common';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { RatingService } from 'src/app/services/rating/rating.service';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
+  providers: [DatePipe]
 })
 export class ProductComponent implements OnInit {
 
@@ -38,13 +43,21 @@ export class ProductComponent implements OnInit {
   linksForm: FormGroup;
   submitted = false;
 
+
+  stars = '6';
+  rating: Rating;
+  content: any;
+  myDate = new Date();
+
   constructor(private route: ActivatedRoute,
-              private productService: ProductService,
-              private cartService: CartService,
-              private modalService: NgbModal,
-              private loginService: LoginService,
-              private categoryService: CategoryService,
-              private formBuilder: FormBuilder
+    private productService: ProductService,
+    private cartService: CartService,
+    private modalService: NgbModal,
+    private loginService: LoginService,
+    private categoryService: CategoryService,
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private ratingSerivce: RatingService,
   ) { }
 
   ngOnInit(): void {
@@ -79,22 +92,22 @@ export class ProductComponent implements OnInit {
   }
 
   patch() {
-    this.productService.patch(this.product.value.code, {
-      description: this.productDescriptionTextArea.nativeElement.value,
-      name: this.productNameTextArea.nativeElement.value,
-      price: this.productPriceTextArea.nativeElement.value,
-      categoryCode: this.productCategoryList.nativeElement.value
-    } as Product).subscribe(res => {
-      this.loadProduct();
-      this.isEditing = false;
-    });
+    // this.productService.patch(this.product.value.code, {
+    //   description: this.productDescriptionTextArea.nativeElement.value,
+    //   name: this.productNameTextArea.nativeElement.value,
+    //   price: this.productPriceTextArea.nativeElement.value,
+    //   categoryCode: this.productCategoryList.nativeElement.value
+    // } as Product).subscribe(res => {
+    //   this.loadProduct();
+    //   this.isEditing = false;
+    // });
   }
 
   loadProduct() {
-    this.productService.getSingle(this.param).subscribe((data: Product) => {
-      this.productService.getDataFromLinks(data);
-      this.product.next(data);
-    });
+    // this.productService.getSingle(this.param).subscribe((data: Product) => {
+    //   this.productService.getDataFromLinks(data);
+    //   this.product.next(data);
+    // });
   }
 
   onLinksSubmit() {
@@ -108,12 +121,12 @@ export class ProductComponent implements OnInit {
       map.set(key, this.product.value.dataLinks[key]);
     });
     map.set(form.name, form.link);
-    this.productService.patch(this.product.value.code, {
-      dataLinks: this.productService.mapToObj(map)
-    } as Product).subscribe(res => {
-      this.loadProduct();
-      this.isEditing = false;
-    });
+    // this.productService.patch(this.product.value.code, {
+    //   dataLinks: this.productService.mapToObj(map)
+    // } as Product).subscribe(res => {
+    //   this.loadProduct();
+    //   this.isEditing = false;
+    // });
   }
 
   get f() {
@@ -126,10 +139,40 @@ export class ProductComponent implements OnInit {
 
   deleteLink(key: string) {
     delete this.product.value.dataLinks[key];
-    this.productService.patch(this.product.value.code, {
-      dataLinks: this.product.value.dataLinks
-    } as Product).subscribe(res => {
-      this.loadProduct();
-    });
+    // this.productService.patch(this.product.value.code, {
+    //   dataLinks: this.product.value.dataLinks
+    // } as Product).subscribe(res => {
+    //   this.loadProduct();
+    // });
   }
+
+  rate() {
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!.";
+      return;
+    }
+    if (this.stars == '6') {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please select stars!.";
+      return;
+    }
+    this.content = document.getElementById("area")
+    this.rating.rate = this.stars;
+    this.rating.productCode = this.param
+    this.rating.content = this.content.value
+    this.rating.userLogin = this.loginService.getLoggedUser().login
+    this.rating.userCode = this.loginService.getLoggedUser().code
+    this.rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    this.ratingSerivce.post(this.rating).subscribe(data => {
+      const modalRef = this.modalService.open(SuccessModalComponent);
+      modalRef.componentInstance.title = "Success";
+      modalRef.componentInstance.message = "You rated product.";
+      window.location.reload()
+    })
+  }
+
+
 }
