@@ -26,6 +26,9 @@ export class ProductComponent implements OnInit {
   @ViewChild('productName', { static: false })
   productNameTextArea: ElementRef;
 
+  @ViewChild('rateContent', { static: false })
+  rateContent: ElementRef;
+
   @ViewChild('productCategory', { static: false })
   productCategoryList: ElementRef;
 
@@ -193,10 +196,9 @@ export class ProductComponent implements OnInit {
       return;
     }
     this.rating = new Rating;
-    this.content = document.getElementById("area")
     this.rating.rate = this.stars;
     this.rating.productCode = this.param
-    this.rating.content = this.content.value
+    this.rating.content = this.rateContent.nativeElement.value
     this.rating.userLogin = this.loginService.getLoggedUser().login
     this.rating.userCode = this.loginService.getLoggedUser().code
     this.rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
