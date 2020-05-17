@@ -276,11 +276,9 @@ export class ManageProductComponent implements OnInit {
   }
 
   async patchImageCodes(imageCodeArray: string[]) {
-    const product = await this.productService.getSingle(this.selectedProduct.value.code).toPromise();
     this.productService
       .patch(this.selectedProduct.value.code, {
-        ...product,
-        imageCodes: imageCodeArray,
+        imageCodes: imageCodeArray
       } as Product)
       .subscribe(() => {
         this.loadProducts(() => {
