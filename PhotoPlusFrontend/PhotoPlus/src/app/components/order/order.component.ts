@@ -104,13 +104,6 @@ export class OrderComponent implements OnInit {
     }
 
     const alias = this.addressForm.value;
-    // this.order.address.street = alias.street;
-    // this.order.address.number = alias.number;
-    // this.order.address.city = alias.city;
-    // this.order.address.zipCode = alias.zipCode;
-    // this.order.address.countryCode = alias.country;
-    // this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
-    // this.order.address.userCode = this.loginService.getLoggedUser().code;
     const address: Address = {
       code: null,
       city: alias.city,
