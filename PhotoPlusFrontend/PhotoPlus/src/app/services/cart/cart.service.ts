@@ -82,7 +82,11 @@ export class CartService {
   }
 
   save() {
-    localStorage.setItem('items', JSON.stringify(this.items));
+    const array = new Array<OrderItem>();
+    this.items.forEach(item => {
+      array.push(item.value)
+    });
+    localStorage.setItem('items', JSON.stringify(array));
     this.calculatePrice();
   }
 
