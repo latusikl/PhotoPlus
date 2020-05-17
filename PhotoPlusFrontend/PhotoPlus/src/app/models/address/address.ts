@@ -1,6 +1,6 @@
 import { Link } from '../link/link';
 
-export interface Address {
+export class Address {
 
     street: string;
     number: string;

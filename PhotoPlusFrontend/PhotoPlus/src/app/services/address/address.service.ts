@@ -8,6 +8,7 @@ import { LoginService } from '../login/login.service';
 import { AbstractService } from '../abstract-service';
 import { FieldChange } from '../patch/field-change';
 import { PatchFieldChangeService } from '../patch/patch-field-change.service';
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +20,10 @@ export class AddressService extends AbstractService<Address> {
     }
 
     ADDRESS_USER_EDIT_ENDPOINT = 'address/editAddress/';
+
+    byUser(code: string): Observable<Address[]> {
+        return this._http.get<Address[]>(this.hostAddress + this.endpointUrl + "/byUser/" + code);
+    }
 
     postAddressForLoggedUser(newAddressToPost: Address) {
         newAddressToPost.userCode = this.loginService.getLoggedUserCode();
