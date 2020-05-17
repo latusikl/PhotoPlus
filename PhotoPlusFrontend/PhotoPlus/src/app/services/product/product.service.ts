@@ -4,7 +4,6 @@ import { Product } from '../../models/product/product';
 import { Category } from '../../models/category/category';
 import { AbstractService } from '../abstract-service';
 import { PageInfo } from 'src/app/models/pageInfo/pageInfo';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

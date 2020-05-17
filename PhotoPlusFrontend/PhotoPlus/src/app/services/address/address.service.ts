@@ -12,8 +12,8 @@ export class AddressService extends AbstractService<Address> {
   constructor(http: HttpClient) {
     super(http, "address");
   }
-  byUser(code: string): Observable<Address> {
-    return this._http.get<Address>(this.hostAddress + this.endpointUrl + "/byUser/" + code);
+  byUser(code: string): Observable<Address[]> {
+    return this._http.get<Address[]>(this.hostAddress + this.endpointUrl + "/byUser/" + code);
   }
 
 }

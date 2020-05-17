@@ -1,49 +1,42 @@
 .container {
-    padding: 20px;
-  }
+  padding: 20px;
+}
 
-
-
-.mat{
+.mat {
   justify-content: center;
 }
 
-
-.buy{
-  width:50%;
+.buy {
+  width: 50%;
   margin: 0 auto;
 }
-.display{
-  width:53%;
+.display {
+  width: 53%;
   margin: 0 auto;
-  display: none;
 }
 
-.button{
+.button {
   margin-left: 32%;
 }
 
-.buttonAddr{
+.buttonAddr {
   margin-left: 10%;
 }
-.address{
+.address {
   justify-content: center;
   margin: 0 auto;
 }
 
-.form-group{
-  margin: 0 auto;
-  
-}
-
-
-.addressPanel{
-  width:53%;
+.form-group {
   margin: 0 auto;
 }
 
+.addressPanel {
+  width: 53%;
+  margin: 0 auto;
+}
 
-.text{
+.text {
   padding: 20px;
   font-weight: bold;
   font-size: 1.2rem;
@@ -53,14 +46,14 @@
 }
 
 .card {
-    border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
 }
 
 table {
   counter-reset: no -1;
   text-align: center;
   margin-top: 25px;
-  table-layout:fixed;
+  table-layout: fixed;
 }
 
 table tr {
@@ -75,29 +68,28 @@ table tr td:first-child::before {
   content: counter(row-num) ". ";
 }
 
-  .image {
-    max-height: 5rem;
-    max-width: 100%;
-    margin: 0 auto;
-  }
+.image {
+  max-height: 5rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
 
-  
-  th {
-    white-space:nowrap;
-  }
+th {
+  white-space: nowrap;
+}
 
-  #price {
-    font-size: 18px;
-  }
+#price {
+  font-size: 18px;
+}
 
-  #checkout {
-    text-align: center;
-  }
+#checkout {
+  text-align: center;
+}
 
-  #product-name {
-    font-size: 18px;
-  }
+#product-name {
+  font-size: 18px;
+}
 
-  .checkbox{
-    margin: 0 auto;
-  }
+.checkbox {
+  margin: 0 auto;
+}

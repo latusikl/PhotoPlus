@@ -39,27 +39,32 @@
     <p class="text">Select payment method:</p>
     <br>
     <div class="checkbox">
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="cash_on_delivery"
-          id="cash" name="paymant" mdbInput>
-        <label class="custom-control-label" for="cash">Cash</label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="card" id="card"
-          name="paymant" mdbInput>
-        <label class="custom-control-label" for="card">Card</label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" (change)="FieldsChange($event)" value="paypal" id="paypal"
-          name="paymant" mdbInput>
-        <label class="custom-control-label" for="paypal">Paypal</label>
-      </div>
+      <form [formGroup]="paymentMethodForm">
+        <label>
+          <input class="custom-control-input" id="card" formControlName="paymentMethod" type="radio" value="CARD">
+          <label class="custom-control-label" for="card">Card</label>
+        </label>
+        <br>
+        <label>
+          <input class="custom-control-input" id="cash" formControlName="paymentMethod" type="radio" value="CASH_ON_DELIVERY">
+          <label class="custom-control-label" for="cash">Cash on delivery</label>
+        </label>
+        <br>
+        <label>
+          <input class="custom-control-input" id="paypal" formControlName="paymentMethod" type="radio" value="PAYPAL">
+          <label class="custom-control-label" for="paypal">Paypal</label>
+        </label>
+        <br>
+        <div *ngIf="paymentMethodSubmitted && paymentMethodForm.invalid">
+          <p>Please select either value</p>
+       </div>
+     </form>
     </div>
     <p class="text"><br></p>
-    <div class="display" id="display">
+    <div class="display" [hidden]="!(addreses?.length > 0)">
       <div class="form-group">
         <select class="btn btn-secondary dropdown-toggle form-control" (change)="selectOption($event.target.value)">
-          <option *ngFor="let address of addreses" [value]="address.key">{{address.street}}
+          <option *ngFor="let address of addreses" [value]="address.code">{{address.street}}
             &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}}</option>
         </select>
       </div>
@@ -119,7 +124,7 @@
               </div>
             </label><br>
             <div class="buttonAddr">
-              <button (click)="addresBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+              <button (click)="addressBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
             </div>
           </div>
         </form>
