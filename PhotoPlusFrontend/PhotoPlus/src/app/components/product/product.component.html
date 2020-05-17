@@ -138,6 +138,7 @@
   </div>
 </div>
 <div class="stars">
+
   <div class="rate">
     <input (change)="FieldsChange($event)" type="radio" id="star5" name="rate" value="5" />
     <label for="star5" title="text">5 stars</label>
@@ -150,29 +151,46 @@
     <input (change)="FieldsChange($event)" type="radio" id="star1" name="rate" value="1" />
     <label for="star1" title="text">1 star</label>
   </div>
+
   <textarea maxlength="255" id="area" rows="5" cols="60" value=""></textarea>
 </div>
 <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
 <br>
-<div class="container">
-  Ratings:
-  <mat-card class="post-bg-color">
-    <div class="container post-border my-1">
-      <tr>
-        <td class="align-middle d-none d-lg-table-cell">
-          <mat-card class="user-profile">
+<div>
 
+  <mat-card class="container post-bg-color">
+    <div class=" post-border my-1">
+      <tr *ngFor="let rating of ratings">
+        <td class="align-middle">
+          <mat-card class="user-profile">
+            {{rating.userLogin}}
+            <br>
+            {{rating.rate}} / 5
           </mat-card>
           <br>
         </td>
         <td>
-          <div class="col-7 post-content">
+          <div>
             <div class="d-inline-block">
-
+              {{rating.content}}
             </div>
           </div>
+          <mat-divider [inset]="true"></mat-divider>
         </td>
+
       </tr>
     </div>
   </mat-card>
+  <br>
+  <mat-form-field class="selectBox">
+    <mat-label class="text-muted">Sorting option</mat-label>
+    <mat-select class="dropdown-option" [(value)]="sort" (selectionChange)="onSortingChange()">
+      <mat-option class="select" value="dateAsc">Date ↑</mat-option>
+      <mat-option class="select" value="dateDesc">Date ↓</mat-option>
+      <mat-option class="select" value="rateAsc">Rate ↑</mat-option>
+      <mat-option class="select" value="rateDesc">Rate ↓</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+  </app-page-select>
 </div>

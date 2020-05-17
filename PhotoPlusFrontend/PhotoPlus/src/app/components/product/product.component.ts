@@ -43,11 +43,15 @@ export class ProductComponent implements OnInit {
   linksForm: FormGroup;
   submitted = false;
 
-
+  ratings: any;
+  products: BehaviorSubject<Rating>[];
+  sort = "dateAsc"
   stars = '6';
   rating: Rating;
   content: any;
   myDate = new Date();
+  selectedPage: number;
+  amountOfPages: BehaviorSubject<number>;
 
   constructor(private route: ActivatedRoute,
     private productService: ProductService,
@@ -59,18 +63,20 @@ export class ProductComponent implements OnInit {
     private datePipe: DatePipe,
     private ratingSerivce: RatingService
   ) {
-  this.rating = {
-    code: '0',
-    userCode: '0',
-    productCode: '0',
-    rate: '0',
-    content: '',
-    userLogin: '',
-    date: ''
-  }
+    this.rating = {
+      code: '0',
+      userCode: '0',
+      productCode: '0',
+      rate: '0',
+      content: '',
+      userLogin: '',
+      date: ''
+    }
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.selectedPage = 0;
+    this.amountOfPages = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
@@ -83,6 +89,11 @@ export class ProductComponent implements OnInit {
       name: ['', [Validators.required]],
       link: ['', [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
     });
+
+    let pageInfo = this.ratingSerivce.getPageCountRating(this.param).toPromise()
+    let info = await pageInfo;
+    this.amountOfPages.next((await pageInfo).pageAmount);
+    this.loadRatings()
   }
 
   addToCart(product: Product) {
@@ -102,22 +113,22 @@ export class ProductComponent implements OnInit {
   }
 
   patch() {
-    // this.productService.patch(this.product.value.code, {
-    //   description: this.productDescriptionTextArea.nativeElement.value,
-    //   name: this.productNameTextArea.nativeElement.value,
-    //   price: this.productPriceTextArea.nativeElement.value,
-    //   categoryCode: this.productCategoryList.nativeElement.value
-    // } as Product).subscribe(res => {
-    //   this.loadProduct();
-    //   this.isEditing = false;
-    // });
+    this.productService.patch(this.product.value.code, {
+      description: this.productDescriptionTextArea.nativeElement.value,
+      name: this.productNameTextArea.nativeElement.value,
+      price: this.productPriceTextArea.nativeElement.value,
+      categoryCode: this.productCategoryList.nativeElement.value
+    } as Product).subscribe(res => {
+      this.loadProduct();
+      this.isEditing = false;
+    });
   }
 
   loadProduct() {
-    // this.productService.getSingle(this.param).subscribe((data: Product) => {
-    //   this.productService.getDataFromLinks(data);
-    //   this.product.next(data);
-    // });
+    this.productService.getSingle(this.param).subscribe((data: Product) => {
+      this.productService.getDataFromLinks(data);
+      this.product.next(data);
+    });
   }
 
   onLinksSubmit() {
@@ -131,12 +142,12 @@ export class ProductComponent implements OnInit {
       map.set(key, this.product.value.dataLinks[key]);
     });
     map.set(form.name, form.link);
-    // this.productService.patch(this.product.value.code, {
-    //   dataLinks: this.productService.mapToObj(map)
-    // } as Product).subscribe(res => {
-    //   this.loadProduct();
-    //   this.isEditing = false;
-    // });
+    this.productService.patch(this.product.value.code, {
+      dataLinks: this.productService.mapToObj(map)
+    } as Product).subscribe(res => {
+      this.loadProduct();
+      this.isEditing = false;
+    });
   }
 
   get f() {
@@ -149,17 +160,33 @@ export class ProductComponent implements OnInit {
 
   deleteLink(key: string) {
     delete this.product.value.dataLinks[key];
-    // this.productService.patch(this.product.value.code, {
-    //   dataLinks: this.product.value.dataLinks
-    // } as Product).subscribe(res => {
-    //   this.loadProduct();
-    // });
+    this.productService.patch(this.product.value.code, {
+      dataLinks: this.product.value.dataLinks
+    } as Product).subscribe(res => {
+      this.loadProduct();
+    });
   }
 
   FieldsChange(values: any) {
     this.stars = values.target.value
   }
 
+  changePage(page: number) {
+    this.selectedPage = page;
+    this.loadRatings();
+  }
+
+  onSortingChange() {
+    this.loadRatings();
+  }
+
+  loadRatings() {
+    this.ratings = new Array<BehaviorSubject<Rating>>();
+    this.ratingSerivce.getRatingsPage(this.selectedPage, this.sort, this.param).subscribe(data => {
+      this.ratings = data;
+      console.log(this.ratings)
+    })
+  }
   rate() {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
@@ -182,9 +209,10 @@ export class ProductComponent implements OnInit {
     this.rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.ratingSerivce.post(this.rating).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
-      modalRef.componentInstance.title = "Success";
+      modalRef.componentInstance.title = "Success!";
       modalRef.componentInstance.message = "You rated product.";
-      window.location.reload()
+      this.loadRatings();
+
     })
   }
 

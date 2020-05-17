@@ -203,3 +203,20 @@ text-align: justify;
 .post-bg-color{
   background-color: $mat-card-color;
 }
+
+.container{
+  max-width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  
+}
+.d-inline-block{
+  max-width: 100%;
+  word-break: break-word;
+}
+.selectBox{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
