@@ -107,7 +107,7 @@ export class OrderComponent implements OnInit {
     const address: Address = {
       code: null,
       city: alias.city,
-      countryCode: alias.countryCode,
+      countryCode: alias.country,
       links: null,
       number: alias.number,
       street: alias.street,
