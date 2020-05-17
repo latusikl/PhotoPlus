@@ -30,7 +30,7 @@
           >
             Code: {{ order.code }}<br>
             Price:&nbsp;${{ order.price }}<br>
-            Payment: {{ order.paymentMethod}}<br>
+            Payment: {{ humanReadable(order.paymentMethod) }}<br>
             Date: {{ order.date }}<br>
           </mat-card>
           </div>
