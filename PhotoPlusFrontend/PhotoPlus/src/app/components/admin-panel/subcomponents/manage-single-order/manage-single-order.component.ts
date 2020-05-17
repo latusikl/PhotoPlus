@@ -12,7 +12,7 @@ import { OrderItem } from "src/app/models/order-item/order-item";
 import { Tuple } from "src/app/helpers/tuple";
 import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
-import { SingleOrderStatus, OrderStatus } from 'src/app/models/order-status/order-status';
+import { OrderStatus } from 'src/app/models/order-status/order-status';
 import { PaymentMethod } from 'src/app/models/payment-method/payment-method';
 
 @Component({
@@ -130,21 +130,25 @@ export class ManageSingleOrderComponent implements OnInit {
 
   selectPage(pageNumber: number) {
     console.log(pageNumber);
+    console.log(this.orderStatuses());
   }
 
-  updateOrderStatus(){
+  async updateOrderStatus(){
     const status = this.selectedStatus.nativeElement.value;
-    console.log(status);
+    const orderResponse = await this.orderService.patch(this.order.value.code,{
+      orderStatus: status
+    } as Order)
+    orderResponse.subscribe(()=>{
+      this.loadOrder();
+      alert('Order status changed.');
+    })
   }
 
-  get orderStatuses(){
+  orderStatuses(){
     let orderStatuses = Object.keys(OrderStatus);
-    if(this.order.value.paymentMethod === PaymentMethod.CASH_ON_DELIVERY){
-      orderStatuses = orderStatuses.filter(x => x !== OrderStatus.PAID);
+    if(this.order.value.paymentMethod?.toLowerCase() === PaymentMethod.CASH_ON_DELIVERY?.toLowerCase()){
+      orderStatuses = orderStatuses.filter(x => x.toLowerCase() !== OrderStatus.PAID.toLowerCase());
     }
-    console.log(orderStatuses);
-    
     return orderStatuses;
   }
-
 }

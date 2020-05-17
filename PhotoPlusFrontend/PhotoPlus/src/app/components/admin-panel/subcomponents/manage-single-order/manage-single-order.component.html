@@ -13,7 +13,7 @@
           Change order status:
           <br>
           <select #selectedStatus  >
-            <option *ngFor="let status of orderStatuses" value="status">{{beatutifyEnum(status)}}</option>
+            <option *ngFor="let status of orderStatuses()" [value]="status">{{beatutifyEnum(status)}}</option>
           </select>
           <br>
           <button class="btn btn-primary mt-2" (click)="updateOrderStatus()">Update order status</button>&nbsp;&nbsp;
