@@ -49,8 +49,9 @@ export class ProductComponent implements OnInit {
   ratings: any;
   products: BehaviorSubject<Rating>[];
   sort = "dateAsc"
-  stars = '6';
-  rating: Rating;
+  isStar = false;
+  stars: string
+
   content: any;
   myDate = new Date();
   selectedPage: number;
@@ -163,6 +164,7 @@ export class ProductComponent implements OnInit {
   }
 
   FieldsChange(values: any) {
+    this.isStar = true;
     this.stars = values.target.value
   }
 
@@ -189,20 +191,20 @@ export class ProductComponent implements OnInit {
       modalRef.componentInstance.message = "Please login!.";
       return;
     }
-    if (this.stars == '6') {
+    if (this.isStar == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
       modalRef.componentInstance.message = "Please select stars!.";
       return;
     }
-    this.rating = new Rating;
-    this.rating.rate = this.stars;
-    this.rating.productCode = this.param
-    this.rating.content = this.rateContent.nativeElement.value
-    this.rating.userLogin = this.loginService.getLoggedUser().login
-    this.rating.userCode = this.loginService.getLoggedUser().code
-    this.rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    this.ratingSerivce.post(this.rating).subscribe(data => {
+    const rating = new Rating;
+    rating.rate = this.stars;
+    rating.productCode = this.param
+    rating.content = this.rateContent.nativeElement.value
+    rating.userLogin = this.loginService.getLoggedUser().login
+    rating.userCode = this.loginService.getLoggedUser().code
+    rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    this.ratingSerivce.post(rating).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
       modalRef.componentInstance.title = "Success!";
       modalRef.componentInstance.message = "You rated product.";
