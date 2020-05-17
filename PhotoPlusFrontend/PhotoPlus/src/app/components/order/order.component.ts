@@ -45,7 +45,6 @@ export class OrderComponent implements OnInit {
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
     this.order = new Order();
     this.order.orderStatus = "PENDING";
-    console.log(this.cartService.getItems());
     this.order.orderItems = this.cartService.getItems();
     this.order.address = new Address();
     this.addressForm = this.formBuilder.group({
@@ -74,7 +73,6 @@ export class OrderComponent implements OnInit {
   get f() { return this.addressForm.controls; }
 
   addressBuy() {
-    console.log(this.order);
     this.submitted = true;
     if (this.addressForm.invalid) {
       return;
@@ -122,7 +120,6 @@ export class OrderComponent implements OnInit {
   }
 
   buy() {
-    console.log(this.order);
     this.paymentMethodSubmitted = true;
     if (this.paymentMethodForm.invalid) {
       return;
