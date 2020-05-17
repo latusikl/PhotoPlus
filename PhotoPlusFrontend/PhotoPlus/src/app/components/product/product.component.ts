@@ -146,6 +146,10 @@ export class ProductComponent implements OnInit {
     // });
   }
 
+  FieldsChange(values: any) {
+    this.stars = values.target.value
+  }
+
   rate() {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
