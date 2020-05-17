@@ -1,13 +1,15 @@
+@import "../../../styles";
+
 .welcome {
   font-min-size: 60px;
-  color: #24b8f3;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  color: black;
+  margin: 20px auto;
+  max-width: 1500px;
 }
 
 .form-label {
   font-min-size: 50px;
-  color: #39ace7;
+  color: darken(white, 15%);
   font-weight: bold;
   display: block;
   float: left;
@@ -23,4 +25,15 @@
 
 .btn-danger {
   float: right;
+}
+
+.bg-color {
+  background-color: $mat-card-color;
+  color: white;
+}
+
+.accordion {
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
 }
