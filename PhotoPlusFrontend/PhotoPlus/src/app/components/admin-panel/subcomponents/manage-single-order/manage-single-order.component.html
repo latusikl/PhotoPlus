@@ -12,8 +12,8 @@
         <div class="text-center">
           Change order status:
           <br>
-          <select #selectedStatus  >
-            <option *ngFor="let status of orderStatuses()" [value]="status">{{beatutifyEnum(status)}}</option>
+          <select #selectedStatus>
+            <option *ngFor="let status of orderStatuses()" [value]="status" [selected]="status.toLowerCase() === this.order.value.orderStatus.toLowerCase()">{{beatutifyEnum(status)}}</option>
           </select>
           <br>
           <button class="btn btn-primary mt-2" (click)="updateOrderStatus()">Update order status</button>&nbsp;&nbsp;

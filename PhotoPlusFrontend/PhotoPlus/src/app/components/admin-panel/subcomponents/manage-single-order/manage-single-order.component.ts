@@ -12,8 +12,8 @@ import { OrderItem } from "src/app/models/order-item/order-item";
 import { Tuple } from "src/app/helpers/tuple";
 import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
-import { OrderStatus } from 'src/app/models/order-status/order-status';
-import { PaymentMethod } from 'src/app/models/payment-method/payment-method';
+import { OrderStatus } from "src/app/models/order-status/order-status";
+import { PaymentMethod } from "src/app/models/payment-method/payment-method";
 
 @Component({
   selector: "app-manage-single-order",
@@ -21,7 +21,6 @@ import { PaymentMethod } from 'src/app/models/payment-method/payment-method';
   styleUrls: ["./manage-single-order.component.scss"],
 })
 export class ManageSingleOrderComponent implements OnInit {
-
   @ViewChild("selectedStatus")
   selectedStatus: ElementRef;
 
@@ -40,7 +39,7 @@ export class ManageSingleOrderComponent implements OnInit {
     private addressService: AddressService,
     private orderItemService: OrderItemService,
     private productService: ProductService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.order = new BehaviorSubject({} as Order);
@@ -78,10 +77,11 @@ export class ManageSingleOrderComponent implements OnInit {
     if (!this.order.value?.code) {
       return;
     }
-    const orderItems = this.orderItemService.getPageOfOrderItemsByOrder(
-      this.selectedOrderItemsPage.value,
-      this.order.value.code
-    )
+    const orderItems = this.orderItemService
+      .getPageOfOrderItemsByOrder(
+        this.selectedOrderItemsPage.value,
+        this.order.value.code
+      )
       .toPromise();
     this.orderedProducts = new Array();
     for (const item of await orderItems) {
@@ -92,7 +92,7 @@ export class ManageSingleOrderComponent implements OnInit {
       this.orderedProducts.push(
         new BehaviorSubject({
           first: item,
-          second: product
+          second: product,
         })
       );
     }
@@ -121,33 +121,37 @@ export class ManageSingleOrderComponent implements OnInit {
     );
   }
 
-  goToImage(imageCode:string){
-    if(!imageCode){
+  goToImage(imageCode: string) {
+    if (!imageCode) {
       return;
     }
     this.router.navigate(["imageDisplay", imageCode]);
   }
 
   selectPage(pageNumber: number) {
-    console.log(pageNumber);
-    console.log(this.orderStatuses());
+
   }
 
-  async updateOrderStatus(){
+  async updateOrderStatus() {
     const status = this.selectedStatus.nativeElement.value;
-    const orderResponse = await this.orderService.patch(this.order.value.code,{
-      orderStatus: status
-    } as Order)
-    orderResponse.subscribe(()=>{
+    const orderResponse = await this.orderService.patch(this.order.value.code, {
+      orderStatus: status,
+    } as Order);
+    orderResponse.subscribe(() => {
       this.loadOrder();
-      alert('Order status changed.');
-    })
+      alert("Order status changed.");
+    });
   }
 
-  orderStatuses(){
+  orderStatuses() {
     let orderStatuses = Object.keys(OrderStatus);
-    if(this.order.value.paymentMethod?.toLowerCase() === PaymentMethod.CASH_ON_DELIVERY?.toLowerCase()){
-      orderStatuses = orderStatuses.filter(x => x.toLowerCase() !== OrderStatus.PAID.toLowerCase());
+    if (
+      this.order.value.paymentMethod?.toLowerCase() ===
+      PaymentMethod.CASH_ON_DELIVERY?.toLowerCase()
+    ) {
+      orderStatuses = orderStatuses.filter(
+        (x) => x.toLowerCase() !== OrderStatus.PAID.toLowerCase()
+      );
     }
     return orderStatuses;
   }
