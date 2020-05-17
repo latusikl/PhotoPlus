@@ -1,5 +1,10 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.RatingModelDto;
@@ -65,5 +70,36 @@ public class RatingService extends AbstractModelService<Rating, RatingModelDto, 
 
     public List<RatingModelDto> getRatingsByProductCode(final String code) {
         return getDtoListFromModels(entityRepository.getAllByProduct_Code(code));
+    }
+
+    public List<RatingModelDto> getPageByProductCode(final Integer page, final String sortedBy, final String productCode) {
+        return getDtoListFromModels(getPageOfRatingByProductCode(page, sortedBy, productCode));
+    }
+
+    private Page<Rating> getPageOfRatingByProductCode(final Integer pageNumber, final String sortedBy, final String productCode) {
+        final Pageable modelPage;
+        if (sortedBy.equals("rateAsc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("rate"));
+        } else if (sortedBy.equals("rateDesc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("rate").descending());
+        } else if (sortedBy.equals("dateAsc")) {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("date"));
+        } else {
+            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("date").descending());
+        }
+        final Page<Rating> foundModels = entityRepository.findAllByProduct_Code(modelPage, productCode);
+        throwNotFoundErrorIfIterableEmpty("FIND RATING BY PRODUCT CODE", foundModels);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCountOfRatingByProductCode(final String productCode)
+    {
+        final Page<Rating> firstPage = getPageOfRatingByProductCode(0, "dateDesc", productCode);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 }
