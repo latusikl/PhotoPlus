@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
@@ -12,6 +12,8 @@ import { OrderItem } from "src/app/models/order-item/order-item";
 import { Tuple } from "src/app/helpers/tuple";
 import { Product } from "src/app/models/product/product";
 import { ProductService } from "src/app/services/product/product.service";
+import { SingleOrderStatus, OrderStatus } from 'src/app/models/order-status/order-status';
+import { PaymentMethod } from 'src/app/models/payment-method/payment-method';
 
 @Component({
   selector: "app-manage-single-order",
@@ -19,6 +21,10 @@ import { ProductService } from "src/app/services/product/product.service";
   styleUrls: ["./manage-single-order.component.scss"],
 })
 export class ManageSingleOrderComponent implements OnInit {
+
+  @ViewChild("selectedStatus")
+  selectedStatus: ElementRef;
+
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
   address: BehaviorSubject<Address>;
@@ -125,4 +131,20 @@ export class ManageSingleOrderComponent implements OnInit {
   selectPage(pageNumber: number) {
     console.log(pageNumber);
   }
+
+  updateOrderStatus(){
+    const status = this.selectedStatus.nativeElement.value;
+    console.log(status);
+  }
+
+  get orderStatuses(){
+    let orderStatuses = Object.keys(OrderStatus);
+    if(this.order.value.paymentMethod === PaymentMethod.CASH_ON_DELIVERY){
+      orderStatuses = orderStatuses.filter(x => x !== OrderStatus.PAID);
+    }
+    console.log(orderStatuses);
+    
+    return orderStatuses;
+  }
+
 }

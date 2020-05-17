@@ -1,11 +1,24 @@
 <div class="container">
   <div class="row">
     <mat-card class="mt-2 w-100 order-details">
-      Order code: {{ (order | async)?.code }}<br />
-      Payment method: {{ beatutifyEnum((order | async)?.paymentMethod) }}<br />
-      Status: {{ beatutifyEnum((order | async)?.orderStatus) }}<br />
-      Price: ${{ (order | async)?.price }}<br />
-      Creation date: {{ (order | async)?.date }}<br />
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          Order code: {{ (order | async)?.code }}<br />
+          Payment method: {{ beatutifyEnum((order | async)?.paymentMethod) }}<br />
+          Status: {{ beatutifyEnum((order | async)?.orderStatus) }}<br />
+          Price: ${{ (order | async)?.price }}<br />
+          Creation date: {{ (order | async)?.date }}<br />
+        </div>
+        <div class="text-center">
+          Change order status:
+          <br>
+          <select #selectedStatus  >
+            <option *ngFor="let status of orderStatuses" value="status">{{beatutifyEnum(status)}}</option>
+          </select>
+          <br>
+          <button class="btn btn-primary mt-2" (click)="updateOrderStatus()">Update order status</button>&nbsp;&nbsp;
+        </div>
+      </div>
       <mat-card class="mt-2 user-details">
         Recipient:<br />
         First name: {{ (user | async)?.name }}<br />
