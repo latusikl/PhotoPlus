@@ -20,14 +20,14 @@
         <div class="column2 fadeIn third">
           <div>
             <div *ngIf="!isEditing; else editingProductDetails;">
-              <p class="card-title" id="product-card-title">
+              <p class="card-title product-card-title">
                 {{ (product | async)?.name }}
               </p>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <p class="description">{{ (product | async)?.description }}</p>
             </div>
             <ng-template #editingProductDetails>
-              <textarea #productName class="card-title dynamic-textarea" id="product-card-title"
+              <textarea #productName class="card-title dynamic-textarea product-card-title product-card-title-edit"
                 value="{{ (product | async)?.name }}"></textarea>
               <p class="category text-muted">{{ (product | async)?.category?.name }}</p>
               <div class="form-group">
@@ -39,10 +39,11 @@
               <textarea #productDescription class="description dynamic-textarea"
                 value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
-          </div>
-          <div class="links" *ngIf="(product | async)?.dataLinks">
-            <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
-              <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
+
+            <div class="links" *ngIf="(product | async)?.dataLinks">
+              <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
+                <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
+              </div>
             </div>
           </div>
         </div>
@@ -50,7 +51,7 @@
           <div *ngIf="!isEditing; else editingPrice;">
             <p id="product-price">${{ (product | async)?.price }}</p>
             <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
-              <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">
+              <button (click)="addToCart(product.value)" class="btn btn-success" href="#">
                 Add to cart
               </button>
               <br />
@@ -72,12 +73,12 @@
           <div *ngIf="canEdit()">
             <br />
             <div *ngIf="!isEditing">
-              <button class="btn btn-warning" href="#" id="buy-link" (click)="startEditing()">
+              <button class="btn btn-warning" href="#" (click)="startEditing()">
                 Edit
               </button>
             </div>
             <div *ngIf="isEditing">
-              <button class="btn btn-danger" href="#" id="buy-link" (click)="patch()">
+              <button class="btn btn-success" href="#" (click)="patch()">
                 Save
               </button>
             </div>
@@ -126,8 +127,8 @@
         <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
           <div class="link-container">
             <a>{{ dataLink.key }}: </a>
-            <a class="link-to-delete"> {{ dataLink.value }} </a>
-            <button class="btn btn-danger" href="#" id="buy-link" (click)="deleteLink(dataLink.key)">
+            <a class="link-to-delete" href="{{ dataLink.value }}"> {{ dataLink.value }} </a>
+            <button class="btn btn-danger" href="#" (click)="deleteLink(dataLink.key)">
               Delete
             </button>
           </div>
