@@ -57,8 +57,18 @@ export class ProductComponent implements OnInit {
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private ratingSerivce: RatingService,
-  ) { }
+    private ratingSerivce: RatingService
+  ) {
+  this.rating = {
+    code: '0',
+    userCode: '0',
+    productCode: '0',
+    rate: '0',
+    content: '',
+    userLogin: '',
+    date: ''
+  }
+  }
 
   ngOnInit(): void {
     this.product = new BehaviorSubject<Product>({} as Product);
