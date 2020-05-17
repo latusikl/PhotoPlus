@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {UserModel} from "../../../models/user/user-model";
-import {UserFormService} from "../../../services/user/user-form.service";
-import {HttpClient} from "@angular/common/http";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PatchFieldChangeService} from "../../../services/patch/patch-field-change.service";
+import {Component, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {UserFormService} from '../../../services/user/user-form.service';
+import {LoginService} from '../../../services/login/login.service';
+import {UserService} from '../../../services/user/user.service';
+import {User} from '../../../models/user/user';
+import {FieldChange} from '../../../services/patch/field-change';
 
 @Component({
     selector: 'app-user-data',
@@ -13,37 +13,39 @@ import {PatchFieldChangeService} from "../../../services/patch/patch-field-chang
 })
 export class UserDataComponent implements OnInit {
 
-    constructor(private userFormService: UserFormService, private  http: HttpClient, private modalService: NgbModal, private patchFieldChangeService: PatchFieldChangeService) {
+    constructor(private userFormService: UserFormService, private loginService: LoginService, private userService: UserService) {
     }
 
     userForm: FormGroup;
-    formDisabled: boolean = true;
-    submitted: boolean = false;
-    fillerLength: number = 10;
-    changedFields = this.patchFieldChangeService.getNewFieldChange();
-    USER_PATCH_ENDPOINT = "user/editAccount/";
+    formDisabled = true;
+    submitted = false;
+    changedFields = new FieldChange();
 
-    @Input("loggedUser")
-    currentUser: UserModel;
+    PASSWORD_FILLER_LENGTH = 10;
+
+    currentUser: User;
 
     ngOnInit(): void {
         this.userForm = this.userFormService.generateUserForm();
         this.userForm.disable();
-        this.fillForm();
+        this.userService.getDetailsOfLoggedUser().subscribe((res: User) => {
+            this.currentUser = res;
+            this.fillForm();
+        });
     }
 
     fillForm(): void {
-        this.userForm.controls["login"].setValue(this.currentUser.login);
-        this.userForm.controls["mail"].setValue(this.currentUser.email);
-        this.userForm.controls["name"].setValue(this.currentUser.name);
-        this.userForm.controls["surname"].setValue(this.currentUser.surname);
-        this.userForm.controls["phoneNumber"].setValue(this.currentUser.number);
-        this.userForm.controls["password"].setValue(this.getPasswordFiller());
-        this.userForm.controls["confirmPass"].setValue(this.getPasswordFiller());
+        this.userForm.controls.login.setValue(this.currentUser.login);
+        this.userForm.controls.mail.setValue(this.currentUser.email);
+        this.userForm.controls.name.setValue(this.currentUser.name);
+        this.userForm.controls.surname.setValue(this.currentUser.surname);
+        this.userForm.controls.phoneNumber.setValue(this.currentUser.number);
+        this.userForm.controls.password.setValue(this.getPasswordFiller());
+        this.userForm.controls.confirmPass.setValue(this.getPasswordFiller());
     }
 
     getPasswordFiller(): string {
-        return this.currentUser.password.substr(0, this.fillerLength);
+        return this.currentUser.password.substr(0, this.PASSWORD_FILLER_LENGTH);
     }
 
     onSubmit() {
@@ -51,7 +53,7 @@ export class UserDataComponent implements OnInit {
         if (this.userForm.invalid) {
             return;
         }
-        this.patchFieldChangeService.sendPatchRequest(this.USER_PATCH_ENDPOINT + this.currentUser.code, this.changedFields);
+        this.userService.patchDetailsOfLoggedUser(this.changedFields);
         this.userForm.disable();
     }
 

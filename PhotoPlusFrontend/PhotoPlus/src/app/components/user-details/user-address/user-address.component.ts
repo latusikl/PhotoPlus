@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AddressDto} from "../../../models/address/address-dto";
-import {CountryCode} from "../../../models/address/countryCode";
-import {UserAddressService} from "../../../services/user/user-address.service";
-import {PatchFieldChangeService} from "../../../services/patch/patch-field-change.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CountryCode} from '../../../models/address/countryCode';
+import {AddressService} from '../../../services/address/address.service';
+import {Address} from '../../../models/address/address';
+import {FieldChange} from "../../../services/patch/field-change";
 
 @Component({
     selector: 'app-user-address',
@@ -12,33 +12,28 @@ import {PatchFieldChangeService} from "../../../services/patch/patch-field-chang
 })
 export class UserAddressComponent implements OnInit {
 
-    constructor(private  formBuilder: FormBuilder, private userAddressService: UserAddressService, private patchFieldChangeService: PatchFieldChangeService) {
+    constructor(private  formBuilder: FormBuilder, private addressService: AddressService) {
     }
 
-    @Input("newAddress")
-    newAddress: boolean = false;
+    @Input('newAddress')
+    newAddress = false;
 
-    @Input("userAddress")
-    userAddress: AddressDto;
+    @Input('userAddress')
+    userAddress: Address;
 
-    @Input("ownerCode")
-    ownerCode: string;
-
-    //To remove warning about same ID when multiple addresses
-    @Input("componentId")
+    // To remove warning about same ID when multiple addresses
+    @Input('componentId')
     componentId: string;
 
-    addressForm: FormGroup
+    addressForm: FormGroup;
 
-    isSubmitted: boolean = false;
+    isSubmitted = false;
 
     isFormDisabled: boolean;
 
-    ADDRESS_PATCH_ENDPOINT = "address/editAddress/";
-
     countryCodeSet = CountryCode.getCodes();
 
-    changedFields = this.patchFieldChangeService.getNewFieldChange();
+    changedFields = new FieldChange();
 
     ngOnInit(): void {
         this.createAddressForm();
@@ -54,7 +49,7 @@ export class UserAddressComponent implements OnInit {
 
     createAddressForm(): void {
         this.addressForm = this.formBuilder.group({
-            street: ['', [Validators.required, Validators.minLength(4), Validators.pattern(new RegExp("[a-zA-Z]+"))]],
+            street: ['', [Validators.required, Validators.minLength(4), Validators.pattern(new RegExp('[a-zA-Z]+'))]],
             number: ['', Validators.required],
             city: ['', Validators.required],
             zipCode: ['', Validators.required],
@@ -63,11 +58,11 @@ export class UserAddressComponent implements OnInit {
     }
 
     fillForm() {
-        this.addressForm.controls["street"].setValue(this.userAddress.street);
-        this.addressForm.controls["number"].setValue(this.userAddress.number);
-        this.addressForm.controls["city"].setValue(this.userAddress.city);
-        this.addressForm.controls["zipCode"].setValue(this.userAddress.zipCode);
-        this.addressForm.controls["countryCode"].setValue(this.userAddress.country);
+        this.addressForm.controls.street.setValue(this.userAddress.street);
+        this.addressForm.controls.number.setValue(this.userAddress.number);
+        this.addressForm.controls.city.setValue(this.userAddress.city);
+        this.addressForm.controls.zipCode.setValue(this.userAddress.zipCode);
+        this.addressForm.controls.countryCode.setValue(this.userAddress.country);
     }
 
     get f() {
@@ -77,7 +72,7 @@ export class UserAddressComponent implements OnInit {
     onSaveNew() {
         this.isSubmitted = true;
         if (this.isValid()) {
-            this.userAddressService.post(this.addressForm.value, this.ownerCode);
+            this.addressService.postAddressForLoggedUser(this.addressForm.value);
         }
         return;
     }
@@ -85,7 +80,7 @@ export class UserAddressComponent implements OnInit {
     onSaveExisting() {
         this.isSubmitted = true;
         if (this.isValid()) {
-            this.patchFieldChangeService.sendPatchRequest(this.ADDRESS_PATCH_ENDPOINT + this.userAddress.code, this.changedFields);
+            this.addressService.patchAddressForLoggedUser(this.changedFields, this.userAddress.code);
         }
         return;
     }
@@ -102,7 +97,7 @@ export class UserAddressComponent implements OnInit {
     }
 
     onDelete() {
-        this.userAddressService.delete(this.ownerCode, this.userAddress.code);
+        this.addressService.deleteAddressForLoggedUser(this.userAddress.code);
     }
 
     disable() {

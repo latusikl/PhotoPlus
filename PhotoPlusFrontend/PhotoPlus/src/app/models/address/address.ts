@@ -1,7 +1,6 @@
-import {CountryCode} from "./countryCode";
+import {Link} from '../link/link';
 
-
-export interface AddressModel {
+export interface Address {
 
     street: string;
     number: string;
@@ -9,5 +8,6 @@ export interface AddressModel {
     city: string;
     country: string;
     userCode: string;
-
+    code?: string;
+    links?: Link[];
 }

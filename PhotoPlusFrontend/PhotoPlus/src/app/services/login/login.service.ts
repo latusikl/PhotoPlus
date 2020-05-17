@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { LoginModel } from '../../models/login/login-model.model';
-import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { LoggedUser } from 'src/app/models/login/logged-user.model';
-import { Role } from 'src/app/models/role/role.enum';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {LoginModel} from '../../models/login/login-model.model';
+import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {LoggedUser} from 'src/app/models/login/logged-user.model';
+import {Role} from 'src/app/models/role/role.enum';
 
 @Injectable({
     providedIn: 'root'
@@ -18,16 +18,16 @@ export class LoginService {
 
     constructor(private http: HttpClient, private router: Router) {
 
-      try {
-        this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-        const token = localStorage.getItem('token');
-        if (this.jwtHelper.isTokenExpired(token)) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('loggedUser');
+        try {
+            this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            const token = localStorage.getItem('token');
+            if (this.jwtHelper.isTokenExpired(token)) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('loggedUser');
+            }
+        } catch {
+            this.loggedUser = null;
         }
-      } catch {
-        this.loggedUser = null;
-      }
     }
 
     login(login: string, password: string) {
@@ -37,10 +37,10 @@ export class LoginService {
             login: login,
             password: password
         }, {observe: 'response'}).subscribe(res => {
-          this.loggedUser = res.body;
-          this.readTokenFromResponse(res);
-          localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));
-          this.router.navigate(['/']);
+            this.loggedUser = res.body;
+            this.readTokenFromResponse(res);
+            localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));
+            this.router.navigate(['/']);
         });
     }
 
@@ -69,16 +69,20 @@ export class LoginService {
     }
 
     getLoggedUser(): LoggedUser {
-      return this.loggedUser;
+        return this.loggedUser;
     }
 
-    get isModerator(): boolean{
-      const role = this.getLoggedUser()?.role;
-      return role === Role.ADMIN || role === Role.EMPLOYEE;
+    getLoggedUserCode(): string {
+        return this.loggedUser.code;
     }
 
-    get isAdmin(): boolean{
-      const role = this.getLoggedUser()?.role;
-      return role === Role.ADMIN;
+    get isModerator(): boolean {
+        const role = this.getLoggedUser()?.role;
+        return role === Role.ADMIN || role === Role.EMPLOYEE;
+    }
+
+    get isAdmin(): boolean {
+        const role = this.getLoggedUser()?.role;
+        return role === Role.ADMIN;
     }
 }

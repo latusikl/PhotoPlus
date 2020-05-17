@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 
-import {environment} from "../../../environments/environment";
-import {Observable} from "rxjs";
-import {LoggedUser} from "../../models/login/logged-user.model";
-import {UserModel} from "../../models/user/user-model";
-import {AddressDto} from "../../models/address/address-dto";
+import {environment} from '../../../environments/environment';
+import {LoggedUser} from '../../models/login/logged-user.model';
+import {LoginService} from '../../services/login/login.service';
+import {UserService} from '../../services/user/user.service';
+import {User} from '../../models/user/user';
+import {Address} from '../../models/address/address';
 
 @Component({
     selector: 'app-user-details',
@@ -14,33 +14,20 @@ import {AddressDto} from "../../models/address/address-dto";
 })
 export class UserDetailsComponent implements OnInit {
 
-    constructor(private http: HttpClient) {
+    constructor(private loginService: LoginService, private userService: UserService) {
     }
 
-    loggedUserWithDetails: UserModel;
+    loggedUserWithDetails: User;
     loggedUser: LoggedUser;
-    addresses: AddressDto[];
+    addresses: Address[];
     hostAddress = environment.hostAddress;
 
     ngOnInit(): void {
-        this.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-        this.getLoggedUser().subscribe(userModel => {
+        this.loggedUser = this.loginService.getLoggedUser();
+        this.userService.getDetailsOfLoggedUser().subscribe(userModel => {
             this.loggedUserWithDetails = userModel;
         });
-        this.getUserAddresses();
-    }
-
-    function(): void {
-        this.getUserAddresses();
-        console.log(this.addresses);
-    }
-
-    getUserAddresses(): void {
-        this.http.get<AddressDto[]>(environment.hostAddress + "address/byUser/" + this.loggedUser.code).subscribe((res: AddressDto[]) => this.addresses = res);
-    }
-
-    public getLoggedUser(): Observable<UserModel> {
-        return this.http.get<UserModel>(this.hostAddress + "user/editAccount/" + this.loggedUser.code);
+        this.userService.getAddressesOfLoggedUser().subscribe((res: Address[]) => this.addresses = res);
     }
 
     get a() {

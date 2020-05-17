@@ -12,7 +12,7 @@
                 See or edit your personal data.
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-user-data [loggedUser]="loggedUserWithDetails"></app-user-data>
+        <app-user-data></app-user-data>
     </mat-expansion-panel>
     <div *ngFor="let singleAddress of this.addresses; let i = index">
         <mat-expansion-panel>
@@ -24,8 +24,7 @@
                     <span>{{"See or edit address no. " + (i + 1) + "."}}</span>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [ownerCode]="loggedUser.code"
-                              [componentId]="i"></app-user-address>
+            <app-user-address [newAddress]="false" [userAddress]="singleAddress" [componentId]="i"></app-user-address>
         </mat-expansion-panel>
     </div>
     <mat-expansion-panel>
@@ -37,6 +36,6 @@
                 Add new address to Your's account.
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-user-address [newAddress]="true" [ownerCode]="loggedUser.code" componentId="new"></app-user-address>
+        <app-user-address [newAddress]="true" componentId="new"></app-user-address>
     </mat-expansion-panel>
 </mat-accordion>
