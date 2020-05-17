@@ -16,8 +16,6 @@ export class RatingService extends AbstractService<Rating>{
 
   getRatingsPage(page: number, sortedBy: string, productCode: string) {
     let params = new HttpParams().set("sortedBy", sortedBy).set("productCode", productCode)
-
-    console.log(params)
     return this._http.get<Rating[]>(this.hostAddress + this.endpointUrl + "/all/" + page, { params: params });
   }
 
