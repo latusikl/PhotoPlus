@@ -136,8 +136,7 @@ img {
 }
 .rate:not(:checked) > input {
   position:absolute;
-  
-  left:-9999px;
+  display: none;
 }
 .rate:not(:checked) > label {
   float:right;
@@ -229,3 +228,4 @@ tr.border_bottom td {
 .select.mat-selected {
   color: white !important;
 }
+
