@@ -40,7 +40,7 @@ export class ProductService extends AbstractService<Product> {
   public mapToObj(strMap) {
     let obj = Object.create(null);
     for (let [k,v] of strMap) {
-        obj[k] = v; //look out! Key must be a string!
+        obj[k] = v;
     }
     return obj;
 }

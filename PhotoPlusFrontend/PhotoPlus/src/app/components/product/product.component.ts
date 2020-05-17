@@ -1,10 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ProductService } from '../../services/product/product.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ProductService } from "../../services/product/product.service";
 import { Product } from 'src/app/models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { LoginService } from 'src/app/services/login/login.service';
 import { BehaviorSubject } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
@@ -39,6 +40,7 @@ export class ProductComponent implements OnInit {
   submitted = false;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private productService: ProductService,
               private cartService: CartService,
               private modalService: NgbModal,
@@ -60,6 +62,18 @@ export class ProductComponent implements OnInit {
       name: ['', [Validators.required]],
       link: ['', [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
     });
+  }
+
+  buy(product: Product) {
+    this.cartService.clearCart();
+    this.cartService.addToCart(product);
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!.";
+      return;
+    }
+    this.router.navigate(['/order']);
   }
 
   addToCart(product: Product) {
