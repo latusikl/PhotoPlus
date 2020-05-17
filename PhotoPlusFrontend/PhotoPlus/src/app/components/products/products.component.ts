@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from "../../services/product/product.service";
+import { ProductService } from '../../services/product/product.service';
 import { Product } from '../../models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
@@ -14,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ProductsComponent implements OnInit {
 
-  sortBy = "name";
+  sortBy = 'name';
 
   products: BehaviorSubject<Product>[];
 
@@ -51,8 +51,8 @@ export class ProductsComponent implements OnInit {
   addToCart(product: Product) {
     this.cartService.addToCart(product);
     const modalRef = this.modalService.open(SuccessModalComponent);
-    modalRef.componentInstance.message = "Please go to checkout to place an order.";
-    modalRef.componentInstance.title = "Added " + product.name + " to card.";
+    modalRef.componentInstance.message = 'Please go to checkout to place an order.';
+    modalRef.componentInstance.title = 'Added ' + product.name + ' to card.';
   }
 
   onSortingChange() {
