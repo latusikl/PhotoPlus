@@ -10,7 +10,9 @@
           {{ humanReadable(orderStatus) }}
         </div>
         <div class="col-2">
-          <mat-card *ngIf="orderStatus === 'PENDING' && orderStatusAmountPages[orderStatus].value > 0" class="p-1 page-count text-center">
+          <mat-card 
+          *ngIf="orderStatus !== 'DELIVERED' && orderStatusAmountPages[orderStatus].value > 0" 
+          class="p-1 page-count text-center">
             !
           </mat-card>
         </div>
