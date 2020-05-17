@@ -16,18 +16,18 @@ export class SectionBodyComponent implements OnInit {
   sectionCode: string;
   topics: Topic[];
 
-  constructor(private loginService: LoginService,private activatedRoute: ActivatedRoute, private topicService: TopicService) { }
+  constructor(private loginService: LoginService, private activatedRoute: ActivatedRoute, private topicService: TopicService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.sectionCode = params['sectionCode'];
-      this.topicService.getAllFromSectionCode(this.sectionCode).subscribe(data =>{
+      this.sectionCode = params.sectionCode;
+      this.topicService.getAllFromSectionCode(this.sectionCode).subscribe(data => {
         this.topics = data;
       });
     });
   }
 
-  get auth(): LoginService{
+  get auth(): LoginService {
     return this.loginService;
   }
 

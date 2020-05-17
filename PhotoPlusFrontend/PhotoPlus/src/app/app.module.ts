@@ -51,6 +51,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { UserDetailsComponent } from "./components/user-details/user-details.component";
 import { UserDataComponent } from "./components/user-details/user-data/user-data.component";
 import { UserAddressComponent } from "./components/user-details/user-address/user-address.component";
+import { SearchComponent } from './components/search/search.component';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { UserAddressComponent } from "./components/user-details/user-address/use
     AboutComponent,
     UserDetailsComponent,
     UserDataComponent,
-    UserAddressComponent
+    UserAddressComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

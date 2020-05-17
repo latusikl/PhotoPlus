@@ -22,6 +22,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
 import { AboutComponent } from './components/about/about.component';
 import { UserDetailsComponent } from "./components/user-details/user-details.component";
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,15 +45,15 @@ const routes: Routes = [
   { path: 'manage', component: AdminPanelComponent },
   { path: 'manage/orders', component: AdminPanelComponent },
   { path: 'manage/orders/:orderCode', component: AdminPanelComponent },
-  { path: 'manage/manageProducts', component: AdminPanelComponent },
-  { path: 'manage/delivery', component: AdminPanelComponent },
-  { path: 'manage/changePrivileges', component: AdminPanelComponent },
-  { path: 'manage/deleteUser', component: AdminPanelComponent },
-  { path: 'manage/generateReports', component: AdminPanelComponent },
-  { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'user/details', component: UserDetailsComponent }
-
+  { path: 'manage/manageProducts', component: AdminPanelComponent},
+  { path: 'manage/delivery', component: AdminPanelComponent},
+  { path: 'manage/changePrivileges', component: AdminPanelComponent},
+  { path: 'manage/deleteUser', component: AdminPanelComponent},
+  { path: 'manage/generateReports', component: AdminPanelComponent},
+  { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent},
+  { path: 'about', component: AboutComponent},
+  { path: 'user/details', component: UserDetailsComponent },
+  { path: 'search/:searchedText', component: SearchComponent }
 ];
 
 @NgModule({
