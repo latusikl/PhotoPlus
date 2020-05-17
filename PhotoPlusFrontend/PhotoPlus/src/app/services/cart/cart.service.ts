@@ -12,11 +12,15 @@ import { Router } from '@angular/router';
 })
 export class CartService {
 
-  items: OrderItem[];
+  private items: BehaviorSubject<OrderItem>[];
   private price: BehaviorSubject<number>;
 
   constructor(private productService: ProductService, private modalService: NgbModal, private router: Router) {
-    this.items = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+    this.items = new Array<BehaviorSubject<OrderItem>>();
+    const loadedItems : OrderItem[] = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+    loadedItems.forEach(it => {
+      this.items.push(new BehaviorSubject(it));
+    })
     this.price = new BehaviorSubject<number>(0);
     this.calculatePrice();
   }
@@ -24,7 +28,7 @@ export class CartService {
   calculatePrice() {
     let sum = 0;
     this.items.forEach(element => {
-      sum += (element.product.price * element.quantity);
+      sum += (element.value.product.price * element.value.quantity);
     });
     this.price.next(+sum.toFixed(2));
   }
@@ -39,17 +43,17 @@ export class CartService {
   }
 
   addToCart(product: Product) {
-    const index = this.items.findIndex(it => it.productCode == product.code);
+    const index = this.items.findIndex(it => it.value.productCode == product.code);
     if (index > -1) {
-      this.changeQuantity(this.items[index].quantity + 1, this.items[index])
+      this.changeQuantity(this.items[index].value.quantity + 1, this.items[index].value)
     } else {
-      this.items.push({ orderCode: null, productCode: product.code, product: product, quantity: 1 });
+      this.items.push(new BehaviorSubject({ orderCode: null, productCode: product.code, product: product, quantity: 1 }));
       this.save();
     }
   }
 
   deleteFromCart(item: OrderItem) {
-    const index = this.items.findIndex(it => it.productCode == item.productCode);
+    const index = this.items.findIndex(it => it.value.productCode == item.productCode);
     if (index > -1) {
       this.items.splice(index, 1);
     }
@@ -60,12 +64,20 @@ export class CartService {
     return this.items;
   }
 
+  getItemsModel() {
+    const array = new Array<OrderItem>();
+    this.items.forEach(it => {
+      array.push(it.value);
+    })
+    return array;
+  }
+
   getSummaryPrice(): Observable<number> {
     return this.price.asObservable();
   }
 
   clearCart() {
-    this.items = new Array<OrderItem>();
+    this.items = new Array<BehaviorSubject<OrderItem>>();
     this.save();
   }
 
@@ -76,20 +88,20 @@ export class CartService {
 
   updateCartAndBuy() {
     this.items.forEach(it => {
-      this.productService.getSingle(it.productCode).subscribe(product => {
-        it.product = product;
-        if (it.product.storeQuantity == 0) {
+      this.productService.getSingle(it.value.productCode).subscribe(product => {
+        it.value.product = product;
+        if (it.value.product.storeQuantity === 0) {
           const modalRef = this.modalService.open(ErrorModalComponent);
           modalRef.componentInstance.title = "Error occured!";
           modalRef.componentInstance.message = "Product is no longer available.";
-          this.deleteFromCart(it);
+          this.deleteFromCart(it.value);
           this.router.navigate(['/cart']);
-        } else if (it.quantity > product.storeQuantity) {
+        } else if (it.value.quantity > product.storeQuantity) {
           const modalRef = this.modalService.open(ErrorModalComponent);
           modalRef.componentInstance.title = "Error occured!";
           modalRef.componentInstance.message = "Product availability has changed.\n There are only " + product.storeQuantity +
             " " + product.name + " in store. Please change product quantity in cart.";
-          this.changeQuantity(product.storeQuantity, it);
+          this.changeQuantity(product.storeQuantity, it.value);
           this.router.navigate(['/cart']);
         }
       })

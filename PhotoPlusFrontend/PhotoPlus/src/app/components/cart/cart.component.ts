@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { OrderItem } from 'src/app/models/orderItem/order-item';
 import { ProductService } from 'src/app/services/product/product.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -14,15 +15,15 @@ import { ProductService } from 'src/app/services/product/product.service';
 })
 export class CartComponent implements OnInit {
 
-  items: OrderItem[];
+  items: BehaviorSubject<OrderItem>[];
   price: number;
 
   constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router, private productService: ProductService) {
-    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
   ngOnInit(): void {
     this.items = this.cartService.getItems();
+    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
   }
 
   removeItem(item: OrderItem) {

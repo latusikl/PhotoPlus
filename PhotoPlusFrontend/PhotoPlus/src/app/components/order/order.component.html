@@ -15,18 +15,18 @@
           <tr *ngFor="let item of items">
             <td class="align-middle row-number d-none d-lg-table-cell"></td>
             <td class="align-middle">
-              <div *ngIf="item?.product?.imagesUrl">
-                <img class="image" [src]="item?.product?.imagesUrl[0]">
+              <div *ngIf="item?.value?.product?.imagesUrl">
+                <img class="image" [src]="item?.value?.product?.imagesUrl[0]">
               </div>
             </td>
             <td class="align-middle">
-              <a id="product-name">{{ item?.product?.name }}</a>
+              <a id="product-name">{{ item?.value?.product?.name }}</a>
             </td>
             <td class="align-middle d-none d-lg-table-cell">
-              <b id="price">${{ item?.product?.price }}</b>
+              <b id="price">${{ item?.value?.product?.price }}</b>
 
             </td>
-            <td class="align-middle">{{item?.quantity}}</td>
+            <td class="align-middle">{{item?.value?.quantity}}</td>
           </tr>
         </tbody>
       </table>
@@ -60,11 +60,11 @@
      </form>
     </div>
     <br>
-    <div class="display" [hidden]="!(addreses?.length > 0)">
+    <div class="display" [hidden]="!(addresses?.length > 0)">
       <div class="form-group">
         <select class="dropdown-toggle form-control" (change)="selectOption($event.target.value)">
-          <option *ngFor="let address of addreses" [value]="address.code">{{address.street}}
-            &nbsp; {{address.number}} &nbsp; {{address.zipCode}} &nbsp; {{address.city}} &nbsp; {{address.country}}</option>
+          <option *ngFor="let ad of addresses" [value]="ad.code">{{ad.street}}
+            &nbsp; {{ad.number}} &nbsp; {{ad.zipCode}} &nbsp; {{ad.city}} &nbsp; {{ad.countryCode}}</option>
         </select>
       </div>
       <br>
@@ -80,9 +80,9 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description class="mat">
-        <form id="addressForm" [formGroup]="addressForm">
+        <form id="addressForm" (ngSubmit)="addressBuy()" [formGroup]="addressForm">
           <div class="address" id="address">
-            <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>Street:
               <input formControlName="street" class="form-control fadeIn third" type="text" name="input" id="street"
                 [ngClass]="{ 'is-invalid':submitted && f.street.errors }">
               <div *ngIf="submitted && f.street.errors" class="invalid-feedback">
@@ -90,7 +90,7 @@
                 <div *ngIf="f.street.errors.minlength">Street must contain at least 4 characters.</div>
               </div>
             </label> <br>
-            <label>Number:&nbsp;
+            <label>Number:
               <input formControlName="number" class="form-control fadeIn third" type="text" name="input" id="number"
                 [ngClass]="{ 'is-invalid':submitted && f.number.errors }">
               <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
@@ -107,7 +107,7 @@
               </div>
             </label> <br>
 
-            <label>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>City:
               <input formControlName="city" class="form-control fadeIn third" type="text" name="input" id="city"
                 [ngClass]="{ 'is-invalid':submitted && f.city.errors }">
               <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
@@ -115,15 +115,15 @@
               </div>
             </label> <br>
 
-            <label>Country:&nbsp;&nbsp;
+            <label>Country code:&nbsp;&nbsp;
               <input formControlName="country" class="form-control fadeIn third" type="text" name="input" id="country"
-                [ngClass]="{ 'is-invalid':submitted && f.country.errors }" placeholder="PL">
+                [ngClass]="{ 'is-invalid':submitted && f.country.errors }">
               <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
                 <div *ngIf="f.country.errors.required">Country is required.</div>
               </div>
             </label><br>
             <div class="buttonAddr">
-              <button (click)="addressBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+              <button type="submit" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
             </div>
           </div>
         </form>

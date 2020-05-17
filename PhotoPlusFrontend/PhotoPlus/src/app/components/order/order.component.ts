@@ -11,8 +11,9 @@ import { AddressService } from 'src/app/services/address/address.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { OrderItem } from 'src/app/models/orderItem/order-item';
 import { Address } from 'src/app/models/address/address';
+import { OrderItem } from 'src/app/models/orderItem/order-item';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -24,37 +25,37 @@ import { Address } from 'src/app/models/address/address';
 
 
 export class OrderComponent implements OnInit {
-  items: OrderItem[];
   price: number;
   order: Order;
   myDate = new Date();
-  addreses: any[] = new Array();
+  addresses: Address[];
   addressForm: FormGroup;
   paymentMethodForm: FormGroup;
-  submitted: boolean;
+  submitted = false;
   paymentMethodSubmitted = false;
+  items: BehaviorSubject<OrderItem>[];
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
-    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
-    this.order = new Order();
-    this.order.orderStatus = "PENDING";
-    this.order.orderItems = new Array();
-    this.order.address = new Address();
   }
 
   selectOption(addressCode: string) {
-    let chosenAddress = this.addreses.find(el => el.code == addressCode);
+    let chosenAddress = this.addresses.find(el => el.code == addressCode);
     this.order.address = chosenAddress;
     this.order.addressCode = addressCode;
   }
 
   ngOnInit(): void {
+    this.items = this.cartService.getItems();
+    this.cartService.getSummaryPrice().subscribe(value => this.price = value);
+    this.order = new Order();
+    this.order.orderStatus = "PENDING";
+    this.order.address = new Address();
     this.addressForm = this.formBuilder.group({
       street: ['', [Validators.required, Validators.minLength(4)]],
       number: ['', [Validators.required]],
       city: ['', [Validators.required]],
       zipCode: ['', [Validators.required, Validators.pattern(/\d{2,5}-?\d{2,5}/)]],
-      country: ['', [Validators.required]],
+      country: ['PL', [Validators.required]],
     })
 
     this.paymentMethodForm = this.formBuilder.group({
@@ -64,15 +65,10 @@ export class OrderComponent implements OnInit {
     if (this.loginService.isLoggedIn() == true) {
       this.order.userCode = this.loginService.getLoggedUser().code
       this.addressService.byUser(this.order.userCode).subscribe(data => {
-        this.addreses = data.reverse();
-        this.selectOption(this.addreses[0].code);
+        this.addresses = data.reverse();
+        this.selectOption(this.addresses[0].code);
       })
     }
-    this.items = this.cartService.getItems();
-    this.items.forEach(element => {
-      this.order.orderItems.push(element);
-    });
-    this.order.orderItems.splice(0, 1)
     this.order.price = this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
@@ -98,24 +94,28 @@ export class OrderComponent implements OnInit {
     }
 
     const alias = this.addressForm.value;
-    this.order.address.street = alias.street;
-    this.order.address.number = alias.number;
-    this.order.address.city = alias.city;
-    this.order.address.zipCode = alias.zipCode;
-    this.order.address.countryCode = alias.country;
-    this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
-    this.order.address.userCode = this.loginService.getLoggedUser().code;
-    alias.userCode = this.order.address.userCode;
-    this.addressService.post(alias)
+    const address: Address = {
+      code: null,
+      city: alias.city,
+      countryCode: alias.country,
+      links: null,
+      number: alias.number,
+      street: alias.street,
+      userCode: this.loginService.getLoggedUser().code,
+      zipCode: alias.zipCode
+    }
+    this.addressService.post(address)
       .subscribe(res => {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
-          this.order.addressCode = data.code
+          this.order.addressCode = data.code;
+          this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
+          this.order.orderItems = this.cartService.getItemsModel();
           this.orderSerivce.buy(this.order).subscribe(data => {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = "Success!";
             modalRef.componentInstance.message = "Your order is being carried.";
             this.cartService.clearCart();
-            this.router.navigate(['/products']);
+            this.router.navigate(['/']);
           }, error => {
             this.router.navigate(['/cart']);
           })
@@ -136,6 +136,7 @@ export class OrderComponent implements OnInit {
       return;
     }
 
+    this.order.orderItems = this.cartService.getItemsModel();
     this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
     this.orderSerivce.buy(this.order).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
