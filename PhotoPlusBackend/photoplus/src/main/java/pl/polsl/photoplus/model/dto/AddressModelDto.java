@@ -20,7 +20,7 @@ public class AddressModelDto
 {
 
     @NotBlank(message = "Street is mandatory.")
-    @OnlyLetters
+    @OnlyLetters(message = "Only letters are allowed in street field.")
     @Length(min = 4, message = "Street name is to short.")
     @JsonProperty("street")
     @Patchable

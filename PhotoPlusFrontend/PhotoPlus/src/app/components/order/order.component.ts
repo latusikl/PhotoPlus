@@ -28,7 +28,7 @@ export class OrderComponent implements OnInit {
   price: number;
   order: Order;
   myDate = new Date();
-  addreses: any[] = new Array();
+  addresses: Address[] = new Array();
   addressForm: FormGroup;
   paymentMethodForm: FormGroup;
   submitted: boolean;
@@ -43,9 +43,10 @@ export class OrderComponent implements OnInit {
   }
 
   selectOption(addressCode: string) {
-    let chosenAddress = this.addreses.find(el => el.code == addressCode);
+    let chosenAddress = this.addresses.find(el => el.code == addressCode);
     this.order.address = chosenAddress;
     this.order.addressCode = addressCode;
+    console.log("chose option")
   }
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class OrderComponent implements OnInit {
       number: ['', [Validators.required]],
       city: ['', [Validators.required]],
       zipCode: ['', [Validators.required, Validators.pattern(/\d{2,5}-?\d{2,5}/)]],
-      country: ['', [Validators.required]],
+      country: ['PL', [Validators.required]],
     })
 
     this.paymentMethodForm = this.formBuilder.group({
@@ -64,8 +65,9 @@ export class OrderComponent implements OnInit {
     if (this.loginService.isLoggedIn() == true) {
       this.order.userCode = this.loginService.getLoggedUser().code
       this.addressService.byUser(this.order.userCode).subscribe(data => {
-        this.addreses = data.reverse();
-        this.selectOption(this.addreses[0].code);
+        this.addresses = data.reverse();
+        this.selectOption(this.addresses[0].code);
+        console.log(this.addresses)
       })
     }
     this.items = this.cartService.getItems();
@@ -80,6 +82,7 @@ export class OrderComponent implements OnInit {
   get f() { return this.addressForm.controls; }
 
   addressBuy() {
+    console.log(this.addresses)
     this.submitted = true;
     if (this.addressForm.invalid) {
       return;
@@ -109,13 +112,14 @@ export class OrderComponent implements OnInit {
     this.addressService.post(alias)
       .subscribe(res => {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
-          this.order.addressCode = data.code
+          console.log(data.code)
+          this.order.addressCode = data.code;
           this.orderSerivce.buy(this.order).subscribe(data => {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = "Success!";
             modalRef.componentInstance.message = "Your order is being carried.";
             this.cartService.clearCart();
-            this.router.navigate(['/products']);
+            this.router.navigate(['/home']);
           }, error => {
             this.router.navigate(['/cart']);
           })
