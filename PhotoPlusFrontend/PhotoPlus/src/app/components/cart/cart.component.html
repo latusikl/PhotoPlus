@@ -17,18 +17,18 @@
         <tr *ngFor="let item of items">
           <td class="align-middle row-number d-none d-lg-table-cell"></td>
           <td class="align-middle d-none d-lg-table-cell">
-            <div *ngIf="item?.product?.imagesUrl">
-              <img class="image" [src]="item?.product?.imagesUrl[0]">
+            <div *ngIf="item?.value?.product?.imagesUrl">
+              <img class="image" [src]="item?.value?.product?.imagesUrl[0]">
             </div>
           </td>
           <td class="align-middle">
-            <a id="product-name">{{ item?.product?.name }}</a>
+            <a id="product-name">{{ item?.value?.product?.name }}</a>
           </td>
           <td class="align-middle d-none d-lg-table-cell">
-            <b id="price">${{ item?.product?.price }}</b>
+            <b id="price">${{ item?.value?.product?.price }}</b>
           </td>
           <td class="align-middle">
-            <input id="input{{ item?.product?.code }}" [(value)]="item.quantity" (change)="onValueChange($event.target.value, item)" required type="number" min="1" max="{{item?.product?.storeQuantity}}"/>
+            <input id="input{{ item?.value?.product?.code }}" [(value)]="item.value.quantity" (change)="onValueChange($event.target.value, item)" required type="number" min="1" max="{{item?.value?.product?.storeQuantity}}"/>
           </td>
           <td class="align-middle d-none d-md-table-cell">
           <button type="button" (click)="removeItem(item)" class="btn btn-danger">Remove</button>

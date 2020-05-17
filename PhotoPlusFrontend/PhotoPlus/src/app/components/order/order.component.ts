@@ -12,6 +12,8 @@ import { SuccessModalComponent } from '../success-modal/success-modal.component'
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Address } from 'src/app/models/address/address';
+import { OrderItem } from 'src/app/models/orderItem/order-item';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -31,6 +33,7 @@ export class OrderComponent implements OnInit {
   paymentMethodForm: FormGroup;
   submitted = false;
   paymentMethodSubmitted = false;
+  items: BehaviorSubject<OrderItem>[];
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
   }
@@ -42,10 +45,10 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.items = this.cartService.getItems();
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
     this.order = new Order();
     this.order.orderStatus = "PENDING";
-    this.order.orderItems = this.cartService.getItems();
     this.order.address = new Address();
     this.addressForm = this.formBuilder.group({
       street: ['', [Validators.required, Validators.minLength(4)]],
@@ -106,6 +109,7 @@ export class OrderComponent implements OnInit {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
           this.order.addressCode = data.code;
           this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
+          this.order.orderItems = this.cartService.getItemsModel();
           this.orderSerivce.buy(this.order).subscribe(data => {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = "Success!";
@@ -132,6 +136,7 @@ export class OrderComponent implements OnInit {
       return;
     }
 
+    this.order.orderItems = this.cartService.getItemsModel();
     this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
     this.orderSerivce.buy(this.order).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
