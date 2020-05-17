@@ -20,14 +20,14 @@ public class AddressModelDto
 {
 
     @NotBlank(message = "Street is mandatory.")
-    @OnlyLetters
+    @OnlyLetters(message = "Only letters are allowed in street field.")
     @Length(min = 4, message = "Street name is to short.")
     @JsonProperty("street")
     @Patchable
     private String street;
 
     @NotBlank(message = "Number is mandatory.")
-    @Pattern(regexp = "\\p{Alnum}+", message = "Only letters and numbers are allowed.")
+    @Pattern(regexp = "\\p{Alnum}+", message = "Only letters and numbers are allowed in number field.")
     @JsonProperty("number")
     @Patchable
     private String number;
@@ -39,7 +39,7 @@ public class AddressModelDto
     private String zipCode;
 
     @NotBlank(message = "City cannot be empty.")
-    @OnlyLetters
+    @OnlyLetters(message = "Only letters are allowed in city field.")
     @JsonProperty("city")
     @Patchable
     private String city;
