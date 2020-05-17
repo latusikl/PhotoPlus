@@ -31,7 +31,7 @@ export class OrderComponent implements OnInit {
   addreses: any[] = new Array();
   addressForm: FormGroup;
   paymentMethodForm: FormGroup;
-  submitted: boolean;
+  submitted: boolean = false;
   paymentMethodSubmitted = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
@@ -84,6 +84,9 @@ export class OrderComponent implements OnInit {
     if (this.addressForm.invalid) {
       return;
     }
+    console.log(this.addressForm.value);
+    console.log(this.addressForm.invalid);
+    
 
     this.paymentMethodSubmitted = true;
     if (this.paymentMethodForm.invalid) {
@@ -98,15 +101,24 @@ export class OrderComponent implements OnInit {
     }
 
     const alias = this.addressForm.value;
-    this.order.address.street = alias.street;
-    this.order.address.number = alias.number;
-    this.order.address.city = alias.city;
-    this.order.address.zipCode = alias.zipCode;
-    this.order.address.countryCode = alias.country;
-    this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
-    this.order.address.userCode = this.loginService.getLoggedUser().code;
-    alias.userCode = this.order.address.userCode;
-    this.addressService.post(alias)
+    // this.order.address.street = alias.street;
+    // this.order.address.number = alias.number;
+    // this.order.address.city = alias.city;
+    // this.order.address.zipCode = alias.zipCode;
+    // this.order.address.countryCode = alias.country;
+    // this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
+    // this.order.address.userCode = this.loginService.getLoggedUser().code;
+    const address: Address = {
+      code: null,
+      city: alias.city,
+      countryCode: alias.countryCode,
+      links: null,
+      number: alias.number,
+      street: alias.street,
+      userCode: this.loginService.getLoggedUser().code,
+      zipCode: alias.zipCode
+    }
+    this.addressService.post(address)
       .subscribe(res => {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
           this.order.addressCode = data.code

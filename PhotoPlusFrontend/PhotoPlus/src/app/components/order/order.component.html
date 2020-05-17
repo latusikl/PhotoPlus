@@ -80,7 +80,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description class="mat">
-        <form id="addressForm" [formGroup]="addressForm">
+        <form id="addressForm" (ngSubmit)="addressBuy()" [formGroup]="addressForm">
           <div class="address" id="address">
             <label>Street:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input formControlName="street" class="form-control fadeIn third" type="text" name="input" id="street"
@@ -123,7 +123,7 @@
               </div>
             </label><br>
             <div class="buttonAddr">
-              <button (click)="addressBuy()" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
+              <button type="submit" class="btn btn-success" href="#" id="cart-link">Add address and buy</button>
             </div>
           </div>
         </form>
