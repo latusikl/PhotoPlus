@@ -25,20 +25,20 @@
       <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
       </app-page-select>
       <mat-card *ngFor="let item of orderedProducts" class="single-product container">
-        <div class="row justify-content-between">
-          <div class="col product-image">
+        <div class="d-flex justify-content-between">
+          <div class="product-image">
             <img (click)="goToImage(item.value.second.imageCodes[0])"
               *ngIf="(item|async)?.second.imagesUrl?.length > 0" src="{{(item|async)?.second.imagesUrl[0]}}">
           </div>
-          <div class="col w-90">
+          <div>
             {{(item|async)?.second.name}}<br>
             {{(item|async)?.second.category.name}}<br>
             ${{(item|async)?.second.price}}&nbsp;<br>
           </div>
-          <div class="col">
+          <div>
             Qty:&nbsp;{{(item|async)?.first.quantity}}<br>
             ${{(item|async)?.second.price}}&nbsp;*
-            {{(item|async)?.first.quantity}}=<br>
+            {{(item|async)?.first.quantity}}&nbsp;=
             ${{(item|async)?.first.quantity * (item|async)?.second.price}}
           </div>
         </div>
