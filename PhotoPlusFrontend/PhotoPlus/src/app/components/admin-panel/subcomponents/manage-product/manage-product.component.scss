@@ -3,11 +3,13 @@
     cursor: pointer;
     max-height: 150px;
     height: 150px;
+    overflow: hidden;
 }
 
 .item-card-photo{
-    height: 75px; 
-    max-width: 120px;
+    height: 75px;
+    object-fit: fill;
+    width: 100%;
 }
 
 .brighten-background{
