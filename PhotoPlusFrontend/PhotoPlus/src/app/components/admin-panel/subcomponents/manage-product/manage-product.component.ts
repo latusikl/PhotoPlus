@@ -263,7 +263,7 @@ export class ManageProductComponent implements OnInit {
           imageCodes = currentProduct.imageCodes;
         }
         for (let photoFile of photoPicutresToUpload.files) {
-          this.imageService.post(photoFile).subscribe((photoResponse) => {
+          this.imageService.post(photoFile, currentProduct.code).subscribe((photoResponse) => {
             const newImageCode = photoResponse.headers.get("Entity-Code");
             imageCodes.push(newImageCode);
             currentAmount++;

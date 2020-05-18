@@ -3,12 +3,15 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ColumnDefault;
 import pl.polsl.photoplus.annotations.Patchable;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
+
+import static org.hibernate.engine.spi.CascadeStyles.DELETE_ORPHAN;
 
 @Entity(name = "products")
 @Table(name = "products")
@@ -45,7 +48,7 @@ public class Product extends AbstractEntityModel {
     private Integer storeQuantity;
 
     @Patchable
-    @ManyToMany(targetEntity = Image.class)
+    @OneToMany
     private List<Image> images;
 
     @Patchable

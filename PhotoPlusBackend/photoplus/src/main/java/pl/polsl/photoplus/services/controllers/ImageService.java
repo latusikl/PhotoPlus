@@ -1,5 +1,6 @@
 package pl.polsl.photoplus.services.controllers;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.ImageModelDto;
@@ -9,39 +10,19 @@ import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 
 @Service
-public class ImageService extends AbstractModelService<Image,ImageModelDto, ImageRepository>
-        implements FieldValueExists {
+public class ImageService extends AbstractModelService<Image,ImageModelDto, ImageRepository> {
 
+    final ProductService productService;
     final ProductRepository productRepository;
 
-    public ImageService(final ImageRepository repository, final ProductRepository productRepository) {
+    public ImageService(final ImageRepository repository, @Lazy final ProductService productService, final ProductRepository productRepository) {
         super(repository);
+        this.productService = productService;
         this.productRepository = productRepository;
     }
-
-    @Override
-    @Transactional
-    public HttpStatus delete(final String code)
-    {
-        final Image image = findByCodeOrThrowError(code, "IMAGE DELETE");
-        final List<Product> products = image.getProducts();
-        if (products != null && !products.isEmpty()) {
-            
-            for (final Product product : products) {
-                product.getImages().remove(image);
-                productRepository.save(product);
-            }
-            image.setProducts(Collections.emptyList());
-            entityRepository.save(image);
-        }
-        entityRepository.delete(image);
-        return HttpStatus.NO_CONTENT;
-    }
-
 
     @Override
     protected String getModelNameForError() {
@@ -50,7 +31,8 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
 
     @Override
     protected ImageModelDto getDtoFromModel(final Image modelObject) {
-        return new ImageModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getBytes());
+        return new ImageModelDto(modelObject.getCode(), modelObject.getName(), modelObject.getBytes(),
+                modelObject.getProduct() !=null ? modelObject.getProduct().getCode() : null);
     }
 
     @Override
@@ -59,11 +41,37 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
     }
 
     @Override
-    public boolean fieldValueExists(final String value, final String fieldName) {
-        if (fieldName.equals("name")) {
-            return this.entityRepository.findByName(value).isPresent();
+    public String save(final ImageModelDto dto) {
+        return entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
+    }
+
+    @Override
+    @Transactional
+    public HttpStatus delete(final String code) {
+        final Image image = findByCodeOrThrowError(code, "IMAGE DELETE");
+        final Product product = image.getProduct();
+        if (product != null ) {
+            final List<Image> imageList = product.getImages();
+            if (imageList != null) {
+                imageList.remove(image);
+                product.setImages(imageList);
+                productRepository.save(product);
+                image.setProduct(null);
+                entityRepository.save(image);
+            }
         }
-        return false;
+        entityRepository.delete(image);
+        return HttpStatus.NO_CONTENT;
+    }
+
+    private Image insertDependenciesAndParseToModel(final ImageModelDto dto) {
+        if (dto.getProduct() != null) {
+            final Product productToAdd  = productService.findByCodeOrThrowError(dto.getProduct(), "SAVE IMAGE");
+            final Image imageToAdd = getModelFromDto(dto);
+            imageToAdd.setProduct(productToAdd);
+            return imageToAdd;
+        }
+        return getModelFromDto(dto);
     }
 
 }
