@@ -26,7 +26,6 @@ export class ProductsComponent implements OnInit {
     this.amountOfPages = new BehaviorSubject(0);
     const pageInfo = this.productService.getPageCount().toPromise();
     this.loadProducts();
-    const info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
