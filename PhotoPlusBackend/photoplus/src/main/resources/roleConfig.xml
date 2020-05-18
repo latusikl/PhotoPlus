@@ -73,20 +73,34 @@ Proper file format example:
                 <access>/batch/all</access>
                 <access>/batch/single</access>
                 <access>/batch/patch</access>
-                <access>/batch/delete</access>
                 <access>/batch/post</access>
 
                 <access>/product/patch</access>
                 <access>/product/delete</access>
                 <access>/product/post</access>
 
+                <access>/category/single</access>
+                <access>/category/all</access>
                 <access>/category/patch</access>
                 <access>/category/delete</access>
                 <access>/category/post</access>
 
+                <access>/order/all</access>
+                <access>/order/single</access>
+                <access>/order/patch</access>
+                <access>/order/post</access>
+
+                <access>/address/all</access>
+                <access>/address/single</access>
+
+                <access>/orderItem/all</access>
+                <access>/orderItem/single</access>
+
                 <access>/image/post</access>
                 <access>/image/delete</access>
                 <access>/image/patch</access>
+
+                <access>/user/single</access>
 
                 <access>/address/post</access>
         </role>
