@@ -31,7 +31,7 @@ export class CartComponent implements OnInit {
   onValueChange(value: number, item: OrderItem) {
     this.cartService.changeQuantity(value, item);
     (document.querySelector(('#input' + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
-  };
+  }
 
   buy() {
     if (this.loginService.isLoggedIn() === false) {
