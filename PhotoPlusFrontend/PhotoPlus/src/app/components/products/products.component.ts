@@ -4,6 +4,9 @@ import { Product } from '../../models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
+import { LoginService } from 'src/app/services/login/login.service';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -22,7 +25,7 @@ export class ProductsComponent implements OnInit {
   amountOfPages: BehaviorSubject<number>;
 
 
-  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal) { }
+  constructor(private productService: ProductService, private cartService: CartService, private modalService: NgbModal, private router: Router, private loginService: LoginService) { }
 
   async ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
@@ -41,6 +44,22 @@ export class ProductsComponent implements OnInit {
         this.products.push(new BehaviorSubject(product));
       }
     });
+  }
+
+
+  buy(product: Product) {
+    if (!confirm("Are you sure you want to buy " + product.name + "? \n This operation will clear your shopping cart.")) {
+      return;
+    }
+    this.cartService.clearCart();
+    this.cartService.addToCart(product);
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!";
+      return;
+    }
+    this.router.navigate(['/order']);
   }
 
   changePage(page:number){
