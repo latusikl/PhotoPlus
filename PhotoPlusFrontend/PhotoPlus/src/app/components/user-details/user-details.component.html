@@ -1,47 +1,49 @@
 <div>
-    <div class="welcome accordion fadeIn first">
-        <h1>Welcome {{loggedUserWithDetails?.name}} {{loggedUserWithDetails?.surname}}!</h1>
-        <h3>Here is all we know about You:</h3>
+  <div class="welcome accordion">
+    <div *ngIf="loggedUserWithDetails" class="fadeIn">
+      <h1>Welcome {{loggedUserWithDetails?.name}} {{loggedUserWithDetails?.surname}}!</h1>
+      <h3>Here is all we know about You:</h3>
     </div>
+  </div>
 
-    <div class="accordion fadeIn second">
-        <mat-accordion class="headers-align fadeIn third">
-            <mat-expansion-panel [expanded]="true" class="bg-color">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Your data
-                    </mat-panel-title>
-                    <mat-panel-description class="description-text">
-                        Click to expand and see or edit your personal data
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-user-data></app-user-data>
-            </mat-expansion-panel>
-            <div *ngFor="let singleAddress of this.addresses; let i = index" class="mt-2">
-                <mat-expansion-panel class="bg-color">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <span>{{"Address no. " + (i + 1)}}</span>
-                        </mat-panel-title>
-                        <mat-panel-description class="description-text">
-                            <span>{{"Click to expand and see or edit address no. " + (i + 1)}}</span>
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <app-user-address [newAddress]="false" [userAddress]="singleAddress" [componentId]="i">
-                    </app-user-address>
-                </mat-expansion-panel>
-            </div>
-            <mat-expansion-panel class="bg-color mt-2">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span>Address form</span>
-                    </mat-panel-title>
-                    <mat-panel-description class="description-text">
-                        Click to expand and add new address to Your's account
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-user-address [newAddress]="true" componentId="new"></app-user-address>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
+  <div class="accordion fadeIn first">
+    <mat-accordion class="headers-align fadeIn second">
+      <mat-expansion-panel [expanded]="true" class="bg-color">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Your data
+          </mat-panel-title>
+          <mat-panel-description class="description-text">
+            Click to expand and see or edit your personal data
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-user-data></app-user-data>
+      </mat-expansion-panel>
+      <div *ngFor="let singleAddress of this.addresses; let i = index" class="mt-2">
+        <mat-expansion-panel class="bg-color">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{"Address no. " + (i + 1)}}</span>
+            </mat-panel-title>
+            <mat-panel-description class="description-text">
+              <span>{{"Click to expand and see or edit address no. " + (i + 1)}}</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-user-address [newAddress]="false" [userAddress]="singleAddress" [componentId]="i">
+          </app-user-address>
+        </mat-expansion-panel>
+      </div>
+      <mat-expansion-panel class="bg-color mt-2">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span>Address form</span>
+          </mat-panel-title>
+          <mat-panel-description class="description-text">
+            Click to expand and add new address to Your's account
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-user-address [newAddress]="true" componentId="new"></app-user-address>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>
