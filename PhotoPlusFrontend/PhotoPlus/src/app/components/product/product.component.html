@@ -151,14 +151,16 @@
     <input (change)="FieldsChange($event)" type="radio" id="star1" name="rate" value="1" />
     <label for="star1" title="text">1 star</label>
   </div>
-
+</div>
+<div class="area">
   <textarea #rateContent type="string" maxlength="255" id="area" rows="5" cols="60" value=""></textarea>
+</div>
+<div class="areaBtn">
   <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
 </div>
 
 <br>
 <div>
-
   <mat-card class="container post-bg-color">
     <div class="post-border my-1">
       <tr class="border_bottom" *ngFor="let rating of ratings">

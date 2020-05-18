@@ -165,7 +165,6 @@ img {
   color: #c59b08;
 }
 .stars{
-
   display: flex;
   flex-wrap: wrap;
   width: 100%;
@@ -227,6 +226,20 @@ tr.border_bottom td {
 
 .select.mat-selected {
   color: white !important;
+}
+
+.areaBtn{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0em auto;
+}
+
+.area{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0em auto;
 }
 
 
