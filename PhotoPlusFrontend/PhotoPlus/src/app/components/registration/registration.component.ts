@@ -18,9 +18,8 @@ export class RegistrationComponent implements OnInit {
     submitted: boolean;
 
     constructor(private userService: UserService,
-        private modalService: NgbModal, private userFormService: UserFormService) {
-
-    }
+                private modalService: NgbModal,
+                private userFormService: UserFormService) {}
 
     ngOnInit(): void {
         this.registerForm = this.userFormService.generateUserForm();
@@ -40,8 +39,8 @@ export class RegistrationComponent implements OnInit {
 
         this.userService.registerUser(user).subscribe(result => {
             const modalRef = this.modalService.open(SuccessModalComponent);
-            modalRef.componentInstance.message = "Welcome " + user.name + " " + user.surname + "!";
-            modalRef.componentInstance.title = "Registered successfully!";
+            modalRef.componentInstance.message = 'Welcome ' + user.name + ' ' + user.surname + '!';
+            modalRef.componentInstance.title = 'Registered successfully!';
         });
     }
 

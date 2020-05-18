@@ -29,11 +29,13 @@ export class SearchComponent implements OnInit {
 
   loadProducts() {
     this.products = new Array<BehaviorSubject<Product>>();
-    this.productService.getProductsSearchByName(this.searchedText).subscribe(data => {
-      for (const product of data) {
-        this.productService.getDataFromLinks(product);
-        this.products.push(new BehaviorSubject(product));
-      }
-    });
+    if (this.searchedText.length > 2) {
+      this.productService.getProductsSearchByName(this.searchedText).subscribe(data => {
+        for (const product of data) {
+          this.productService.getDataFromLinks(product);
+          this.products.push(new BehaviorSubject(product));
+        }
+      });
+    }
   }
 }

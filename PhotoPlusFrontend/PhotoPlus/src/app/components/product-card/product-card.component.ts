@@ -34,15 +34,15 @@ export class ProductCardComponent implements OnInit {
 
 
   buy(product: Product) {
-    if (!confirm("Are you sure you want to buy " + product.name + "? \n This operation will clear your shopping cart.")) {
+    if (!confirm('Are you sure you want to buy ' + product.name + '? \n This operation will clear your shopping cart.')) {
       return;
     }
     this.cartService.clearCart();
     this.cartService.addToCart(product);
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
     this.router.navigate(['/order']);
