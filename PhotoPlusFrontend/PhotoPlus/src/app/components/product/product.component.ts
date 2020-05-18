@@ -198,7 +198,7 @@ export class ProductComponent implements OnInit {
       return;
     }
     const rating = new Rating;
-    rating.rate = this.stars;
+    rating.rate = Number(this.stars)
     rating.productCode = this.param
     rating.content = this.rateContent.nativeElement.value
     rating.userLogin = this.loginService.getLoggedUser().login
