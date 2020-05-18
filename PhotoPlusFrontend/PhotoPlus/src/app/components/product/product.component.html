@@ -137,8 +137,8 @@
     </div>
   </div>
 </div>
-<div class="stars">
 
+<div class="stars">
   <div class="rate">
     <input (change)="FieldsChange($event)" type="radio" id="star5" name="rate" value="5" />
     <label for="star5" title="text">5 stars</label>
@@ -153,8 +153,9 @@
   </div>
 
   <textarea #rateContent type="string" maxlength="255" id="area" rows="5" cols="60" value=""></textarea>
+  <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
 </div>
-<button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
+
 <br>
 <div>
 
