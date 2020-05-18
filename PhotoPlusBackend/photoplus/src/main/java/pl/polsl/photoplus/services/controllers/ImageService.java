@@ -51,7 +51,6 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
             imageList.add(savedImage);
             product.setImages(imageList);
         }
-
         productRepository.save(product);
         return savedImage.getCode();
     }
@@ -63,11 +62,13 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
         final Product product = image.getProduct();
         if (product != null ) {
             final List<Image> imageList = product.getImages();
-            imageList.remove(image);
-            product.setImages(imageList);
-            productRepository.save(product);
-            image.setProduct(null);
-            entityRepository.save(image);
+            if (imageList != null) {
+                imageList.remove(image);
+                product.setImages(imageList);
+                productRepository.save(product);
+                image.setProduct(null);
+                entityRepository.save(image);
+            }
         }
         entityRepository.delete(image);
         return HttpStatus.NO_CONTENT;
