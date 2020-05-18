@@ -19,7 +19,7 @@
     <p routerLink="/product/{{(product | async)?.code}}" class="card-title fadeIn second" id="home-card-title">
       {{ (product | async)?.name }} </p>
     <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ (product | async)?.category?.name }} </p>
-    <p class="price fadeIn third">$<span>{{ (product | async)?.price }}</span></p>
+    <p class="price fadeIn third"><span>{{ (product | async)?.price | currency: '$' }}</span></p>
     <div class="card-linkBox fadeIn fourth">
       <button (click)="addToCart(product.value)" class="btn btn-success" href="#" id="cart-link">Add to
         cart</button>
