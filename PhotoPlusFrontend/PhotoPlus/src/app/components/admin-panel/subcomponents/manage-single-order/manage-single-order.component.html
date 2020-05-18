@@ -39,19 +39,19 @@
       <mat-card *ngIf="!((pageAmount | async) === 0)" class="mt-2 products-details">
         <app-page-select [amountOfPages]="pageAmount" (onPageSelect)="selectPage($event)">
         </app-page-select>
-        <mat-card *ngFor="let item of orderedProducts" class="single-product container">
+        <mat-card *ngFor="let item of orderedProducts" class="single-product container mt-1">
           <div class="d-flex justify-content-between">
-            <div class="product-image">
+            <div class="product-image pr-3">
               <img (click)="goToImage(item.value.second.imageCodes[0])"
                 *ngIf="(item | async)?.second.imagesUrl?.length > 0"
                 src="{{ ((item | async)?.second.imagesUrl)[0] }}" />
             </div>
-            <div>
+            <div class="product-desc">
               {{ (item | async)?.second.name }}<br />
               {{ (item | async)?.second.category?.name }}<br />
               ${{ (item | async)?.second.price }}&nbsp;<br />
             </div>
-            <div>
+            <div class="product-price">
               Qty:&nbsp;{{ (item | async)?.first.quantity }}<br />
               ${{ (item | async)?.second.price }}&nbsp;*
               {{ (item | async)?.first.quantity }}&nbsp;= ${{
