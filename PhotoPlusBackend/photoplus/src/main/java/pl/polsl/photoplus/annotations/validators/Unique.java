@@ -21,7 +21,7 @@ public @interface Unique
 
     Class<? extends FieldValueExists> service();
 
-    String fieldName();
+    String fieldName() default "";
 
-    String fieldNameToBeDisplayed();
+    String fieldNameToBeDisplayed() default "";
 }
