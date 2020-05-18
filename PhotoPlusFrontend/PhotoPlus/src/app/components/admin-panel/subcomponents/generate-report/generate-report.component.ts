@@ -3,6 +3,7 @@ import { ReportService } from 'src/app/services/report/report.service';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from 'src/app/models/product/product';
 import { ProductService } from 'src/app/services/product/product.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-generate-report',
@@ -47,16 +48,23 @@ export class GenerateReportComponent implements OnInit {
         this.filteredProducts = this.products;
         return;
       }
-      this.filteredProducts = this.products.filter((x) => 
+      this.filteredProducts = this.products.filter((x) =>
         x.value.code.toLowerCase().includes(searchText.toLowerCase()) || x.value.name.toLowerCase().includes(searchText.toLowerCase())
       );
     })
+    //no polish locale due to another angular issue
+    //using en-EN with gmt +1
+    const today = formatDate(new Date(), 'yyyy-MM-dd', 'en-EN', '+0100');
+    this.toDateElProduct.nativeElement.value = today;
+    this.toDateElProfit.nativeElement.value = today;
+    this.fromDateElProduct.nativeElement.value = today;
+    this.fromDateElProfit.nativeElement.value = today;
   }
   generateProfitReport(){
     const fromDate = this.fromDateElProfit.nativeElement.value as Date;
     const toDate = this.toDateElProfit.nativeElement.value as Date;
     if(fromDate > toDate){
-      alert("Starting date should not be greater than ending date");
+      alert("Starting date should not be greater than ending date.");
       return;
     }
     this.reportService.getProfitReport(fromDate, toDate).subscribe(pdfObject => {
@@ -67,6 +75,14 @@ export class GenerateReportComponent implements OnInit {
     const fromDate = this.fromDateElProduct.nativeElement.value as Date;
     const toDate = this.toDateElProduct.nativeElement.value as Date;
     const productCode = this.productEl.nativeElement.value as string;
+    if(fromDate > toDate){
+      alert("Starting date should not be greater than ending date.");
+      return;
+    }
+    if(productCode != null && !productCode){
+      alert("Please select product.");
+      return;
+    }
     this.reportService.getProductReport(productCode, fromDate, toDate).subscribe(pdfObject => {
       this.createAndDownloadData(pdfObject, `from_${fromDate}_to_${toDate}_${productCode}_product_report.pdf`)
     })
