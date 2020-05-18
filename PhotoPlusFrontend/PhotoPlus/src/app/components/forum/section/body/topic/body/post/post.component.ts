@@ -54,7 +54,11 @@ export class PostComponent implements OnInit {
     } else {
       return;
     }
-    
+  }
+
+  breakableName(name:string){
+    var chuncks = name.match(/.{1,10}/g);
+    return chuncks.join("\xAD");
   }
 
   get canModify():boolean {
