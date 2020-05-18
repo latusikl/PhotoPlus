@@ -61,10 +61,10 @@ public class ReportService {
         final Integer soldProductsNumber = getSoldProductsNumber(beginDate, endDate);
         final Integer ordersNumber = getOrdersNumber(beginDate, endDate);
         final Double averageOrderValue = getAverageOrderValue(beginDate, endDate);
-        chunk = new Chunk("Profit: " + formatter.format(profit) + "$\n" +
+        chunk = new Chunk("Profit: $" + formatter.format(profit) + "\n" +
                 "Number of sold products: " + soldProductsNumber + "\n" +
                 "Number of placed orders: " + ordersNumber + "\n" +
-                "Average order price: " + formatter.format(averageOrderValue) + "$\n", font);
+                "Average order price: $" + formatter.format(averageOrderValue) + "\n", font);
         para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         para.setSpacingAfter(50);
@@ -115,7 +115,7 @@ public class ReportService {
         font = FontFactory.getFont(FontFactory.COURIER, 13, BaseColor.BLACK);
         chunk = new Chunk("Code: " + product.getCode() + "\n" +
                 "Name: " + product.getName() + "\n" +
-                "Price: " + formatter.format(product.getPrice()) + "$\n" +
+                "Price: $" + formatter.format(product.getPrice()) + "\n" +
                 "Category: " + product.getCategory().getName() + "\n" +
                 "Description: " + product.getDescription() + "\n", font);
         para = new Paragraph(chunk);
@@ -125,10 +125,12 @@ public class ReportService {
 
         final Double averageRating = getAverageRating(code, beginDate, endDate);
         final Double averageProfit = getAverageProfit(product, beginDate, endDate);
+        final Double averageProfitOnlySold = getAverageProfitOnlySold(product, beginDate, endDate);
         final Integer soldItemsNumber = getSoldItemsNumber(code, beginDate, endDate);
         chunk = new Chunk("Sold items number: " + soldItemsNumber + "\n" +
-                "Average rating: " + averageRating + "\n" +
-                "Average profit per piece: " + averageProfit + "$\n", font);
+                "Average rating: " + new DecimalFormat("#0.0").format(averageRating) + "\n" +
+                "Average profit per piece: $" + formatter.format(averageProfit) + "\n" +
+                "Average profit per piece (sold only): $" + formatter.format(averageProfitOnlySold) + "\n", font);
         para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         document.add(para);
@@ -238,11 +240,32 @@ public class ReportService {
         if (batchList.isEmpty()) {
             return 0.0;
         }
+        Double profit = 0.0;
+        Integer supplyQuantityFromAllBatches = 0;
+        for (final BatchModelDto batch : batchList) {
+            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * product.getPrice()
+                    - batch.getSupplyQuantity() * batch.getPurchasePrice();
+            supplyQuantityFromAllBatches += batch.getSupplyQuantity();
+        }
+        return profit / supplyQuantityFromAllBatches;
+    }
+
+    private Double getAverageProfitOnlySold(final Product product, final LocalDate beginDate, final LocalDate endDate) {
+        final List<BatchModelDto> batchList = batchService.getAll().stream()
+                .filter(batch ->
+                        batch.getProductCode().equals(product.getCode()) &&
+                                batch.getDate().compareTo(beginDate) >= 0 &&
+                                batch.getDate().compareTo(endDate) <= 0
+                )
+                .collect(Collectors.toList());
+        if (batchList.isEmpty()) {
+            return 0.0;
+        }
 
         Double profit = 0.0;
         Integer soldItems = 0;
         for (final BatchModelDto batch : batchList) {
-            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * product.getPrice();
+            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * (product.getPrice() - batch.getPurchasePrice());
             soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
         }
         if (soldItems == 0) {
