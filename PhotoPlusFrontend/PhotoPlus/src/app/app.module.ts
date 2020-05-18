@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './components/products/products.component';
 import { HomeComponent } from './components/home/home.component';
@@ -49,6 +48,9 @@ import { PageSelectComponent } from './components/page-select/page-select.compon
 import { CustomMatPaginatorIntl } from './helpers/custom-paginator-intl';
 import { AboutComponent } from './components/about/about.component';
 import { MatSelectModule } from '@angular/material/select';
+import { UserDetailsComponent } from "./components/user-details/user-details.component";
+import { UserDataComponent } from "./components/user-details/user-data/user-data.component";
+import { UserAddressComponent } from "./components/user-details/user-address/user-address.component";
 import { SearchComponent } from './components/search/search.component';
 
 
@@ -89,6 +91,9 @@ import { SearchComponent } from './components/search/search.component';
     ImageDisplayComponent,
     PageSelectComponent,
     AboutComponent,
+    UserDetailsComponent,
+    UserDataComponent,
+    UserAddressComponent,
     SearchComponent
   ],
   imports: [

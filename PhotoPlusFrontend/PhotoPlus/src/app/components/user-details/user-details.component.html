@@ -1,0 +1,48 @@
+<div>
+    <div class="welcome accordion">
+        <h1>Welcome {{loggedUserWithDetails.name}} {{loggedUserWithDetails.surname}}!</h1>
+        <h3>Here is all we know about You:</h3>
+    </div>
+
+    <div class="accordion">
+
+        <mat-accordion class="headers-align">
+            <mat-expansion-panel [expanded]="true" class="bg-color">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Your data
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        See or edit your personal data
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-user-data></app-user-data>
+            </mat-expansion-panel>
+            <div *ngFor="let singleAddress of this.addresses; let i = index">
+                <mat-expansion-panel class="bg-color">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <span>{{"Address no. " + (i + 1)}}</span>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <span>{{"See or edit address no. " + (i + 1)}}</span>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <app-user-address [newAddress]="false" [userAddress]="singleAddress" [componentId]="i">
+                    </app-user-address>
+                </mat-expansion-panel>
+            </div>
+            <mat-expansion-panel class="bg-color">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span>Address form</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Add new address to Your's account
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-user-address [newAddress]="true" componentId="new"></app-user-address>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
