@@ -83,11 +83,14 @@ public class ProductController
         dto.getImages().forEach(imageCode -> dto.add(linkTo(methodOn(ImageController.class).getSingle(imageCode)).withRel(IMAGE_RELATION_NAME)));
     }
 
-    @GetMapping(path = {"/search"}, produces = {"application/json"}, params = "str")
+    @GetMapping(path = {"/search/{page}"}, produces = {"application/json"}, params = {"str", "sortedBy"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity searchByName(@RequestParam final String str)
+    public ResponseEntity searchByName(@PathVariable final Integer page, @RequestParam final String str,
+                                       @RequestParam final String sortedBy)
     {
-        return new ResponseEntity(dtoService.getByNameContainingStr(str), HttpStatus.OK);
+        final List<ProductModelDto> dtos = dtoService.getByNameContainingStr(str, page, sortedBy);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }
