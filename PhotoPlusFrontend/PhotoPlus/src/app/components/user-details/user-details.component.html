@@ -1,12 +1,11 @@
 <div>
-    <div class="welcome accordion">
+    <div class="welcome accordion fadeIn first">
         <h1>Welcome {{loggedUserWithDetails.name}} {{loggedUserWithDetails.surname}}!</h1>
         <h3>Here is all we know about You:</h3>
     </div>
 
-    <div class="accordion">
-
-        <mat-accordion class="headers-align">
+    <div class="accordion fadeIn second">
+        <mat-accordion class="headers-align fadeIn third">
             <mat-expansion-panel [expanded]="true" class="bg-color">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
