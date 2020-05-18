@@ -268,18 +268,28 @@ export class ManageProductComponent implements OnInit {
             imageCodes.push(newImageCode);
             currentAmount++;
             if (currentAmount === photoPicutresToUpload.files.length) {
-              this.loadProducts(() => {
-                const newProductSelection = this.products.find(
-                  (x) => x.value.code === this.selectedProduct.value.code
-                );
-                if (!newProductSelection) {
-                  return;
-                }
-                this.selectedProduct.next(newProductSelection.value);
-              });
+              this.patchImageCodes(imageCodes);
             }
           });
         }
+      });
+  }
+
+  patchImageCodes(imageCodeArray: string[]) {
+    this.productService
+      .patch(this.selectedProduct.value.code, {
+        imageCodes: imageCodeArray,
+      } as Product)
+      .subscribe(() => {
+        this.loadProducts(() => {
+          const newProductSelection = this.products.find(
+            (x) => x.value.code === this.selectedProduct.value.code
+          );
+          if (!newProductSelection) {
+            return;
+          }
+          this.selectedProduct.next(newProductSelection.value);
+        });
       });
   }
 
