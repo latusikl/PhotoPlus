@@ -2,14 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category/category.service';
 import { Category } from '../../models/category/category';
 import { ProductService } from '../../services/product/product.service';
-import { CartService } from 'src/app/services/cart/cart.service';
-import { Product } from '../../models/product/product';
-import { SuccessModalComponent } from '../success-modal/success-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
-import { LoginService } from 'src/app/services/login/login.service';
-import { ErrorModalComponent } from '../error-modal/error-modal.component';
-import { Router } from '@angular/router';
+import { Product } from 'src/app/models/product/product';
 
 @Component({
   selector: 'app-category',
@@ -31,11 +25,7 @@ export class CategoryComponent implements OnInit {
   isProductListEmpty: boolean = true;
 
   constructor( private categoryService: CategoryService,
-               private productService: ProductService,
-               private cartService: CartService,
-               private modalService: NgbModal,
-               private loginService: LoginService,
-               private router: Router ) { }
+               private productService: ProductService ) { }
 
   ngOnInit(): void {
     this.selectedPage = new BehaviorSubject(0);
@@ -64,28 +54,6 @@ export class CategoryComponent implements OnInit {
         this.products.push(new BehaviorSubject(product));
       }
     });
-  }
-
-  addToCart(product: Product) {
-    this.cartService.addToCart(product);
-    const modalRef = this.modalService.open(SuccessModalComponent);
-    modalRef.componentInstance.message = 'Please go to checkout to place an order.';
-    modalRef.componentInstance.title = 'Added ' + product.name + ' to card.';
-  }
-
-  buy(product: Product) {
-    if (!confirm("Are you sure you want to buy " + product.name + "? \n This operation will clear your shopping cart.")) {
-      return;
-    }
-    this.cartService.clearCart();
-    this.cartService.addToCart(product);
-    if (this.loginService.isLoggedIn() == false) {
-      const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
-      return;
-    }
-    this.router.navigate(['/order']);
   }
 
   async changePage(page: number) {
