@@ -47,7 +47,7 @@ export class ProductComponent implements OnInit {
   submitted = false;
 
   ratings: any;
-  products: BehaviorSubject<Rating>[];
+  products: BehaviorSubject<Product>[];
   sort = "dateAsc"
   isStar = false;
   stars: number
@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
     private ratingSerivce: RatingService
   ) { }
 
-  async ngOnInit(): Promise<void> {
+   ngOnInit() {
     this.selectedPage = 0;
     this.amountOfPages = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
@@ -85,10 +85,7 @@ export class ProductComponent implements OnInit {
       link: ['', [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
     });
 
-    let pageInfo = this.ratingSerivce.getPageCountRating(this.param).toPromise()
-    let info = await pageInfo;
-    this.amountOfPages.next((await pageInfo).pageAmount);
-    this.loadRatings()
+    this.loadRatings();
   }
 
   buy(product: Product) {
@@ -188,28 +185,30 @@ export class ProductComponent implements OnInit {
     this.loadRatings();
   }
 
-  loadRatings() {
+  async loadRatings() {
+    const pageInfo = this.ratingSerivce.getPageCountRating(this.param).toPromise();
+    this.amountOfPages.next((await pageInfo).pageAmount);
     this.ratings = new Array<BehaviorSubject<Rating>>();
     this.ratingSerivce.getRatingsPage(this.selectedPage, this.sort, this.param).subscribe(data => {
       this.ratings = data;
-      console.log(this.ratings)
-    })
+      console.log(this.ratings);
+    });
   }
   rate() {
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
       modalRef.componentInstance.message = "Please login!.";
       return;
     }
-    if (this.isStar == false) {
+    if (this.isStar === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
       modalRef.componentInstance.message = "Please select stars!.";
       return;
     }
     const rating = new Rating;
-    rating.rate = this.stars
+    rating.rate = this.stars;
 
     rating.productCode = this.param
     rating.content = this.rateContent.nativeElement.value
