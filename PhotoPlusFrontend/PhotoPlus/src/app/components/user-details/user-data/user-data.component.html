@@ -3,12 +3,7 @@
 
     <label for="login" class="form-label">Login:</label>
     <input formControlName="login" type="text" class="form-control fadeIn second" id="login" name="login"
-        placeholder="login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }"
-        (change)="registerChange('login',this.userForm.value['login'])">
-    <div *ngIf="submitted && !formDisabled && f.login.errors" class="invalid-feedback">
-        <div *ngIf="f.login.errors.required">Login is required</div>
-        <div *ngIf="f.login.errors.minlength">Login must be at least 5 characters</div>
-    </div>
+        placeholder="login" readonly>
 
     <div>
         <label for="email" class="form-label">Email:</label>
