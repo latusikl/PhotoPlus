@@ -24,23 +24,23 @@ export class ProductsComponent implements OnInit {
   async ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
-    let pageInfo = this.productService.getPageCount().toPromise();
+    const pageInfo = this.productService.getPageCount().toPromise();
     this.loadProducts();
-    let info = await pageInfo;
+    const info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
-  loadProducts(){
+  loadProducts() {
     this.products = new Array<BehaviorSubject<Product>>();
     this.productService.getSortedPage(this.selectedPage.value, this.sortBy).subscribe((data) => {
-      for (let product of data) {
+      for (const product of data) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
       }
     });
   }
 
-  changePage(page:number){
+  changePage(page: number) {
     this.selectedPage.next(page);
     this.loadProducts();
   }
