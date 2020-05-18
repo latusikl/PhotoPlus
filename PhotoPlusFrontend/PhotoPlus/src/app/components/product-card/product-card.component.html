@@ -4,18 +4,15 @@
       *ngIf="(product | async)?.imagesUrl?.length > 1; else noCarousel" #carousel>
       <ng-template ngbSlide *ngFor="let image of (product | async)?.imagesUrl; let i = index;">
         <div class="picsum-img-wrapper">
-          <a routerLink="/imageDisplay/{{product.value.imageCodes[i]}}">
-            <img class="carouselImage" src="{{image}}">
-          </a>
+          <img routerLink="/imageDisplay/{{product.value.imageCodes[i]}}" class="carouselImage" src="{{image}}">
         </div>
       </ng-template>
     </ngb-carousel>
     <ng-template #noCarousel>
       <div class="noCarouselImgContainer">
         <div *ngIf="(product | async)?.imagesUrl?.length > 0">
-          <a routerLink="/imageDisplay/{{product.value.imageCodes[0]}}" >
-            <img  class="noCarouselImage" src="{{(product | async)?.imagesUrl[0]}}">
-          </a>
+          <img routerLink="/imageDisplay/{{product.value.imageCodes[0]}}" class="noCarouselImage"
+            src="{{(product | async)?.imagesUrl[0]}}">
         </div>
       </div>
     </ng-template>
