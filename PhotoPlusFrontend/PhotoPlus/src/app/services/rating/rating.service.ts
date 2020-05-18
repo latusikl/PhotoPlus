@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AbstractService } from '../abstract-service';
 import { Rating } from 'src/app/models/rating/rating';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PageInfo } from 'src/app/models/pageInfo/pageInfo';
+import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Observable } from 'rxjs/internal/Observable';
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class RatingService extends AbstractService<Rating>{
 
   public getPageCountRating(productCode: string): Observable<PageInfo> {
     let params = new HttpParams().set("productCode", productCode)
-    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/all/page/count', { params: params });
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/page/count', { params: params });
   }
 
 }
