@@ -8,6 +8,8 @@
 #home-card-title {
   cursor:pointer;
   font-size: 1.2rem;
+  word-break: break-word;
+  width: fit-content;
 }
 
 img {
@@ -64,6 +66,10 @@ img {
   position: absolute;
   bottom: 8%;
   right: 15%;
+}
+
+.underlineHover:hover {
+  color:#003757;
 }
 
 //google stylesheet overwrite

@@ -16,8 +16,7 @@
         </div>
       </div>
     </ng-template>
-
-    <p routerLink="/product/{{(product | async)?.code}}" class="card-title fadeIn second" id="home-card-title">
+    <p routerLink="/product/{{(product | async)?.code}}" class="underlineHover card-title fadeIn second" id="home-card-title">
       {{ (product | async)?.name }} </p>
     <p class="card-subtitle mb-2 text-muted fadeIn third"> {{ (product | async)?.category?.name }} </p>
     <p class="price fadeIn third"><span>{{ (product | async)?.price | currency: '$' }}</span></p>
