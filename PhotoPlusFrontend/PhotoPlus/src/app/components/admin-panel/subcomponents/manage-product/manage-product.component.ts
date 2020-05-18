@@ -263,33 +263,23 @@ export class ManageProductComponent implements OnInit {
           imageCodes = currentProduct.imageCodes;
         }
         for (let photoFile of photoPicutresToUpload.files) {
-          this.imageService.post(photoFile).subscribe((photoResponse) => {
+          this.imageService.post(photoFile, currentProduct.code).subscribe((photoResponse) => {
             const newImageCode = photoResponse.headers.get("Entity-Code");
             imageCodes.push(newImageCode);
             currentAmount++;
             if (currentAmount === photoPicutresToUpload.files.length) {
-              this.patchImageCodes(imageCodes);
+              this.loadProducts(() => {
+                const newProductSelection = this.products.find(
+                  (x) => x.value.code === this.selectedProduct.value.code
+                );
+                if (!newProductSelection) {
+                  return;
+                }
+                this.selectedProduct.next(newProductSelection.value);
+              });
             }
           });
         }
-      });
-  }
-
-  patchImageCodes(imageCodeArray: string[]) {
-    this.productService
-      .patch(this.selectedProduct.value.code, {
-        imageCodes: imageCodeArray,
-      } as Product)
-      .subscribe(() => {
-        this.loadProducts(() => {
-          const newProductSelection = this.products.find(
-            (x) => x.value.code === this.selectedProduct.value.code
-          );
-          if (!newProductSelection) {
-            return;
-          }
-          this.selectedProduct.next(newProductSelection.value);
-        });
       });
   }
 
