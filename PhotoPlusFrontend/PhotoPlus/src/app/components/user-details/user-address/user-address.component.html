@@ -1,0 +1,102 @@
+<div class="wrapper fadeInDown">
+    <form [formGroup]="addressForm">
+        <div id="formContent">
+            <div>
+                <label for="{{'street'+componentId}}" class="form-label">Street:</label>
+                <input formControlName="street" type="text" class="form-control fadeIn second"
+                    id="{{'street'+componentId}}" name="street" placeholder="Street"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.street.errors }"
+                    (change)="registerChange('street',this.addressForm.value['street'])">
+                <div *ngIf="isSubmitted && !isFormDisabled && f.street.errors" class="invalid-feedback">
+                    <div *ngIf="f.street.errors.required">
+                        Street is required.
+                    </div>
+                    <div *ngIf="f.street.errors.pattern">
+                        Only letters are allowed.
+                    </div>
+                    <div *ngIf="f.street.errors.minlength">
+                        Street should have at least 4 letters.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="{{'number'+ componentId}}" class="form-label">Apartment number:</label>
+                <input formControlName="number" type="text" class="form-control fadeIn second"
+                    id="{{'number'+ componentId}}" name="number" placeholder="Apartment number"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.number.errors }"
+                    (change)="registerChange('number',this.addressForm.value['number'])">
+                <div *ngIf="isSubmitted && !isFormDisabled && f.number.errors" class="invalid-feedback">
+                    <div *ngIf="f.number.errors.required">
+                        Apartment number is required.
+                    </div>
+                    <div *ngIf="f.number.errors.pattern">
+                        Only letters and numbers are allowed.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="{{'city'+ componentId}}" class="form-label">City:</label>
+                <input formControlName="city" type="text" class="form-control fadeIn second"
+                    id="{{'city'+ componentId}}" name="city" placeholder="City"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.city.errors }"
+                    (change)="registerChange('city',this.addressForm.value['city'])">
+                <div *ngIf="isSubmitted && f.city.errors && !isFormDisabled" class="invalid-feedback">
+                    <div *ngIf="f.city.errors.required">
+                        City is required.
+                    </div>
+                    <div *ngIf="f.city.errors.pattern">
+                        Only letters are allowed.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="{{'zipCode'+ componentId}}" class="form-label">ZIP Code:</label>
+                <input formControlName="zipCode" type="text" class="form-control fadeIn second"
+                    id="{{'zipCode'+ componentId}}" name="zipCode" placeholder="ZIP Code"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.zipCode.errors }"
+                    (change)="registerChange('zipCode',this.addressForm.value['zipCode'])">
+                <div *ngIf="isSubmitted && f.zipCode.errors && !isFormDisabled" class="invalid-feedback">
+                    <div *ngIf="f.zipCode.errors.required">
+                        ZIP code is required.
+                    </div>
+                    <div *ngIf="f.zipCode.errors.pattern">
+                        Only numbers are allowed.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="{{'countryCode'+ componentId}}" class="form-label">Country:</label>
+                <select formControlName="countryCode" type="text" list="codeList" class="form-control fadeIn second"
+                    id="{{'countryCode'+ componentId}}" name="countryCode" placeholder="Country"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.countryCode.errors }"
+                    (change)="registerChange('countryCode',this.addressForm.value['countryCode'])">
+                    <option *ngFor="let country of countryCodeSet" [value]="country.key" [text]="country.value">
+                    </option>
+                </select>
+                <div *ngIf="isSubmitted && !isFormDisabled && f.countryCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.countryCode.errors.required">
+                        Country code is required.
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <br />
+            <div [style.display]="!newAddress ? 'block' : 'none'">
+                <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+                <button class="btn btn-success" (click)="isFormDisabled ? enable() : disable()">
+                    <span>{{isFormDisabled ? "Edit" : "Stop Editing" }}</span>
+                </button>
+                <button class="btn btn-success" [disabled]="isFormDisabled" (click)="onSaveExisting()">Save changes
+                </button>
+            </div>
+
+            <div [style.display]="newAddress ? 'block' : 'none'">
+                <button type="submit" class="btn btn-success" (click)="onSaveNew()">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

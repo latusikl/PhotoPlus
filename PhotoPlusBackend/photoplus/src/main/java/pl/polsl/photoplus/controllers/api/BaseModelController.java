@@ -120,7 +120,7 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
 
     @PatchMapping("/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'patch' )")
-    public ResponseEntity patch(@RequestBody @Valid final T dtoPatch, @PathVariable("code") final String code)
+    public ResponseEntity patch(@RequestBody final T dtoPatch, @PathVariable("code") final String code)
     {
         return new ResponseEntity(dtoService.patch(dtoPatch, code));
     }

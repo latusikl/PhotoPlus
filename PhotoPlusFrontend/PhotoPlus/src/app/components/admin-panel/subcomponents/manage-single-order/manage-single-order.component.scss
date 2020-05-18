@@ -1,0 +1,33 @@
+
+$single-order-bg-color: #424242;
+
+.order-details{
+  background-color: $single-order-bg-color;
+}
+
+.user-details{
+  background-color: lighten($single-order-bg-color, 5%);
+}
+
+.address-details{
+  background-color: lighten($single-order-bg-color, 10%);
+}
+
+.products-details{
+  background-color: lighten($single-order-bg-color, 15%);
+}
+
+.single-product{
+  background-color: lighten($single-order-bg-color, 20%);
+}
+
+.product-image{
+  max-width: fit-content;
+  max-height: fit-content;
+  cursor: pointer;
+}
+
+.product-image > img {
+  max-width: 75px;
+  max-height: 75px;
+}

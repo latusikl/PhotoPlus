@@ -1,10 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { ProductService } from '../../services/product/product.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ProductService } from "../../services/product/product.service";
 import { Product } from 'src/app/models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { LoginService } from 'src/app/services/login/login.service';
 import { BehaviorSubject } from 'rxjs';
 import { Category } from 'src/app/models/category/category';
@@ -12,7 +13,6 @@ import { CategoryService } from 'src/app/services/category/category.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Rating } from 'src/app/models/rating/rating';
 import { DatePipe } from '@angular/common';
-import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { RatingService } from 'src/app/services/rating/rating.service';
 
 @Component({
@@ -58,6 +58,7 @@ export class ProductComponent implements OnInit {
   amountOfPages: BehaviorSubject<number>;
 
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductService,
     private cartService: CartService,
     private modalService: NgbModal,
@@ -66,13 +67,9 @@ export class ProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
     private ratingSerivce: RatingService
-  ) {
-
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    this.selectedPage = 0;
-    this.amountOfPages = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
@@ -90,6 +87,18 @@ export class ProductComponent implements OnInit {
     let info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
     this.loadRatings()
+  }
+
+  buy(product: Product) {
+    this.cartService.clearCart();
+    this.cartService.addToCart(product);
+    if (this.loginService.isLoggedIn() == false) {
+      const modalRef = this.modalService.open(ErrorModalComponent);
+      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.message = "Please login!.";
+      return;
+    }
+    this.router.navigate(['/order']);
   }
 
   addToCart(product: Product) {

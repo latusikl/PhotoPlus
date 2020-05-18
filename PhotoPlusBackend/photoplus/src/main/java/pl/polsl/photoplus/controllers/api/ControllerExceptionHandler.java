@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import pl.polsl.photoplus.model.dto.ErrorDto;
 import pl.polsl.photoplus.model.exceptions.EnumValueException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
@@ -142,6 +143,15 @@ public class ControllerExceptionHandler
         final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),
                 e.getLocalizedMessage(), "Cannot execute statement.");
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected ResponseEntity<ErrorDto> handleMaxUploadSizeExceededException(final MaxUploadSizeExceededException  e)
+    {
+        log.info("MaxUploadSizeExceededException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),
+                e.getLocalizedMessage(), "Maximum upload size exceeded: 1MB.");
+        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
 }

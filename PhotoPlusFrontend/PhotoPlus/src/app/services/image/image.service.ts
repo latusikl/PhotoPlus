@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 
 
 @Injectable({
@@ -17,10 +17,11 @@ export class ImageService {
     return `${this.hostAddress}${this.endpointUrl}/${code}`;
   }
 
-  post(file: File){
+  post(file: File, productCode: string){
+    const params = new HttpParams().set('productCode', productCode);
     let formData = new FormData();
     formData.append('file',file,file.name);
-    return this.httpClient.request<HttpResponse<any>>('POST',this.hostAddress + "image",{body: formData, observe: 'response'});
+    return this.httpClient.request<HttpResponse<any>>('POST',this.hostAddress + "image",{body: formData, observe: 'response', params: params});
   };
 
   delete(code: string){

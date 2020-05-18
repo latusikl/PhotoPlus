@@ -1,6 +1,5 @@
 package pl.polsl.photoplus.annotations.validators;
 
-import pl.polsl.photoplus.services.controllers.FieldValueExists;
 import pl.polsl.photoplus.validators.ImageValidator;
 
 import javax.validation.Constraint;
@@ -18,6 +17,4 @@ public @interface Image {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    Class<? extends FieldValueExists> service();
 }

@@ -16,9 +16,7 @@ import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -79,25 +77,6 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     public String save(final ProductModelDto dto) {
         final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
         return entityCode;
-    }
-
-    @Override
-    @Transactional
-    public HttpStatus delete(final String code)
-    {
-        final Product product = findByCodeOrThrowError(code, "PRODUCT DELETE");
-        final List<Image> images = product.getImages();
-        if (images != null && !images.isEmpty()) {
-
-            for (final Image image : images) {
-                image.getProducts().remove(product);
-                imageRepository.save(image);
-            }
-            product.setImages(Collections.emptyList());
-            entityRepository.save(product);
-        }
-        entityRepository.delete(product);
-        return HttpStatus.NO_CONTENT;
     }
 
     @Override

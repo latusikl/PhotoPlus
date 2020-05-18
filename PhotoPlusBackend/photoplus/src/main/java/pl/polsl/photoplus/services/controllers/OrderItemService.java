@@ -1,12 +1,19 @@
 package pl.polsl.photoplus.services.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
+import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.entities.Order;
 import pl.polsl.photoplus.model.entities.OrderItem;
 import pl.polsl.photoplus.model.entities.Product;
+import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.repositories.OrderItemRepository;
 
 import javax.transaction.Transactional;
@@ -69,5 +76,29 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
 
     public List<OrderItemModelDto> getAllByOrderCode(final String orderCode) {
         return getDtoListFromModels(entityRepository.getAllByOrder_Code(orderCode));
+    }
+
+    public List<OrderItemModelDto> getPage(final Integer pageNumber, final String orderCode)
+    {
+        return getDtoListFromModels(this.getModelPage(pageNumber, orderCode));
+    }
+
+    private Page<OrderItem> getModelPage(final Integer pageNumber, final String orderCode)
+    {
+        final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("product.name"));
+        final Page<OrderItem> foundModels = entityRepository.findAllByOrder_Code(modelPage, orderCode);
+        return foundModels;
+    }
+
+    public ObjectNode getPageCount(final String orderCode)
+    {
+
+        final Page<OrderItem> firstPage = getModelPage(0, orderCode);
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
     }
 }
