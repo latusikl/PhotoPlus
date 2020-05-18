@@ -48,8 +48,8 @@
               (click)="insertCodeToSearchBar(product)">
               <mat-card class="item-card">
                 <img
-                  *ngIf="product.value?.imagesUrl?.length > 1"
-                  src="{{ ((product | async)?.imagesUrl)[0] }}"
+                  *ngIf="(product|async)?.imagesUrl?.length > 0"
+                  src="{{ (product | async)?.imagesUrl[0] }}"
                   class="item-card-photo"/>
                   <br/>
                 {{ (product | async)?.name }}

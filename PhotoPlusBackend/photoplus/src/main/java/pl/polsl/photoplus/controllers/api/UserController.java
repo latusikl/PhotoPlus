@@ -6,13 +6,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.photoplus.model.dto.UserModelDto;
+import pl.polsl.photoplus.model.enums.UserRole;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.UserService;
+
+import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -38,6 +42,14 @@ public class UserController
         dto.add(linkTo(methodOn(UserController.class).delete(dto.getCode())).withRel(DELETE_RELATION_NAME));
         addressService.getUserAddresses(dto.getCode())
                 .forEach(address -> dto.add(linkTo(methodOn(AddressController.class).getSingle(address.getCode())).withRel(ADDRESS_RELATION_NAME)));
+    }
+
+    @PostMapping("/register")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'register' )")
+    public ResponseEntity register(@RequestBody @Valid final UserModelDto dto)
+    {
+        dto.setUserRole(UserRole.CLIENT.getValue());
+        return post(dto);
     }
 
     @PatchMapping("/editAccount/{code}")
