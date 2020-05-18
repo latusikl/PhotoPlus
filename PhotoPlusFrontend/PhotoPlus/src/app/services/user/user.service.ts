@@ -27,7 +27,7 @@ export class UserService extends AbstractService<User> {
     }
 
     getDetailsOfLoggedUser(): Observable<User> {
-        return this._http.get<User>(this.hostAddress + 'user/editAccount/' + this.loginService.getLoggedUserCode());
+        return this._http.get<User>(this.hostAddress + this.endpointUrl + '/editAccount/' + this.loginService.getLoggedUserCode());
     }
 
     getAddressesOfLoggedUser(): Observable<Address[]> {
@@ -35,6 +35,6 @@ export class UserService extends AbstractService<User> {
     }
 
     patchDetailsOfLoggedUser(fieldChange: FieldChange) {
-        this.patchFieldChangeService.sendPatchRequest('user/editAccount/' + this.loginService.getLoggedUserCode(), fieldChange);
+        this.patchFieldChangeService.sendPatchRequest(this.endpointUrl + '/editAccount/' + this.loginService.getLoggedUserCode(), fieldChange);
     }
 }
