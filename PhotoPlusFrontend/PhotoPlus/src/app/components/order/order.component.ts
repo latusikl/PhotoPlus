@@ -63,7 +63,7 @@ export class OrderComponent implements OnInit {
       city: ['', [Validators.required]],
       zipCode: ['', [Validators.required, Validators.pattern(/\d{2,5}-?\d{2,5}/)]],
       country: ['PL', [Validators.required]],
-    })
+    });
 
     this.paymentMethodForm = this.formBuilder.group({
       paymentMethod: ['CARD', Validators.required]
@@ -74,7 +74,7 @@ export class OrderComponent implements OnInit {
       this.addressService.byUser(this.order.userCode).subscribe(data => {
         this.addresses = data.reverse();
         this.selectOption(this.addresses[0].code);
-      })
+      });
     }
     this.order.price = this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
@@ -93,9 +93,9 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
+      modalRef.componentInstance.title = 'Error occured!';
       modalRef.componentInstance.message = 'Please login!';
       return;
     }
@@ -118,7 +118,7 @@ export class OrderComponent implements OnInit {
           this.order.addressCode = data.code;
           this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
           this.order.orderItems = this.cartService.getItemsModel();
-          this.orderSerivce.buy(this.order).subscribe(data => {
+          this.orderSerivce.buy(this.order).subscribe(() => {
             const modalRef = this.modalService.open(SuccessModalComponent);
             modalRef.componentInstance.title = 'Success!';
             modalRef.componentInstance.message = 'Your order is being carried.';
@@ -137,10 +137,10 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
 
@@ -148,8 +148,8 @@ export class OrderComponent implements OnInit {
     this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
     this.orderSerivce.buy(this.order).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
-      modalRef.componentInstance.title = "Success!";
-      modalRef.componentInstance.message = "Your order is being carried.";
+      modalRef.componentInstance.title = 'Success!';
+      modalRef.componentInstance.message = 'Your order is being carried.';
       this.cartService.clearCart();
       this.router.navigate(['/products']);
     });
