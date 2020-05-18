@@ -10,5 +10,4 @@ export class Address {
   country?: string;
   userCode: string;
   links?: Link[];
-  countryCode: string;
 }
