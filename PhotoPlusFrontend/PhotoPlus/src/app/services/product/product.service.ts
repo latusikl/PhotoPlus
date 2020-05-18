@@ -49,8 +49,8 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/all/' + page, { params });
   }
 
-  getProductsSearchByName(searchedText: string) {
-    const params = new HttpParams().set('str', searchedText);
-    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search', { params });
+  getProductsSearchByName(page: number, sortedBy: string, searchedText: string) {
+    const params = new HttpParams().set('str', searchedText).set('sortedBy', sortedBy);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/' + page, { params });
   }
 }
