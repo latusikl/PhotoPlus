@@ -18,7 +18,7 @@ export class CartComponent implements OnInit {
   items: BehaviorSubject<OrderItem>[];
   price: number;
 
-  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router, private productService: ProductService) {
+  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -36,13 +36,13 @@ export class CartComponent implements OnInit {
   };
 
   buy() {
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = 'Error occured!';
       modalRef.componentInstance.message = 'Please login!';
       return;
     }
-    //check if store quantity didn't change, update products
+    // check if store quantity didn't change, update products
     this.cartService.updateCartAndBuy();
   }
 
