@@ -87,7 +87,7 @@ public class ProductController
     @GetMapping(path = {"/search/{page}"}, produces = {"application/json"}, params = {"str", "sortedBy"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity searchByName(@PathVariable final Integer page,
-                                       @RequestParam @Size(min=3, message = "Too short text. Size should be greater than 3.")
+                                       @RequestParam @Size(min=3, message = "Too short text. Size should be greater than 2.")
                                        final String str,
                                        @RequestParam final String sortedBy)
     {
@@ -98,7 +98,7 @@ public class ProductController
 
     @GetMapping(path = {"/search/page/count"}, produces = {"application/json"}, params = "str")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity searchByNamePageCount(@RequestParam @Size(min=3, message = "Too short text. Size should be greater than 3.")
+    public ResponseEntity searchByNamePageCount(@RequestParam @Size(min=3, message = "Too short text. Size should be greater than 2.")
                                                     final String str)
     {
         return new ResponseEntity<>(dtoService.getPageCountOfNameContainingStr(str), HttpStatus.OK);
