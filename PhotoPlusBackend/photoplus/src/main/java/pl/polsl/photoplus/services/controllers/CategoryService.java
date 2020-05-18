@@ -5,6 +5,8 @@ import pl.polsl.photoplus.model.dto.CategoryModelDto;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.repositories.CategoryRepository;
 
+import java.util.List;
+
 @Service
 public class CategoryService extends AbstractModelService<Category, CategoryModelDto, CategoryRepository> {
 
@@ -25,5 +27,11 @@ public class CategoryService extends AbstractModelService<Category, CategoryMode
     @Override
     protected Category getModelFromDto(final CategoryModelDto dtoObject) {
         return new Category(dtoObject.getName());
+    }
+
+    @Override
+    public List<CategoryModelDto> getAll() {
+        final List<Category> foundModels = entityRepository.findAllByOrderByName();
+        return getDtoListFromModels(foundModels);
     }
 }
