@@ -18,10 +18,12 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.searchedText = params.searchedText;
+    });
+    if (this.searchedText.length > 2) {
       this.productService.getProductsSearchByName(this.searchedText).subscribe(data => {
         this.products = data;
       });
-    });
+    }
   }
 
 }
