@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from '../../models/user/user';
 import { AbstractService } from '../abstract-service';
 import { Observable } from 'rxjs';
@@ -16,6 +16,10 @@ export class UserService extends AbstractService<User> {
 
     constructor(http: HttpClient, private loginService: LoginService, private patchFieldChangeService: PatchFieldChangeService) {
         super(http, 'user');
+    }
+
+    registerUser(newUser: User): Observable<HttpResponse<User>> {
+        return this._http.post<User>(this.hostAddress + this.endpointUrl + '/register/', newUser, { observe: 'response' });
     }
 
     getUsersSearchByLogin(searchText: string): Observable<User[]> {
