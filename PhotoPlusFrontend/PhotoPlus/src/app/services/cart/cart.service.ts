@@ -17,7 +17,7 @@ export class CartService {
 
   constructor(private productService: ProductService, private modalService: NgbModal, private router: Router) {
     this.items = new Array<BehaviorSubject<OrderItem>>();
-    const loadedItems : OrderItem[] = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+    const loadedItems: OrderItem[] = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
     loadedItems.forEach(it => {
       this.items.push(new BehaviorSubject(it));
     })
