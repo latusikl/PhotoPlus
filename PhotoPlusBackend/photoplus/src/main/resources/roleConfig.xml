@@ -30,7 +30,7 @@ Proper file format example:
 
                 <access>/image/single</access>
 
-                <access>/user/post</access>
+                <access>/user/register</access>
 
         </role>
         <role name="client">
@@ -92,6 +92,7 @@ Proper file format example:
                 <access>/user/single</access>
                 <access>/user/patch</access>
                 <access>/user/delete</access>
+                <access>/user/post</access>
 
                 <access>/batch/all</access>
                 <access>/batch/single</access>

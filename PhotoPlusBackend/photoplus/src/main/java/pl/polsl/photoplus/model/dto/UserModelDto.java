@@ -77,7 +77,7 @@ public class UserModelDto
         this.surname = surname;
         this.password = password;
         this.number = number;
-        this.userRole = userRole != null ? userRole : "CLIENT";
+        this.userRole = userRole;
     }
 
     @JsonIgnore
