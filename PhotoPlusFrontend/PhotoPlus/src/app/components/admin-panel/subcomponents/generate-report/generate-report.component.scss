@@ -4,11 +4,12 @@
     cursor: pointer;
     max-height: 150px;
     height: 150px;
-}
+  }
 
 .item-card-photo{
     height: 75px;
-    max-width: 120px;
+    object-fit: fill;
+    width: 100%;
 }
 
 .btn {
