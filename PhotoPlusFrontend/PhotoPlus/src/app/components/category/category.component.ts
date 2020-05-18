@@ -41,8 +41,12 @@ export class CategoryComponent implements OnInit {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
     this.categories = new Array<BehaviorSubject<Category>>();
-    this.categoryService.getAll().subscribe((data: Category[]) => {
+    this.categoryService.getAll().subscribe(async (data: Category[]) => {
       for (let category of data) {
+        const categoryPageInfo = await this.productService.getPageCountFromCategory(category.code).toPromise();
+        if(categoryPageInfo.pageAmount === 0){
+          continue;
+        }
         this.categories.push(new BehaviorSubject(category));
       }
     });
