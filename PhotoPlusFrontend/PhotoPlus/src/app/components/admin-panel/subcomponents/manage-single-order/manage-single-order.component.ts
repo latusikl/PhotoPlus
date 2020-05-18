@@ -25,6 +25,8 @@ export class ManageSingleOrderComponent implements OnInit {
   selectedStatus: ElementRef;
   @Input("isForClient")
   isForClient: false;
+  @Input("orderCode")
+  orderCode : string;
 
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
@@ -54,14 +56,24 @@ export class ManageSingleOrderComponent implements OnInit {
   }
 
   async loadOrder() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.orderService.getSingle(params["orderCode"]).subscribe((x) => {
-        this.order.next(x);
-        this.loadUser();
-        this.loadAddress();
-        this.loadOrderItemsPageInfo();
+    if(this.isForClient){
+        this.orderService.getSingle(this.orderCode).subscribe((x) => {
+          this.order.next(x);
+          this.loadUser();
+          this.loadAddress();
+          this.loadOrderItemsPageInfo();
+        });
+    }
+    else {
+      this.activatedRoute.params.subscribe((params) => {
+        this.orderService.getSingle(params["orderCode"]).subscribe((x) => {
+          this.order.next(x);
+          this.loadUser();
+          this.loadAddress();
+          this.loadOrderItemsPageInfo();
+        });
       });
-    });
+    }
   }
 
   async loadOrderItemsPageInfo() {

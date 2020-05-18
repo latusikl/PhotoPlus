@@ -9,7 +9,7 @@
           Price: ${{ (order | async)?.price }}<br />
           Creation date: {{ (order | async)?.date }}<br />
         </div>
-        <div class="text-center">
+        <div class="text-center" *ngIf="!isForClient">
           Change order status:
           <br>
           <select #selectedStatus>
