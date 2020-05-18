@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import {Component, OnInit, ViewChild, ElementRef, Input} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
@@ -23,6 +23,8 @@ import { PaymentMethod } from "src/app/models/payment-method/payment-method";
 export class ManageSingleOrderComponent implements OnInit {
   @ViewChild("selectedStatus")
   selectedStatus: ElementRef;
+  @Input("isForClient")
+  isForClient: false;
 
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;

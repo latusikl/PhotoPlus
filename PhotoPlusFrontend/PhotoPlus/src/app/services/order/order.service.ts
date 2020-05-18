@@ -5,13 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { OrderStatus } from 'src/app/models/order-status/order-status';
 import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Observable } from 'rxjs';
+import {LoginService} from "../login/login.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService extends AbstractService<Order> {
 
-  constructor(http:HttpClient) { 
+  constructor(http:HttpClient) {
     super(http,"order");
   }
 
@@ -25,6 +26,10 @@ export class OrderService extends AbstractService<Order> {
 
   getPageByOrderStatus(pageNumber: number, status: OrderStatus | string): Observable<Order[]>{
     return this._http.get<Order[]>(this.hostAddress + this.endpointUrl + "/" + pageNumber + "?orderStatus=" + status);
+  }
+
+  getOrderCodesByUser(userCode : string) : Observable<string[]>{
+    return this._http.get<string[]>(this.hostAddress + this.endpointUrl + "/byUser/" + userCode);
   }
 
   // TODO delete unnecessary/duplicated endpoints
