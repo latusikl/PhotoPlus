@@ -5,15 +5,15 @@
         <div class="column1 fadeIn second">
           <ngb-carousel id="product-carousel" wrap="true" [interval]="false"
             *ngIf="(product | async)?.imagesUrl?.length > 1; else noCarousel" #carousel>
-            <ng-template ngbSlide *ngFor="let image of (product | async)?.imagesUrl">
+            <ng-template ngbSlide *ngFor="let image of (product | async)?.imagesUrl; let i = index;">
               <div>
-                <img class="carouselImage" src="{{ image }}" />
+                <img routerLink="/imageDisplay/{{product.value.imageCodes[i]}}" class="carouselImage" src="{{ image }}" />
               </div>
             </ng-template>
           </ngb-carousel>
           <ng-template #noCarousel>
             <div *ngIf="(product | async)?.imagesUrl">
-              <img class="noCarouselImage" src="{{ (product | async)?.imagesUrl[0] }}" />
+              <img routerLink="/imageDisplay/{{product.value.imageCodes[0]}}" class="noCarouselImage" src="{{ (product | async)?.imagesUrl[0] }}" />
             </div>
           </ng-template>
         </div>
