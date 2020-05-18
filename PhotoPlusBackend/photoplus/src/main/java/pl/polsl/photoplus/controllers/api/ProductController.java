@@ -93,4 +93,11 @@ public class ProductController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = {"/search/page/count"}, produces = {"application/json"}, params = "str")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity searchByNamePageCount(@RequestParam final String str)
+    {
+        return new ResponseEntity<>(dtoService.getPageCountOfNameContainingStr(str), HttpStatus.OK);
+    }
+
 }

@@ -107,6 +107,17 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return jsonNode;
     }
 
+    public ObjectNode getPageCountOfNameContainingStr(final String str)
+    {
+        final Page<Product> firstPage = getPageOfProductByNameContainingStr(str, 0,"name");
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
     @Override
     public ObjectNode getPageCount() {
         final Page<Product> firstPage = getPage(0, "name");
