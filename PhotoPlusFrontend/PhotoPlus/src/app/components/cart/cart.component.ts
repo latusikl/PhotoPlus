@@ -3,9 +3,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { OrderItem } from 'src/app/models/orderItem/order-item';
-import { ProductService } from 'src/app/services/product/product.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
