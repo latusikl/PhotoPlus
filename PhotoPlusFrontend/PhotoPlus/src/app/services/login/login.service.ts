@@ -18,29 +18,29 @@ export class LoginService {
 
     constructor(private http: HttpClient, private router: Router) {
 
-      try {
-        this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-        const token = localStorage.getItem('token');
-        if (this.jwtHelper.isTokenExpired(token)) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('loggedUser');
+        try {
+            this.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            const token = localStorage.getItem('token');
+            if (this.jwtHelper.isTokenExpired(token)) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('loggedUser');
+            }
+        } catch {
+            this.loggedUser = null;
         }
-      } catch {
-        this.loggedUser = null;
-      }
     }
 
     login(login: string, password: string) {
-        const loginModel: LoginModel = {login: login, password: password};
+        const loginModel: LoginModel = { login: login, password: password };
 
         this.http.post<HttpResponse<LoginModel>>(this.hostAddress + 'login', {
             login: login,
             password: password
-        }, {observe: 'response'}).subscribe(res => {
-          this.loggedUser = res.body;
-          this.readTokenFromResponse(res);
-          localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));
-          this.router.navigate(['/']);
+        }, { observe: 'response' }).subscribe(res => {
+            this.loggedUser = res.body;
+            this.readTokenFromResponse(res);
+            localStorage.setItem('loggedUser', JSON.stringify(this.loggedUser));
+            this.router.navigate(['/']);
         });
     }
 
@@ -69,16 +69,20 @@ export class LoginService {
     }
 
     getLoggedUser(): LoggedUser {
-      return this.loggedUser;
+        return this.loggedUser;
     }
 
-    get isModerator(): boolean{
-      const role = this.getLoggedUser()?.role;
-      return role === Role.ADMIN || role === Role.EMPLOYEE;
+    getLoggedUserCode(): string {
+        return this.loggedUser.code;
     }
 
-    get isAdmin(): boolean{
-      const role = this.getLoggedUser()?.role;
-      return role === Role.ADMIN;
+    get isModerator(): boolean {
+        const role = this.getLoggedUser()?.role;
+        return role === Role.ADMIN || role === Role.EMPLOYEE;
+    }
+
+    get isAdmin(): boolean {
+        const role = this.getLoggedUser()?.role;
+        return role === Role.ADMIN;
     }
 }

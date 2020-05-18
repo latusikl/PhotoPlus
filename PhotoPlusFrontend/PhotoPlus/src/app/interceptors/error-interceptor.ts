@@ -37,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return obs;
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any>{
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     return next.handle(req).pipe(catchError(err => {
       if (!this.isBlobError(err)) {
         return this.handleError(err);
