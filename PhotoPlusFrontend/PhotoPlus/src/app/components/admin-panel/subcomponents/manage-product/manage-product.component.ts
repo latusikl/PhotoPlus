@@ -263,7 +263,7 @@ export class ManageProductComponent implements OnInit {
           imageCodes = currentProduct.imageCodes;
         }
         for (let photoFile of photoPicutresToUpload.files) {
-          this.imageService.post(photoFile).subscribe((photoResponse) => {
+          this.imageService.post(photoFile, currentProduct.code).subscribe((photoResponse) => {
             const newImageCode = photoResponse.headers.get("Entity-Code");
             imageCodes.push(newImageCode);
             currentAmount++;
@@ -275,10 +275,10 @@ export class ManageProductComponent implements OnInit {
       });
   }
 
-  patchImageCodes(imageCodeArray: string[]) {
+  async patchImageCodes(imageCodeArray: string[]) {
     this.productService
       .patch(this.selectedProduct.value.code, {
-        imageCodes: imageCodeArray,
+        imageCodes: imageCodeArray
       } as Product)
       .subscribe(() => {
         this.loadProducts(() => {

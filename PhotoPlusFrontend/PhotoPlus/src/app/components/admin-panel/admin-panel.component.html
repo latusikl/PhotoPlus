@@ -1,46 +1,46 @@
 <div class="container mt-2">
-    <div class="row border">
-        <div class="col-3 border mb-2">
-            <div class="mt-2" *ngIf="auth.isModerator">
-                Employee:
-                <a (click)="navigate('/manage/orders')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Orders
-                    </mat-card>
-                </a>
-                <a (click)="navigate('/manage/manageProducts')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Manage products
-                    </mat-card>
-                </a>
-                <a (click)="navigate('/manage/delivery')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Add new delivery
-                    </mat-card>
-                </a>
-            </div>
-            <div class="mt-2" *ngIf="auth.isAdmin">
-                Owner:
-                <a (click)="navigate('/manage/generateReports')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Generate reports
-                    </mat-card>
-                </a>
-                <a (click)="navigate('/manage/changePrivileges')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Change privileges
-                    </mat-card>
-                </a>
-                <a (click)="navigate('/manage/deleteUser')">
-                    <mat-card class="menu-bg-color mt-1 hover-animate">
-                        Delete user accounts
-                    </mat-card>
-                </a>
-            </div>
-        </div>
-        <div class="col-9 border max-width">
-            <ng-template #anchor>
-            </ng-template>
-        </div>
+  <div class="row border">
+    <div class="col-3 border pb-2">
+      <div class="mt-2" *ngIf="auth.isModerator">
+        Employee:
+        <a (click)="navigate('/manage/orders')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Orders
+          </mat-card>
+        </a>
+        <a (click)="navigate('/manage/manageProducts')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Manage products
+          </mat-card>
+        </a>
+        <a (click)="navigate('/manage/delivery')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Add new delivery
+          </mat-card>
+        </a>
+      </div>
+      <div class="mt-2" *ngIf="auth.isAdmin">
+        Owner:
+        <a (click)="navigate('/manage/generateReports')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Generate reports
+          </mat-card>
+        </a>
+        <a (click)="navigate('/manage/changePrivileges')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Change privileges
+          </mat-card>
+        </a>
+        <a (click)="navigate('/manage/deleteUser')">
+          <mat-card class="menu-bg-color mt-1 hover-animate">
+            Delete user accounts
+          </mat-card>
+        </a>
+      </div>
     </div>
+    <div class="col-9 border max-width pb-2">
+      <ng-template #anchor>
+      </ng-template>
+    </div>
+  </div>
 </div>

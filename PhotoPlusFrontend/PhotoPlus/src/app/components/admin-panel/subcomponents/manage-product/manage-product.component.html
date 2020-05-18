@@ -8,7 +8,7 @@
       </mat-expansion-panel-header>
       <mat-panel-description>
         <div class="container">
-          <button class="btn btn-success w-100" (click)="addCategory()">Add category</button> 
+          <button class="btn btn-success w-100" (click)="addCategory()">Add category</button>
         <mat-card class="row py-2 mt-2 brighten-background" *ngFor="let category of categories">
           <div class="col-9 d-inline-block">
             {{ (category | async)?.name}}
@@ -123,7 +123,7 @@
     <mat-expansion-panel class="w-100 my-2">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Edit products
+          Manage images
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-panel-description>
@@ -141,7 +141,8 @@
               (click)="chooseProduct(product)"
             >
               <mat-card class="item-card">
-                <img
+                <img 
+                  *ngIf="(product|async)?.imagesUrl?.length > 0"
                   src="{{ ((product | async)?.imagesUrl)[0] }}"
                   class="item-card-photo"
                 /><br />
