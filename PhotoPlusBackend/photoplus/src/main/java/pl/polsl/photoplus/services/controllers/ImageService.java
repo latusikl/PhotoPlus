@@ -41,6 +41,7 @@ public class ImageService extends AbstractModelService<Image,ImageModelDto, Imag
     }
 
     @Override
+    @Transactional
     public String save(final ImageModelDto dto) {
         final Image savedImage = entityRepository.save(insertDependenciesAndParseToModel(dto));
         final Product product = savedImage.getProduct();
