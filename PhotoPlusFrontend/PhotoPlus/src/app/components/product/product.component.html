@@ -137,7 +137,7 @@
     </div>
   </div>
 </div>
-
+<!-- //! RATINGI START -->
 <div class="stars">
   <div class="rate">
     <input (change)="FieldsChange($event)" type="radio" id="star5" name="rate" value="5" />
@@ -155,33 +155,25 @@
 <div class="area">
   <textarea #rateContent type="string" maxlength="255" id="area" rows="5" cols="60" value=""></textarea>
 </div>
-<div class="areaBtn">
+<div class="areaBtn mb-2">
   <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
 </div>
-
-<br>
-<div>
-  <mat-card *ngIf="ratings?.length > 0" class="container post-bg-color">
-    <div class="post-border my-1">
-      <tr class="border_bottom" *ngFor="let rating of ratings">
-        <td class="align-middle">
-          <mat-card class="user-profile">
-            {{rating.userLogin}}
-            <br>
-            {{rating.rate}} / 5
-          </mat-card>
-          <br>
-        </td>
-        <td>
-          <div>
-            <div class="d-inline-block">
-              {{rating.content}}
-            </div>
-          </div>
-        </td>
-        <br>
-      </tr>
-    </div>
+<div *ngIf="ratings?.length > 0">
+  <mat-card class="container rate-bg-color my-1">
+    <mat-card class="single-rate p-1 m-1" *ngFor="let rate of ratings">
+      <div class="d-flex">
+        <mat-card class="user-profile">
+          <!-- Could make user name breakable -->
+          {{(rate | async)?.userLogin || '' }}
+        </mat-card>
+        <div class="user-rate">
+            Rate:&nbsp;{{(rate | async)?.rate}}&nbsp;/&nbsp;5
+        </div>
+      </div>
+      <div class="user-rate-content m-1">
+        {{(rate | async)?.content}}
+      </div>
+    </mat-card>
   </mat-card>
   <br>
   <mat-form-field class="selectBox">

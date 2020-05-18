@@ -183,33 +183,51 @@ textarea {
   resize: none;
 }
 
-.user-profile{
-  background-color: darken($color: $mat-card-color, $amount: 10%);
-  text-align: center;
-}
-
-
-.dynamic-textarea{
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  margin-bottom: 5px;
-}
-
-.post-content {
-text-align: justify;
-}
-.post-bg-color{
-  background-color: $mat-card-color;
-}
 
 .container{
-  max-width: 30%;
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
   
 }
+
+.rate-bg-color{
+  background-color: darken($mat-card-color, 20%);
+}
+
+.single-rate{
+  min-width: 19%; // Do not ask it is 01:30 am
+  max-width: 39%; // Do not ask it is 01:30 am and i cant think of a better way to fix margins
+  // as outstanding man Todd Howard once said " It just works "
+  background-color: darken($mat-card-color, 5%);
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+}
+
+.user-profile{
+  background-color: darken($color: $mat-card-color, $amount: 10%);
+  text-align: center;
+  flex: 1 0 100px;
+  height: fit-content;
+}
+
+.user-rate{
+  flex: 2 0 100px;
+  text-align: center;
+  align-self: center;
+}
+
+.flex-break{
+  flex-basis: 100%;
+  height: 0;
+}
+
+.user-rate-content {
+  flex: 1 0 200px;
+  text-align: justify;
+  word-break: break-all;
+}
+
 .d-inline-block{
   max-width: 100%;
   word-break: break-word;
