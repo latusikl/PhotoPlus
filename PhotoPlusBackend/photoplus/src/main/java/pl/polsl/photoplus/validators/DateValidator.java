@@ -18,7 +18,11 @@ public class DateValidator implements ConstraintValidator<Date, String> {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             final java.util.Date date = sdf.parse(value);
-            return value.equals(sdf.format(date));
+            if (value.equals(sdf.format(date))) {
+                final java.util.Date today = new java.util.Date();
+                return date.before(today);
+            }
+            return false;
         } catch (final ParseException e) {
             return false;
         }
