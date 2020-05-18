@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { Product } from '../../models/product/product';
 import { Category } from '../../models/category/category';
 import { AbstractService } from '../abstract-service';
-import { PageInfo } from 'src/app/models/pageInfo/pageInfo';
-import { Observable } from 'rxjs';
+import { PageInfo } from 'src/app/models/page-info/page-info';
 
 @Injectable({
   providedIn: 'root'

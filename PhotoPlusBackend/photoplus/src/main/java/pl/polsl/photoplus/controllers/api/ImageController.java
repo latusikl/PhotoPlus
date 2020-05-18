@@ -16,7 +16,6 @@ import pl.polsl.photoplus.services.controllers.ImageService;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -42,10 +41,10 @@ public class ImageController {
         return new ResponseEntity<>(resource, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(params = "productCode")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'post' )")
-    public ResponseEntity postImage(@Image(service = ImageService.class) final MultipartFile file) throws IOException {
-        final String entityCode = imageService.save(new ImageModelDto(null, file.getOriginalFilename(), file.getBytes()));
+    public ResponseEntity postImage(@Image final MultipartFile file, @RequestParam final String productCode) throws IOException {
+        final String entityCode = imageService.save(new ImageModelDto(null, file.getOriginalFilename(), file.getBytes(), productCode));
         final HttpHeaders headers = new HttpHeaders();
         headers.add("Entity-Code", entityCode);
         final URI uri = linkTo(methodOn(this.getClass()).getSingle(entityCode)).toUri();
@@ -61,9 +60,10 @@ public class ImageController {
 
     @PatchMapping("/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, 'image', 'patch' )")
-    public ResponseEntity patch(@Image(service = ImageService.class) final MultipartFile file,
+    public ResponseEntity patch(@Image final MultipartFile file,
                                 @PathVariable("code") final String code) throws IOException {
-        final ImageModelDto img = new ImageModelDto(code, file.getOriginalFilename(), file.getBytes());
+        final ImageModelDto notPatched = imageService.getSingleObject(code);
+        final ImageModelDto img = new ImageModelDto(code, file.getOriginalFilename(), file.getBytes(), notPatched.getProduct());
         return new ResponseEntity(imageService.patch(img, code));
     }
 }

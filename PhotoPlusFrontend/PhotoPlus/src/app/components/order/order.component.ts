@@ -102,7 +102,7 @@ export class OrderComponent implements OnInit {
       number: alias.number,
       street: alias.street,
       userCode: this.loginService.getLoggedUser().code,
-      zipCode: alias.zipCode
+      zipCode: alias.zipCode,
     }
     this.addressService.post(address)
       .subscribe(res => {

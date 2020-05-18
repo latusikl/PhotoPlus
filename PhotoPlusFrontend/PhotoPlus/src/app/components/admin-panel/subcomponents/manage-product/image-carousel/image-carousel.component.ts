@@ -2,11 +2,9 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from 'src/app/models/product/product';
 import { Router } from '@angular/router';
+import { Tuple } from "../../../../../helpers/tuple";
 
-interface Tuple{
-  first: any,
-  second: any,
-}
+
 
 
 @Component({
@@ -57,9 +55,9 @@ export class ImageCarouselComponent implements OnInit {
   }
 
 
-  get urlAndCode():Tuple[]{
+  get urlAndCode():Tuple<string,string>[]{
     const product = this.selectedProduct.value
-    let array:Tuple[] = [];
+    let array:Tuple<string,string>[] = [];
     for(let [url, code] of [product.imagesUrl, product.imageCodes]){
       array.push({first: url, second: code});
     }

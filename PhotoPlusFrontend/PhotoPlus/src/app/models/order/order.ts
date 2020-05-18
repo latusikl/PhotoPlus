@@ -1,14 +1,19 @@
-import { Product } from '../product/product';
-import { Address } from '../address/address';
+import { PaymentMethod } from '../payment-method/payment-method';
+import { OrderStatus } from '../order-status/order-status';
 import { OrderItem } from '../orderItem/order-item';
+import { Address } from '../address/address';
 
-export class Order {
+// TODO fix types and delete unnecessary fields
+export class Order{
+  code?: string;
   userCode: string;
-  orderStatus: string;
-  paymentMethod: string;
-  price: number;
-  date: string;
   addressCode: string;
-  orderItems: OrderItem[]
-  address: Address;
+  orderStatus: OrderStatus | string;
+  paymentMethod: PaymentMethod | string;
+  date: Date | string;
+  price: number;
+  orderItems?: OrderItem[]
+  address?: Address;
+
 }
+
