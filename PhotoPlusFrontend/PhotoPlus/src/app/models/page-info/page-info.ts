@@ -1,4 +1,4 @@
-export class PageInfo{
+export class PageInfo {
   pageAmount: number;
   pageSize: number;
 }

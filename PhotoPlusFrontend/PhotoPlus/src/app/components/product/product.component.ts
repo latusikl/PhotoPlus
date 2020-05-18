@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
   products: BehaviorSubject<Rating>[];
   sort = "dateAsc"
   isStar = false;
-  stars: string
+  stars: number
 
   content: any;
   myDate = new Date();
@@ -70,6 +70,8 @@ export class ProductComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.selectedPage = 0;
+    this.amountOfPages = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
@@ -207,7 +209,8 @@ export class ProductComponent implements OnInit {
       return;
     }
     const rating = new Rating;
-    rating.rate = Number(this.stars)
+    rating.rate = this.stars
+
     rating.productCode = this.param
     rating.content = this.rateContent.nativeElement.value
     rating.userLogin = this.loginService.getLoggedUser().login
