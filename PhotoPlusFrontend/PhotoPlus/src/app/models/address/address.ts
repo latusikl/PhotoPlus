@@ -1,9 +1,9 @@
 import { Link } from "../link/link";
 
 // TODO delete unnecessarry fields and types
-export class Address{
+export class Address {
   code?: string;
-  street:string;
+  street: string;
   number: string;
   zipCode: string;
   city: string;
