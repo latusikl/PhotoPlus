@@ -16,7 +16,7 @@ import { ManageSingleOrderComponent } from './subcomponents/manage-single-order/
 })
 export class AdminPanelComponent implements OnInit {
 
-  @ViewChild("anchor", {static: true, read: ViewContainerRef})
+  @ViewChild('anchor', {static: true, read: ViewContainerRef})
   displayElement: ViewContainerRef;
 
   constructor(private loginService: LoginService,

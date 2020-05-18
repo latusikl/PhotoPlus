@@ -32,14 +32,14 @@ export class CartComponent implements OnInit {
 
   onValueChange(value: number, item: OrderItem) {
     this.cartService.changeQuantity(value, item);
-    (document.querySelector(("#input" + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
+    (document.querySelector(('#input' + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
   };
 
   buy() {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
     //check if store quantity didn't change, update products
