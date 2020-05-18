@@ -40,7 +40,7 @@
         <input formControlName="phoneNumber" type="text" class="form-control fadeIn second" id="phoneNumber"
             name="phoneNumber" placeholder="phone number"
             [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }"
-            (change)="registerChange('phoneNumber',this.userForm.value['number']);">
+            (change)="registerChange('number',this.userForm.value['phoneNumber']);">
         <div *ngIf="submitted && !formDisabled && f.phoneNumber.errors" class="invalid-feedback">
             <div *ngIf="f.phoneNumber.errors.pattern">Please enter phone number in xxx-xxx-xxx format</div>
         </div>
