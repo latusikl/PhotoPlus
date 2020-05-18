@@ -22,7 +22,7 @@ export class CategoryComponent implements OnInit {
 
   amountOfPages: BehaviorSubject<number>;
 
-  isProductListEmpty: boolean = true;
+  isProductListEmpty = true;
 
   constructor( private categoryService: CategoryService,
                private productService: ProductService ) { }
@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
     this.amountOfPages = new BehaviorSubject(0);
     this.categories = new Array<BehaviorSubject<Category>>();
     this.categoryService.getAll().subscribe((data: Category[]) => {
-      for (let category of data) {
+      for (const category of data) {
         this.categories.push(new BehaviorSubject(category));
       }
     });
@@ -40,12 +40,12 @@ export class CategoryComponent implements OnInit {
 
   async loadProductsFromCategory(categoryCode: string) {
     this.products = new Array<BehaviorSubject<Product>>();
-    let pageInfo = this.productService.getPageCountFromCategory(categoryCode).toPromise();
+    const pageInfo = this.productService.getPageCountFromCategory(categoryCode).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
     this.currentCategoryCode = categoryCode;
     this.productService.getPageFromCategory(this.selectedPage.value, categoryCode).subscribe((data) => {
       this.isProductListEmpty = !(data.length > 0);
-      for (let product of data) {
+      for (const product of data) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
       }
