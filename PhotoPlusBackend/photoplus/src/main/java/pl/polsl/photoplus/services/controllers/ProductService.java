@@ -107,6 +107,17 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return jsonNode;
     }
 
+    public ObjectNode getPageCountOfNameContainingStr(final String str)
+    {
+        final Page<Product> firstPage = getPageOfProductByNameContainingStr(str, 0,"name");
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
     @Override
     public ObjectNode getPageCount() {
         final Page<Product> firstPage = getPage(0, "name");
@@ -135,19 +146,28 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         this.entityRepository.save(product);
     }
 
-    public List<ProductModelDto> getByNameContainingStr(final String str) {
-        return getDtoListFromModels(entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThanOrderByName(str, 0));
+    public List<ProductModelDto> getByNameContainingStr(final String str, final Integer pageNumber, final String sortedBy) {
+        return getDtoListFromModels(this.getPageOfProductByNameContainingStr(str, pageNumber, sortedBy));
     }
 
-    private Page<Product> getPage(final Integer pageNumber, final String sortedBy) {
-        final Pageable modelPage;
+    private Page<Product> getPageOfProductByNameContainingStr(final String str, final Integer pageNumber, final String sortedBy) {
+        final Pageable modelPage = getModelPage(pageNumber, sortedBy);
+        final Page<Product> foundModels = entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThan(modelPage, str, 0);
+        return foundModels;
+    }
+
+    private Pageable getModelPage(final Integer pageNumber, final String sortedBy) {
         if (sortedBy.equals("priceAsc")) {
-            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price"));
+            return PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price"));
         } else if (sortedBy.equals("priceDesc")) {
-            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price").descending());
-        } else {
-            modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+            return PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("price").descending());
         }
+        return PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
+    }
+
+
+    private Page<Product> getPage(final Integer pageNumber, final String sortedBy) {
+        final Pageable modelPage = getModelPage(pageNumber, sortedBy);
         final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThan(modelPage, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
         return foundModels;

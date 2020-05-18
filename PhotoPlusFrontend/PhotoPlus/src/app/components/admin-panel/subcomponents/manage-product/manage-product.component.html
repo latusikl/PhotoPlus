@@ -73,7 +73,7 @@
           </div>
           <div class="form-group w-100">
             <span>Product category:&nbsp;</span>
-            <select formControlName="productCategory" class="w-100" [ngClass]="{ 'is-invalid': submitted && f.productName.errors }">
+            <select formControlName="productCategory" class="form-control w-100" [ngClass]="{ 'is-invalid': submitted && f.productName.errors }">
               <option
                 *ngFor="let category of categories"
                 [ngValue]="(category | async)?.code"
