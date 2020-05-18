@@ -16,6 +16,14 @@ body {
   align-items: center;
 }
 
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0em auto;
+  justify-content: center;
+}
+
 /* ANIMATIONS */
 
 /* CSS3 Fade-in-down Animation */

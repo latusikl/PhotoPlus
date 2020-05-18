@@ -48,6 +48,8 @@ Proper file format example:
                 <access>/topic/all</access>
                 <access>/topic/single</access>
                 <access>/topic/post</access>
+
+                <access>/address/post</access>
         </role>
         <role name="employee">
                 <access>/section/all</access>
@@ -85,6 +87,8 @@ Proper file format example:
                 <access>/image/post</access>
                 <access>/image/delete</access>
                 <access>/image/patch</access>
+
+                <access>/address/post</access>
         </role>
         <role name="admin">
         <!--        Should be able to access all application endpoints-->
