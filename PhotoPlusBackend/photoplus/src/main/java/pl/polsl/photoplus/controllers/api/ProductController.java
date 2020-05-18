@@ -87,7 +87,9 @@ public class ProductController
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity searchByName(@RequestParam final String str)
     {
-        return new ResponseEntity(dtoService.getByNameContainingStr(str), HttpStatus.OK);
+        final List<ProductModelDto> dtos = dtoService.getByNameContainingStr(str);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
 }
