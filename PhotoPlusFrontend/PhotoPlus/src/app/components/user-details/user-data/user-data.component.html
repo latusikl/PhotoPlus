@@ -2,12 +2,12 @@
 <div [formGroup]="userForm">
 
     <label for="login" class="form-label">Login:</label>
-    <input formControlName="login" type="text" class="form-control fadeIn second" id="login" name="login"
+    <input formControlName="login" type="text" class="form-control" id="login" name="login"
         placeholder="login" readonly>
 
     <div>
         <label for="email" class="form-label">Email:</label>
-        <input formControlName="mail" type="text" class="form-control fadeIn second" id="email" name="email"
+        <input formControlName="mail" type="text" class="form-control" id="email" name="email"
             placeholder="email" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }"
             (change)="registerChange('email',this.userForm.value['mail'])">
         <div *ngIf="submitted && !formDisabled && f.mail.errors" class="invalid-feedback">
@@ -17,7 +17,7 @@
     </div>
     <div>
         <label for="name" class="form-label">Name:</label>
-        <input formControlName="name" type="text" class="form-control fadeIn second" id="name" name="name"
+        <input formControlName="name" type="text" class="form-control" id="name" name="name"
             placeholder="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
             (change)="registerChange('name',this.userForm.value['name'])">
         <div *ngIf="submitted && !formDisabled && f.name.errors" class="invalid-feedback">
@@ -27,7 +27,7 @@
 
     <div>
         <label for="surname" class="form-label">Surname:</label>
-        <input formControlName="surname" type="text" class="form-control fadeIn second" id="surname" name="surname"
+        <input formControlName="surname" type="text" class="form-control" id="surname" name="surname"
             placeholder="surname" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }"
             (change)="registerChange('surname',this.userForm.value['surname'])">
         <div *ngIf="submitted && !formDisabled && f.surname.errors" class="invalid-feedback">
@@ -37,7 +37,7 @@
 
     <div class="form-group">
         <label for="phoneNumber" class="form-label">Phone number</label>
-        <input formControlName="phoneNumber" type="text" class="form-control fadeIn second" id="phoneNumber"
+        <input formControlName="phoneNumber" type="text" class="form-control" id="phoneNumber"
             name="phoneNumber" placeholder="phone number"
             [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }"
             (change)="registerChange('number',this.userForm.value['phoneNumber']);">
@@ -48,7 +48,7 @@
 
     <div [style.display]="!formDisabled ? 'block' : 'none'">
         <label for="password" class="form-label">New password:</label>
-        <input formControlName="password" type="password" class="form-control fadeIn second" id="password"
+        <input formControlName="password" type="password" class="form-control" id="password"
             name="password" placeholder="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
             (change)="registerChange('password',this.userForm.value['password'])">
         <div *ngIf="submitted && !formDisabled && f.password.errors" class="invalid-feedback">
@@ -59,7 +59,7 @@
 
     <div [style.display]="!formDisabled ? 'block' : 'none'">
         <label for="confirmpass" class="form-label">Confirm password:</label>
-        <input formControlName="confirmPass" type="password" class="form-control fadeIn second" id="confirmpass"
+        <input formControlName="confirmPass" type="password" class="form-control" id="confirmpass"
             name="confirmpass" placeholder="confirm password"
             [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }">
         <div *ngIf="submitted && !formDisabled &&f.confirmPass.errors" class="invalid-feedback">
