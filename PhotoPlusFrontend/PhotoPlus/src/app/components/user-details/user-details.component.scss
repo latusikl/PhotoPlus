@@ -9,11 +9,16 @@
 
 .form-label {
   font-min-size: 50px;
-  color: darken(white, 15%);
+  color: lighten($mat-card-color, 40%);
   font-weight: bold;
   display: block;
   float: left;
 }
+
+.description-text{
+  color: lighten($mat-card-color, 40%) !important;
+}
+
 .form-control {
   margin-bottom: 30px;
 }
