@@ -1,18 +1,28 @@
 
-
 .pending_bg_color{
-    background-color: #8ddf00;
+    background-color: #7dcf00;
 }
 
 .paid_bg_color{
     background-color: #00b80e;
 }
 .ready_to_ship_bg_color{
-    background-color: #00ffb0;
+    background-color: #00cf90;
 }
 .shipped_bg_color{
     background-color: #008fff;
 }
 .delivered_bg_color{
     background-color: #061d54;
+}
+
+.page-count{
+    background-color: white;
+    color: red;
+}
+
+.order{
+    max-width: 23.9%; // as wide as it can be for 4 orders to fit
+    cursor: pointer;
+    overflow: auto;
 }

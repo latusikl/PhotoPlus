@@ -275,10 +275,10 @@ export class ManageProductComponent implements OnInit {
       });
   }
 
-  patchImageCodes(imageCodeArray: string[]) {
+  async patchImageCodes(imageCodeArray: string[]) {
     this.productService
       .patch(this.selectedProduct.value.code, {
-        imageCodes: imageCodeArray,
+        imageCodes: imageCodeArray
       } as Product)
       .subscribe(() => {
         this.loadProducts(() => {

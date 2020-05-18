@@ -1,57 +1,42 @@
 <div class="container">
-  <mat-expansion-panel class="mt-2 pending_bg_color">
+  <mat-expansion-panel
+    *ngFor="let orderStatus of orderStatuses"
+    class="mt-2"
+    [class]="toCssClass(orderStatus)"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ orderStatuses[0] }}
+        <div class="col-10 p-0 mt-1">
+          {{ humanReadable(orderStatus) }}
+        </div>
+        <div class="col-2">
+          <mat-card 
+          *ngIf="orderStatus !== 'DELIVERED' && orderStatusAmountPages[orderStatus].value > 0" 
+          class="p-1 page-count text-center">
+            !
+          </mat-card>
+        </div>
       </mat-panel-title>
     </mat-expansion-panel-header>
     <mat-panel-description>
-      <mat-card >
-
-      </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 paid_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[1] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 ready_to_ship_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[2] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel class="mt-2 shipped_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[3] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
-    </mat-panel-description>
-  </mat-expansion-panel>
-  <mat-expansion-panel class="mt-2 delivered_bg_color">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ orderStatuses[4] }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-panel-description>
-      <mat-card> </mat-card>
+      <div class="container">
+        <div class="row justify-content-center">
+          <app-page-select [amountOfPages]="orderStatusAmountPages[orderStatus]" (onPageSelect)="changePage(orderStatus, $event)">
+          </app-page-select><br>
+        </div>
+        <div class="row">
+          <mat-card
+            class="col-3 m-1 order"
+            *ngFor="let order of currentStatusesOrders[orderStatus] | async"
+            (click)="goToSingleOrder(order.code)"
+          >
+            Code: {{ order.code }}<br>
+            Price:&nbsp;${{ order.price }}<br>
+            Payment: {{ humanReadable(order.paymentMethod) }}<br>
+            Date: {{ order.date }}<br>
+          </mat-card>
+          </div>
+        </div>
     </mat-panel-description>
   </mat-expansion-panel>
 </div>

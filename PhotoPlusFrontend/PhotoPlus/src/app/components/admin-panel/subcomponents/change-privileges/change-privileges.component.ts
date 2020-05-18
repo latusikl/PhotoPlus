@@ -34,7 +34,6 @@ export class ChangePrivilegesComponent implements OnInit {
     this.setupSearchBarListener();
     const info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
-    console.log(info);
   }
 
   setupSearchBarListener() {

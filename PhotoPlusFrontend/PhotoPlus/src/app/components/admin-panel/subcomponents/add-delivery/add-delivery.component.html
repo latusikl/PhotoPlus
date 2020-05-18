@@ -1,7 +1,7 @@
 <div class="container">
   <div class="selected-product mt-2 text-center">
     Selected product name: {{ (selectedProduct | async)?.name }}<br/>
-    <img src="{{(selectedProduct | async)?.imagesUrl[0]}}">
+    <img *ngIf="(selectedProduct|async)?.imagesUrl?.length > 0" src="{{(selectedProduct | async)?.imagesUrl[0]}}">
   </div>
   <mat-card class="mt-2">
     <span
@@ -18,6 +18,7 @@
       >
         <img
           class="product-photo mt-3"
+          *ngIf="(product|async)?.imagesUrl?.length > 0"
           src="{{ ((product | async)?.imagesUrl)[0] }}"
         /><br >
         {{ (product | async)?.name }}

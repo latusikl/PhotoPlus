@@ -1,7 +1,7 @@
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PageInfo } from '../models/pageInfo/pageInfo';
+import { PageInfo } from '../models/page-info/page-info';
 
 export abstract class AbstractService<T> {
 
