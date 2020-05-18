@@ -14,10 +14,10 @@ interface PageAmount{
 })
 export class PageSelectComponent implements OnInit {
 
-  @Input("amountOfPages")
+  @Input('amountOfPages')
   amountOfPages: BehaviorSubject<number>;
 
-  @Output("onPageSelect")
+  @Output('onPageSelect')
   onPageSelect= new EventEmitter<number>();
 
   constructor() {}
