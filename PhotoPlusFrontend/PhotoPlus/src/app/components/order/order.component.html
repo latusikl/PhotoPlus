@@ -22,14 +22,14 @@
               <a id="product-name">{{ (item | async)?.product?.name }}</a>
             </td>
             <td class="align-middle d-none d-lg-table-cell">
-              <b id="price">${{ (item | async)?.product?.price }}</b>
+              <b id="price">{{ (item | async)?.product?.price | currency: '$' }}</b>
 
             </td>
             <td class="align-middle">{{(item | async)?.quantity}}</td>
           </tr>
         </tbody>
       </table>
-      <h1 id="checkout" class="fadeIn third">Total: <b>${{ price }}</b></h1>
+      <h1 id="checkout" class="fadeIn third">Total: <b>{{ price | currency: '$' }}</b></h1>
     </div>
 
   </div>

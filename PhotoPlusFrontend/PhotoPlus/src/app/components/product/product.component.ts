@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ProductService } from "../../services/product/product.service";
+import { ProductService } from '../../services/product/product.service';
 import { Product } from 'src/app/models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
@@ -65,12 +65,15 @@ export class ProductComponent implements OnInit {
   }
 
   buy(product: Product) {
+    if (!confirm('Are you sure you want to buy ' + product.name + '? \n This operation will clear your shopping cart.')) {
+      return;
+    }
     this.cartService.clearCart();
     this.cartService.addToCart(product);
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!.";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!.';
       return;
     }
     this.router.navigate(['/order']);

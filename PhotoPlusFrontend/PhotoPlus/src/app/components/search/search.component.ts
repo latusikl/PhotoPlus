@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/product/product';
 import { ProductService } from 'src/app/services/product/product.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -11,17 +12,30 @@ import { ProductService } from 'src/app/services/product/product.service';
 export class SearchComponent implements OnInit {
 
   searchedText: string;
-  products: Product[];
+  products: BehaviorSubject<Product>[];
 
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.loadSearchedText();
+    this.loadProducts();
+  }
+
+  loadSearchedText() {
     this.route.params.subscribe(params => {
       this.searchedText = params.searchedText;
-      this.productService.getProductsSearchByName(this.searchedText).subscribe(data => {
-        this.products = data;
-      });
     });
   }
 
+  loadProducts() {
+    this.products = new Array<BehaviorSubject<Product>>();
+    if (this.searchedText.length > 2) {
+      this.productService.getProductsSearchByName(this.searchedText).subscribe(data => {
+        for (const product of data) {
+          this.productService.getDataFromLinks(product);
+          this.products.push(new BehaviorSubject(product));
+        }
+      });
+    }
+  }
 }

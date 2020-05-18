@@ -3,9 +3,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { LoginService } from 'src/app/services/login/login.service';
 import { ErrorModalComponent } from '../error-modal/error-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { OrderItem } from 'src/app/models/orderItem/order-item';
-import { ProductService } from 'src/app/services/product/product.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -18,7 +16,7 @@ export class CartComponent implements OnInit {
   items: BehaviorSubject<OrderItem>[];
   price: number;
 
-  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal, private router: Router, private productService: ProductService) {
+  constructor(private cartService: CartService, private loginService: LoginService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -32,17 +30,17 @@ export class CartComponent implements OnInit {
 
   onValueChange(value: number, item: OrderItem) {
     this.cartService.changeQuantity(value, item);
-    (document.querySelector(("#input" + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
-  };
+    (document.querySelector(('#input' + item.productCode).toString()) as HTMLInputElement).value = item.quantity.toString();
+  }
 
   buy() {
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
-    //check if store quantity didn't change, update products
+    // check if store quantity didn't change, update products
     this.cartService.updateCartAndBuy();
   }
 

@@ -49,7 +49,7 @@
         </div>
         <div class="column3 fadeIn fourth">
           <div *ngIf="!isEditing; else editingPrice;">
-            <p id="product-price">${{ (product | async)?.price }}</p>
+            <p id="product-price">{{ (product | async)?.price | currency: '$' }}</p>
             <div *ngIf="(product | async)?.storeQuantity > 0; else notAvailable">
               <button (click)="addToCart(product.value)" class="btn btn-success" href="#">
                 Add to cart
@@ -67,7 +67,7 @@
             </ng-template>
           </div>
           <ng-template #editingPrice>
-            <input #productPrice type="number" min="0.01" class="price-textarea" id="product-price" step="0.01"
+            <input #productPrice type="number" min="0.01" class="price-textarea" id="product-price" step="any"
               value="{{ (product | async)?.price }}">
           </ng-template>
           <div *ngIf="canEdit()">

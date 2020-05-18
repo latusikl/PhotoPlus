@@ -35,11 +35,18 @@ export class OrderComponent implements OnInit {
   paymentMethodSubmitted = false;
   items: BehaviorSubject<OrderItem>[];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private addressService: AddressService, private cartService: CartService, private orderSerivce: OrderService, private http: HttpClient, private datePipe: DatePipe, private modalService: NgbModal, private loginService: LoginService) {
-  }
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private addressService: AddressService,
+              private cartService: CartService,
+              private orderSerivce: OrderService,
+              private http: HttpClient,
+              private datePipe: DatePipe,
+              private modalService: NgbModal,
+              private loginService: LoginService) {}
 
   selectOption(addressCode: string) {
-    let chosenAddress = this.addresses.find(el => el.code == addressCode);
+    const chosenAddress = this.addresses.find(el => el.code === addressCode);
     this.order.address = chosenAddress;
     this.order.addressCode = addressCode;
   }
@@ -48,7 +55,7 @@ export class OrderComponent implements OnInit {
     this.items = this.cartService.getItems();
     this.cartService.getSummaryPrice().subscribe(value => this.price = value);
     this.order = new Order();
-    this.order.orderStatus = "PENDING";
+    this.order.orderStatus = 'PENDING';
     this.order.address = new Address();
     this.addressForm = this.formBuilder.group({
       street: ['', [Validators.required, Validators.minLength(4)]],
@@ -56,18 +63,18 @@ export class OrderComponent implements OnInit {
       city: ['', [Validators.required]],
       zipCode: ['', [Validators.required, Validators.pattern(/\d{2,5}-?\d{2,5}/)]],
       country: ['PL', [Validators.required]],
-    })
+    });
 
     this.paymentMethodForm = this.formBuilder.group({
       paymentMethod: ['CARD', Validators.required]
     });
 
-    if (this.loginService.isLoggedIn() == true) {
-      this.order.userCode = this.loginService.getLoggedUser().code
+    if (this.loginService.isLoggedIn() === true) {
+      this.order.userCode = this.loginService.getLoggedUser().code;
       this.addressService.byUser(this.order.userCode).subscribe(data => {
         this.addresses = data.reverse();
         this.selectOption(this.addresses[0].code);
-      })
+      });
     }
     this.order.price = this.price;
     this.order.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
@@ -86,10 +93,10 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
 
@@ -103,24 +110,25 @@ export class OrderComponent implements OnInit {
       street: alias.street,
       userCode: this.loginService.getLoggedUser().code,
       zipCode: alias.zipCode,
-    }
+    };
+
     this.addressService.post(address)
       .subscribe(res => {
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
           this.order.addressCode = data.code;
           this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
           this.order.orderItems = this.cartService.getItemsModel();
-          this.orderSerivce.buy(this.order).subscribe(data => {
+          this.orderSerivce.buy(this.order).subscribe(() => {
             const modalRef = this.modalService.open(SuccessModalComponent);
-            modalRef.componentInstance.title = "Success!";
-            modalRef.componentInstance.message = "Your order is being carried.";
+            modalRef.componentInstance.title = 'Success!';
+            modalRef.componentInstance.message = 'Your order is being carried.';
             this.cartService.clearCart();
             this.router.navigate(['/']);
           }, error => {
             this.router.navigate(['/cart']);
-          })
-        })
-      })
+          });
+        });
+      });
   }
 
   buy() {
@@ -129,10 +137,10 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
 
@@ -140,8 +148,8 @@ export class OrderComponent implements OnInit {
     this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
     this.orderSerivce.buy(this.order).subscribe(data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
-      modalRef.componentInstance.title = "Success!";
-      modalRef.componentInstance.message = "Your order is being carried.";
+      modalRef.componentInstance.title = 'Success!';
+      modalRef.componentInstance.message = 'Your order is being carried.';
       this.cartService.clearCart();
       this.router.navigate(['/products']);
     });
