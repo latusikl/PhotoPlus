@@ -46,7 +46,7 @@ export class ProductComponent implements OnInit {
   linksForm: FormGroup;
   submitted = false;
 
-  ratings: any;
+  ratings: BehaviorSubject<Rating>[];
   products: BehaviorSubject<Product>[];
   sort = "dateAsc"
   isStar = false;
@@ -190,10 +190,13 @@ export class ProductComponent implements OnInit {
     this.amountOfPages.next((await pageInfo).pageAmount);
     this.ratings = new Array<BehaviorSubject<Rating>>();
     this.ratingSerivce.getRatingsPage(this.selectedPage, this.sort, this.param).subscribe(data => {
-      this.ratings = data;
-      console.log(this.ratings);
+      this.ratings = new Array();
+      for(const rate of data){
+        this.ratings.push(new BehaviorSubject(rate));
+      }
     });
   }
+
   rate() {
     if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
@@ -204,7 +207,7 @@ export class ProductComponent implements OnInit {
     if (this.isStar === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please select stars!.";
+      modalRef.componentInstance.message = "Please choose your rate!.";
       return;
     }
     const rating = new Rating;
