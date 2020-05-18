@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { User } from '../../models/user/user';
 import { AbstractService } from '../abstract-service';
 import { Observable } from 'rxjs';
@@ -18,12 +18,16 @@ export class UserService extends AbstractService<User> {
         super(http, 'user');
     }
 
+    registerUser(newUser: User): Observable<HttpResponse<User>> {
+        return this._http.post<User>(this.hostAddress + this.endpointUrl + '/register/', newUser, { observe: 'response' });
+    }
+
     getUsersSearchByLogin(searchText: string): Observable<User[]> {
         return this._http.get<User[]>(this.hostAddress + this.endpointUrl + '/search/' + searchText);
     }
 
     getDetailsOfLoggedUser(): Observable<User> {
-        return this._http.get<User>(this.hostAddress + 'user/editAccount/' + this.loginService.getLoggedUserCode());
+        return this._http.get<User>(this.hostAddress + this.endpointUrl + '/editAccount/' + this.loginService.getLoggedUserCode());
     }
 
     getAddressesOfLoggedUser(): Observable<Address[]> {
@@ -31,6 +35,6 @@ export class UserService extends AbstractService<User> {
     }
 
     patchDetailsOfLoggedUser(fieldChange: FieldChange) {
-        this.patchFieldChangeService.sendPatchRequest('user/editAccount/' + this.loginService.getLoggedUserCode(), fieldChange);
+        this.patchFieldChangeService.sendPatchRequest(this.endpointUrl + '/editAccount/' + this.loginService.getLoggedUserCode(), fieldChange);
     }
 }

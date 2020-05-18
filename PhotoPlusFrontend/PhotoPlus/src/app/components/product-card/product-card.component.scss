@@ -1,18 +1,3 @@
-#category-card {
-  width: 30rem;
-  margin: 20px 1em;
-  border-radius: 10px 10px 10px 10px;
-}
-
-#category-list-group {
-  justify-content: center;
-}
-
-#category-list-group-item {
-  text-align: center;
-  cursor: pointer;
-}
-
 .carousel-card {
   width: 18rem;
   min-height: 25rem;
@@ -21,7 +6,7 @@
 }
 
 #home-card-title {
-  cursor: pointer;
+  cursor:pointer;
   font-size: 1.2rem;
 }
 
@@ -82,5 +67,5 @@ img {
 
 //google stylesheet overwrite
 :focus {
-  outline: 0px;
+    outline: 0px;
 }
