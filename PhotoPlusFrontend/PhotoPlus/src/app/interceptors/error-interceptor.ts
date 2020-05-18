@@ -1,5 +1,7 @@
-import { HttpInterceptor, HttpRequest, HttpHandler,
-  HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpInterceptor, HttpRequest, HttpHandler,
+  HttpEvent, HttpErrorResponse
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return obs;
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any>{
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     return next.handle(req).pipe(catchError(err => {
       if (!this.isBlobError(err)) {
         return this.handleError(err);
@@ -46,7 +48,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleError(error: HttpErrorResponse) {
-    switch(error.status) {
+    switch (error.status) {
       case 0: {
         //only one modal even if more than 1 error to prevent modal spam
         const modalRef = this.modalService.open(ErrorModalComponent);
@@ -85,8 +87,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         break;
       }
       default: {
-         //statements;
-         break;
+        //statements;
+        break;
       }
     }
     return throwError(error);

@@ -58,7 +58,7 @@
       <p class="price fadeIn third">$<span>{{ product?.price }}</span></p>
       <div class ="card-linkBox fadeIn fourth">
         <button (click)="addToCart(product)" class="btn btn-success" href="#" id="cart-link">Add to cart</button>
-        <button class="btn btn-success" href="#" id="buy-link">Buy now</button>
+        <button (click)="buy(product)" class="btn btn-success" href="#" id="buy-link">Buy now</button>
       </div>
     </div>
   </div>

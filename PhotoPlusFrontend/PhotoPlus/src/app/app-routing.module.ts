@@ -21,6 +21,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { HomeComponent } from './components/home/home.component';
 import { ImageDisplayComponent } from './components/image-display/image-display.component';
 import { AboutComponent } from './components/about/about.component';
+import { UserDetailsComponent } from "./components/user-details/user-details.component";
 import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
@@ -28,19 +29,19 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'cart', component: CartComponent},
+  { path: 'cart', component: CartComponent },
   { path: 'category', component: CategoryComponent },
-  { path: 'forum', component: ForumComponent},
+  { path: 'forum', component: ForumComponent },
   { path: 'product/:productCode', component: ProductComponent },
   { path: 'order', component: OrderComponent },
-  { path: 'forum/section/:sectionCode', component: SectionBodyComponent},
-  { path: 'forum/edit/section/:sectionCode', component: SectionEditComponent},
-  { path: 'forum/remove/section/:sectionCode', component: SectionRemoveComponent},
-  { path: 'forum/add/section', component: SectionAddComponent},
-  { path: 'forum/topic/:topicCode', component: TopicBodyComponent},
+  { path: 'forum/section/:sectionCode', component: SectionBodyComponent },
+  { path: 'forum/edit/section/:sectionCode', component: SectionEditComponent },
+  { path: 'forum/remove/section/:sectionCode', component: SectionRemoveComponent },
+  { path: 'forum/add/section', component: SectionAddComponent },
+  { path: 'forum/topic/:topicCode', component: TopicBodyComponent },
   { path: 'forum/edit/topic/:topicCode', component: TopicEditComponent },
-  { path: 'forum/remove/topic/:topicCode', component: TopicRemoveComponent},
-  { path: 'forum/add/topic/:sectionCode', component: TopicAddComponent},
+  { path: 'forum/remove/topic/:topicCode', component: TopicRemoveComponent },
+  { path: 'forum/add/topic/:sectionCode', component: TopicAddComponent },
   { path: 'manage', component: AdminPanelComponent },
   { path: 'manage/orders', component: AdminPanelComponent },
   { path: 'manage/orders/:orderCode', component: AdminPanelComponent },
@@ -51,8 +52,8 @@ const routes: Routes = [
   { path: 'manage/generateReports', component: AdminPanelComponent},
   { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent},
   { path: 'about', component: AboutComponent},
+  { path: 'user/details', component: UserDetailsComponent },
   { path: 'search/:searchedText', component: SearchComponent }
-
 ];
 
 @NgModule({
