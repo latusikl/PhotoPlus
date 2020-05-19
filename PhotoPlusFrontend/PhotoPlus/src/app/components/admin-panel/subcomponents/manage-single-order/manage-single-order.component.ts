@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
@@ -23,6 +23,10 @@ import { PaymentMethod } from "src/app/models/payment-method/payment-method";
 export class ManageSingleOrderComponent implements OnInit {
   @ViewChild("selectedStatus")
   selectedStatus: ElementRef;
+  @Input("isForClient")
+  isForClient: false;
+  @Input("orderCode")
+  orderCode: string;
 
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
@@ -39,7 +43,7 @@ export class ManageSingleOrderComponent implements OnInit {
     private addressService: AddressService,
     private orderItemService: OrderItemService,
     private productService: ProductService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.order = new BehaviorSubject({} as Order);
@@ -52,14 +56,23 @@ export class ManageSingleOrderComponent implements OnInit {
   }
 
   async loadOrder() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.orderService.getSingle(params["orderCode"]).subscribe((x) => {
+    if (this.isForClient) {
+      this.orderService.getOrderDetailsByUser(this.orderCode).subscribe((x) => {
         this.order.next(x);
-        this.loadUser();
-        this.loadAddress();
+        this.loadAddressByUser();
         this.loadOrderItemsPageInfo();
       });
-    });
+    }
+    else {
+      this.activatedRoute.params.subscribe((params) => {
+        this.orderService.getSingle(params["orderCode"]).subscribe((x) => {
+          this.order.next(x);
+          this.loadUser();
+          this.loadAddress();
+          this.loadOrderItemsPageInfo();
+        });
+      });
+    }
   }
 
   async loadOrderItemsPageInfo() {
@@ -107,6 +120,13 @@ export class ManageSingleOrderComponent implements OnInit {
   async loadAddress() {
     const address = await this.addressService
       .getSingle(this.order.value.addressCode)
+      .toPromise();
+    this.address.next(address);
+  }
+
+  async loadAddressByUser() {
+    const address = await this.addressService
+      .getSingleByUser(this.order.value.addressCode)
       .toPromise();
     this.address.next(address);
   }

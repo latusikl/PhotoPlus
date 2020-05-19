@@ -9,7 +9,7 @@
           Price: ${{ (order | async)?.price }}<br />
           Creation date: {{ (order | async)?.date }}<br />
         </div>
-        <div class="text-center">
+        <div class="text-center" *ngIf="!isForClient">
           Change order status:
           <br>
           <select #selectedStatus>
@@ -21,7 +21,7 @@
           <button class="btn btn-primary mt-2" (click)="updateOrderStatus()">Update order status</button>&nbsp;&nbsp;
         </div>
       </div>
-      <mat-card class="mt-2 user-details">
+      <mat-card class="mt-2 user-details" *ngIf="!isForClient">
         Recipient:<br />
         First name: {{ (user | async)?.name }}<br />
         Last name: {{ (user | async)?.surname }}<br /><br />

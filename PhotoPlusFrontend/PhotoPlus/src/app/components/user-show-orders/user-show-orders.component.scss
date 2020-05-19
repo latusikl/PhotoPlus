@@ -1,0 +1,43 @@
+@import "../../../styles";
+
+.welcome {
+  color: black;
+  margin: 20px auto;
+  max-width: 1500px;
+}
+
+.form-label {
+  color: darken(white, 15%);
+  font-weight: bold;
+  display: block;
+  float: left;
+}
+.form-control {
+  margin-bottom: 30px;
+}
+
+.btn-success {
+  margin-right: 20px;
+  float: left;
+}
+
+.btn-danger {
+  float: right;
+}
+
+.bg-color {
+  background-color: $mat-card-color;
+  color: white;
+}
+
+.accordion {
+  max-width: 1000px;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.headers-align .mat-expansion-panel-header-title,
+.headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}

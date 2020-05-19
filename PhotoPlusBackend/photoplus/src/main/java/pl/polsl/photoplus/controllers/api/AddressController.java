@@ -65,6 +65,13 @@ public class AddressController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/byUser/single/{code}", produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#code))")
+    public ResponseEntity<AddressModelDto> getSingleByUserCode(@PathVariable("code") final String code)
+    {
+        return this.getSingle(code);
+    }
+
     @PostMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
     public String postForUser(@RequestBody @Valid final AddressModelDto dto, @PathVariable("code") final String code)

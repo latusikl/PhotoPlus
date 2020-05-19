@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
+import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.OrderItemService;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class OrderItemController extends BaseModelController<OrderItemModelDto,O
     }
 
     @GetMapping(path = "/{page}", produces = "application/json", params = "orderCode")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' ) or @permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#orderCode))" )
     public ResponseEntity<List<OrderItemModelDto>> getAll(@PathVariable("page") final Integer page,
                                                       @RequestParam final String orderCode)
     {
@@ -44,9 +45,17 @@ public class OrderItemController extends BaseModelController<OrderItemModelDto,O
     }
 
     @GetMapping(path = "/page/count", produces = "application/json", params = "orderCode")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' ) or @permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#orderCode))")
     public ResponseEntity<ObjectNode> getAmountOfPages(@RequestParam final String orderCode)
     {
         return new ResponseEntity<>(dtoService.getPageCount(orderCode), HttpStatus.OK);
+    }
+
+    /**
+     * You need to use getter to use service in @PreAuthorize because SpEL cannot use inherited field.
+     */
+    public OrderItemService getService()
+    {
+        return this.dtoService;
     }
 }

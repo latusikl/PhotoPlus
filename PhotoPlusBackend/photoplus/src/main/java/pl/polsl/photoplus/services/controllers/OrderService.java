@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.polsl.photoplus.model.dto.OrderItemModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDto;
@@ -21,17 +22,22 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class OrderService extends AbstractModelService<Order, OrderModelDto, OrderRepository> {
+public class OrderService
+        extends AbstractModelService<Order,OrderModelDto,OrderRepository>
+{
 
     private final UserService userService;
+
     private final OrderItemService orderItemService;
+
     private final ProductService productService;
+
     private final BatchService batchService;
+
     private final AddressService addressService;
 
-    public OrderService(final OrderRepository entityRepository, final UserService userService,
-                        final OrderItemService orderItemService, final ProductService productService,
-                        final BatchService batchService, final AddressService addressService) {
+    public OrderService(final OrderRepository entityRepository, final UserService userService, final OrderItemService orderItemService, final ProductService productService, final BatchService batchService, final AddressService addressService)
+    {
         super(entityRepository);
         this.userService = userService;
         this.orderItemService = orderItemService;
@@ -41,49 +47,59 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
     }
 
     @Override
-    protected String getModelNameForError() {
+    protected String getModelNameForError()
+    {
         return "order";
     }
 
     @Override
-    protected OrderModelDto getDtoFromModel(final Order modelObject) {
-        return new OrderModelDto(modelObject.getCode(), modelObject.getUser().getCode(), modelObject.getAddress().getCode(),
-                modelObject.getOrderStatus().name(), modelObject.getPaymentMethod().name(), modelObject.getPrice(),
-                modelObject.getDate());
+    protected OrderModelDto getDtoFromModel(final Order modelObject)
+    {
+        return new OrderModelDto(modelObject.getCode(), modelObject.getUser().getCode(), modelObject.getAddress()
+                .getCode(), modelObject.getOrderStatus().name(), modelObject.getPaymentMethod()
+                                         .name(), modelObject.getPrice(), modelObject.getDate());
     }
 
     @Override
-    protected Order getModelFromDto(final OrderModelDto dtoObject) {
-        return new Order(OrderStatus.getOrderStatusFromString(dtoObject.getOrderStatus()),
-                PaymentMethod.getPaymentMethodFromString(dtoObject.getPaymentMethod()), dtoObject.getPrice(),
-                dtoObject.getDate());
+    protected Order getModelFromDto(final OrderModelDto dtoObject)
+    {
+        return new Order(OrderStatus.getOrderStatusFromString(dtoObject.getOrderStatus()), PaymentMethod.getPaymentMethodFromString(dtoObject
+                                                                                                                                            .getPaymentMethod()), dtoObject
+                                 .getPrice(), dtoObject.getDate());
     }
 
-    private Order insertDependenciesAndParseToModel(final OrderModelDto orderModelDto) {
-        final User userToInsert = userService.findByCodeOrThrowError(orderModelDto.getUserCode(),
-                "SAVE ORDER");
-        final Address addressToInsert = addressService.findByCodeOrThrowError(orderModelDto.getAddressCode(),
-                "SAVE ORDER");
+    @Override
+    public HttpStatus saveAll(final List<OrderModelDto> dto)
+    {
+        dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
+        return HttpStatus.CREATED;
+    }
+
+    @Override
+    public String save(final OrderModelDto dto)
+    {
+        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
+        return entityCode;
+    }
+
+    private Order insertDependenciesAndParseToModel(final OrderModelDto orderModelDto)
+    {
+        final User userToInsert = userService.findByCodeOrThrowError(orderModelDto.getUserCode(), "SAVE ORDER");
+        final Address addressToInsert = addressService.findByCodeOrThrowError(orderModelDto.getAddressCode(), "SAVE ORDER");
         final Order orderToAdd = getModelFromDto(orderModelDto);
         orderToAdd.setUser(userToInsert);
         orderToAdd.setAddress(addressToInsert);
         return orderToAdd;
     }
 
-    @Override
-    public String save(final OrderModelDto dto) {
-        final String entityCode = entityRepository.save(insertDependenciesAndParseToModel(dto)).getCode();
-        return entityCode;
-    }
-
-    @Override
-    public HttpStatus saveAll(final List<OrderModelDto> dto) {
-        dto.stream().map(this::insertDependenciesAndParseToModel).forEach(entityRepository::save);
-        return HttpStatus.CREATED;
+    public ResponseEntity<List<String>> getOrderBasicFromUser(final String userCode)
+    {
+        return new ResponseEntity<>(entityRepository.findAllBaseInfoByUser(userCode), HttpStatus.CREATED);
     }
 
     @Transactional
-    public HttpStatus saveWithItems(final OrderModelDtoWithOrderItems dto) {
+    public HttpStatus saveWithItems(final OrderModelDtoWithOrderItems dto)
+    {
         //Create Order
         final Order orderModel = insertDependenciesAndParseToModel(dto);
         entityRepository.save(orderModel);
@@ -128,5 +144,9 @@ public class OrderService extends AbstractModelService<Order, OrderModelDto, Ord
         jsonNode.put("pageSize", modelPropertiesService.getPageSize());
 
         return jsonNode;
+    }
+
+    public String getOwnerCode(final String code){
+        return findByCodeOrThrowError(code,"getOwnerCode").getUser().getCode();
     }
 }

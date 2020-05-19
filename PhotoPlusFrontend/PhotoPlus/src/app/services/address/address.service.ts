@@ -50,8 +50,8 @@ export class AddressService extends AbstractService<Address> {
     this._http
       .post<string>(
         environment.hostAddress +
-          this.ADDRESS_USER_EDIT_ENDPOINT +
-          this.loginService.getLoggedUserCode(),
+        this.ADDRESS_USER_EDIT_ENDPOINT +
+        this.loginService.getLoggedUserCode(),
         newAddressToPost
       )
       .subscribe((res) => {
@@ -92,5 +92,9 @@ export class AddressService extends AbstractService<Address> {
       this.ADDRESS_USER_EDIT_ENDPOINT + addressCode,
       fieldChange
     );
+  }
+
+  public getSingleByUser(code: string): Observable<Address> {
+    return this._http.get<Address>(this.hostAddress + this.endpointUrl + '/byUser/single/' + code);
   }
 }
