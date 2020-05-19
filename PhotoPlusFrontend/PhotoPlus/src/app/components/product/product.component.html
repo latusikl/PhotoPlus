@@ -158,7 +158,18 @@
 <div class="areaBtn mb-2">
   <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
 </div>
+<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+</app-page-select>
 <div *ngIf="ratings?.length > 0">
+  <mat-form-field class="selectBox">
+    <mat-label class="text-muted">Sorting option</mat-label>
+    <mat-select class="dropdown-option" [(value)]="sort" (selectionChange)="onSortingChange()">
+      <mat-option class="select" value="dateAsc">Date ↑</mat-option>
+      <mat-option class="select" value="dateDesc">Date ↓</mat-option>
+      <mat-option class="select" value="rateAsc">Rate ↑</mat-option>
+      <mat-option class="select" value="rateDesc">Rate ↓</mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-card class="container rate-bg-color">
     <mat-card class="single-rate p-1" *ngFor="let rate of ratings">
       <div class="d-flex">
@@ -176,15 +187,4 @@
     </mat-card>
   </mat-card>
   <br>
-  <mat-form-field class="selectBox">
-    <mat-label class="text-muted">Sorting option</mat-label>
-    <mat-select class="dropdown-option" [(value)]="sort" (selectionChange)="onSortingChange()">
-      <mat-option class="select" value="dateAsc">Date ↑</mat-option>
-      <mat-option class="select" value="dateDesc">Date ↓</mat-option>
-      <mat-option class="select" value="rateAsc">Rate ↑</mat-option>
-      <mat-option class="select" value="rateDesc">Rate ↓</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-  </app-page-select>
 </div>
