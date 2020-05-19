@@ -242,5 +242,8 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  get auth():LoginService{
+    return this.loginService;
+  }
 
 }
