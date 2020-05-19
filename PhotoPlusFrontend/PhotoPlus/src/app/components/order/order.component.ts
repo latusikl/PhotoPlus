@@ -117,25 +117,20 @@ export class OrderComponent implements OnInit {
 
     this.addressService.post(address)
       .subscribe(res => {
-        console.log(res, res.headers.get('location').substring(30));
         const sliced = res.headers.get('location').split("/");
         const lastItem = sliced[sliced.length-1];
-        console.log(lastItem);
-        
 
-        this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
-          this.order.addressCode = data.code;
-          this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
-          this.order.orderItems = this.cartService.getItemsModel();
-          this.orderSerivce.buy(this.order).subscribe(() => {
-            const modalRef = this.modalService.open(SuccessModalComponent);
-            modalRef.componentInstance.title = 'Success!';
-            modalRef.componentInstance.message = 'Your order is being carried.';
-            this.cartService.clearCart();
-            this.router.navigate(['/']);
-          }, error => {
-            this.router.navigate(['/cart']);
-          });
+        this.order.addressCode = lastItem;
+        this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
+        this.order.orderItems = this.cartService.getItemsModel();
+        this.orderSerivce.buy(this.order).subscribe(() => {
+          const modalRef = this.modalService.open(SuccessModalComponent);
+          modalRef.componentInstance.title = 'Success!';
+          modalRef.componentInstance.message = 'Your order is being carried.';
+          this.cartService.clearCart();
+          this.router.navigate(['/']);
+        }, error => {
+          this.router.navigate(['/cart']);
         });
       });
   }
