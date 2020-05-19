@@ -17,7 +17,6 @@ import pl.polsl.photoplus.services.controllers.UserService;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @JsonPropertyOrder({"login", "password", "name", "surname", "email"})
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,12 +28,13 @@ public class UserModelDto
 
     @JsonProperty("login")
     @NotBlank(message = "Login is mandatory.")
-    @Length(min = 5, message = "Login should be longer than 5 signs.")
+    @Length(min = 5, max = 12, message = "Login should be longer than 4 and shorter than 13 signs.")
     @Unique(service = UserService.class, fieldName = "login", fieldNameToBeDisplayed = "Login")
     private String login;
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
+    @Length(min = 5, max = 15, message = "Email should be longer than 4 and shorter than 16 signs.")
     @NotBlank(message = "Email is mandatory.")
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     @Patchable
@@ -43,19 +43,20 @@ public class UserModelDto
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory.")
     @OnlyLetters(message = "Invalid name. Only letters are allowed.")
-    @Size(min = 2, max = 15)
+    @Length(min = 2, max = 15, message = "Name should be longer than 1 and shorter than 16 signs.")
     @Patchable
     private String name;
 
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
     @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Invalid surname.")
-    @Size(min = 2, max = 30)
+    @Length(min = 2, max = 20, message = "Surname should be longer than 1 and shorter than 21 signs.")
     @Patchable
     private String surname;
 
     @JsonProperty("password")
     @NotBlank(message = "Password is mandatory.")
+    @Length(min = 5, max = 20, message = "Password should be longer than 4 and shorter than 21 signs.")
     @Patchable
     private String password;
 
