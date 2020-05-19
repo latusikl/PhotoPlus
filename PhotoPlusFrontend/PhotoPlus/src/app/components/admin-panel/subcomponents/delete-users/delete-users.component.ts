@@ -14,7 +14,6 @@ export class DeleteUsersComponent implements OnInit {
   el: ElementRef;
 
   users: BehaviorSubject<User>[];
-  filteredUsers: BehaviorSubject<User>[];
 
   amountOfPages: BehaviorSubject<number>;
   seletedPage: BehaviorSubject<number>;
@@ -42,12 +41,10 @@ export class DeleteUsersComponent implements OnInit {
 
   loadUsers() {
     this.users = new Array<BehaviorSubject<User>>();
-    this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getPage(this.seletedPage.value).subscribe((data) => {
       for (const user of data) {
         this.users.push(new BehaviorSubject(user));
       }
-      this.filteredUsers = this.users;
     });
   }
 
@@ -69,14 +66,16 @@ export class DeleteUsersComponent implements OnInit {
 
   getFilteredUsers(searchText: string) {
     this.userService.getUsersSearchByLogin(searchText).subscribe(users => {
-      this.filteredUsers = new Array();
+      this.users = new Array();
       for (const user of users) {
-        this.filteredUsers.push(new BehaviorSubject(user));
+        this.users.push(new BehaviorSubject(user));
       }
     })
   }
 
-  deleteUser(user: BehaviorSubject<User>) {
+  deleteUser(userCode: string) {
+    const user = this.users.find((x)=> x.value.code === userCode);
+    
     if (confirm('Do you want to delete user: \n\n' + user.value.name + ' ' + user.value.surname)) {
       this.userService.delete(user.value.code).subscribe(() => {
         this.ngOnInit(); // reinicjalizcja
