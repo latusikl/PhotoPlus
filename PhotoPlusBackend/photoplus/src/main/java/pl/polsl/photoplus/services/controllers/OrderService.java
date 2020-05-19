@@ -145,4 +145,8 @@ public class OrderService
 
         return jsonNode;
     }
+
+    public String getOwnerCode(final String code){
+        return findByCodeOrThrowError(code,"getOwnerCode").getUser().getCode();
+    }
 }

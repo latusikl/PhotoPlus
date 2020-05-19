@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Input} from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrderService } from "src/app/services/order/order.service";
 import { Order } from "src/app/models/order/order";
@@ -26,7 +26,7 @@ export class ManageSingleOrderComponent implements OnInit {
   @Input("isForClient")
   isForClient: false;
   @Input("orderCode")
-  orderCode : string;
+  orderCode: string;
 
   order: BehaviorSubject<Order>;
   user: BehaviorSubject<User>;
@@ -43,7 +43,7 @@ export class ManageSingleOrderComponent implements OnInit {
     private addressService: AddressService,
     private orderItemService: OrderItemService,
     private productService: ProductService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.order = new BehaviorSubject({} as Order);
@@ -56,13 +56,12 @@ export class ManageSingleOrderComponent implements OnInit {
   }
 
   async loadOrder() {
-    if(this.isForClient){
-        this.orderService.getSingle(this.orderCode).subscribe((x) => {
-          this.order.next(x);
-          this.loadUser();
-          this.loadAddress();
-          this.loadOrderItemsPageInfo();
-        });
+    if (this.isForClient) {
+      this.orderService.getOrderDetailsByUser(this.orderCode).subscribe((x) => {
+        this.order.next(x);
+        this.loadAddressByUser();
+        this.loadOrderItemsPageInfo();
+      });
     }
     else {
       this.activatedRoute.params.subscribe((params) => {
@@ -121,6 +120,13 @@ export class ManageSingleOrderComponent implements OnInit {
   async loadAddress() {
     const address = await this.addressService
       .getSingle(this.order.value.addressCode)
+      .toPromise();
+    this.address.next(address);
+  }
+
+  async loadAddressByUser() {
+    const address = await this.addressService
+      .getSingleByUser(this.order.value.addressCode)
       .toPromise();
     this.address.next(address);
   }

@@ -18,6 +18,7 @@ import pl.polsl.photoplus.repositories.OrderItemRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -100,5 +101,13 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
         jsonNode.put("pageSize", modelPropertiesService.getPageSize());
 
         return jsonNode;
+    }
+
+    public String getOwnerCode(final String code){
+        final OrderItem orderItemServiceOptional = entityRepository.findFirstByOrder_Code(code);
+        if(orderItemServiceOptional != null ){
+            return orderItemServiceOptional.getOrder().getUser().getCode();
+        }
+        return "";
     }
 }

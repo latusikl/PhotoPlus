@@ -15,6 +15,7 @@ import pl.polsl.photoplus.model.dto.OrderModelDto;
 import pl.polsl.photoplus.model.dto.OrderModelDtoWithOrderItems;
 import pl.polsl.photoplus.model.enums.OrderStatus;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
+import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.OrderService;
 
 import javax.validation.Valid;
@@ -61,10 +62,17 @@ public class OrderController
     }
 
     @GetMapping("/byUser/{userCode}")
-    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication,#userCode)")
-    public ResponseEntity<List<String>> getOrderBasicByUser(final @PathVariable("userCode") String userCode)
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #userCode)")
+    public ResponseEntity<List<String>> getOrderCodesByUser(final @PathVariable("userCode") String userCode)
     {
         return dtoService.getOrderBasicFromUser(userCode);
+    }
+
+    @GetMapping("details/byUser/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#code))")
+    public ResponseEntity<OrderModelDto> getOrderDetailsByUser(final @PathVariable("code") String code)
+    {
+        return this.getSingle(code);
     }
 
     @GetMapping(path = "/page/count", produces = "application/json", params = "orderStatus")
@@ -72,5 +80,13 @@ public class OrderController
     public ResponseEntity<ObjectNode> getAmountOfPages(@RequestParam final OrderStatus orderStatus)
     {
         return new ResponseEntity<>(dtoService.getPageCount(orderStatus), HttpStatus.OK);
+    }
+
+    /**
+     * You need to use getter to use service in @PreAuthorize because SpEL cannot use inherited field.
+     */
+    public OrderService getService()
+    {
+        return this.dtoService;
     }
 }
