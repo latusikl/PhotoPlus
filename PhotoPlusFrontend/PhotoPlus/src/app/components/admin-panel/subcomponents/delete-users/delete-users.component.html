@@ -5,16 +5,18 @@
     </app-page-select>
   </div>
   <div class="row">
-    <div class="col-4 mt-1" *ngFor="let user of filteredUsers">
-      <div class="form-group">
+    <div class="col-4 mt-1" *ngFor="let user of users">
+      <div class="form-group item-card">
         <mat-card>
-          <button (click)="deleteUser(user)" class="btn btn-danger mb-1">Delete</button><br>
-          Code: {{(user | async)?.code}}<br>
-          Login: {{(user | async)?.login}}<br>
-          Name: {{(user | async)?.name}}<br>
-          Surname: {{(user | async)?.surname}}<br>
-          Email: {{(user | async)?.email}}<br>
-          Role: {{(user | async)?.role}}
+          <button (click)="deleteUser(user.value.code)" class="btn btn-danger mb-1">Delete</button><br>
+          <div class="user">
+            Code: {{(user | async)?.code}}<br>
+            Login: {{(user | async)?.login}}<br>
+            Name: {{(user | async)?.name}}<br>
+            Surname: {{(user | async)?.surname}}<br>
+            Email: {{(user | async)?.email}}<br>
+            Role: {{(user | async)?.role}}
+          </div>
         </mat-card>
       </div>
     </div>

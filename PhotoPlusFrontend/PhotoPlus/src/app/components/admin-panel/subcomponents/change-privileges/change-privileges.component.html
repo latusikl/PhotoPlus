@@ -5,15 +5,17 @@
     </app-page-select>
   </div>
   <div class="row">
-    <div class="col-4 mt-1" *ngFor="let user of filteredUsers">
-      <div class="form-group">
-        <mat-card>
+    <div class="col-4 mt-1" *ngFor="let user of users">
+      <div class="form-group item-card">
+        <mat-card >
           <button (click)="sendUpdateRole(user.value.code)" class="btn btn-primary mb-1">
             Update role</button><br />
-          Code: {{ (user | async)?.code }}<br />
-          Login: {{ (user | async)?.login }}<br />
-          Name: {{ (user | async)?.name }}<br />
-          Surname: {{ (user | async)?.surname }}<br />
+            <div class="user">
+              Code: {{ (user | async)?.code }}<br />
+              Login: {{ (user | async)?.login }}<br />
+              Name: {{ (user | async)?.name }}<br />
+              Surname: {{ (user | async)?.surname }}<br />
+            </div>
           <div class="form-group">
             Role:
             <select (change)="changeRoleInModel(user.value.code,$event.target.value)">
