@@ -154,12 +154,6 @@ Proper file format example:
                 <access>/product/delete</access>
                 <access>/product/post</access>
 
-                <access>/rating/all</access>
-                <access>/rating/single</access>
-                <access>/rating/patch</access>
-                <access>/rating/delete</access>
-                <access>/rating/post</access>
-
                 <access>/section/all</access>
                 <access>/section/single</access>
                 <access>/section/patch</access>
