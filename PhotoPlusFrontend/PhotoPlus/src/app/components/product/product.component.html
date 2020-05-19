@@ -137,3 +137,54 @@
     </div>
   </div>
 </div>
+<!-- //! RATINGI START -->
+<div class="stars">
+  <div class="rate">
+    <input class="all-stars" (change)="FieldsChange($event)" type="radio" id="star5" name="rate" value="5" />
+    <label  for="star5" title="5 stars"></label>
+    <input class="all-stars" (change)="FieldsChange($event)" type="radio" id="star4" name="rate" value="4" />
+    <label for="star4" title="4 stars"></label>
+    <input class="all-stars" (change)="FieldsChange($event)" type="radio" id="star3" name="rate" value="3" />
+    <label for="star3" title="3 stars"></label>
+    <input class="all-stars" (change)="FieldsChange($event)" type="radio" id="star2" name="rate" value="2" />
+    <label for="star2" title="2 stars"></label>
+    <input class="all-stars" (change)="FieldsChange($event)" type="radio" id="star1" name="rate" value="1" />
+    <label for="star1" title="1 star"></label>
+  </div>
+</div>
+<div class="area">
+  <textarea #rateContent type="string" maxlength="255" id="area" rows="5" cols="60" value=""></textarea>
+</div>
+<div class="areaBtn mb-2">
+  <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
+</div>
+<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+</app-page-select>
+<div *ngIf="ratings?.length > 0">
+  <mat-form-field class="selectBox">
+    <mat-label class="text-muted">Sorting option</mat-label>
+    <mat-select class="dropdown-option" [(value)]="sort" (selectionChange)="onSortingChange()">
+      <mat-option class="select" value="dateAsc">Date ↑</mat-option>
+      <mat-option class="select" value="dateDesc">Date ↓</mat-option>
+      <mat-option class="select" value="rateAsc">Rate ↑</mat-option>
+      <mat-option class="select" value="rateDesc">Rate ↓</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-card class="container rate-bg-color">
+    <mat-card class="single-rate p-1" *ngFor="let rate of ratings">
+      <div class="d-flex">
+        <mat-card class="user-profile">
+          <!-- Could make user name breakable -->
+          {{(rate | async)?.userLogin || '' }}
+        </mat-card>
+        <div class="user-rate">
+            Rate:&nbsp;{{(rate | async)?.rate}}&nbsp;/&nbsp;5
+        </div>
+      </div>
+      <div class="user-rate-content m-1">
+        {{(rate | async)?.content}}
+      </div>
+    </mat-card>
+  </mat-card>
+  <br>
+</div>

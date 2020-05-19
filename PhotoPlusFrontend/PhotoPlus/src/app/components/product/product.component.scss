@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -126,4 +128,146 @@ img {
 
 .description {
   text-align: justify;
+}
+
+.rate {
+  float: left;
+  height: 46px;
+  padding: 0 10px;
+}
+.rate:not(:checked) > input {
+  position: absolute;
+  display: none;
+}
+.rate:not(:checked) > label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
+}
+.rate:not(:checked) > label:before {
+  content: "★ ";
+}
+.rate > input:checked ~ label {
+  color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: #c59b08;
+}
+.stars {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0em auto;
+  justify-content: center;
+}
+
+.ratebtn {
+  display: flex;
+  flex-wrap: wrap;
+  height: 20%;
+  justify-content: center;
+}
+
+textarea {
+  resize: none;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.rate-bg-color {
+  background-color: darken($mat-card-color, 20%);
+  padding: 5px;
+  justify-content: space-around;
+}
+
+.rate-bg-color > .single-rate {
+  margin: 3px;
+}
+
+.single-rate {
+  min-width: 200px;
+  max-width: 49%;
+  // as outstanding man Todd Howard once said " It just works "
+  background-color: darken($mat-card-color, 5%);
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.user-profile {
+  background-color: darken($color: $mat-card-color, $amount: 10%);
+  text-align: center;
+  flex: 1 0 100px;
+  height: fit-content;
+}
+
+.user-rate {
+  flex: 2 0 100px;
+  text-align: center;
+  align-self: center;
+}
+
+.flex-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.user-rate-content {
+  flex: 1 0 200px;
+  text-align: justify;
+  word-break: break-all;
+}
+
+.d-inline-block {
+  max-width: 100%;
+  word-break: break-word;
+}
+.selectBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+tr.border_bottom td {
+  border-bottom: 2pt solid darken($color: $mat-card-color, $amount: 10%);
+}
+
+.select.mat-selected {
+  color: white !important;
+}
+
+.areaBtn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0em auto;
+  margin-top: 0.5%;
+}
+
+.area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0em auto;
+}
+
+@media (max-width: 427px) {
+  .single-rate {
+    max-width: 427px;
+  }
 }

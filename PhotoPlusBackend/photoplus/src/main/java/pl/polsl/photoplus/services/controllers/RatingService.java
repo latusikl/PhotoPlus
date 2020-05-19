@@ -88,7 +88,6 @@ public class RatingService extends AbstractModelService<Rating, RatingModelDto, 
             modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("date").descending());
         }
         final Page<Rating> foundModels = entityRepository.findAllByProduct_Code(modelPage, productCode);
-        throwNotFoundErrorIfIterableEmpty("FIND RATING BY PRODUCT CODE", foundModels);
         return foundModels;
     }
 
