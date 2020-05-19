@@ -94,7 +94,7 @@ export class ProductComponent implements OnInit {
     if (this.loginService.isLoggedIn() == false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!.";
+      modalRef.componentInstance.message = "Please login!";
       return;
     }
     this.router.navigate(['/order']);
@@ -203,13 +203,13 @@ export class ProductComponent implements OnInit {
     if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!.";
+      modalRef.componentInstance.message = "Please login!";
       return;
     }
     if (this.isStar === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
       modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please choose your rate!.";
+      modalRef.componentInstance.message = "Please choose your rate!";
       return;
     }
     const rating = new Rating;
