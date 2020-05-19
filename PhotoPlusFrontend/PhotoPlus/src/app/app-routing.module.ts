@@ -23,6 +23,7 @@ import { ImageDisplayComponent } from './components/image-display/image-display.
 import { AboutComponent } from './components/about/about.component';
 import { UserDetailsComponent } from "./components/user-details/user-details.component";
 import { SearchComponent } from './components/search/search.component';
+import {UserShowOrdersComponent} from "./components/user-show-orders/user-show-orders.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -53,7 +54,8 @@ const routes: Routes = [
   { path: 'imageDisplay/:imageCode', component: ImageDisplayComponent},
   { path: 'about', component: AboutComponent},
   { path: 'user/details', component: UserDetailsComponent },
-  { path: 'search/:searchedText', component: SearchComponent }
+  { path: 'search/:searchedText', component: SearchComponent },
+  { path: 'user/orders', component: UserShowOrdersComponent }
 ];
 
 @NgModule({

@@ -37,6 +37,7 @@ public class UserModelDto
     @Email(message = "Email address is taken or not valid.")
     @NotBlank(message = "Email is mandatory.")
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
+    @Patchable
     private String email;
 
     @JsonProperty("name")
@@ -77,7 +78,7 @@ public class UserModelDto
         this.surname = surname;
         this.password = password;
         this.number = number;
-        this.userRole = userRole != null ? userRole : "CLIENT";
+        this.userRole = userRole;
     }
 
     @JsonIgnore

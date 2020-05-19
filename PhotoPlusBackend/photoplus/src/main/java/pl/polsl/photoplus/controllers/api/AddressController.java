@@ -3,6 +3,7 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,12 +16,14 @@ import pl.polsl.photoplus.model.dto.AddressModelDto;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/address")
+@Validated
 public class AddressController
         extends BaseModelController<AddressModelDto,AddressService>
 {
@@ -62,9 +65,16 @@ public class AddressController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/byUser/single/{code}", produces = {"application/json"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.getService().getOwnerCode(#code))")
+    public ResponseEntity<AddressModelDto> getSingleByUserCode(@PathVariable("code") final String code)
+    {
+        return this.getSingle(code);
+    }
+
     @PostMapping("/editAddress/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, #code)")
-    public String postForUser(@RequestBody final AddressModelDto dto, @PathVariable("code") final String code)
+    public String postForUser(@RequestBody @Valid final AddressModelDto dto, @PathVariable("code") final String code)
     {
         //Prevent form passing different code of user in dto than logged one
         dto.setUserCode(code);

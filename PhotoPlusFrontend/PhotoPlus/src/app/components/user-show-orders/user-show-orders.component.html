@@ -1,0 +1,22 @@
+<div xmlns="http://www.w3.org/1999/html">
+    <div class="welcome accordion fadeIn">
+        <h1>Your orders</h1>
+    </div>
+    <div class="accordion fadeIn first">
+        <mat-accordion class="headers-align bg-color">
+            <div *ngFor="let orderCode of orderCodes">
+                <mat-expansion-panel class="mt-1">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <span>Order number: <b>{{" " + orderCode}}</b></span>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Open to see details
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <app-manage-single-order isForClient="true" [orderCode]="orderCode"></app-manage-single-order>
+                </mat-expansion-panel>
+            </div>
+        </mat-accordion>
+    </div>
+</div>

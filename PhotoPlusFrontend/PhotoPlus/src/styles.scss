@@ -16,6 +16,14 @@ body {
   align-items: center;
 }
 
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0em auto;
+  justify-content: center;
+}
+
 /* ANIMATIONS */
 
 /* CSS3 Fade-in-down Animation */
@@ -139,4 +147,17 @@ body {
 
 .mat-form-field.mat-focused .mat-select-arrow {
   color: lightslategrey !important;
+}
+
+.dropdown-option {
+  margin: 10px;
+  color: black;
+}
+
+.select.mat-selected {
+  color: white !important;
+}
+
+.selectBox {
+  margin-top: 1.25em;
 }

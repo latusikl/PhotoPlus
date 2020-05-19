@@ -1,5 +1,8 @@
 <div [hidden]="!selectedProduct.value" class="container">
-    <div class="row">
+  <div class="text-center">
+    You are modifying product:&nbsp;{{(selectedProduct|async)?.name}}
+  </div>  
+  <div class="row">
       <div class="col-3 text-center mt-2">
         <mat-card
           (click)="goBack()"

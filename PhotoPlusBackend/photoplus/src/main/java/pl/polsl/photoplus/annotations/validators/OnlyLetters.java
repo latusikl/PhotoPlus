@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD,ElementType.FIELD})
 public @interface OnlyLetters
 {
-    String message() default "Invalid character. Only letters are allowed.";
+    String message() default "Invalid character. Only letters, space and dash are allowed.";
 
     Class<?>[] groups() default {};
 

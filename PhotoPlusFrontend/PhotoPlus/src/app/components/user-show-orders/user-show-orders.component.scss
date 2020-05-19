@@ -3,20 +3,15 @@
 .welcome {
   color: black;
   margin: 20px auto;
-  height: 76px;
+  max-width: 1500px;
 }
 
 .form-label {
-  color: lighten($mat-card-color, 40%);
+  color: darken(white, 15%);
   font-weight: bold;
   display: block;
   float: left;
 }
-
-.description-text{
-  color: lighten($mat-card-color, 40%) !important;
-}
-
 .form-control {
   margin-bottom: 30px;
 }

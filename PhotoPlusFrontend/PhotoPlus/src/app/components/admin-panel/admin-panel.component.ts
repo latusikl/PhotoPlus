@@ -16,100 +16,99 @@ import { ManageSingleOrderComponent } from './subcomponents/manage-single-order/
 })
 export class AdminPanelComponent implements OnInit {
 
-  @ViewChild("anchor",{static: true, read: ViewContainerRef})
+  @ViewChild('anchor', {static: true, read: ViewContainerRef})
   displayElement: ViewContainerRef;
 
   constructor(private loginService: LoginService,
-              private activatedRoute: ActivatedRoute,private router: Router,
-              private componentFactoryResolver:ComponentFactoryResolver) { }
+              private activatedRoute: ActivatedRoute, private router: Router,
+              private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit(): void {
     this.activatedRoute.url.subscribe(urlSegments => {
       this.mountSubcomponentView(urlSegments);
-    })
+    });
   }
 
-  mountSubcomponentView(urlSegment: UrlSegment[]){
+  mountSubcomponentView(urlSegment: UrlSegment[]) {
     // User właśnie wszedł na panel, można zmienić który komponent ma się domyślnie ładować
-    if(!urlSegment[1]){
+    if (!urlSegment[1]) {
       return;
     }
-    switch(urlSegment[1].path){
-      case 'orders':{
-        if(!urlSegment[2]){
-          this.mountMultipleOrdersComponent(); 
+    switch (urlSegment[1].path) {
+      case 'orders': {
+        if (!urlSegment[2]) {
+          this.mountMultipleOrdersComponent();
           break;
-        }
-        else{
+        } else {
           this.mountSingleOrderComponent();
           break;
         }
       }
-      case 'manageProducts':{
+      case 'manageProducts': {
         this.mountManageProductsComponent();
         break;
       }
-      case 'delivery':{
+      case 'delivery': {
         this.mountAddDeliveryComponent();
         break;
       }
-      case 'generateReports':{
+      case 'generateReports': {
         this.mountGenerateReportsComponent();
         break;
       }
-      case 'changePrivileges':{
+      case 'changePrivileges': {
         this.mountChangePrivilegesComponent();
         break;
       }
-      case 'deleteUser':{
+      case 'deleteUser': {
         this.mountDeleteUserComponent();
         break;
       }
     }
   }
 
-  mountMultipleOrdersComponent(){
+  mountMultipleOrdersComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageMultipleOrdersComponent);
-    this.displayElement.createComponent(componentFactory,0);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountSingleOrderComponent(){
+  mountSingleOrderComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageSingleOrderComponent);
     this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountManageProductsComponent(){
+  mountManageProductsComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ManageProductComponent);
     this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountAddDeliveryComponent(){
+  mountAddDeliveryComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(AddDeliveryComponent);
-    this.displayElement.createComponent(componentFactory,0);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountChangePrivilegesComponent(){
+  mountChangePrivilegesComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChangePrivilegesComponent);
-    this.displayElement.createComponent(componentFactory,0);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountDeleteUserComponent(){
+  mountDeleteUserComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(DeleteUsersComponent);
-    this.displayElement.createComponent(componentFactory,0);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
-  mountGenerateReportsComponent(){
+  mountGenerateReportsComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(GenerateReportComponent);
-    this.displayElement.createComponent(componentFactory,0);
+    this.displayElement.createComponent(componentFactory, 0);
   }
 
 
 
-  navigate(url: string){
+  navigate(url: string) {
     this.router.navigate([url]);
   }
 
-  get auth():LoginService{
+  get auth(): LoginService {
     return this.loginService;
   }
 

@@ -1,7 +1,17 @@
+.about-container {
+ text-align: center;
+ margin-top: 20px;
+}
+
+.image{
+  width: 25%;
+  height: 25%;
+}
+
 .underlineHover:hover {
   text-decoration: none;
 }
 
-.flex-container {
+.container-centered {
   margin-top: 20px;
 }

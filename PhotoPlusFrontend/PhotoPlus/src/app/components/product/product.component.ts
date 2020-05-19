@@ -89,6 +89,9 @@ export class ProductComponent implements OnInit {
   }
 
   buy(product: Product) {
+    if (!confirm('Are you sure you want to buy ' + product.name + '? \n This operation will clear your shopping cart.')) {
+      return;
+    }
     this.cartService.clearCart();
     this.cartService.addToCart(product);
     if (this.loginService.isLoggedIn() === false) {

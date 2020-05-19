@@ -27,7 +27,7 @@ public class AddressModelDto
     private String street;
 
     @NotBlank(message = "Number is mandatory.")
-    @Pattern(regexp = "\\p{Alnum}+", message = "Only letters and numbers are allowed in number field.")
+    @Pattern(regexp = "\\p{Alnum}{1,4}[/]?\\p{Alnum}{1,4}", message = "Please check your apartment number.")
     @JsonProperty("number")
     @Patchable
     private String number;

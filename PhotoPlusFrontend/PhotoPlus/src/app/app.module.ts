@@ -52,6 +52,8 @@ import { UserDetailsComponent } from "./components/user-details/user-details.com
 import { UserDataComponent } from "./components/user-details/user-data/user-data.component";
 import { UserAddressComponent } from "./components/user-details/user-address/user-address.component";
 import { SearchComponent } from './components/search/search.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import { UserShowOrdersComponent } from './components/user-show-orders/user-show-orders.component';
 
 
 @NgModule({
@@ -94,7 +96,9 @@ import { SearchComponent } from './components/search/search.component';
     UserDetailsComponent,
     UserDataComponent,
     UserAddressComponent,
-    SearchComponent
+    SearchComponent,
+    ProductCardComponent,
+    UserShowOrdersComponent
   ],
   imports: [
     BrowserModule,
