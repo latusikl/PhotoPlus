@@ -72,6 +72,9 @@ export class OrderComponent implements OnInit {
     if (this.loginService.isLoggedIn() === true) {
       this.order.userCode = this.loginService.getLoggedUser().code;
       this.addressService.byUser(this.order.userCode).subscribe(data => {
+        if(data.length === 0){
+          return;
+        }
         this.addresses = data.reverse();
         this.selectOption(this.addresses[0].code);
       });
@@ -114,6 +117,12 @@ export class OrderComponent implements OnInit {
 
     this.addressService.post(address)
       .subscribe(res => {
+        console.log(res, res.headers.get('location').substring(30));
+        const sliced = res.headers.get('location').split("/");
+        const lastItem = sliced[sliced.length-1];
+        console.log(lastItem);
+        
+
         this.addressService.getSingle(res.headers.get('location').substring(30)).subscribe(data => {
           this.order.addressCode = data.code;
           this.order.paymentMethod = this.paymentMethodForm.value.paymentMethod;
