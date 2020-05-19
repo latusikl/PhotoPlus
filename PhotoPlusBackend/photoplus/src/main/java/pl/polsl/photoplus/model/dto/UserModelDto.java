@@ -34,7 +34,7 @@ public class UserModelDto
 
     @JsonProperty("email")
     @Email(message = "Email address is taken or not valid.")
-    @Length(min = 5, max = 15, message = "Email should be longer than 4 and shorter than 16 signs.")
+    @Length(min = 5, max = 30, message = "Email should be longer than 4 and shorter than 31 signs.")
     @NotBlank(message = "Email is mandatory.")
     @Unique(service = UserService.class, fieldName = "email", fieldNameToBeDisplayed = "E-mail address")
     @Patchable
@@ -56,7 +56,7 @@ public class UserModelDto
 
     @JsonProperty("password")
     @NotBlank(message = "Password is mandatory.")
-    @Length(min = 5, max = 20, message = "Password should be longer than 4 and shorter than 21 signs.")
+    @Length(min = 5, max = 30, message = "Password should be longer than 4 and shorter than 31 signs.")
     @Patchable
     private String password;
 
