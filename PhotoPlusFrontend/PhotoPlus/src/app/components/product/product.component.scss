@@ -193,6 +193,11 @@ textarea {
 
 .rate-bg-color{
   background-color: darken($mat-card-color, 20%);
+  padding: 5px;
+}
+
+.rate-bg-color > .single-rate {
+  margin: 5px;
 }
 
 .single-rate{
