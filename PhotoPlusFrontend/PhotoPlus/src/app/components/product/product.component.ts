@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ProductService } from "../../services/product/product.service";
+import { ProductService } from '../../services/product/product.service';
 import { Product } from 'src/app/models/product/product';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { SuccessModalComponent } from '../success-modal/success-modal.component';
@@ -48,9 +48,9 @@ export class ProductComponent implements OnInit {
 
   ratings: BehaviorSubject<Rating>[];
   products: BehaviorSubject<Product>[];
-  sort = "dateAsc"
+  sort = 'dateAsc';
   isStar = false;
-  stars: number
+  stars: number;
 
   content: any;
   myDate = new Date();
@@ -58,15 +58,15 @@ export class ProductComponent implements OnInit {
   amountOfPages: BehaviorSubject<number>;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
-    private productService: ProductService,
-    private cartService: CartService,
-    private modalService: NgbModal,
-    private loginService: LoginService,
-    private categoryService: CategoryService,
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
-    private ratingSerivce: RatingService
+              private router: Router,
+              private productService: ProductService,
+              private cartService: CartService,
+              private modalService: NgbModal,
+              private loginService: LoginService,
+              private categoryService: CategoryService,
+              private formBuilder: FormBuilder,
+              private datePipe: DatePipe,
+              private ratingSerivce: RatingService
   ) { }
 
    async ngOnInit() {
@@ -91,10 +91,10 @@ export class ProductComponent implements OnInit {
   buy(product: Product) {
     this.cartService.clearCart();
     this.cartService.addToCart(product);
-    if (this.loginService.isLoggedIn() == false) {
+    if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
     this.router.navigate(['/order']);
@@ -173,7 +173,7 @@ export class ProductComponent implements OnInit {
 
   FieldsChange(values: any) {
     this.isStar = true;
-    this.stars = values.target.value
+    this.stars = values.target.value;
   }
 
   changePage(page: number) {
@@ -185,7 +185,7 @@ export class ProductComponent implements OnInit {
     this.loadRatings();
   }
 
-  async loadRatingsPageInfo(){
+  async loadRatingsPageInfo() {
     const pageInfo = this.ratingSerivce.getPageCountRating(this.param).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
@@ -193,7 +193,7 @@ export class ProductComponent implements OnInit {
   async loadRatings() {
     this.ratingSerivce.getRatingsPage(this.selectedPage, this.sort, this.param).subscribe(data => {
       this.ratings = new Array();
-      for(const rate of data){
+      for (const rate of data) {
         this.ratings.push(new BehaviorSubject(rate));
       }
     });
@@ -202,40 +202,40 @@ export class ProductComponent implements OnInit {
   rate() {
     if (this.loginService.isLoggedIn() === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please login!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please login!';
       return;
     }
     if (this.isStar === false) {
       const modalRef = this.modalService.open(ErrorModalComponent);
-      modalRef.componentInstance.title = "Error occured!";
-      modalRef.componentInstance.message = "Please choose your rate!";
+      modalRef.componentInstance.title = 'Error occured!';
+      modalRef.componentInstance.message = 'Please choose your rate!';
       return;
     }
-    const rating = new Rating;
+    const rating = new Rating();
     rating.rate = this.stars;
 
-    rating.productCode = this.param
-    rating.content = this.rateContent.nativeElement.value
-    rating.userLogin = this.loginService.getLoggedUser().login
-    rating.userCode = this.loginService.getLoggedUser().code
+    rating.productCode = this.param;
+    rating.content = this.rateContent.nativeElement.value;
+    rating.userLogin = this.loginService.getLoggedUser().login;
+    rating.userCode = this.loginService.getLoggedUser().code;
     rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.ratingSerivce.post(rating).subscribe(async data => {
-      this.rateContent.nativeElement.value = "";
+      this.rateContent.nativeElement.value = '';
       this.isStar = false;
-      this.deselectStars();// ? Optional
+      this.deselectStars(); // ? Optional
       const modalRef = this.modalService.open(SuccessModalComponent);
-      modalRef.componentInstance.title = "Success!";
-      modalRef.componentInstance.message = "You rated product.";
+      modalRef.componentInstance.title = 'Success!';
+      modalRef.componentInstance.message = 'You rated product.';
       await this.loadRatingsPageInfo();
       this.loadRatings();
-    })
+    });
   }
 
-  deselectStars(){
-    const stars = document.querySelectorAll(".all-stars");
-    for(let i =0; i < stars.length; i++){
-      (stars[i] as any).checked= false;
+  deselectStars() {
+    const stars = document.querySelectorAll('.all-stars');
+    for (let i = 0; i < stars.length; i++) {
+      (stars[i] as any).checked = false;
     }
   }
 
