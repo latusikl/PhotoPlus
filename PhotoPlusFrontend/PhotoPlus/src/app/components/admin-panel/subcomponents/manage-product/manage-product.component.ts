@@ -10,7 +10,7 @@ import { CategoryService } from "src/app/services/category/category.service";
 import { Category } from "src/app/models/category/category";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Product } from "src/app/models/product/product";
-import { ProductService } from "src/app/services/product/product.service";
+import { ProductService, ProductSortBy } from "src/app/services/product/product.service";
 import { BehaviorSubject } from "rxjs";
 import { ImageService } from "src/app/services/image/image.service";
 
@@ -35,7 +35,16 @@ export class ManageProductComponent implements OnInit {
   submitted: boolean;
 
   products: BehaviorSubject<Product>[];
-  filteredProducts: BehaviorSubject<Product>[];
+
+  amountOfPages: BehaviorSubject<number>;
+  currentPage:BehaviorSubject<number>;
+
+  howMuchMilisecsBeforeFetch = 500;
+  searchBarInputTimer: NodeJS.Timeout;
+
+  shouldSearch:boolean = false;
+  searchPhrase:string;
+  
 
   categories: BehaviorSubject<Category>[];
 
@@ -49,21 +58,39 @@ export class ManageProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedProduct = new BehaviorSubject(null);
+    this.currentPage = new BehaviorSubject(0);
+    this.amountOfPages = new BehaviorSubject(0);
     this.loadProducts();
     this.loadCategories();
     this.createForm();
     this.setupSearchBarListener();
   }
 
-  loadProducts(completionHandler?: Function) {
+
+  async loadSearchedPageInfo(){
+    const pageInfo = this.productService.getSearchedProductsPageInfo(this.searchPhrase).toPromise();
+    this.amountOfPages.next((await pageInfo).pageAmount);
+  }
+
+  loadSearchedProducts(){
+    this.productService.getProductsSearchByName(this.currentPage.value,ProductSortBy.PRICE_ASCENDING,this.searchPhrase).subscribe((data) =>{
+      this.products = new Array();
+      for(let product of data){
+        this.productService.getDataFromLinks(product);
+        this.products.push(new BehaviorSubject(product));
+      }
+    })
+  }
+
+  async loadProducts(completionHandler?: Function) {
+    const pageInfo = this.productService.getPageCount().toPromise();
+    this.amountOfPages.next((await pageInfo).pageAmount);
     this.products = new Array<BehaviorSubject<Product>>();
-    this.filteredProducts = new Array<BehaviorSubject<Product>>();
     this.productService.getAll().subscribe((products) => {
       for (let product of products) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
       }
-      this.filteredProducts = this.products;
       if (completionHandler) {
         completionHandler();
       }
@@ -146,30 +173,21 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  setupSearchBarListener() {
+  async setupSearchBarListener() {
     this.renderer.listen(this.searchBar.nativeElement, "input", () => {
-      const searchText = this.searchBar.nativeElement.value;
-      if (searchText == "") {
-        this.filteredProducts = this.products;
+      this.searchPhrase = this.searchBar.nativeElement.value;
+      clearTimeout(this.searchBarInputTimer);
+      if (this.searchPhrase == "") {
+        this.loadProducts();
         return;
       }
-      this.filterDisplayedProducts(searchText);
+      if(this.searchPhrase.length > 2){
+        this.searchBarInputTimer = setTimeout(async () => {
+          await this.loadSearchedPageInfo();
+          await this.loadSearchedProducts();
+        }, this.howMuchMilisecsBeforeFetch);
+      }
     });
-  }
-
-  forceFilterDisplayedProducts() {
-    const searchText = this.searchBar.nativeElement.value;
-    this.filterDisplayedProducts(searchText);
-  }
-
-  filterDisplayedProducts(searchText: string) {
-    this.filteredProducts = this.products.filter(
-      (x) =>
-        x.value.code
-          .toLowerCase()
-          .includes(searchText.toLowerCase()) ||
-        x.value.name.toLowerCase().includes(searchText.toLowerCase())
-    );
   }
 
   chooseProduct(product: BehaviorSubject<Product>) {
@@ -291,6 +309,11 @@ export class ManageProductComponent implements OnInit {
           this.selectedProduct.next(newProductSelection.value);
         });
       });
+  }
+
+  changePage(nextPage: number){
+    console.log(nextPage);
+    
   }
 
   get f() {
