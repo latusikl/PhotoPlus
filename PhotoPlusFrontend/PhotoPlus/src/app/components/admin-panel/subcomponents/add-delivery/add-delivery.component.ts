@@ -83,7 +83,6 @@ export class AddDeliveryComponent implements OnInit {
     this.productService.getSearchedProductsPageInfo(this.searchPhrase).subscribe( data => {
       this.currentPage.next(0);
       this.amountOfPages.next(data.pageAmount);
-      this.loadSearchedProducts();
     });
   }
 
@@ -111,7 +110,8 @@ export class AddDeliveryComponent implements OnInit {
       if(this.searchPhrase.length > 2){
         this.shouldSearch = true;
         this.searchBarInputTimer = setTimeout(()=> {
-          this.loadSearchedProductsPageInfo()
+          this.loadSearchedProductsPageInfo();
+          this.loadSearchedProducts();
         },this.howMuchMilisecsBeforeFetch);
       }     
     });
