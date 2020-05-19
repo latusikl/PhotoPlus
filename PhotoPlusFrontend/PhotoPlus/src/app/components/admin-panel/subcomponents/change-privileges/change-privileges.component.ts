@@ -15,7 +15,6 @@ export class ChangePrivilegesComponent implements OnInit {
   el: ElementRef;
 
   users: BehaviorSubject<User>[];
-  filteredUsers: BehaviorSubject<User>[];
 
   selectedPage: BehaviorSubject<number>;
   amountOfPages: BehaviorSubject<number>;
@@ -32,7 +31,6 @@ export class ChangePrivilegesComponent implements OnInit {
     const pageInfo = this.userService.getPageCount().toPromise();
     this.loadUsers();
     this.setupSearchBarListener();
-    const info = await pageInfo;
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
@@ -54,21 +52,19 @@ export class ChangePrivilegesComponent implements OnInit {
 
   getFilteredUsers(searchText: string) {
     this.userService.getUsersSearchByLogin(searchText).subscribe(users => {
-      this.filteredUsers = new Array();
+      this.users = new Array();
       for (const user of users) {
-        this.filteredUsers.push(new BehaviorSubject(user));
+        this.users.push(new BehaviorSubject(user));
       }
     })
   }
 
   loadUsers() {
     this.users = new Array<BehaviorSubject<User>>();
-    this.filteredUsers = new Array<BehaviorSubject<User>>();
     this.userService.getPage(this.selectedPage.value).subscribe((data) => {
       for (const user of data) {
         this.users.push(new BehaviorSubject(user));
       }
-      this.filteredUsers = this.users;
     });
   }
 
@@ -78,16 +74,16 @@ export class ChangePrivilegesComponent implements OnInit {
   }
 
   sendUpdateRole(userCode: string) {
-    const idx = this.users.findIndex((x) => x.value.code === userCode);
-    const patchMsg = { role: this.users[idx].value.role } as User | any;
+    const user = this.users.find((x) => x.value.code === userCode);
+    const patchMsg = { role: user.value.role } as User | any;
     this.userService.patch(userCode, patchMsg).subscribe(() => {
       alert('Change successful');
     })
   }
 
   changeRoleInModel(userCode: string, role: Role) {
-    const idx = this.users.findIndex((x) => x.value.code === userCode);
-    this.users[idx].value.role = role;
+    const user = this.users.find((x) => x.value.code === userCode);
+    user.value.role = role;
   }
 
   get roleClass(): Role[] {
