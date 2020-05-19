@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
     private ratingSerivce: RatingService
   ) { }
 
-   ngOnInit() {
+   async ngOnInit() {
     this.selectedPage = 0;
     this.amountOfPages = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
@@ -84,7 +84,7 @@ export class ProductComponent implements OnInit {
       name: ['', [Validators.required]],
       link: ['', [Validators.required, Validators.pattern(/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/)]],
     });
-
+    await this.loadRatingsPageInfo();
     this.loadRatings();
   }
 
@@ -185,10 +185,12 @@ export class ProductComponent implements OnInit {
     this.loadRatings();
   }
 
-  async loadRatings() {
+  async loadRatingsPageInfo(){
     const pageInfo = this.ratingSerivce.getPageCountRating(this.param).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
-    this.ratings = new Array<BehaviorSubject<Rating>>();
+  }
+
+  async loadRatings() {
     this.ratingSerivce.getRatingsPage(this.selectedPage, this.sort, this.param).subscribe(data => {
       this.ratings = new Array();
       for(const rate of data){
@@ -218,12 +220,12 @@ export class ProductComponent implements OnInit {
     rating.userLogin = this.loginService.getLoggedUser().login
     rating.userCode = this.loginService.getLoggedUser().code
     rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    this.ratingSerivce.post(rating).subscribe(data => {
+    this.ratingSerivce.post(rating).subscribe(async data => {
       const modalRef = this.modalService.open(SuccessModalComponent);
       modalRef.componentInstance.title = "Success!";
       modalRef.componentInstance.message = "You rated product.";
+      await this.loadRatingsPageInfo();
       this.loadRatings();
-
     })
   }
 
