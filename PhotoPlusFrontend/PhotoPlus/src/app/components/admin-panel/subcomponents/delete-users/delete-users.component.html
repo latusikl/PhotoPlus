@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div class="col-4 mt-1" *ngFor="let user of users">
-      <div class="form-group">
+      <div class="form-group item-card">
         <mat-card>
           <button (click)="deleteUser(user.value.code)" class="btn btn-danger mb-1">Delete</button><br>
           <div class="user">
