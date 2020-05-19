@@ -196,11 +196,11 @@ textarea {
 }
 
 .single-rate{
-  min-width: 19%; // Do not ask it is 01:30 am
-  max-width: 39%; // Do not ask it is 01:30 am and i cant think of a better way to fix margins
+  min-width: 200px; // Do not ask it is 01:30 am
+  max-width: 50%; // Do not ask it is 01:30 am and i cant think of a better way to fix margins
   // as outstanding man Todd Howard once said " It just works "
   background-color: darken($mat-card-color, 5%);
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   flex-wrap: wrap;
 }
 
