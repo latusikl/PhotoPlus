@@ -112,10 +112,12 @@ public class ReportService {
         document.add(para);
 
         final Product product = productService.findByCodeOrThrowError(code, "GENERATE PRODUCT REPORT");
+        final double averagePurchasePrice = getAveragePurchasePrice(product, beginDate, endDate);
         font = FontFactory.getFont(FontFactory.COURIER, 13, BaseColor.BLACK);
         chunk = new Chunk("Code: " + product.getCode() + "\n" +
                 "Name: " + product.getName() + "\n" +
                 "Price: $" + formatter.format(product.getPrice()) + "\n" +
+                "Average purchase price: $" + formatter.format(averagePurchasePrice) + "\n" +
                 "Category: " + product.getCategory().getName() + "\n" +
                 "Description: " + product.getDescription() + "\n", font);
         para = new Paragraph(chunk);
@@ -229,17 +231,22 @@ public class ReportService {
         return ratingSum / productRatingList.size();
     }
 
-    private Double getAverageProfit(final Product product, final LocalDate beginDate, final LocalDate endDate) {
-        final List<BatchModelDto> batchList = batchService.getAll().stream()
+    private List<BatchModelDto> getBatchesByDateAndProduct(final Product product, final LocalDate beginDate, final LocalDate endDate) {
+        return batchService.getAll().stream()
                 .filter(batch ->
                         batch.getProductCode().equals(product.getCode()) &&
                                 batch.getDate().compareTo(beginDate) >= 0 &&
                                 batch.getDate().compareTo(endDate) <= 0
                 )
                 .collect(Collectors.toList());
+    }
+
+    private Double getAverageProfit(final Product product, final LocalDate beginDate, final LocalDate endDate) {
+        final List<BatchModelDto> batchList = getBatchesByDateAndProduct(product, beginDate, endDate);
         if (batchList.isEmpty()) {
             return 0.0;
         }
+
         Double profit = 0.0;
         Integer supplyQuantityFromAllBatches = 0;
         for (final BatchModelDto batch : batchList) {
@@ -247,17 +254,16 @@ public class ReportService {
                     - batch.getSupplyQuantity() * batch.getPurchasePrice();
             supplyQuantityFromAllBatches += batch.getSupplyQuantity();
         }
+
+        if (supplyQuantityFromAllBatches == 0) {
+            return 0.0;
+        }
+
         return profit / supplyQuantityFromAllBatches;
     }
 
     private Double getAverageProfitOnlySold(final Product product, final LocalDate beginDate, final LocalDate endDate) {
-        final List<BatchModelDto> batchList = batchService.getAll().stream()
-                .filter(batch ->
-                        batch.getProductCode().equals(product.getCode()) &&
-                                batch.getDate().compareTo(beginDate) >= 0 &&
-                                batch.getDate().compareTo(endDate) <= 0
-                )
-                .collect(Collectors.toList());
+        final List<BatchModelDto> batchList = getBatchesByDateAndProduct(product, beginDate, endDate);
         if (batchList.isEmpty()) {
             return 0.0;
         }
@@ -268,10 +274,32 @@ public class ReportService {
             profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * (product.getPrice() - batch.getPurchasePrice());
             soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
         }
+
         if (soldItems == 0) {
             return 0.0;
         }
+
         return profit / soldItems;
+    }
+
+    private Double getAveragePurchasePrice(final Product product, final LocalDate beginDate, final LocalDate endDate) {
+        final List<BatchModelDto> batchList = getBatchesByDateAndProduct(product, beginDate, endDate);
+        if (batchList.isEmpty()) {
+            return 0.0;
+        }
+
+        Double price = 0.0;
+        Integer supplyQuantity = 0;
+        for (final BatchModelDto batch : batchList) {
+            price += batch.getPurchasePrice() * batch.getSupplyQuantity();
+            supplyQuantity += batch.getSupplyQuantity();
+        }
+
+        if (supplyQuantity == 0) {
+            return 0.0;
+        }
+
+        return price / supplyQuantity;
     }
 
     private Integer getSoldItemsNumber(final String code, final LocalDate beginDate, final LocalDate endDate) {
@@ -287,4 +315,5 @@ public class ReportService {
         }
         return soldItems;
     }
+
 }
