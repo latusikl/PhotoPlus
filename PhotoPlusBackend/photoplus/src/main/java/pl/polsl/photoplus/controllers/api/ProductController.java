@@ -9,6 +9,7 @@ import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.ProductService;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -83,13 +84,24 @@ public class ProductController
         dto.getImages().forEach(imageCode -> dto.add(linkTo(methodOn(ImageController.class).getSingle(imageCode)).withRel(IMAGE_RELATION_NAME)));
     }
 
-    @GetMapping(path = {"/search"}, produces = {"application/json"}, params = "str")
+    @GetMapping(path = {"/search/{page}"}, produces = {"application/json"}, params = {"str", "sortedBy"})
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
-    public ResponseEntity searchByName(@RequestParam final String str)
+    public ResponseEntity searchByName(@PathVariable final Integer page,
+                                       @RequestParam @Size(min=3, message = "Too short text. Size should be greater than 2.")
+                                       final String str,
+                                       @RequestParam final String sortedBy)
     {
-        final List<ProductModelDto> dtos = dtoService.getByNameContainingStr(str);
+        final List<ProductModelDto> dtos = dtoService.getByNameContainingStr(str, page, sortedBy);
         addLinks(dtos);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = {"/search/page/count"}, produces = {"application/json"}, params = "str")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity searchByNamePageCount(@RequestParam @Size(min=3, message = "Too short text. Size should be greater than 2.")
+                                                    final String str)
+    {
+        return new ResponseEntity<>(dtoService.getPageCountOfNameContainingStr(str), HttpStatus.OK);
     }
 
 }

@@ -1,9 +1,9 @@
-<div class="wrapper fadeInDown">
+<div class="wrapper">
     <form [formGroup]="addressForm">
         <div id="formContent">
             <div>
                 <label for="{{'street'+componentId}}" class="form-label">Street:</label>
-                <input formControlName="street" type="text" class="form-control fadeIn second"
+                <input formControlName="street" type="text" class="form-control"
                     id="{{'street'+componentId}}" name="street" placeholder="Street"
                     [ngClass]="{ 'is-invalid': isSubmitted && f.street.errors }"
                     (change)="registerChange('street',this.addressForm.value['street'])">
@@ -22,7 +22,7 @@
 
             <div>
                 <label for="{{'number'+ componentId}}" class="form-label">Apartment number:</label>
-                <input formControlName="number" type="text" class="form-control fadeIn second"
+                <input formControlName="number" type="text" class="form-control"
                     id="{{'number'+ componentId}}" name="number" placeholder="Apartment number"
                     [ngClass]="{ 'is-invalid': isSubmitted && f.number.errors }"
                     (change)="registerChange('number',this.addressForm.value['number'])">
@@ -38,7 +38,7 @@
 
             <div>
                 <label for="{{'city'+ componentId}}" class="form-label">City:</label>
-                <input formControlName="city" type="text" class="form-control fadeIn second"
+                <input formControlName="city" type="text" class="form-control"
                     id="{{'city'+ componentId}}" name="city" placeholder="City"
                     [ngClass]="{ 'is-invalid': isSubmitted && f.city.errors }"
                     (change)="registerChange('city',this.addressForm.value['city'])">
@@ -54,7 +54,7 @@
 
             <div>
                 <label for="{{'zipCode'+ componentId}}" class="form-label">ZIP Code:</label>
-                <input formControlName="zipCode" type="text" class="form-control fadeIn second"
+                <input formControlName="zipCode" type="text" class="form-control"
                     id="{{'zipCode'+ componentId}}" name="zipCode" placeholder="ZIP Code"
                     [ngClass]="{ 'is-invalid': isSubmitted && f.zipCode.errors }"
                     (change)="registerChange('zipCode',this.addressForm.value['zipCode'])">
@@ -70,7 +70,7 @@
 
             <div>
                 <label for="{{'countryCode'+ componentId}}" class="form-label">Country:</label>
-                <select formControlName="countryCode" type="text" list="codeList" class="form-control fadeIn second"
+                <select formControlName="countryCode" type="text" list="codeList" class="form-control"
                     id="{{'countryCode'+ componentId}}" name="countryCode" placeholder="Country"
                     [ngClass]="{ 'is-invalid': isSubmitted && f.countryCode.errors }"
                     (change)="registerChange('countryCode',this.addressForm.value['countryCode'])">

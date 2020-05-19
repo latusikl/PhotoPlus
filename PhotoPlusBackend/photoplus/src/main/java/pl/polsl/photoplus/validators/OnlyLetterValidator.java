@@ -11,6 +11,6 @@ public class OnlyLetterValidator implements ConstraintValidator<OnlyLetters, Str
 
 
    public boolean isValid(final String s, final ConstraintValidatorContext constraintValidatorContext) {
-     return s != null ? Pattern.matches("\\p{IsAlphabetic}+", s) : false;
+     return s != null ? Pattern.matches("^[\\p{IsAlphabetic}][\\p{IsAlphabetic}\\p{Space}-]*[\\p{IsAlphabetic}]+$", s) : false;
    }
 }

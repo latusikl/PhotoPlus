@@ -30,4 +30,9 @@ export class TopicHeaderComponent implements OnInit {
       (this.loginService.getLoggedUser().code === this.topic.userCode ||
       this.loginService.isModerator));
   }
+
+  breakableName(name:string){
+    var chuncks = name.match(/.{1,10}/g);
+    return chuncks.join("\xAD");
+  }
 }
