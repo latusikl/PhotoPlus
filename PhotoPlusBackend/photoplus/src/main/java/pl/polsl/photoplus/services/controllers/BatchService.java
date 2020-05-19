@@ -62,6 +62,10 @@ public class BatchService extends AbstractModelService<Batch, BatchModelDto, Bat
         return HttpStatus.CREATED;
     }
 
+    public List<BatchModelDto> getAllByProduct(final String productCode) {
+        return getDtoListFromModels(this.entityRepository.getAllByProduct_CodeOrderByDate(productCode));
+    }
+
     public void subStoreQuantity(final String productCode, Integer quantityToSub) {
         final List<Batch> batchList = this.entityRepository.getAllByProduct_CodeOrderByDate(productCode);
         final int quantitySum = batchList.stream().mapToInt(Batch::getStoreQuantity).sum();
