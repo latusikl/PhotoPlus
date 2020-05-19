@@ -130,12 +130,12 @@ public class ReportService {
 
         final Double averageRating = getAverageRating(code, beginDate, endDate);
         final Double averageProfit = getAverageProfit(product, beginDate, endDate);
-        final Double averageProfitOnlySold = getAverageProfitOnlySold(product, beginDate, endDate);
+        final Double averageProfitBatchesOnly = getAverageProfitBatchesOnly(product, beginDate, endDate);
         final Integer soldItemsNumber = getSoldItemsNumber(code, beginDate, endDate);
         chunk = new Chunk("Sold items number: " + soldItemsNumber + "\n" +
                 "Average rating: " + new DecimalFormat("#0.0").format(averageRating) + "\n" +
                 "Average profit per piece: $" + formatter.format(averageProfit) + "\n" +
-                "Average profit per piece (sold only): $" + formatter.format(averageProfitOnlySold) + "\n", font);
+                "Average profit per piece (on batches only): $" + formatter.format(averageProfitBatchesOnly) + "\n", font);
         para = new Paragraph(chunk);
         para.setAlignment(Paragraph.ALIGN_JUSTIFIED);
         document.add(para);
@@ -164,15 +164,15 @@ public class ReportService {
         for (final var orderItem : orderItemModelList) {
             final Order order = orderService.findByCodeOrThrowError(orderItem.getOrderCode(), "GET PROFIT");
             if (order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0) {
-                final List<BatchModelDto> batchModelList = batchService.getAllByProduct(orderItem.getProductCode())
-                        .stream().filter(b -> b.getStoreQuantity() > 0).collect(Collectors.toList());
+                final List<BatchModelDto> batchModelList = batchService.getAllByProduct(orderItem.getProductCode());
                 Integer itemsLeft = orderItem.getQuantity();
                 for (final var batch : batchModelList) {
+                    final Integer soldFromBatch = batch.getSupplyQuantity() - batch.getStoreQuantity();
                     final Product product = productService.findByCodeOrThrowError(batch.getProductCode(),
                             "GET PROFIT");
-                    if (batch.getStoreQuantity() < orderItem.getQuantity()) {
-                        if (itemsLeft > batch.getStoreQuantity()) {
-                            profit += batch.getStoreQuantity() * (product.getPrice() - batch.getPurchasePrice());
+                    if (soldFromBatch < orderItem.getQuantity()) {
+                        if (itemsLeft > soldFromBatch) {
+                            profit += soldFromBatch * (product.getPrice() - batch.getPurchasePrice());
                             itemsLeft -= batch.getStoreQuantity();
                         } else {
                             profit += itemsLeft * (product.getPrice() - batch.getPurchasePrice());
@@ -275,7 +275,7 @@ public class ReportService {
                 .collect(Collectors.toList());
     }
 
-    private Double getAverageProfit(final Product product, final LocalDate beginDate, final LocalDate endDate) {
+    private Double getAverageProfitBatchesOnly(final Product product, final LocalDate beginDate, final LocalDate endDate) {
         final List<BatchModelDto> batchList = getBatchesByDateAndProduct(product, beginDate, endDate);
         if (batchList.isEmpty()) {
             return 0.0;
@@ -296,24 +296,32 @@ public class ReportService {
         return profit / supplyQuantityFromAllBatches;
     }
 
-    private Double getAverageProfitOnlySold(final Product product, final LocalDate beginDate, final LocalDate endDate) {
-        final List<BatchModelDto> batchList = getBatchesByDateAndProduct(product, beginDate, endDate);
-        if (batchList.isEmpty()) {
-            return 0.0;
-        }
-
+    private Double getAverageProfit(final Product product, final LocalDate beginDate, final LocalDate endDate) {
         Double profit = 0.0;
-        Integer soldItems = 0;
-        for (final BatchModelDto batch : batchList) {
-            profit += (batch.getSupplyQuantity() - batch.getStoreQuantity()) * (product.getPrice() - batch.getPurchasePrice());
-            soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
+        final List<OrderItemModelDto> orderItemModelList = orderItemService.getAllByProductCode(product.getCode());
+        for (final var orderItem : orderItemModelList) {
+            final Order order = orderService.findByCodeOrThrowError(orderItem.getOrderCode(), "GET AVG PROFIT");
+            if (order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0) {
+                final List<BatchModelDto> batchModelList = batchService.getAllByProduct(orderItem.getProductCode());
+                Integer itemsLeft = orderItem.getQuantity();
+                for (final var batch : batchModelList) {
+                    final Integer soldFromBatch = batch.getSupplyQuantity() - batch.getStoreQuantity();
+                    if (soldFromBatch < orderItem.getQuantity()) {
+                        if (itemsLeft > soldFromBatch) {
+                            profit += soldFromBatch * (product.getPrice() - batch.getPurchasePrice());
+                            itemsLeft -= batch.getStoreQuantity();
+                        } else {
+                            profit += itemsLeft * (product.getPrice() - batch.getPurchasePrice());
+                            break;
+                        }
+                    } else {
+                        profit += orderItem.getQuantity() * (product.getPrice() - batch.getPurchasePrice());
+                        break;
+                    }
+                }
+            }
         }
-
-        if (soldItems == 0) {
-            return 0.0;
-        }
-
-        return profit / soldItems;
+        return profit;
     }
 
     private Double getAveragePurchasePrice(final Product product, final LocalDate beginDate, final LocalDate endDate) {
@@ -337,17 +345,15 @@ public class ReportService {
     }
 
     private Integer getSoldItemsNumber(final String code, final LocalDate beginDate, final LocalDate endDate) {
-        final List<BatchModelDto> batchList = batchService.getAll().stream()
-                .filter(batch ->
-                        batch.getProductCode().equals(code) &&
-                                batch.getDate().compareTo(beginDate) >= 0 &&
-                                batch.getDate().compareTo(endDate) <= 0)
-                .collect(Collectors.toList());
-        Integer soldItems = 0;
-        for (final BatchModelDto batch : batchList) {
-            soldItems += batch.getSupplyQuantity() - batch.getStoreQuantity();
+        Integer soldProductsNumber = 0;
+        final List<OrderItemModelDto> orderItemModelList = orderItemService.getAllByProductCode(code);
+        for (final var orderItem : orderItemModelList) {
+            final Order order = orderService.findByCodeOrThrowError(orderItem.getOrderCode(), "GET SOLD ITEMS NUMBER");
+            if (order.getDate().compareTo(beginDate) >= 0 && order.getDate().compareTo(endDate) <= 0) {
+                soldProductsNumber += orderItem.getQuantity();
+            }
         }
-        return soldItems;
+        return soldProductsNumber;
     }
 
 }
