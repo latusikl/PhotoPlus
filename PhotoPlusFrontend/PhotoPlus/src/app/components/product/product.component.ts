@@ -221,12 +221,22 @@ export class ProductComponent implements OnInit {
     rating.userCode = this.loginService.getLoggedUser().code
     rating.date = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.ratingSerivce.post(rating).subscribe(async data => {
+      this.rateContent.nativeElement.value = "";
+      this.isStar = false;
+      this.deselectStars();// ? Optional
       const modalRef = this.modalService.open(SuccessModalComponent);
       modalRef.componentInstance.title = "Success!";
       modalRef.componentInstance.message = "You rated product.";
       await this.loadRatingsPageInfo();
       this.loadRatings();
     })
+  }
+
+  deselectStars(){
+    const stars = document.querySelectorAll(".all-stars");
+    for(let i =0; i < stars.length; i++){
+      (stars[i] as any).checked= false;
+    }
   }
 
 
