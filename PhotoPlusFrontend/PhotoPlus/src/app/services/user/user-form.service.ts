@@ -19,7 +19,7 @@ export class UserFormService {
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       confirmPass: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+      surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       phoneNumber: ['', Validators.pattern(new RegExp("[1-9][0-9]{2}-[0-9]{3}-[0-9]{3}"))]
     }, {
       validator: [MustMatch('password', 'confirmPass')]

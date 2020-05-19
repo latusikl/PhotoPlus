@@ -50,7 +50,7 @@ public class UserModelDto
     @JsonProperty("surname")
     @NotBlank(message = "Surname is mandatory.")
     @Pattern(regexp = "^[\\p{L} .'-]+$", message = "Invalid surname.")
-    @Length(min = 2, max = 20, message = "Surname should be longer than 1 and shorter than 21 signs.")
+    @Length(min = 2, max = 30, message = "Surname should be longer than 1 and shorter than 31 signs.")
     @Patchable
     private String surname;
 
