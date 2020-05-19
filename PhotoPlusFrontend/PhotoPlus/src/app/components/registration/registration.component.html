@@ -10,30 +10,34 @@
 
       <!-- Register Form -->
       <div>
-        <input formControlName="login" type="text" class="form-control fadeIn second" id="login" name="login" placeholder="Login" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
+        <input formControlName="login" type="text" class="form-control fadeIn second" id="login" name="login" placeholder="Login" maxlength="12" [ngClass]="{ 'is-invalid': submitted && f.login.errors }">
         <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
           <div *ngIf="f.login.errors.required">Login is required.</div>
           <div *ngIf="f.login.errors.minlength">Login must contain at least 5 characters.</div>
+          <div *ngIf="f.login.errors.maxlength">Login must containt maximum 12 characters.</div>
         </div>
 
         <div>
-          <input formControlName="mail" type="text" class="form-control fadeIn second" id="email" name="email" placeholder="E-mail" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }">
+          <input formControlName="mail" type="text" class="form-control fadeIn second" id="email" name="email" placeholder="E-mail" maxlength="30" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }">
           <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
             <div *ngIf="f.mail.errors.required">Email is required.</div>
             <div *ngIf="f.mail.errors.email">Not valid email address.</div>
+            <div *ngIf="f.mail.errors.minlength">Email must contain at least 5 characters.</div>
+            <div *ngIf="f.mail.errors.maxlength">Email must containt maximum 30 characters.</div>
           </div>
         </div>
 
         <div>
-          <input formControlName="password" type="password" class="form-control fadeIn second" id="password" name="password" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+          <input formControlName="password" type="password" class="form-control fadeIn second" id="password" name="password" placeholder="Password" maxlength="30" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
           <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
             <div *ngIf="f.password.errors.required">Password is required.</div>
             <div *ngIf="f.password.errors.minlength">Password must contain at least 5 characters.</div>
+            <div *ngIf="f.password.errors.maxlength">Password must containt maximum 30 characters.</div>
           </div>
         </div>
 
         <div>
-          <input formControlName="confirmPass" type="password" class="form-control fadeIn second" id="confirmpass" name="confirmpass" placeholder="Confirm password" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }">
+          <input formControlName="confirmPass" type="password" class="form-control fadeIn second" id="confirmpass" name="confirmpass" placeholder="Confirm password" maxlength="30" [ngClass]="{ 'is-invalid': submitted && f.confirmPass.errors }">
           <div *ngIf="submitted && f.confirmPass.errors" class="invalid-feedback">
             <div *ngIf="f.confirmPass.errors.required">Confirm password is required.</div>
             <div *ngIf="f.confirmPass.errors.mustMatch">Passwords must match.</div>
@@ -41,7 +45,7 @@
         </div>
 
         <div>
-          <input formControlName="name" type="text" class="form-control fadeIn second" id="name" name="name" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+          <input formControlName="name" type="text" class="form-control fadeIn second" id="name" name="name" placeholder="Name" maxlength="15" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
           <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
             <div *ngIf="f.name.errors.required">Name is required.</div>
             <div *ngIf="f.name.errors.minlength">Name must contain at least 2 characters.</div>
@@ -50,7 +54,7 @@
         </div>
 
         <div>
-          <input formControlName="surname" type="text" class="form-control fadeIn second" id="surname" name="surname" placeholder="Surname" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }">
+          <input formControlName="surname" type="text" class="form-control fadeIn second" id="surname" name="surname" placeholder="Surname" maxlength="30" [ngClass]="{ 'is-invalid': submitted && f.surname.errors }">
           <div *ngIf="submitted && f.surname.errors" class="invalid-feedback">
             <div *ngIf="f.surname.errors.required">Surname is required.</div>
             <div *ngIf="f.surname.errors.minlength">Surname must contain at least 2 characters.</div>
@@ -59,7 +63,7 @@
         </div>
 
         <div class="form-group">
-          <input formControlName="phoneNumber" type="text" class="form-control fadeIn second" id="phoneNumber" name="phoneNumber" placeholder="Phone number*" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
+          <input formControlName="phoneNumber" type="text" class="form-control fadeIn second" id="phoneNumber" name="phoneNumber" placeholder="Phone number*" maxlength="11" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }">
           <div *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
             <div *ngIf="f.phoneNumber.errors.pattern">Please enter phone number in xxx-xxx-xxx format</div>
           </div>
