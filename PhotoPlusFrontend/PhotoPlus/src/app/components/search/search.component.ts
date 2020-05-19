@@ -24,10 +24,10 @@ export class SearchComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
-    const pageInfo = this.productService.getPageCount().toPromise();
     this.loadSearchedText();
-    this.loadProducts();
+    const pageInfo = this.productService.getPageCountSearch(this.searchedText).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
+    this.loadProducts();
   }
 
   loadSearchedText() {
