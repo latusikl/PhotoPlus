@@ -134,7 +134,7 @@
               <input #searchBar class="form-control mt-2 w-100" />
             </div>
           </div>
-          <app-page-select (onPageSelect)="changePage($event)"></app-page-select>
+          <app-page-select [amountOfPages]="amountOfPages" (onPageSelect)="changePage($event)"></app-page-select>
           <div class="row">
             <div
               class="col-3 mt-1 text-center"

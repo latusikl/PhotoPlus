@@ -60,6 +60,7 @@ export class ManageProductComponent implements OnInit {
     this.selectedProduct = new BehaviorSubject(null);
     this.currentPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
+    this.loadProductsPageInfo();
     this.loadProducts();
     this.loadCategories();
     this.createForm();
@@ -82,11 +83,14 @@ export class ManageProductComponent implements OnInit {
     })
   }
 
-  async loadProducts(completionHandler?: Function) {
+  async loadProductsPageInfo(){
     const pageInfo = this.productService.getPageCount().toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
+  }
+
+  async loadProducts(completionHandler?: Function) {
     this.products = new Array<BehaviorSubject<Product>>();
-    this.productService.getAll().subscribe((products) => {
+    this.productService.getPage(this.currentPage.value).subscribe((products) => {
       for (let product of products) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
@@ -257,7 +261,6 @@ export class ManageProductComponent implements OnInit {
         this.products = this.products.filter((x) => {
           return x.value.code !== code;
         });
-        this.forceFilterDisplayedProducts();
         this.goBack();
       });
     }
@@ -312,9 +315,14 @@ export class ManageProductComponent implements OnInit {
   }
 
   changePage(nextPage: number){
-    console.log(nextPage);
-    
-  }
+    this.currentPage.next(nextPage);
+    if(this.shouldSearch){
+      this.loadSearchedPageInfo();
+      this.loadSearchedProducts();
+    }else{
+      this.loadProducts();
+    }
+  }    
 
   get f() {
     return this.productCreationForm.controls;
