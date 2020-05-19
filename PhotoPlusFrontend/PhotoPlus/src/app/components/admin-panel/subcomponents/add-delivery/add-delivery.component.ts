@@ -28,7 +28,7 @@ export class AddDeliveryComponent implements OnInit {
   howMuchMilisecsBeforeFetch = 500;
   searchBarInputTimer: NodeJS.Timeout;
 
-  shouldSearch:boolean;
+  shouldSearch:boolean = false;
   searchPhrase:string;
 
   batchForm: FormGroup;
