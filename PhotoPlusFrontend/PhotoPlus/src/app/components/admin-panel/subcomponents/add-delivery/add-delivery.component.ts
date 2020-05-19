@@ -111,7 +111,7 @@ export class AddDeliveryComponent implements OnInit {
       if(this.searchPhrase.length > 2){
         this.shouldSearch = true;
         this.searchBarInputTimer = setTimeout(()=> {
-          this.loadSearchedProducts()
+          this.loadSearchedProductsPageInfo()
         },this.howMuchMilisecsBeforeFetch);
       }     
     });
