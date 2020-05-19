@@ -1,4 +1,4 @@
-<div *ngIf="categories.length > 0" class="flex-container fadeInDown row no-gutters">
+<div *ngIf="categories?.length > 0" class="flex-container fadeInDown row no-gutters">
   <div class="card shadow-border" id="category-card">
     <div class="list-group d-flex flex-row flex-wrap" id="category-list-group">
       <div (click)="loadProductsFromCategory(category.value.code)" id="category-list-group-item" class="w-50 list-group-item-action card p-2 px-3 fadeIn first" *ngFor="let category of categories">
