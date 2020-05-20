@@ -53,8 +53,8 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
                 dtoObject.getStoreQuantity(), dtoObject.getDataLinks());
     }
 
-    public List<ProductModelDto> getPageFromAll(final Integer page, final String sortedBy) {
-        return getDtoListFromModels(getPage(page, sortedBy));
+    public List<ProductModelDto> getAvailableProductsPageFromAll(final Integer page, final String sortedBy) {
+        return getDtoListFromModels(getAvailableProductsPage(page, sortedBy));
     }
 
 
@@ -85,20 +85,20 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return HttpStatus.CREATED;
     }
 
-    public List<ProductModelDto> getProductsFromCategory(final Integer pageNumber, final String categoryCode)
+    public List<ProductModelDto> getAvailableProductsFromCategory(final Integer pageNumber, final String categoryCode)
     {
-        return getDtoListFromModels(this.getPageOfProductFromCategory(pageNumber, categoryCode));
+        return getDtoListFromModels(this.getPageOfAvailableProductsFromCategory(pageNumber, categoryCode));
     }
 
-    private Page<Product> getPageOfProductFromCategory(final Integer pageNumber, final String categoryCode) {
+    private Page<Product> getPageOfAvailableProductsFromCategory(final Integer pageNumber, final String categoryCode) {
         final Pageable modelPage = PageRequest.of(pageNumber, modelPropertiesService.getPageSize(), Sort.by("name"));
         final Page<Product> foundModels = entityRepository.findAllByCategory_CodeAndStoreQuantityGreaterThan(modelPage, categoryCode, 0);
         return foundModels;
     }
 
-    public ObjectNode getPageCountOfProductFromCategory(final String categoryCode)
+    public ObjectNode getPageCountOfAvailableProductsFromCategory(final String categoryCode)
     {
-        final Page<Product> firstPage = getPageOfProductFromCategory(0, categoryCode);
+        final Page<Product> firstPage = getPageOfAvailableProductsFromCategory(0, categoryCode);
         final ObjectNode jsonNode = objectMapper.createObjectNode();
 
         jsonNode.put("pageAmount", firstPage.getTotalPages());
@@ -129,9 +129,8 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return jsonNode;
     }
 
-    @Override
-    public ObjectNode getPageCount() {
-        final Page<Product> firstPage = getPage(0, "name");
+    public ObjectNode getAvailablePageCount() {
+        final Page<Product> firstPage = getAvailableProductsPage(0, "name");
         final ObjectNode jsonNode = objectMapper.createObjectNode();
 
         jsonNode.put("pageAmount", firstPage.getTotalPages());
@@ -187,7 +186,7 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     }
 
 
-    private Page<Product> getPage(final Integer pageNumber, final String sortedBy) {
+    private Page<Product> getAvailableProductsPage(final Integer pageNumber, final String sortedBy) {
         final Pageable modelPage = getModelPage(pageNumber, sortedBy);
         final Page<Product> foundModels = entityRepository.findAllByStoreQuantityGreaterThan(modelPage, 0);
         throwNotFoundErrorIfIterableEmpty("FIND ALL", foundModels);
