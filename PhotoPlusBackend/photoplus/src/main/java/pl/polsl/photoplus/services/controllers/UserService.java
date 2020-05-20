@@ -89,7 +89,11 @@ public class UserService
             entityRepository.delete(findByCodeOrThrowError(code, "DELETE"));
         } catch (final DataIntegrityViolationException e) {
             final User user = findByCodeOrThrowError(code, "DELETE");
-            throw new CannotDeleteUserException("Cannot delete user with login " + user.getLogin() + " and code " + user.getCode() + " as there is some corresponding data.\n" +
+            user.setName("ANONYMOUS_DELETED");
+            user.setSurname("ANONYMOUS_DELETED");
+            entityRepository.save(user);
+            throw new CannotDeleteUserException("Cannot delete user with login " + user.getLogin() + " and code "
+                    + user.getCode() + " as there is some corresponding data.\n" +
                     "Deleting would result in violation of an integrity constraint.");
         }
         return HttpStatus.NO_CONTENT;
