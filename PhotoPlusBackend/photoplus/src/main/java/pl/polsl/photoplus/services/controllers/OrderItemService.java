@@ -110,4 +110,9 @@ public class OrderItemService extends AbstractModelService<OrderItem, OrderItemM
         }
         return "";
     }
+
+    public List<OrderItemModelDto> getAllByProductCode(final String productCode) {
+        return getDtoListFromModels(entityRepository.findAllByProduct_Code(productCode));
+    }
+
 }
