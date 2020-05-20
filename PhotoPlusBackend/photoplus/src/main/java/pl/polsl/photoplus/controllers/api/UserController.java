@@ -31,7 +31,6 @@ public class UserController
         this.addressService = addressService;
     }
 
-    @SneakyThrows
     @Override
     public void addLinks(final UserModelDto dto)
     {
