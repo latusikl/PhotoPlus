@@ -32,14 +32,14 @@ export class ProductService extends AbstractService<Product> {
 
   }
 
-  public getPageFromCategory(page: number, categoryCode: string) {
+  public getPageOfAvailableProductsFromCategory(page: number, categoryCode: string) {
     const params = new HttpParams().set('categoryCode', categoryCode);
-    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/' + page, { params });
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/available/' + page, { params });
   }
 
   public getPageCountFromCategory(categoryCode: string) {
     const params = new HttpParams().set('categoryCode', categoryCode);
-    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/page/count', { params });
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/available/page/count', { params });
   }
 
   public mapToObj(strMap) {
@@ -62,6 +62,16 @@ export class ProductService extends AbstractService<Product> {
 
   getAvailableProductsSearchedPageInfo(searchText:string): Observable<PageInfo>{
     const params = new HttpParams().set('str', searchText);
-    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/search/page/count",{params})
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/search/page/count",{params});
+  }
+
+  getAllProductsSearched(pageNumber: number, searchText: string){
+    const params = new HttpParams().set('str', searchText).set('sortedBy', ProductSortBy.PRICE_ASCENDING);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/all/' + pageNumber, {params});
+  }
+
+  getAllProductsSearchedPageInfo(searchText:string){
+    const params = new HttpParams().set('str', searchText);
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/search/all/page/count', { params });
   }
 }

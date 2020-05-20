@@ -80,14 +80,14 @@ export class AddDeliveryComponent implements OnInit {
   }
 
   loadSearchedProductsPageInfo(){
-    this.productService.getAvailableProductsSearchedPageInfo(this.searchPhrase).subscribe( data => {
+    this.productService.getAllProductsSearchedPageInfo(this.searchPhrase).subscribe( data => {
       this.currentPage.next(0);
       this.amountOfPages.next(data.pageAmount);
     });
   }
 
   async loadSearchedProducts(){
-      this.productService.getAvailableProductsSearchedByName(this.currentPage.value,ProductSortBy.PRICE_ASCENDING,this.searchPhrase).subscribe(data =>{
+      this.productService.getAllProductsSearched(this.currentPage.value, this.searchPhrase).subscribe(data =>{
       this.products = new Array();
       for(const product of data){
         this.productService.getDataFromLinks(product);

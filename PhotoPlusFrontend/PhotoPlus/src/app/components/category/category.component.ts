@@ -47,7 +47,7 @@ export class CategoryComponent implements OnInit {
     const pageInfo = this.productService.getPageCountFromCategory(categoryCode).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
     this.currentCategoryCode = categoryCode;
-    this.productService.getPageFromCategory(this.selectedPage.value, categoryCode).subscribe((data) => {
+    this.productService.getPageOfAvailableProductsFromCategory(this.selectedPage.value, categoryCode).subscribe((data) => {
       this.isProductListEmpty = !(data.length > 0);
       for (const product of data) {
         this.productService.getDataFromLinks(product);
