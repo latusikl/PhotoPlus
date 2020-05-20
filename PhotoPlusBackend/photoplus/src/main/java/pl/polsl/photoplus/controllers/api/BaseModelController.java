@@ -16,7 +16,6 @@ import pl.polsl.photoplus.model.dto.AbstractModelDto;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AbstractModelService;
 import pl.polsl.photoplus.services.controllers.ModelService;
-import pl.polsl.photoplus.services.controllers.exceptions.CannotDeleteUserException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -114,7 +113,8 @@ public abstract class BaseModelController<T extends AbstractModelDto, S extends 
 
     @DeleteMapping("/delete/{code}")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'delete' )")
-    public ResponseEntity delete(@PathVariable("code") final String code) {
+    public ResponseEntity delete(@PathVariable("code") final String code)
+    {
         return new ResponseEntity(dtoService.delete(code));
     }
 
