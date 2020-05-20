@@ -96,12 +96,30 @@ public class ProductController
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping(path = {"/search/all/{page}"}, produces = {"application/json"}, params = {"str", "sortedBy"})
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity searchAllByName(@PathVariable final Integer page, final String str,
+                                       @RequestParam final String sortedBy)
+    {
+        final List<ProductModelDto> dtos = dtoService.getAllByNameContainingStr(str, page, sortedBy);
+        addLinks(dtos);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
     @GetMapping(path = {"/search/page/count"}, produces = {"application/json"}, params = "str")
     @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
     public ResponseEntity searchByNamePageCount(@RequestParam @Size(min=3, message = "Too short text. Size should be greater than 2.")
                                                     final String str)
     {
         return new ResponseEntity<>(dtoService.getPageCountOfNameContainingStr(str), HttpStatus.OK);
+    }
+
+
+    @GetMapping(path = {"/search/all/page/count"}, produces = {"application/json"}, params = "str")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'all' )")
+    public ResponseEntity searchAllByNamePageCount(@RequestParam final String str)
+    {
+        return new ResponseEntity<>(dtoService.getPageCountOfAllByNameContainingStr(str), HttpStatus.OK);
     }
 
 }
