@@ -118,6 +118,17 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
         return jsonNode;
     }
 
+    public ObjectNode getPageCountOfAllByNameContainingStr(final String str)
+    {
+        final Page<Product> firstPage = getPageOfAllProductsByNameContainingStr(str, 0,"name");
+        final ObjectNode jsonNode = objectMapper.createObjectNode();
+
+        jsonNode.put("pageAmount", firstPage.getTotalPages());
+        jsonNode.put("pageSize", modelPropertiesService.getPageSize());
+
+        return jsonNode;
+    }
+
     @Override
     public ObjectNode getPageCount() {
         final Page<Product> firstPage = getPage(0, "name");
@@ -153,6 +164,16 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
     private Page<Product> getPageOfProductByNameContainingStr(final String str, final Integer pageNumber, final String sortedBy) {
         final Pageable modelPage = getModelPage(pageNumber, sortedBy);
         final Page<Product> foundModels = entityRepository.findAllByNameContainingIgnoreCaseAndStoreQuantityGreaterThan(modelPage, str, 0);
+        return foundModels;
+    }
+
+    public List<ProductModelDto> getAllByNameContainingStr(final String str, final Integer pageNumber, final String sortedBy) {
+        return getDtoListFromModels(this.getPageOfAllProductsByNameContainingStr(str, pageNumber, sortedBy));
+    }
+
+    private Page<Product> getPageOfAllProductsByNameContainingStr(final String str, final Integer pageNumber, final String sortedBy) {
+        final Pageable modelPage = getModelPage(pageNumber, sortedBy);
+        final Page<Product> foundModels = entityRepository.findAllByNameContainingIgnoreCase(modelPage, str);
         return foundModels;
     }
 
