@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import pl.polsl.photoplus.model.dto.ErrorDto;
 import pl.polsl.photoplus.model.exceptions.EnumValueException;
+import pl.polsl.photoplus.services.controllers.exceptions.CannotDeleteUserException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
@@ -152,6 +153,15 @@ public class ControllerExceptionHandler
         final ErrorDto error = new ErrorDto(DataIntegrityViolationException.class.getSimpleName(),
                 e.getLocalizedMessage(), "Maximum upload size exceeded: 1MB.");
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(CannotDeleteUserException.class)
+    protected ResponseEntity<ErrorDto> handleCannotDeleteUserException(final CannotDeleteUserException  e)
+    {
+        log.info("CannotDeleteUserException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
+                null, e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
