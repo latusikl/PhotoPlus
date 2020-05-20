@@ -10,4 +10,6 @@ RUN ng build --prod=true
 
 ### STAGE 2: Run ###
 FROM nginx:1.17.1-alpine
+# Copy application and custom NGINX configuration
 COPY --from=build /usr/src/app/dist/PhotoPlus /usr/share/nginx/html
+COPY nginx-custom.conf /etc/nginx/conf.d/default.conf

@@ -6,7 +6,6 @@ import { AbstractService } from '../abstract-service';
 import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Observable } from 'rxjs';
 
-
 export enum ProductSortBy{
   PRICE_ASCENDING = 'priceAsc',
   PRICE_DESCENDING = 'priceDesc'
@@ -60,6 +59,7 @@ export class ProductService extends AbstractService<Product> {
     const params = new HttpParams().set('str', searchedText).set('sortedBy', sortedBy);
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/' + page, { params });
   }
+
   getSearchedProductsPageInfo(searchText:string): Observable<PageInfo>{
     const params = new HttpParams().set('str', searchText);
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/search/page/count",{params})

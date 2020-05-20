@@ -21,18 +21,18 @@ export class SearchComponent implements OnInit {
 
   constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
-    const pageInfo = this.productService.getPageCount().toPromise();
     this.loadSearchedText();
-    this.loadProducts();
-    this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
   loadSearchedText() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       this.searchedText = params.searchedText;
+      const pageInfo = this.productService.getSearchedProductsPageInfo(this.searchedText).toPromise();
+      this.amountOfPages.next((await pageInfo).pageAmount);
+      this.loadProducts();
     });
   }
 
