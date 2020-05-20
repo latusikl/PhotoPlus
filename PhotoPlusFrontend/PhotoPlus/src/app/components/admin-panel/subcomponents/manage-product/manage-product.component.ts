@@ -69,12 +69,12 @@ export class ManageProductComponent implements OnInit {
 
 
   async loadSearchedPageInfo(){
-    const pageInfo = this.productService.getSearchedProductsPageInfo(this.searchPhrase).toPromise();
+    const pageInfo = this.productService.getAvailableProductsSearchedPageInfo(this.searchPhrase).toPromise();
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
   loadSearchedProducts(){
-    this.productService.getProductsSearchByName(this.currentPage.value,ProductSortBy.PRICE_ASCENDING,this.searchPhrase).subscribe((data) =>{
+    this.productService.getAvailableProductsSearchedByName(this.currentPage.value,ProductSortBy.PRICE_ASCENDING,this.searchPhrase).subscribe((data) =>{
       this.products = new Array();
       for(let product of data){
         this.productService.getDataFromLinks(product);

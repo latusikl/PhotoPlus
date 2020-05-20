@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
   loadSearchedText() {
     this.route.params.subscribe(async params => {
       this.searchedText = params.searchedText;
-      const pageInfo = this.productService.getSearchedProductsPageInfo(this.searchedText).toPromise();
+      const pageInfo = this.productService.getAvailableProductsSearchedPageInfo(this.searchedText).toPromise();
       this.amountOfPages.next((await pageInfo).pageAmount);
       this.loadProducts();
     });
@@ -39,7 +39,7 @@ export class SearchComponent implements OnInit {
   loadProducts() {
     this.products = new Array<BehaviorSubject<Product>>();
     if (this.searchedText.length > 2) {
-      this.productService.getProductsSearchByName(this.selectedPage.value, this.sortBy, this.searchedText).subscribe(data => {
+      this.productService.getAvailableProductsSearchedByName(this.selectedPage.value, this.sortBy, this.searchedText).subscribe(data => {
         for (const product of data) {
           this.productService.getDataFromLinks(product);
           this.products.push(new BehaviorSubject(product));
