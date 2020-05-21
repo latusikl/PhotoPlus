@@ -11,8 +11,8 @@ Photo Plus Shop
 ---
 
 - [About](#about)
-- [Run it](#run it)
-- [Technology stack](#technology stack)
+- [Run it !](#run-it)
+- [Technology stack](#technology-stack)
 - [Additional](#additional)
 
 
