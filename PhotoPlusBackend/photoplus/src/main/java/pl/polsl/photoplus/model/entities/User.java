@@ -63,7 +63,7 @@ public class User
 
     @Column(name = "is_enabled")
     @ColumnDefault("TRUE")
-    private boolean isEnabled;
+    private boolean isEnabled = true;
 
     public User(final String login, final String email, final String name, final String surname, final String password, final String number, final UserRole userRole)
     {
