@@ -60,7 +60,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         //only one modal even if more than 1 error to prevent modal spam
         const modalRef = this.modalService.open(ErrorModalComponent);
         modalRef.componentInstance.title = "Error occured!";
-        modalRef.componentInstance.message = "Bad login or password. Please try again.";
+        modalRef.componentInstance.message = error.error.error;
         break;
       }
       case 403: {

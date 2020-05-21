@@ -91,10 +91,11 @@ public class UserService
         } catch (final DataIntegrityViolationException e) {
             user.setName("ANONYMOUS_DELETED");
             user.setSurname("ANONYMOUS_DELETED");
+            user.setEnabled(false);
             entityRepository.save(user);
             throw new CannotDeleteUserException("Cannot delete user with login " + user.getLogin() + " and code "
                     + user.getCode() + " as there is some corresponding data.\n" +
-                    "Deleting would result in violation of an integrity constraint.", User.class.getSimpleName());
+                    "Deleting would result in violation of an integrity constraint. Account is disabled.", User.class.getSimpleName());
         }
         return HttpStatus.NO_CONTENT;
     }
