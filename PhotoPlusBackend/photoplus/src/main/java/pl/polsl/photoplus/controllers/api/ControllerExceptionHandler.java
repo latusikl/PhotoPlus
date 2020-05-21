@@ -6,6 +6,7 @@ import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -161,6 +162,15 @@ public class ControllerExceptionHandler
         log.info("CannotDeleteUserException handled: {}.", e.getMessage());
         final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
                 e.getCauseClassType(), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    protected ResponseEntity<ErrorDto> handleDisabledException(final DisabledException e)
+    {
+        log.info("DisabledException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
+                e.getLocalizedMessage(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
