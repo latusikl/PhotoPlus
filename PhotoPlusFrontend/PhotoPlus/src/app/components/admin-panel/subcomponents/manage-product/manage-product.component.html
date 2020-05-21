@@ -139,7 +139,7 @@
             <div
               class="col-3 mt-1 text-center"
               *ngFor="let product of products"
-              (click)="chooseProduct(product)"
+              (click)="chooseProduct(product.value.code)"
             >
               <mat-card class="item-card">
                 <img 

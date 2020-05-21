@@ -74,12 +74,15 @@ export class ManageProductComponent implements OnInit {
     this.amountOfPages.next((await pageInfo).pageAmount);
   }
 
-  loadSearchedProducts(){
-    this.productService.getAllProductsSearched(this.currentPage.value, this.searchPhrase).subscribe((data) =>{
+  loadSearchedProducts(completionHandler?: Function){
+    this.productService.getAllProductsSearchedByPage(this.currentPage.value, this.searchPhrase).subscribe((data) =>{
       this.products = new Array();
       for(let product of data){
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
+      }
+      if(completionHandler){
+        completionHandler();
       }
     })
   }
@@ -153,11 +156,11 @@ export class ManageProductComponent implements OnInit {
 
   deleteCategory(code: string) {
     const category = this.findCategory(code);
-    const isDeleted = confirm(
+    const shouldBeDeleted = confirm(
       `Should this category be deleted?\n Code:${category.value.code} Name:${category.value.name}`
     );
 
-    if (isDeleted) {
+    if (shouldBeDeleted) {
       this.categoryService.delete(category.value.code).subscribe(() => {
         this.categories = this.categories.filter((x) => {
           return x.value.code !== code;
@@ -183,11 +186,14 @@ export class ManageProductComponent implements OnInit {
       this.searchPhrase = this.searchBar.nativeElement.value;
       clearTimeout(this.searchBarInputTimer);
       if (this.searchPhrase == "") {
+        this.shouldSearch = false;
+        this.loadProductsPageInfo();
         this.loadProducts();
         return;
       }
       if(this.searchPhrase.length > 2){
         this.searchBarInputTimer = setTimeout(async () => {
+          this.shouldSearch = true;
           await this.loadSearchedPageInfo();
           await this.loadSearchedProducts();
         }, this.howMuchMilisecsBeforeFetch);
@@ -195,15 +201,11 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  chooseProduct(product: BehaviorSubject<Product>) {
-    const productCode = product.value.code;
+  chooseProduct(productCode: string) {
     const singleProduct = this.products.filter(
       (x) => x.value.code === productCode
     );
-    if (!singleProduct[0].value) {
-      return;
-    }
-    this.selectedProduct.next(singleProduct[0].value);
+    this.selectedProduct.next(singleProduct[0]?.value);
   }
 
   onSubmit() {
@@ -243,15 +245,7 @@ export class ManageProductComponent implements OnInit {
       this.productService
         .getSingle(this.selectedProduct.value.code)
         .subscribe(() => {
-          this.loadProducts(() => {
-            const newProductSelection = this.products.find(
-              (x) => x.value.code === this.selectedProduct.value.code
-            );
-            if (!newProductSelection) {
-              return;
-            }
-            this.selectedProduct.next(newProductSelection.value);
-          });
+          this.reloadProducts();
         });
     });
   }
@@ -262,6 +256,7 @@ export class ManageProductComponent implements OnInit {
         this.products = this.products.filter((x) => {
           return x.value.code !== code;
         });
+        this.reloadProducts();
         this.goBack();
       });
     }
@@ -303,22 +298,36 @@ export class ManageProductComponent implements OnInit {
         imageCodes: imageCodeArray
       } as Product)
       .subscribe(() => {
-        this.loadProducts(() => {
-          const newProductSelection = this.products.find(
-            (x) => x.value.code === this.selectedProduct.value.code
-          );
-          if (!newProductSelection) {
-            return;
-          }
-          this.selectedProduct.next(newProductSelection.value);
-        });
+        this.reloadProducts();
       });
+  }
+
+  reloadProducts(){
+    if(this.shouldSearch){
+      this.loadSearchedProducts(()=> {
+        this.reloadProductsNotCheckingIfSearched();
+      })
+    } else{
+      this.loadProducts(()=>{
+        this.reloadProductsNotCheckingIfSearched();
+      })
+    }
+
+  }
+
+  private reloadProductsNotCheckingIfSearched(){
+    const newProductSelection = this.products.find(
+      (x) => x.value.code === this.selectedProduct.value.code
+    );
+    if (!newProductSelection) {
+      return;
+    }
+    this.selectedProduct.next(newProductSelection.value);
   }
 
   changePage(nextPage: number){
     this.currentPage.next(nextPage);
     if(this.shouldSearch){
-      this.loadSearchedPageInfo();
       this.loadSearchedProducts();
     }else{
       this.loadProducts();
