@@ -40,6 +40,10 @@
                 value="{{ (product | async)?.description }}"></textarea>
             </ng-template>
 
+            <div *ngIf="canEdit()">
+              <p class="description">Store quantity: {{ (product | async)?.storeQuantity }}</p>
+            </div>
+
             <div class="links" *ngIf="(product | async)?.dataLinks">
               <div *ngFor="let dataLink of (product | async)?.dataLinks | keyvalue">
                 <a href="{{ dataLink.value }}" class="description">{{ dataLink.key }}</a>
