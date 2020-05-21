@@ -1,6 +1,7 @@
 package pl.polsl.photoplus.services.controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,11 +9,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import pl.polsl.photoplus.model.dto.BatchModelDto;
 import pl.polsl.photoplus.model.dto.ProductModelDto;
 import pl.polsl.photoplus.model.entities.Category;
 import pl.polsl.photoplus.model.entities.Image;
 import pl.polsl.photoplus.model.entities.Product;
-import pl.polsl.photoplus.repositories.ImageRepository;
 import pl.polsl.photoplus.repositories.ProductRepository;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 
@@ -24,13 +25,14 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     private final CategoryService categoryService;
     private final ImageService imageService;
-    private final ImageRepository imageRepository;
+    private final BatchService batchService;
 
-    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService, final ImageService imageService, final ImageRepository imageRepository) {
+    public ProductService(final ProductRepository entityRepository, final CategoryService categoryService,
+                          final ImageService imageService, @Lazy final BatchService batchService) {
         super(entityRepository);
         this.categoryService = categoryService;
         this.imageService = imageService;
-        this.imageRepository = imageRepository;
+        this.batchService = batchService;
     }
 
     @Override
@@ -196,5 +198,25 @@ public class ProductService extends AbstractModelService<Product, ProductModelDt
 
     public List<ProductModelDto> getTopEight() {
         return getDtoListFromModels(this.entityRepository.findTop8ByStoreQuantityGreaterThan(0));
+    }
+
+    public Double getAveragePurchasePrice(final String productCode) {
+        final List<BatchModelDto> batchList = batchService.getAllByProduct(productCode);
+        if (batchList.isEmpty()) {
+            return 0.0;
+        }
+
+        Double price = 0.0;
+        Integer supplyQuantity = 0;
+        for (final BatchModelDto batch : batchList) {
+            price += batch.getPurchasePrice() * batch.getSupplyQuantity();
+            supplyQuantity += batch.getSupplyQuantity();
+        }
+
+        if (supplyQuantity == 0) {
+            return 0.0;
+        }
+
+        return price / supplyQuantity;
     }
 }
