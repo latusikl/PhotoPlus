@@ -63,12 +63,7 @@ public class CustomUsernamePasswordAuthenticationFilter
         try {
             final Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return authentication;
-        } catch (final BadCredentialsException e) {
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getOutputStream().println("{ \"error\": \"" + e.getMessage() + ".\" }");
-            return null;
-        } catch (final DisabledException e) {
+        } catch (final BadCredentialsException | DisabledException e) {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getOutputStream().println("{ \"error\": \"" + e.getMessage() + ".\" }");
