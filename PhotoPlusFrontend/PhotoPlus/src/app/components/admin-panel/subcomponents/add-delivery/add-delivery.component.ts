@@ -87,7 +87,7 @@ export class AddDeliveryComponent implements OnInit {
   }
 
   async loadSearchedProducts(){
-      this.productService.getAllProductsSearched(this.currentPage.value, this.searchPhrase).subscribe(data =>{
+      this.productService.getAllProductsSearchedByPage(this.currentPage.value, this.searchPhrase).subscribe(data =>{
       this.products = new Array();
       for(const product of data){
         this.productService.getDataFromLinks(product);
