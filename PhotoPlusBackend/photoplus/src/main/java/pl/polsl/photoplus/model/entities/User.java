@@ -123,6 +123,6 @@ public class User
     @Override
     public boolean isEnabled()
     {
-        return true;
+        return !name.equals("ANONYMOUS_DELETED") && !surname.equals("ANONYMOUS_DELETED");
     }
 }

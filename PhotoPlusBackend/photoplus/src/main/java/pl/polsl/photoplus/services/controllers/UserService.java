@@ -85,10 +85,10 @@ public class UserService
 
     public HttpStatus deleteUser(final String code) throws CannotDeleteUserException
     {
+        final User user = findByCodeOrThrowError(code, "DELETE");
         try {
-            entityRepository.delete(findByCodeOrThrowError(code, "DELETE"));
+            entityRepository.delete(user);
         } catch (final DataIntegrityViolationException e) {
-            final User user = findByCodeOrThrowError(code, "DELETE");
             user.setName("ANONYMOUS_DELETED");
             user.setSurname("ANONYMOUS_DELETED");
             entityRepository.save(user);
