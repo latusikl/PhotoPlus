@@ -65,7 +65,7 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/search/page/count",{params});
   }
 
-  getAllProductsSearched(pageNumber: number, searchText: string){
+  getAllProductsSearchedByPage(pageNumber: number, searchText: string){
     const params = new HttpParams().set('str', searchText).set('sortedBy', ProductSortBy.PRICE_ASCENDING);
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/all/' + pageNumber, {params});
   }
