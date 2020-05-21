@@ -56,9 +56,9 @@ public class ProductController
     }
 
     @GetMapping(path = "/all/count", produces = {"application/json"})
-    public ResponseEntity getAllPageCount()
+    public ResponseEntity getAvailablePageCount()
     {
-        return new ResponseEntity(dtoService.getPageCount(), HttpStatus.OK);
+        return new ResponseEntity(dtoService.getAvailablePageCount(), HttpStatus.OK);
     }
 
     // Should change endpoint too to but its gonna break a lot of things
