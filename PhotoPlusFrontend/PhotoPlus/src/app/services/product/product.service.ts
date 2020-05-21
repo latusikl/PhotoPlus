@@ -78,4 +78,10 @@ export class ProductService extends AbstractService<Product> {
     const params = new HttpParams().set('str', searchText);
     return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/search/all/page/count', { params });
   }
+
+  getAvgPurchasePrice(productCode: string): Observable<number> {
+    const params = new HttpParams().set('code', productCode);
+    return this._http.get<number>(this.hostAddress + this.endpointUrl + '/avgPrice', { params });
+  }
+
 }

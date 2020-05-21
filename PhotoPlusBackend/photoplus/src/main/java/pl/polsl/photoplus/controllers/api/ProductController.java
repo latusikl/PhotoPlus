@@ -129,4 +129,11 @@ public class ProductController
         return new ResponseEntity<>(dtoService.getPageCountOfAllByNameContainingStr(str), HttpStatus.OK);
     }
 
+    @GetMapping(path = {"/avgPrice"}, produces = {"application/json"}, params = "code")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'avgPrice' )")
+    public ResponseEntity getAvgPurchasePrice(@RequestParam final String code)
+    {
+        return new ResponseEntity<>(dtoService.getAveragePurchasePrice(code), HttpStatus.OK);
+    }
+
 }

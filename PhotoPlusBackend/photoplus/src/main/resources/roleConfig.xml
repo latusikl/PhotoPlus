@@ -78,6 +78,7 @@ Proper file format example:
                 <access>/product/patch</access>
                 <access>/product/delete</access>
                 <access>/product/post</access>
+                <access>/product/avgPrice</access>
 
                 <access>/category/single</access>
                 <access>/category/all</access>
@@ -153,6 +154,7 @@ Proper file format example:
                 <access>/product/patch</access>
                 <access>/product/delete</access>
                 <access>/product/post</access>
+                <access>/product/avgPrice</access>
 
                 <access>/section/all</access>
                 <access>/section/single</access>
