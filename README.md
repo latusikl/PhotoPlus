@@ -13,7 +13,7 @@ Photo Plus Shop
 - [About](#about)
 - [Run it !](#run-it)
 - [Technology stack](#technology-stack)
-- [Additional](#additional)
+- [What can it do?](#what-can-it-do)
 
 
 ## About
@@ -72,7 +72,9 @@ PHPAdmin: localhost:8000
   - Docker
   - Docker-Compose
 
-## Additional
+## What can it do?
 ---
-
 Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login.
+
+Application provides 4 types of users with different possibilities which are shortly described below.
+
