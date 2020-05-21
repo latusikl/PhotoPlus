@@ -160,9 +160,9 @@
     <button (click)="rate()" class="ratebtn btn btn-success" href="#" id="buy-link">Rate</button>
   </div>
 </div>
-<app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
-</app-page-select>
 <div *ngIf="ratings?.length > 0">
+  <app-page-select (onPageSelect)="changePage($event)" [amountOfPages]="amountOfPages">
+  </app-page-select>
   <mat-form-field class="selectBox">
     <mat-label class="text-muted">Sorting option</mat-label>
     <mat-select class="dropdown-option" [(value)]="sort" (selectionChange)="onSortingChange()">
