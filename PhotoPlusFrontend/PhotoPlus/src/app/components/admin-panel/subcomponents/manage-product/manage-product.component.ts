@@ -10,7 +10,7 @@ import { CategoryService } from "src/app/services/category/category.service";
 import { Category } from "src/app/models/category/category";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Product } from "src/app/models/product/product";
-import { ProductService } from "src/app/services/product/product.service";
+import { ProductService, ProductSortBy } from "src/app/services/product/product.service";
 import { BehaviorSubject } from "rxjs";
 import { ImageService } from "src/app/services/image/image.service";
 
@@ -35,7 +35,16 @@ export class ManageProductComponent implements OnInit {
   submitted: boolean;
 
   products: BehaviorSubject<Product>[];
-  filteredProducts: BehaviorSubject<Product>[];
+
+  amountOfPages: BehaviorSubject<number>;
+  currentPage:BehaviorSubject<number>;
+
+  howMuchMilisecsBeforeFetch = 500;
+  searchBarInputTimer: NodeJS.Timeout;
+
+  shouldSearch:boolean = false;
+  searchPhrase:string;
+  
 
   categories: BehaviorSubject<Category>[];
 
@@ -49,21 +58,47 @@ export class ManageProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedProduct = new BehaviorSubject(null);
+    this.currentPage = new BehaviorSubject(0);
+    this.amountOfPages = new BehaviorSubject(0);
+    this.loadProductsPageInfo();
     this.loadProducts();
     this.loadCategories();
     this.createForm();
     this.setupSearchBarListener();
   }
 
-  loadProducts(completionHandler?: Function) {
+
+  async loadSearchedPageInfo(){
+    const pageInfo = this.productService.getAllProductsSearchedPageInfo(this.searchPhrase).toPromise();
+    this.currentPage.next(0);
+    this.amountOfPages.next((await pageInfo).pageAmount);
+  }
+
+  loadSearchedProducts(completionHandler?: Function){
+    this.productService.getAllProductsSearchedByPage(this.currentPage.value, this.searchPhrase).subscribe((data) =>{
+      this.products = new Array();
+      for(let product of data){
+        this.productService.getDataFromLinks(product);
+        this.products.push(new BehaviorSubject(product));
+      }
+      if(completionHandler){
+        completionHandler();
+      }
+    })
+  }
+
+  async loadProductsPageInfo(){
+    const pageInfo = this.productService.getPageCount().toPromise();
+    this.amountOfPages.next((await pageInfo).pageAmount);
+  }
+
+  async loadProducts(completionHandler?: Function) {
     this.products = new Array<BehaviorSubject<Product>>();
-    this.filteredProducts = new Array<BehaviorSubject<Product>>();
-    this.productService.getAll().subscribe((products) => {
+    this.productService.getPage(this.currentPage.value).subscribe((products) => {
       for (let product of products) {
         this.productService.getDataFromLinks(product);
         this.products.push(new BehaviorSubject(product));
       }
-      this.filteredProducts = this.products;
       if (completionHandler) {
         completionHandler();
       }
@@ -121,11 +156,11 @@ export class ManageProductComponent implements OnInit {
 
   deleteCategory(code: string) {
     const category = this.findCategory(code);
-    const isDeleted = confirm(
+    const shouldBeDeleted = confirm(
       `Should this category be deleted?\n Code:${category.value.code} Name:${category.value.name}`
     );
 
-    if (isDeleted) {
+    if (shouldBeDeleted) {
       this.categoryService.delete(category.value.code).subscribe(() => {
         this.categories = this.categories.filter((x) => {
           return x.value.code !== code;
@@ -146,41 +181,31 @@ export class ManageProductComponent implements OnInit {
     });
   }
 
-  setupSearchBarListener() {
+  async setupSearchBarListener() {
     this.renderer.listen(this.searchBar.nativeElement, "input", () => {
-      const searchText = this.searchBar.nativeElement.value;
-      if (searchText == "") {
-        this.filteredProducts = this.products;
+      this.searchPhrase = this.searchBar.nativeElement.value;
+      clearTimeout(this.searchBarInputTimer);
+      if (this.searchPhrase == "") {
+        this.shouldSearch = false;
+        this.loadProductsPageInfo();
+        this.loadProducts();
         return;
       }
-      this.filterDisplayedProducts(searchText);
+      if(this.searchPhrase.length > 2){
+        this.searchBarInputTimer = setTimeout(async () => {
+          this.shouldSearch = true;
+          await this.loadSearchedPageInfo();
+          await this.loadSearchedProducts();
+        }, this.howMuchMilisecsBeforeFetch);
+      }
     });
   }
 
-  forceFilterDisplayedProducts() {
-    const searchText = this.searchBar.nativeElement.value;
-    this.filterDisplayedProducts(searchText);
-  }
-
-  filterDisplayedProducts(searchText: string) {
-    this.filteredProducts = this.products.filter(
-      (x) =>
-        x.value.code
-          .toLowerCase()
-          .includes(searchText.toLowerCase()) ||
-        x.value.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }
-
-  chooseProduct(product: BehaviorSubject<Product>) {
-    const productCode = product.value.code;
+  chooseProduct(productCode: string) {
     const singleProduct = this.products.filter(
       (x) => x.value.code === productCode
     );
-    if (!singleProduct[0].value) {
-      return;
-    }
-    this.selectedProduct.next(singleProduct[0].value);
+    this.selectedProduct.next(singleProduct[0]?.value);
   }
 
   onSubmit() {
@@ -220,15 +245,7 @@ export class ManageProductComponent implements OnInit {
       this.productService
         .getSingle(this.selectedProduct.value.code)
         .subscribe(() => {
-          this.loadProducts(() => {
-            const newProductSelection = this.products.find(
-              (x) => x.value.code === this.selectedProduct.value.code
-            );
-            if (!newProductSelection) {
-              return;
-            }
-            this.selectedProduct.next(newProductSelection.value);
-          });
+          this.reloadProducts();
         });
     });
   }
@@ -239,7 +256,7 @@ export class ManageProductComponent implements OnInit {
         this.products = this.products.filter((x) => {
           return x.value.code !== code;
         });
-        this.forceFilterDisplayedProducts();
+        this.reloadProducts();
         this.goBack();
       });
     }
@@ -281,17 +298,41 @@ export class ManageProductComponent implements OnInit {
         imageCodes: imageCodeArray
       } as Product)
       .subscribe(() => {
-        this.loadProducts(() => {
-          const newProductSelection = this.products.find(
-            (x) => x.value.code === this.selectedProduct.value.code
-          );
-          if (!newProductSelection) {
-            return;
-          }
-          this.selectedProduct.next(newProductSelection.value);
-        });
+        this.reloadProducts();
       });
   }
+
+  reloadProducts(){
+    if(this.shouldSearch){
+      this.loadSearchedProducts(()=> {
+        this.reloadProductsNotCheckingIfSearched();
+      })
+    } else{
+      this.loadProducts(()=>{
+        this.reloadProductsNotCheckingIfSearched();
+      })
+    }
+
+  }
+
+  private reloadProductsNotCheckingIfSearched(){
+    const newProductSelection = this.products.find(
+      (x) => x.value.code === this.selectedProduct.value.code
+    );
+    if (!newProductSelection) {
+      return;
+    }
+    this.selectedProduct.next(newProductSelection.value);
+  }
+
+  changePage(nextPage: number){
+    this.currentPage.next(nextPage);
+    if(this.shouldSearch){
+      this.loadSearchedProducts();
+    }else{
+      this.loadProducts();
+    }
+  }    
 
   get f() {
     return this.productCreationForm.controls;

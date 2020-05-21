@@ -6,6 +6,11 @@ import { AbstractService } from '../abstract-service';
 import { PageInfo } from 'src/app/models/page-info/page-info';
 import { Observable } from 'rxjs';
 
+export enum ProductSortBy{
+  PRICE_ASCENDING = 'priceAsc',
+  PRICE_DESCENDING = 'priceDesc'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,14 +32,14 @@ export class ProductService extends AbstractService<Product> {
 
   }
 
-  public getPageFromCategory(page: number, categoryCode: string) {
+  public getPageOfAvailableProductsFromCategory(page: number, categoryCode: string) {
     const params = new HttpParams().set('categoryCode', categoryCode);
-    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/' + page, { params });
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/available/' + page, { params });
   }
 
   public getPageCountFromCategory(categoryCode: string) {
     const params = new HttpParams().set('categoryCode', categoryCode);
-    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/page/count', { params });
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/available/page/count', { params });
   }
 
   public mapToObj(strMap) {
@@ -50,14 +55,28 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/all/' + page, { params });
   }
 
-  getProductsSearchByName(page: number, sortedBy: string, searchedText: string) {
+  public getSortedPageInfo(){
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/all/count/")
+  }
+
+  getAvailableProductsSearchedByName(page: number, sortedBy: string, searchedText: string) {
     const params = new HttpParams().set('str', searchedText).set('sortedBy', sortedBy);
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/' + page, { params });
   }
 
-  getPageCountSearch(searchedText: string): Observable<PageInfo> {
-    const params = new HttpParams().set('str', searchedText);
-    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/search/page/count', { params });
+  getAvailableProductsSearchedPageInfo(searchText:string): Observable<PageInfo>{
+    const params = new HttpParams().set('str', searchText);
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/search/page/count",{params});
+  }
+
+  getAllProductsSearchedByPage(pageNumber: number, searchText: string){
+    const params = new HttpParams().set('str', searchText).set('sortedBy', ProductSortBy.PRICE_ASCENDING);
+    return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/all/' + pageNumber, {params});
+  }
+
+  getAllProductsSearchedPageInfo(searchText:string){
+    const params = new HttpParams().set('str', searchText);
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + '/search/all/page/count', { params });
   }
 
   getAvgPurchasePrice(productCode: string): Observable<number> {

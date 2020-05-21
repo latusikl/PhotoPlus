@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { BatchService } from "src/app/services/batch/batch.service";
 import { BehaviorSubject } from "rxjs";
 import { Product } from "src/app/models/product/product";
-import { ProductService } from "src/app/services/product/product.service";
+import { ProductSortBy, ProductService } from "src/app/services/product/product.service";
 import { Batch } from "src/app/models/batch/batch";
 
 @Component({
@@ -22,7 +22,14 @@ export class AddDeliveryComponent implements OnInit {
   searchBarEl: ElementRef;
 
   products: BehaviorSubject<Product>[];
-  filteredProducts: BehaviorSubject<Product>[];
+  amountOfPages: BehaviorSubject<number>;
+  currentPage:BehaviorSubject<number>;
+
+  howMuchMilisecsBeforeFetch = 500;
+  searchBarInputTimer: NodeJS.Timeout;
+
+  shouldSearch:boolean = false;
+  searchPhrase:string;
 
   batchForm: FormGroup;
   submitted: boolean;
@@ -37,23 +44,14 @@ export class AddDeliveryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts();
+    this.currentPage = new BehaviorSubject(0);
+    this.amountOfPages = new BehaviorSubject(0);
+    this.selectedProduct = new BehaviorSubject(null);
     this.setupBatchForm();
+    this.loadProducts();
     this.setupSearchBar();
   }
 
-  getAllProducts() {
-    this.products = new Array();
-    this.filteredProducts = new Array();
-    this.selectedProduct = new BehaviorSubject(null);
-    this.productService.getAll().subscribe((products) => {
-      for (const product of products) {
-        this.productService.getDataFromLinks(product);
-        this.products.push(new BehaviorSubject(product));
-      }
-      this.filteredProducts = this.products;
-    });
-  }
 
   setupBatchForm() {
     this.batchForm = this.formBuilder.group({
@@ -67,25 +65,65 @@ export class AddDeliveryComponent implements OnInit {
     });
   }
 
-  setupSearchBar() {
-    this.renderer.listen(this.searchBarEl.nativeElement, "input", () => {
-      const searchText:string = this.searchBarEl.nativeElement.value;
+  async loadProducts(){
+    const pageInfo = this.productService.getPageCount().toPromise();
+    this.amountOfPages.next((await pageInfo).pageAmount);
+    if(await (await pageInfo).pageAmount === 0){
+      return;
+    }
+    this.productService.getPage(this.currentPage.value).subscribe(data => {
+      this.products = new Array();
+      for(let product of data){
+        this.productService.getDataFromLinks(product);
+        this.products.push(new BehaviorSubject(product));
+      }
+    })
+  }
 
-      if(searchText === ''){
-        this.filteredProducts = this.products;
-      } else{
-        this.filteredProducts = this.products.filter((x) => {
-          return x.value.code.includes(searchText) || x.value.name.toLowerCase().includes(searchText.toLowerCase());
-        });
+  loadSearchedProductsPageInfo(){
+    this.productService.getAllProductsSearchedPageInfo(this.searchPhrase).subscribe( data => {
+      this.currentPage.next(0);
+      this.amountOfPages.next(data.pageAmount);
+    });
+  }
+
+  async loadSearchedProducts(){
+      this.productService.getAllProductsSearchedByPage(this.currentPage.value, this.searchPhrase).subscribe(data =>{
+      this.products = new Array();
+      for(const product of data){
+        this.productService.getDataFromLinks(product);
+        this.products.push(new BehaviorSubject(product));
       }
     });
   }
 
+
+
+  setupSearchBar() {
+    this.renderer.listen(this.searchBarEl.nativeElement, "input", () => {
+      clearTimeout(this.searchBarInputTimer);
+      this.searchPhrase = this.searchBarEl.nativeElement.value;
+      if(this.searchPhrase === ''){
+        this.loadProducts();
+        this.shouldSearch = false;
+        return;
+      }
+      if(this.searchPhrase.length > 2){
+        this.shouldSearch = true;
+        this.searchBarInputTimer = setTimeout(()=> {
+          this.loadSearchedProductsPageInfo();
+          this.loadSearchedProducts();
+        },this.howMuchMilisecsBeforeFetch);
+      }     
+    });
+  }
+
+
   selectProduct(code: string) {
-    const selectedProduct = this.products.filter((x) => {
+    const selectedProducts = this.products.filter((x) => {
       return x.value.code === code;
-    })[0];
-    this.selectedProduct.next(selectedProduct.value);
+    });
+    this.selectedProduct.next(selectedProducts[0]?.value);
   }
 
   onSubmit() {
@@ -108,6 +146,15 @@ export class AddDeliveryComponent implements OnInit {
     this.batchService.post(newBatch).subscribe(() => {
       alert("New batch added!");
     })
+  }
+
+  changePage(pageNumber: number){
+    this.currentPage.next(pageNumber);
+    if(this.shouldSearch){
+      this.loadSearchedProducts();
+    }else{
+      this.loadProducts();
+    }
   }
 
   get f() {
