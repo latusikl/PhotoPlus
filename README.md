@@ -11,6 +11,9 @@ Photo Plus Shop
 ---
 
 - [About](#about)
+- [Run it](#run it)
+- [Technology stack](#technology stack)
+- [Additional](#additional)
 
 
 ## About
@@ -25,7 +28,7 @@ This application was created as student's project in 2020 at Silesian University
 - [syphzur](https://github.com/syphzur)
 - [tomjur2107](https://github.com/tomjur2107)
   
-## Run it!
+## Run it
 ---
 
 **You can check it out [online](http://photoplus.cf/).**
@@ -69,7 +72,7 @@ PHPAdmin: localhost:8000
   - Docker
   - Docker-Compose
 
-## Intresting solutions
+## Additional
 ---
 
 Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login.
