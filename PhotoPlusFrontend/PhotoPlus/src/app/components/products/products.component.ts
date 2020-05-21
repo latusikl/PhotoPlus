@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
   async ngOnInit() {
     this.selectedPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
-    const pageInfo = this.productService.getPageCount().toPromise();
+    const pageInfo = this.productService.getSortedPageInfo().toPromise();
     this.loadProducts();
     this.amountOfPages.next((await pageInfo).pageAmount);
   }

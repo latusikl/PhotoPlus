@@ -55,6 +55,10 @@ export class ProductService extends AbstractService<Product> {
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/all/' + page, { params });
   }
 
+  public getSortedPageInfo(){
+    return this._http.get<PageInfo>(this.hostAddress + this.endpointUrl + "/all/count/")
+  }
+
   getAvailableProductsSearchedByName(page: number, sortedBy: string, searchedText: string) {
     const params = new HttpParams().set('str', searchedText).set('sortedBy', sortedBy);
     return this._http.get<Product[]>(this.hostAddress + this.endpointUrl + '/search/' + page, { params });
