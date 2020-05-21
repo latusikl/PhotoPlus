@@ -46,6 +46,7 @@ export class AddDeliveryComponent implements OnInit {
   ngOnInit(): void {
     this.currentPage = new BehaviorSubject(0);
     this.amountOfPages = new BehaviorSubject(0);
+    this.selectedProduct = new BehaviorSubject(null);
     this.setupBatchForm();
     this.loadProducts();
     this.setupSearchBar();
@@ -119,10 +120,10 @@ export class AddDeliveryComponent implements OnInit {
 
 
   selectProduct(code: string) {
-    const selectedProduct = this.products.filter((x) => {
+    const selectedProducts = this.products.filter((x) => {
       return x.value.code === code;
-    })[0];
-    this.selectedProduct.next(selectedProduct.value);
+    });
+    this.selectedProduct.next(selectedProducts[0]?.value);
   }
 
   onSubmit() {
