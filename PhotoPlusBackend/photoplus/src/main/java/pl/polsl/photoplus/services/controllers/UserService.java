@@ -94,7 +94,7 @@ public class UserService
             entityRepository.save(user);
             throw new CannotDeleteUserException("Cannot delete user with login " + user.getLogin() + " and code "
                     + user.getCode() + " as there is some corresponding data.\n" +
-                    "Deleting would result in violation of an integrity constraint.");
+                    "Deleting would result in violation of an integrity constraint.", User.class.getSimpleName());
         }
         return HttpStatus.NO_CONTENT;
     }

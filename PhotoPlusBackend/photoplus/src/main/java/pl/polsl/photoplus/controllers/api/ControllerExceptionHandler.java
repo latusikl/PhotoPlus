@@ -160,7 +160,7 @@ public class ControllerExceptionHandler
     {
         log.info("CannotDeleteUserException handled: {}.", e.getMessage());
         final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
-                null, e.getMessage());
+                e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

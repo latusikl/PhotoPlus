@@ -1,11 +1,16 @@
 package pl.polsl.photoplus.services.controllers.exceptions;
 
 
-public class CannotDeleteUserException extends Exception
-{
+import lombok.Getter;
 
-    public CannotDeleteUserException(final String message)
+public class CannotDeleteUserException extends RuntimeException
+{
+    @Getter
+    private String causeClassType;
+
+    public CannotDeleteUserException(final String message, final String causeClassType)
     {
         super(message);
+        this.causeClassType = causeClassType;
     }
 }
