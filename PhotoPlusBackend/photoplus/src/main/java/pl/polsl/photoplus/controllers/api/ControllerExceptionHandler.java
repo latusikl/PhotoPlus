@@ -164,14 +164,4 @@ public class ControllerExceptionHandler
                 e.getCauseClassType(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
-    @ExceptionHandler(DisabledException.class)
-    protected ResponseEntity<ErrorDto> handleDisabledException(final DisabledException e)
-    {
-        log.info("DisabledException handled: {}.", e.getMessage());
-        final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
-                e.getLocalizedMessage(), e.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-
 }
