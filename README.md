@@ -34,8 +34,8 @@ This application was created as student's project in 2020 at Silesian University
 **You can check it out [online](http://photoplus.cf/).**
 
 **Or folow these steps and run it locally:**
-```
-To run it docker and docker-compose is reqiured.
+```diff
+! To run it docker and docker-compose is reqiured.
 ```
 - Install [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
 - Clone repository.
