@@ -47,10 +47,10 @@ export class ProductComponent implements OnInit {
   submitted = false;
 
   ratings: BehaviorSubject<Rating>[];
-  products: BehaviorSubject<Product>[];
   sort = 'dateAsc';
   isStar = false;
   stars: number;
+  avgPrice: BehaviorSubject<number>;
 
   content: any;
   myDate = new Date();
@@ -72,6 +72,7 @@ export class ProductComponent implements OnInit {
    async ngOnInit() {
     this.selectedPage = 0;
     this.amountOfPages = new BehaviorSubject(0);
+    this.avgPrice = new BehaviorSubject(0);
     this.product = new BehaviorSubject<Product>({} as Product);
     this.route.paramMap.forEach(({ params }: Params) => {
       this.param = params.productCode;
@@ -135,6 +136,9 @@ export class ProductComponent implements OnInit {
     this.productService.getSingle(this.param).subscribe((data: Product) => {
       this.productService.getDataFromLinks(data);
       this.product.next(data);
+      this.productService.getAvgPurchasePrice(data.code).subscribe((avgPrice: number) => {
+        this.avgPrice.next(avgPrice);
+      })
     });
   }
 
