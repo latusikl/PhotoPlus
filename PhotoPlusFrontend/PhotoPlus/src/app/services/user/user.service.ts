@@ -37,4 +37,8 @@ export class UserService extends AbstractService<User> {
     patchDetailsOfLoggedUser(fieldChange: FieldChange) {
         this.patchFieldChangeService.sendPatchRequest(this.endpointUrl + '/editAccount/' + this.loginService.getLoggedUserCode(), fieldChange);
     }
+
+    delete(code: string): Observable<User> {
+      return this._http.delete<User>(this.hostAddress + this.endpointUrl + '/deleteUser/' + code);
+    }
 }

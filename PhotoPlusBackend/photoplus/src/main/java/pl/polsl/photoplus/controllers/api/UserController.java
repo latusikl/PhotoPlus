@@ -3,18 +3,13 @@ package pl.polsl.photoplus.controllers.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.photoplus.model.dto.UserModelDto;
 import pl.polsl.photoplus.model.enums.UserRole;
 import pl.polsl.photoplus.security.services.PermissionEvaluatorService;
 import pl.polsl.photoplus.services.controllers.AddressService;
 import pl.polsl.photoplus.services.controllers.UserService;
+import pl.polsl.photoplus.services.controllers.exceptions.CannotDeleteUserException;
 
 import javax.validation.Valid;
 
@@ -72,5 +67,11 @@ public class UserController
     public ResponseEntity searchByLogin(@PathVariable("str") final String str)
     {
         return new ResponseEntity(dtoService.getByLoginContainingStr(str), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteUser/{code}")
+    @PreAuthorize("@permissionEvaluatorService.hasPrivilege(authentication, this.authorizationPrefix, 'delete' )")
+    public ResponseEntity deleteUser(@PathVariable final String code) throws CannotDeleteUserException {
+        return new ResponseEntity(dtoService.deleteUser(code));
     }
 }

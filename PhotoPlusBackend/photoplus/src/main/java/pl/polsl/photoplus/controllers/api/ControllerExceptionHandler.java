@@ -6,6 +6,7 @@ import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import pl.polsl.photoplus.model.dto.ErrorDto;
 import pl.polsl.photoplus.model.exceptions.EnumValueException;
+import pl.polsl.photoplus.services.controllers.exceptions.CannotDeleteUserException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotEnoughProductsException;
 import pl.polsl.photoplus.services.controllers.exceptions.NotFoundException;
 import pl.polsl.photoplus.services.controllers.exceptions.PatchException;
@@ -154,4 +156,12 @@ public class ControllerExceptionHandler
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ExceptionHandler(CannotDeleteUserException.class)
+    protected ResponseEntity<ErrorDto> handleCannotDeleteUserException(final CannotDeleteUserException  e)
+    {
+        log.info("CannotDeleteUserException handled: {}.", e.getMessage());
+        final ErrorDto error = new ErrorDto(CannotDeleteUserException.class.getSimpleName(),
+                e.getCauseClassType(), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 }

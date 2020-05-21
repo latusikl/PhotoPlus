@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -62,10 +63,10 @@ public class CustomUsernamePasswordAuthenticationFilter
         try {
             final Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return authentication;
-        } catch (final BadCredentialsException e) {
+        } catch (final BadCredentialsException | DisabledException e) {
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getOutputStream().println("{ \"error\": \"" + e.getMessage() + "\" }");
+            response.getOutputStream().println("{ \"error\": \"" + e.getMessage() + ".\" }");
             return null;
         }
     }

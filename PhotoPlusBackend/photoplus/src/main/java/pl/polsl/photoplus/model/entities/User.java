@@ -3,6 +3,7 @@ package pl.polsl.photoplus.model.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,6 +60,10 @@ public class User
     @Enumerated(EnumType.STRING)
     @Patchable
     private UserRole userRole;
+
+    @Column(name = "is_enabled")
+    @ColumnDefault("TRUE")
+    private boolean isEnabled = true;
 
     public User(final String login, final String email, final String name, final String surname, final String password, final String number, final UserRole userRole)
     {
@@ -123,6 +128,6 @@ public class User
     @Override
     public boolean isEnabled()
     {
-        return true;
+        return this.isEnabled;
     }
 }
