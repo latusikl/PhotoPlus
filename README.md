@@ -3,7 +3,7 @@
 Photo Plus Shop
 ======================
 
-[![Demo CountPages alpha](https://j.gifs.com/r8WMrK.gif)](https://youtu.be/lcaKMNPizFM)
+[![GIF demo](res/about.gif)](https://www.youtube.com/watch?v=lcaKMNPizFM)
 
 
 
@@ -72,4 +72,4 @@ PHPAdmin: localhost:8000
 ## Intresting solutions
 ---
 
-Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login. 
+Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login.
