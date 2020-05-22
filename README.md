@@ -78,5 +78,12 @@ PHPAdmin: localhost:8000
 ---
 Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login.
 
-Application provides 4 types of users with different possibilities which are shortly described below.
+Application provides 4 types of users with different possibilities.
+
+You can read more about some solutions in wiki:
+
+ - [System users and functions](https://github.com/latusikl/PhotoPlus/wiki/System-Users-and-Functionalities)
+ - [Frontend Generic CRUD](https://github.com/latusikl/PhotoPlus/wiki/How-Frontend-CRUD-generic-service-works%3F)
+ - [Backend Generic CRUD](https://github.com/latusikl/PhotoPlus/wiki/How-Backend-CRUD-generic-service-works%3F)
+ - [Universal Patching Service for Models](https://github.com/latusikl/PhotoPlus/wiki/How-ModelPatchService-works%3F)
 
