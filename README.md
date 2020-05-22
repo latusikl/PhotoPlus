@@ -55,6 +55,8 @@ Frontend: localhost:80
 PHPAdmin: localhost:8000
 ```
 
+*For usage on production please remove component adding admin user on start-up.*
+
 ## Technology stack
 ---
   - Backend:
