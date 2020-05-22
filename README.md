@@ -65,7 +65,7 @@ PHPAdmin: localhost:8000
       - Hibernate
       - Web MVC
       - HATEOAS
-    - Loombook
+    - Lombook
     - MySQL
     - JWT
   - Frontend:
