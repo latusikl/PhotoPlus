@@ -31,9 +31,7 @@ This application was created as student's project in 2020 at Silesian University
 ## Run it
 ---
 
-**You can check it out [online](http://photoplus.cf/).**
-
-**Or folow these steps and run it locally:**
+**Folow these steps and run it locally:**
 ```diff
 ! To run it docker and docker-compose is reqiured.
 ```
@@ -65,7 +63,7 @@ PHPAdmin: localhost:8000
       - Hibernate
       - Web MVC
       - HATEOAS
-    - Lombook
+    - Lombok
     - MySQL
     - JWT
   - Frontend:
@@ -76,7 +74,7 @@ PHPAdmin: localhost:8000
 
 ## What can it do?
 ---
-Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated via JWT which is genetated during login.
+Both in fronend and in backend we used generic solutions for CRUD operations on database models (entities). User is authenticated with JWT that is genetated during login.
 
 Application provides 4 types of users with different possibilities.
 
